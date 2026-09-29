@@ -34,15 +34,11 @@ const companyFiles = [
     "privacy-policy",
     "404",
   ].map((name) => `src/pages/${name}.astro`),
-  ...(await readdir(new URL("../src/components/company/", import.meta.url), { recursive: true }))
-    .filter((name) => /\.(astro|tsx|ts)$/.test(name))
-    .map((name) => `src/components/company/${name}`),
-  ...(await readdir(new URL("../src/components/home/", import.meta.url)))
-    .filter((name) => /\.(astro|ts)$/.test(name))
-    .map((name) => `src/components/home/${name}`),
-  ...(await readdir(new URL("../src/components/shared/", import.meta.url), { recursive: true }))
-    .filter((name) => /\.(astro|tsx|ts)$/.test(name))
-    .map((name) => `src/components/shared/${name}`),
+  ...(await Promise.all(["home", "shared", "business-content", "company-profile", "ai-homepage", "ax-support", "privacy-policy", "not-found"].map(async folder =>
+    (await readdir(new URL(`../src/components/${folder}/`, import.meta.url), { recursive: true }))
+      .filter(name => /\.(astro|tsx|ts)$/.test(name))
+      .map(name => `src/components/${folder}/${name}`)
+  ))).flat(),
 ];
 for (const path of companyFiles) {
   assert.doesNotMatch(
@@ -52,6 +48,8 @@ for (const path of companyFiles) {
   );
   assert.doesNotMatch(await source(path), /from ["']next(?:\/[^"']*)?["']/, `${path}: no Next runtime`);
   assert.doesNotMatch(await source(path), /(?:@company|company|\.)\/app\//, `${path}: no removed app nesting`);
+  assert.doesNotMatch(await source(path), /client:load|@shared\/react|from ["']react["']|from ["']framer-motion["']/, `${path}: native Astro and DOM motion`);
+  assert.ok(!path.endsWith(".tsx"), `${path}: no public React components`);
 }
 console.log("PASS Tailwind-only company styling");
 
@@ -116,11 +114,17 @@ for (const path of paths) {
       assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `homepage: ${id} section`);
     assert.equal((html.match(/data-slide(?:\s|>)/g) ?? []).length, 3, "homepage: all hero images server-rendered");
     assert.equal((html.match(/data-area(?:\s|>)/g) ?? []).length, 7, "homepage: seven focus controls");
-  } else if (["/ax-support", "/ai-homepage", "/business-content", "/company-profile"].includes(path)) {
-    assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, `${path}: native Astro, no React hydration`);
-  } else {
-    assert.match(html, /client="load"/, `${path}: immediate React hydration configured`);
   }
+  assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, `${path}: native Astro, no React hydration`);
+  if (path === "/ai-homepage") {
+    assert.equal((html.match(/data-fit-item(?:\s|>)/g) ?? []).length, 5, "five server-rendered fit statements");
+    assert.equal((html.match(/data-freefall(?:\s|>)/g) ?? []).length, 4, "four animated issue cards");
+  }
+  if (path === "/business-content") {
+    assert.equal((html.match(/data-signal-path(?:\s|>)/g) ?? []).length, 7, "five input and two output signal paths");
+    assert.doesNotMatch(html, /\b(?:strokeWidth|strokeLinecap|stopColor|fontSize)=/, "native SVG attribute names");
+  }
+  if (path === "/company-profile") assert.match(html, /<details\b[^>]*>[\s\S]*?ROUTE GUIDE/, "native access-guide disclosure");
   assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);
   assert.equal((html.match(/<header\b/g) ?? []).length, 1, `${path}: one shared header`);
   assert.equal((html.match(/<footer\b/g) ?? []).length, 1, `${path}: one shared footer`);
@@ -140,7 +144,9 @@ assert.equal(redirect.status, 308);
 assert.equal(redirect.headers.get("location"), "/");
 const missing = await fetch(new URL("/not-a-real-influ-page", base));
 assert.equal(missing.status, 404);
-assert.match(await missing.text(), /ページが/);
+const missingHtml = await missing.text();
+assert.match(missingHtml, /ページが/);
+assert.doesNotMatch(missingHtml, /<astro-island\b/, "native 404");
 const sitemap = await (await fetch(new URL("/sitemap.xml", base))).text();
 assert.equal((sitemap.match(/<loc>/g) ?? []).length, paths.length);
 assert.doesNotMatch(sitemap, /posts|staff-blog|company-achievements|useful-materials/);

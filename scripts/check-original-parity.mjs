@@ -8,64 +8,16 @@ import ts from "typescript";
 // and the user's three excluded article areas. No snapshots that bless a redesign.
 const original = resolve(process.argv[2] ?? "/Users/blaze/react/INFLU");
 const philosophy = (await readFile(resolve(original, "features/company-philosophy.ts"), "utf8")).replace("export const", "const");
-const files = (await Promise.all([
-  ["company", "app/"],
-  ["shared/react", "app/components/"],
-  ["shared/features", "features/"],
-].map(async ([folder, prefix]) => {
-  const target = new URL(`../src/components/${folder}/`, import.meta.url);
-  return (await readdir(target, { recursive: true }))
-    .filter(file => /\.tsx?$/.test(file) && !["Image.tsx", "Motion.tsx", "MotionProvider.tsx"].includes(file))
-    .map(file => ({ file, target, originalFile: prefix + file }));
-}))).flat();
-
-function adapted(source, file) {
-  if (file === "features/seo.ts") {
-    source = source.slice(source.indexOf("export const SITE_URL"), source.indexOf("export function excerptFromMarkdown"))
-      + source.slice(source.indexOf("function absoluteUrl"), source.indexOf("export function articleJsonLd"))
-      + source.slice(source.indexOf("export type BreadcrumbItem"), source.indexOf("export function postMetadata"));
-  }
-  source = source
-    .replace(/^import type \{ Metadata \} from "next"\n/gm, "")
-    .replace(/metadata: Metadata/g, "metadata")
-    .replace(/^import Link from "next\/link"\n/gm, "")
-    .replace(/<(\/?)Link\b/g, "<$1a")
-    .replace(/"next\/image"/g, '"@company/Image"')
-    .replace(/"framer-motion"/g, '"@company/Motion"')
-    .replace(/^import \{ usePathname \} from "next\/navigation"\n/gm, "")
-    .replace("export default function Navbar() {\n  const pathname = usePathname()", 'export default function Navbar({ pathname }: { pathname: string }) {')
-    .replace(/^import (BlogPreview|CaseStudiesProof) from [^\n]+\n/gm, "")
-    .replace(/^\s*<(BlogPreview|CaseStudiesProof) \/>\n/gm, "\n")
-    .replace(/^  \{ href: routes\.(ourPerformance|usefulMaterials|blog),[^\n]+\n/gm, "")
+const featureRoot = new URL("../src/components/shared/features/", import.meta.url);
+const files = await readdir(featureRoot);
+for (const file of files) {
+  let source = await readFile(resolve(original, "features", file), "utf8");
+  if (file === "seo.ts") source = source.slice(source.indexOf("export const SITE_URL"), source.indexOf("export function excerptFromMarkdown"))
+    + source.slice(source.indexOf("function absoluteUrl"), source.indexOf("export function articleJsonLd"))
+    + source.slice(source.indexOf("export type BreadcrumbItem"), source.indexOf("export function postMetadata"));
+  source = source.replace(/^  \{ href: routes\.(ourPerformance|usefulMaterials|blog),[^\n]+\n/gm, "")
     .replace(/^  (blog|ourPerformance|usefulMaterials):[^\n]+\n/gm, "");
-  if (file === "app/company-profile/page.tsx") source = source.replace('import { companyPhilosophy } from "@/features/company-philosophy"', philosophy);
-  if (/^(app\/privacy-policy\/page|app\/not-found)\.tsx$/.test(file)) source = source.replaceAll("<main ", "<div ").replaceAll("</main>", "</div>");
-  if (file === "app/components/ui/specular-button.tsx") source = source
-    .replace('    const renderer = new Renderer({', `    const canvas = document.createElement("canvas")
-    // The decorative shader must not unmount the page when WebGL is unavailable.
-    if (!canvas.getContext("webgl2")) {
-      button.dataset.noWebgl = "true"
-      return
-    }
-    delete button.dataset.noWebgl
-    const renderer = new Renderer({
-      canvas,`)
-    .replace('  const classes = [', '  const classes = [\n    "data-[no-webgl]:border-[#9A7B10] data-[no-webgl]:bg-[#111016]/85",');
-  if (/\/(page|not-found)\.tsx$/.test(file)) source = source.replace("export default function", "function");
-  return source.replaceAll('"@/app/', '"@company/').replaceAll('"@/', '"@company/').trim();
-}
-
-for (const { file, target, originalFile } of files) {
-  const source = await readFile(resolve(original, originalFile), "utf8");
-  const copy = (await readFile(new URL(file, target), "utf8"))
-    .replaceAll('"@shared/features/', '"@company/features/')
-    .replaceAll('"@shared/react/Motion"', '"@company/Motion"')
-    .replaceAll('"@shared/react/Image"', '"@company/Image"')
-    .replaceAll('"@shared/react/', '"@company/components/')
-    .replace(/^import MotionProvider from "@company\/components\/MotionProvider"\n/, "")
-    .replace(/\nexport default function Page\(\) \{\n  return <MotionProvider><\w+ \/><\/MotionProvider>\n\}\n$/, "")
-    .trim();
-  assert.equal(copy, adapted(source, originalFile), `${file}: original content, Tailwind classes and motion logic`);
+  assert.equal((await readFile(new URL(file, featureRoot), "utf8")).trim(), source.replaceAll('"@/features/', '"@shared/features/').trim(), file + ": original shared features");
 }
 
 const publicRoot = new URL("../public/", import.meta.url);
@@ -93,7 +45,7 @@ for (const [name, file, arrays] of nativeSections) {
   for (const [, copy] of source.matchAll(/>([^<>{}]*[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}][^<>{}]*)</gu))
     assert.ok(compact(native).includes(compact(copy)), `${name}: original copy: ${copy.trim()}`);
 }
-const nativePages = ["ax-support", "ai-homepage", "business-content", "company-profile"];
+const nativePages = ["ax-support", "ai-homepage", "business-content", "company-profile", "privacy-policy"];
 for (const page of nativePages) {
   const directory = new URL(`../src/components/${page}/`, import.meta.url);
   const native = (await Promise.all((await readdir(directory)).filter(file => file.endsWith(".astro")).map(file => readFile(new URL(file, directory), "utf8")))).join("\n");
@@ -124,4 +76,4 @@ for (const file of (await readdir(publicRoot, { recursive: true })).filter(file 
   assert.deepEqual(await readFile(new URL(file, publicRoot)), await readFile(source), `${file}: original asset bytes`);
   assets++;
 }
-console.log(`PASS ${files.length} original React/shared source files, ${nativeSections.length} native section content/class comparisons and ${assets} byte-identical assets (${execFileSync("git", ["rev-parse", "--short", "HEAD"], { cwd: original, encoding: "utf8" }).trim()})`);
+console.log(`PASS ${files.length} shared source files, ${nativeSections.length} home sections, ${nativePages.length} native pages and ${assets} byte-identical assets (${execFileSync("git", ["rev-parse", "--short", "HEAD"], { cwd: original, encoding: "utf8" }).trim()})`);

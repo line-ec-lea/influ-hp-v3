@@ -4,8 +4,8 @@ import { resolve } from "node:path";
 import { execFileSync } from "node:child_process";
 import ts from "typescript";
 
-// Compare against the actual source, allowing only the documented Astro adapters
-// and the user's three excluded article areas. No snapshots that bless a redesign.
+// Compare against the actual source, allowing only the documented Astro adapters.
+// No snapshots that bless a redesign.
 const original = resolve(process.argv[2] ?? "/Users/blaze/react/INFLU");
 const philosophy = (await readFile(resolve(original, "features/company-philosophy.ts"), "utf8")).replace("export const", "const");
 const featureRoot = new URL("../src/components/shared/features/", import.meta.url);
@@ -15,8 +15,10 @@ for (const file of files) {
   if (file === "seo.ts") source = source.slice(source.indexOf("export const SITE_URL"), source.indexOf("export function excerptFromMarkdown"))
     + source.slice(source.indexOf("function absoluteUrl"), source.indexOf("export function articleJsonLd"))
     + source.slice(source.indexOf("export type BreadcrumbItem"), source.indexOf("export function postMetadata"));
-  source = source.replace(/^  \{ href: routes\.(ourPerformance|usefulMaterials|blog),[^\n]+\n/gm, "")
-    .replace(/^  (blog|ourPerformance|usefulMaterials):[^\n]+\n/gm, "");
+  source = source.replaceAll("routes.ourPerformance", "routes.companyAchievements")
+    .replaceAll("routes.blog", "routes.staffBlog")
+    .replace(/^  blog:/m, "  staffBlog:")
+    .replace(/^  ourPerformance:/m, "  companyAchievements:");
   assert.equal((await readFile(new URL(file, featureRoot), "utf8")).trim(), source.replaceAll('"@/features/', '"@shared/features/').trim(), file + ": original shared features");
 }
 

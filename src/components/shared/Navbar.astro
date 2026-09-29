@@ -30,8 +30,11 @@ const menuOpen = false;
 const servicesOpen = false;
 const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const isHome = pathname === "/";
-const isActive = (item: { href: string }) =>
-  item.href === "/" ? isHome : pathname === item.href || pathname.startsWith(item.href + "/");
+const isActive = (item: { href: string }) => {
+  if (item.href === "/") return isHome;
+  const basePath = item.href.replace(/\/page\/1$/, "");
+  return pathname === item.href || pathname === basePath || pathname.startsWith(basePath + "/");
+};
 const isServiceMenuActive = serviceMenuItems.some(isActive);
 const navItemClass = (active: boolean) =>
   `relative rounded-sm px-1 py-2 text-[0.8125rem] transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-[linear-gradient(90deg,transparent,#E0C584,transparent)] after:transition-[width] after:duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] ${active ? "text-[#F5F1E8] after:w-8" : "text-[#B8B1A3] after:w-0 hover:text-[#F5F1E8] hover:after:w-5"}`;

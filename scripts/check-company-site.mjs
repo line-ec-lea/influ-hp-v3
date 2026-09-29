@@ -34,6 +34,17 @@ const companyFiles = [
     "privacy-policy",
     "404",
   ].map((name) => `src/pages/${name}.astro`),
+  "src/pages/company-achievements/index.astro",
+  "src/pages/company-achievements/[slug].astro",
+  "src/pages/company-achievements/page/[pageNo].astro",
+  "src/pages/useful-materials/index.astro",
+  "src/pages/useful-materials/[slug].astro",
+  "src/pages/useful-materials/page/[pageNo].astro",
+  "src/pages/useful-materials/category/[categorySlug]/index.astro",
+  "src/pages/useful-materials/category/[categorySlug]/page/[pageNo].astro",
+  "src/pages/staff-blog/index.astro",
+  "src/pages/staff-blog/[slug].astro",
+  "src/pages/staff-blog/page/[pageNo].astro",
   ...(await Promise.all(["home", "shared", "business-content", "company-profile", "ai-homepage", "ax-support", "privacy-policy", "not-found"].map(async folder =>
     (await readdir(new URL(`../src/components/${folder}/`, import.meta.url), { recursive: true }))
       .filter(name => /\.(astro|tsx|ts)$/.test(name))
@@ -81,6 +92,9 @@ const paths = [
   "/ai-homepage",
   "/ax-support",
   "/privacy-policy",
+  "/company-achievements/page/1",
+  "/useful-materials/page/1",
+  "/staff-blog/page/1",
 ];
 const assets = new Set();
 for (const path of paths) {
@@ -103,11 +117,8 @@ for (const path of paths) {
     /name="robots" content="noindex, nofollow"/,
     `${path}: preview noindex`,
   );
-  assert.doesNotMatch(
-    html,
-    /href="\/(?:posts|staff-blog|company-achievements?|useful-materials)(?:["/])/,
-    `${path}: no deferred content links`,
-  );
+  for (const href of ["/company-achievements/page/1", "/useful-materials/page/1", "/staff-blog/page/1"])
+    assert.ok(html.includes(`href="${href}"`), `${path}: editorial navigation ${href}`);
   if (path === "/") {
     assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, "homepage: native Astro, no React hydration");
     for (const id of ["hero", "what-we-do", "services", "why-influ", "suitable-consultations", "contact"])
@@ -129,7 +140,7 @@ for (const path of paths) {
   }
   if (path === "/company-profile") assert.match(html, /<details\b[^>]*>[\s\S]*?ROUTE GUIDE/, "native access-guide disclosure");
   assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);
-  assert.equal((html.match(/<header\b/g) ?? []).length, 1, `${path}: one shared header`);
+  assert.equal((html.match(/<header\b[^>]*id="site-header"/g) ?? []).length, 1, `${path}: one shared header`);
   assert.equal((html.match(/<footer\b/g) ?? []).length, 1, `${path}: one shared footer`);
   for (const match of html.matchAll(/<img[^>]+src="(\/[^"?]+)"/g))
     assets.add(match[1]);
@@ -151,12 +162,14 @@ const missingHtml = await missing.text();
 assert.match(missingHtml, /ページが/);
 assert.doesNotMatch(missingHtml, /<astro-island\b/, "native 404");
 const sitemap = await (await fetch(new URL("/sitemap.xml", base))).text();
-assert.equal((sitemap.match(/<loc>/g) ?? []).length, paths.length);
-assert.doesNotMatch(sitemap, /posts|staff-blog|company-achievements|useful-materials/);
-for (const excluded of ["staff-blog", "company-achievements", "useful-materials"]) {
-  for (const suffix of ["", "/page/1", "/example-article"]) {
-    assert.equal((await fetch(new URL(`/${excluded}${suffix}`, base))).status, 404, `${excluded}${suffix}: excluded`);
-  }
+assert.ok((sitemap.match(/<loc>/g) ?? []).length >= paths.length, "sitemap: all static routes");
+for (const section of ["staff-blog", "company-achievements", "useful-materials"]) {
+  const root = await fetch(new URL(`/${section}`, base), { redirect: "manual" });
+  assert.equal(root.status, 308, `${section}: archive redirect`);
+  assert.equal(root.headers.get("location"), `/${section}/page/1`);
+  assert.equal((await fetch(new URL(`/${section}/page/1`, base))).status, 200, `${section}: archive`);
+  assert.equal((await fetch(new URL(`/${section}/example-article`, base))).status, 404, `${section}: missing article`);
+  assert.match(sitemap, new RegExp(`/${section}/page/1`), `${section}: sitemap archive`);
 }
 assert.equal(
   await (await fetch(new URL("/robots.txt", base))).text(),

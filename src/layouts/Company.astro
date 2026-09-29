@@ -2,7 +2,6 @@
 import { Font } from "astro:assets";
 import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
-import ThemeSwitcher from "../components/company/ThemeSwitcher.astro";
 import {
   CONTACT_URL,
   navigation,
@@ -37,10 +36,7 @@ const pageCtx = createPublicPageContext({
 ---
 
 <!doctype html>
-<html
-  lang="ja"
-  class="scheme-light-dark [&.light]:scheme-light [&.dark]:scheme-dark scroll-pt-28"
->
+<html lang="ja" class="scheme-light-dark scroll-pt-28">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,16 +50,6 @@ const pageCtx = createPublicPageContext({
       type="application/ld+json"
       set:html={JSON.stringify(organization).replace(/</g, "\\u003c")}
     />
-    <script is:inline>
-      (() => {
-        const theme = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("theme="))
-          ?.slice(6);
-        if (theme === "light" || theme === "dark")
-          document.documentElement.classList.add(theme);
-      })();
-    </script>
     {Astro.url.hostname === new URL(SITE_URL).hostname && <script is:inline>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
@@ -115,7 +101,6 @@ const pageCtx = createPublicPageContext({
         ))}
       </nav>
       <div class="flex items-center gap-5 sm:gap-6">
-        <ThemeSwitcher />
         <a
           class="hidden min-h-11 items-center gap-6 text-xs hover:text-accent min-[1100px]:flex"
           href={CONTACT_URL}

@@ -60,6 +60,11 @@ for (const path of paths) {
   const response = await fetch(new URL(path, base));
   assert.equal(response.status, 200, path);
   const html = await response.text();
+  assert.doesNotMatch(
+    html,
+    /<button\b[^>]*\bdata-theme=/,
+    `${path}: no theme toggle`,
+  );
   assert.match(html, /<html[^>]*lang="ja"/, `${path}: Japanese document`);
   assert.equal((html.match(/<h1\b/g) ?? []).length, 1, `${path}: one h1`);
   assert.ok(

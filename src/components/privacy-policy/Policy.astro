@@ -1,17 +1,5 @@
-import MotionProvider from "@shared/react/MotionProvider"
-
-import { cinematicStyles } from "@shared/react/cinematic-styles"
-import PageHeader from "@company/components/cms/page-header"
-import Container from "@shared/react/container"
-import ContactBlock from "@company/components/sections/contact"
-
-export const metadata = {
-  title: "プライバシーポリシー",
-  description:
-    "株式会社INFLUの個人情報保護方針（プライバシーポリシー）をご案内します。",
-  alternates: { canonical: "/privacy-policy" },
-}
-
+---
+import Container from "@shared/Container.astro";
 const sections = [
   {
     title: "1.個人情報の管理",
@@ -39,44 +27,22 @@ const sections = [
   },
 ]
 
-function PrivacyPolicyPage() {
-  return (
-    <>
-      <div className={cinematicStyles.pageShell}>
-        <PageHeader
-          eyebrow="Privacy"
-          title="プライバシーポリシー"
-          description="株式会社INFLUの個人情報保護方針をご案内します。"
-          breadcrumbItems={[
-            { name: "ホーム", href: "/" },
-            { name: "プライバシーポリシー" },
-          ]}
-        />
-        <Container className="py-12 md:py-16">
-          <p className="max-w-4xl text-pretty text-base leading-8 text-muted md:text-lg">
+---
+<Container class="py-12 md:py-16">
+          <p class="max-w-4xl text-pretty text-base leading-8 text-muted md:text-lg">
             株式会社INFLUは、インターネット等情報通信技術が急速に発展する中、氏名や会社・団体名、住所、メールアドレス等、個人を特定できる情報の保護に対する社会的な要請の高まりを受け、これらの適切な管理が当社にとって重要な責務であると認識し、以下の通り方針を定めています。
           </p>
 
-          <div className="mt-10 space-y-8">
+          <div class="mt-10 space-y-8">
             {sections.map((section) => (
               <section
-                key={section.title}
-                className="border-t border-line pt-8 first:border-t-0 first:pt-0"
+                class="border-t border-line pt-8 first:border-t-0 first:pt-0"
               >
-                <h2 className="text-lg font-semibold text-foreground md:text-xl">
+                <h2 class="text-lg font-semibold text-foreground md:text-xl">
                   {section.title}
                 </h2>
-                <p className="mt-3 leading-8 text-muted">{section.body}</p>
+                <p class="mt-3 leading-8 text-muted">{section.body}</p>
               </section>
             ))}
           </div>
         </Container>
-      </div>
-      <ContactBlock variant="dark" />
-    </>
-  )
-}
-
-export default function Page() {
-  return <MotionProvider><PrivacyPolicyPage /></MotionProvider>
-}

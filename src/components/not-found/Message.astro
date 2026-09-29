@@ -1,0 +1,12 @@
+---
+import Container from "@shared/Container.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+---
+<div class="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--color-page),var(--color-section)_42%,var(--color-page))] text-foreground [&>section]:relative [&>section]:z-30 [&>.mx-auto]:relative [&>.mx-auto]:z-30">
+  <Container class="py-32 text-center md:py-40">
+    <p class="text-xs font-bold tracking-normal text-gold-300">404</p>
+    <h1 class="mt-4 text-3xl font-semibold tracking-normal text-foreground md:text-4xl">ページが見つかりません</h1>
+    <p class="mt-4 text-muted">お探しのページは移動または削除された可能性があります。</p>
+    <SpecularButton href="/" class="mt-8">ホームへ戻る</SpecularButton>
+  </Container>
+</div>

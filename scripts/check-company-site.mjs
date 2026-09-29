@@ -37,6 +37,9 @@ const companyFiles = [
   ...(await readdir(new URL("../src/components/company/", import.meta.url), { recursive: true }))
     .filter((name) => /\.(astro|tsx|ts)$/.test(name))
     .map((name) => `src/components/company/${name}`),
+  ...(await readdir(new URL("../src/components/home/", import.meta.url)))
+    .filter((name) => /\.(astro|ts)$/.test(name))
+    .map((name) => `src/components/home/${name}`),
 ];
 for (const path of companyFiles) {
   assert.doesNotMatch(
@@ -48,6 +51,18 @@ for (const path of companyFiles) {
   assert.doesNotMatch(await source(path), /(?:@company|company|\.)\/app\//, `${path}: no removed app nesting`);
 }
 console.log("PASS Tailwind-only company styling");
+
+const home = await source("src/pages/index.astro");
+for (const section of ["Hero", "WhatWeDo", "Services", "WhyInflu", "SuitableConsultations", "Contact"]) {
+  assert.match(home, new RegExp(`import ${section} from "../components/home/${section}\\.astro"`));
+  assert.ok(home.includes(`<${section} />`), `homepage: composes ${section}`);
+}
+for (const file of ["page.tsx", "components/logo-intro.tsx", ...["hero", "what-we-do", "services", "why-influ", "suitable-consultations"].map(name => `components/sections/${name}.tsx`)]) {
+  await assert.rejects(source(`src/components/company/${file}`), { code: "ENOENT" });
+}
+for (const file of companyFiles.filter(path => path.startsWith("src/components/home/"))) {
+  assert.doesNotMatch(await source(file), /client:load|from ["'](?:react|@company\/Motion)["']/, `${file}: native Astro and DOM motion`);
+}
 
 // Run against the local preview: node scripts/check-company-site.mjs [base-url]
 const base = process.argv[2] ?? "http://localhost:4321";
@@ -85,7 +100,15 @@ for (const path of paths) {
     /href="\/(?:posts|staff-blog|company-achievements?|useful-materials)(?:["/])/,
     `${path}: no deferred content links`,
   );
-  assert.match(html, /client="load"/, `${path}: immediate React hydration configured`);
+  if (path === "/") {
+    assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, "homepage: native Astro, no React hydration");
+    for (const id of ["hero", "what-we-do", "services", "why-influ", "suitable-consultations", "contact"])
+      assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `homepage: ${id} section`);
+    assert.equal((html.match(/data-slide(?:\s|>)/g) ?? []).length, 3, "homepage: all hero images server-rendered");
+    assert.equal((html.match(/data-area(?:\s|>)/g) ?? []).length, 7, "homepage: seven focus controls");
+  } else {
+    assert.match(html, /client="load"/, `${path}: immediate React hydration configured`);
+  }
   assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);
   for (const match of html.matchAll(/<img[^>]+src="(\/[^"?]+)"/g))
     assets.add(match[1]);

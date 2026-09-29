@@ -1,0 +1,48 @@
+<div aria-hidden="true" class="fixed inset-0 z-[300] grid place-items-center overflow-hidden bg-[#07090A] pointer-events-auto motion-reduce:hidden" data-logo-intro hidden>
+      <div class="relative flex origin-center flex-col items-center" data-intro-content>
+        <div class="relative h-[186px] w-[279px] sm:h-[226.7px] sm:w-[340px]">
+          <div class="h-[226.7px] w-[340px] absolute left-1/2 top-1/2 origin-center -translate-x-1/2 -translate-y-1/2 scale-[0.82] sm:scale-100">
+            <div class="bg-[radial-gradient(circle,rgba(200,154,91,0.18)_0%,rgba(200,154,91,0.1)_32%,transparent_60%)] pointer-events-none absolute left-1/2 top-1/2 h-[300px] w-[420px] -translate-x-1/2 -translate-y-1/2" data-glow />
+
+            <div class="absolute inset-0" data-logo-reveal>
+              <img src="/influ-logo.svg" alt="" sizes="340px" class="absolute inset-0 h-full w-full object-contain" />
+            </div>
+
+            <div class="bg-[linear-gradient(90deg,transparent,#C89A5B,transparent)] absolute left-1/2 top-[130px] h-px w-[420px] -translate-x-1/2 origin-center" data-intro-line />
+          </div>
+        </div>
+
+        <p class="mt-3 text-center text-[12px] font-semibold uppercase tracking-[0.34em] text-[#F4F7F2]" data-caption>
+          株式会社INFLU
+        </p>
+      </div>
+    </div>
+<script>
+  import { animate, ease, reducedMotion } from "./motion";
+  const intro = document.querySelector<HTMLElement>("[data-logo-intro]")!;
+  if (!reducedMotion.matches) {
+    intro.hidden = false;
+    animate(intro.querySelector("[data-intro-content]")!, { opacity: [0, 1], scale: [0.96, 1] }, { duration: 0.9, ease });
+    animate(intro.querySelector("[data-glow]")!, { opacity: [0, 1, 0] }, { delay: 0.3, duration: 1.1, ease });
+    animate(intro.querySelector("[data-logo-reveal]")!, { clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"] }, { delay: 0.22, duration: 0.68, ease });
+    animate(intro.querySelector("[data-intro-line]")!, { opacity: [0, 0.55], scaleX: [0, 1] }, { delay: 0.08, duration: 0.42, ease });
+    animate(intro.querySelector("[data-caption]")!, { opacity: [0, 0.42] }, { delay: 1, duration: 0.5, ease });
+    let loaded = document.readyState === "complete";
+    let minimumElapsed = false;
+    let exiting = false;
+    async function exit() {
+      if (exiting || !loaded || !minimumElapsed) return;
+      exiting = true;
+      clearTimeout(minimumTimer);
+      clearTimeout(maximumTimer);
+      window.removeEventListener("load", onLoad);
+      await animate(intro, { opacity: 0, scale: 0.99 }, { duration: 0.3, ease });
+      intro.remove();
+    }
+    function onLoad() { loaded = true; exit(); }
+    const minimumTimer = window.setTimeout(() => { minimumElapsed = true; exit(); }, 3700);
+    const maximumTimer = window.setTimeout(() => { loaded = minimumElapsed = true; exit(); }, 7700);
+    if (!loaded) window.addEventListener("load", onLoad, { once: true });
+  }
+</script>
+

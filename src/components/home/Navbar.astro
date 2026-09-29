@@ -1,0 +1,277 @@
+---
+import Container from "./Container.astro";
+import { siteNavItems } from "@company/features/navigation";
+import { routes } from "@company/features/routes";
+const serviceMenuItems = [
+  {
+    href: routes.aiHomepage,
+    label: "HPのAI化",
+    description: "ホームページをAI活用前提で運用・改善できる形へ。",
+  },
+  {
+    href: routes.axSupport,
+    label: "AX・業務効率化支援",
+    description: "AIを業務やマーケティングに接続し、現場で使える仕組みへ。",
+  },
+  {
+    href: "https://lea-market.com/",
+    label: "気軽にEC『Lea = レア』",
+    description: "LINEと連動したEC・販売支援サービス。",
+    external: true,
+  },
+  {
+    href: "https://yakinikudokoro-mirai.com/",
+    label: "焼肉処 味来",
+    description: "大阪・心斎橋で展開する飲食事業。",
+    external: true,
+  },
+] as const
+const menuOpen = false;
+const servicesOpen = false;
+const isActive = (item: { href: string }) => item.href === "/";
+const isServiceMenuActive = false;
+const navItemClass = (active: boolean) =>
+  `relative rounded-sm px-1 py-2 text-[0.8125rem] transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-[linear-gradient(90deg,transparent,#E0C584,transparent)] after:transition-[width] after:duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] ${active ? "text-[#F5F1E8] after:w-8" : "text-[#B8B1A3] after:w-0 hover:text-[#F5F1E8] hover:after:w-5"}`;
+---
+<header class="border-[rgba(200,164,93,0.16)] bg-[rgba(11,11,11,0.2)] fixed top-0 z-[200] w-full border-b pt-[env(safe-area-inset-top,0px)] backdrop-blur-md" data-header id="home-header">
+      <Container class="flex h-14 items-center justify-between md:h-16">
+        <a href="/" class="shrink-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0B0B0B]">
+          <span class="inline-flex px-0 py-0">
+            <img src="/influ-logo.svg" alt="株式会社INFLU" width={75} height={40} class="h-6 w-auto translate-y-px drop-shadow-[0_0_10px_rgb(244_242_237_/_0.24)] transition-opacity duration-300 md:h-7" />
+          </span>
+        </a>
+
+        <button type="button" class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg border border-[rgba(200,164,93,0.35)] text-[#F5F1E8] transition-colors duration-200 hover:border-[#E0C584] hover:bg-[rgba(200,164,93,0.1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] lg:hidden" aria-expanded={menuOpen} aria-controls="mobile-nav" aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"} data-menu-toggle>
+          <span class="sr-only">{menuOpen ? "閉じる" : "メニュー"}</span>
+          {menuOpen ? (
+            <svg class="h-6 w-6 text-[#F5F1E8]" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          ) : (
+            <svg class="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M4 7h16M4 12h16M4 17h16" />
+            </svg>
+          )}
+        </button>
+
+        <nav class="hidden items-center gap-4 font-bold tracking-normal lg:flex">
+          {siteNavItems.map((item) => {
+            if (
+              item.href === routes.aiHomepage ||
+              item.href === routes.axSupport
+            ) {
+              return null
+            }
+
+            const active = isActive(item)
+            const serviceActive =
+              item.href === routes.service
+                ? active || isServiceMenuActive
+                : active
+
+            if (item.href === routes.service) {
+              return (
+                <div class="relative">
+                  <a href={item.href} class={navItemClass(serviceActive)} aria-current={serviceActive ? "page" : undefined} aria-expanded={servicesOpen} aria-controls="home-service-menu">
+                    {item.label}
+                  </a>
+
+                  {(
+                      <div class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-4" data-service-menu hidden id="home-service-menu">
+                        <div class="overflow-hidden rounded-md border border-white/10 bg-[#151515]/98 p-2 shadow-[0_20px_48px_rgba(0,0,0,0.42)] backdrop-blur-xl">
+                          <div>
+                            {serviceMenuItems.map((service) => {
+                              const serviceItemActive = isActive(service)
+                              return (
+                                <a href={service.href} target={
+                                    "external" in service ? "_blank" : undefined
+                                  } rel={
+                                    "external" in service
+                                      ? "noopener noreferrer"
+                                      : undefined
+                                  } class={`group block rounded-md px-4 py-3 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${
+                                    serviceItemActive
+                                      ? "bg-[#202020]"
+                                      : "hover:bg-[#1D1D1D]"
+                                  }`} aria-current={
+                                    serviceItemActive ? "page" : undefined
+                                  }>
+                                  <span class="flex items-center justify-between gap-4 text-[0.8125rem] font-normal leading-5 text-[#8A8A8A]">
+                                    <span>{service.label}</span>
+                                    {"external" in service && (
+                                      <span aria-hidden="true" class="text-sm text-[#ECECEC] transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                                        ↗
+                                      </span>
+                                    )}
+                                  </span>
+                                  <span class="mt-0.5 block text-sm font-normal leading-5 text-[#ECECEC]">
+                                    {service.description}
+                                  </span>
+                                </a>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                </div>
+              )
+            }
+
+            return (
+              <a href={item.href} class={navItemClass(serviceActive)} aria-current={serviceActive ? "page" : undefined}>
+                {item.label}
+              </a>
+            )
+          })}
+        </nav>
+      </Container>
+
+      {(
+          <div id="mobile-nav" class="border-t border-[rgba(200,164,93,0.25)] bg-[#15130F]/95 backdrop-blur-md lg:hidden" data-mobile-menu hidden>
+            <nav class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 text-[15px] font-bold tracking-normal sm:px-6" data-mobile-links>
+              {siteNavItems.map((item) => {
+                if (
+                  item.href === routes.aiHomepage ||
+                  item.href === routes.axSupport
+                ) {
+                  return null
+                }
+
+                const active = isActive(item)
+                const serviceActive =
+                  item.href === routes.service
+                    ? active || isServiceMenuActive
+                    : active
+
+                return (
+                  <div  data-mobile-item>
+                    <a href={item.href} class={`block rounded-lg px-3 py-2.5 transition-colors duration-200 ${
+                        serviceActive
+                          ? "border border-[rgba(200,164,93,0.35)] bg-[rgba(200,164,93,0.1)] text-[#F5F1E8]"
+                          : "text-[#B8B1A3] hover:bg-[rgba(200,164,93,0.1)] hover:text-[#F5F1E8]"
+                      }`} aria-current={serviceActive ? "page" : undefined}>
+                      {item.label}
+                    </a>
+                    {item.href === routes.service && (
+                      <div class="mt-1 space-y-1 border-l border-[rgba(200,164,93,0.22)] pl-3">
+                        {serviceMenuItems.map((service) => {
+                          const serviceItemActive = isActive(service)
+                          return (
+                            <a href={service.href} target={
+                                "external" in service ? "_blank" : undefined
+                              } rel={
+                                "external" in service
+                                  ? "noopener noreferrer"
+                                  : undefined
+                              } class={`flex items-center justify-between gap-4 rounded-md px-3 py-2 text-sm transition-colors duration-200 ${
+                                serviceItemActive
+                                  ? "bg-[rgba(200,164,93,0.13)] text-[#F5F1E8]"
+                                  : "text-[#B8B1A3] hover:bg-[rgba(200,164,93,0.1)] hover:text-[#F5F1E8]"
+                              }`} aria-current={
+                                serviceItemActive ? "page" : undefined
+                              }>
+                              <span>{service.label}</span>
+                              {"external" in service && (
+                                <span aria-hidden="true" class="text-[#ECECEC]">
+                                  ↗
+                                </span>
+                              )}
+                            </a>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </nav>
+          </div>
+        )}
+    </header>
+<script>
+  import { animate, stagger, ease, reducedMotion } from "./motion";
+  const header = document.querySelector<HTMLElement>("#home-header")!;
+  const toggle = header.querySelector<HTMLButtonElement>("[data-menu-toggle]")!;
+  const mobile = header.querySelector<HTMLElement>("[data-mobile-menu]")!;
+  const dropdown = header.querySelector<HTMLElement>("[data-service-menu]")!;
+  const serviceGroup = dropdown.parentElement!;
+  const serviceLink = serviceGroup.querySelector<HTMLAnchorElement>("a")!;
+  let menuOpen = false;
+  let servicesOpen = false;
+  let lastSolid: boolean | undefined;
+  function updateHeader() {
+    const solid = scrollY > 50 || menuOpen;
+    if (solid === lastSolid) return;
+    lastSolid = solid;
+    animate(header, {
+      backgroundColor: solid ? "rgba(21, 19, 15, 0.94)" : "rgba(11, 11, 11, 0.2)",
+      borderColor: solid ? "rgba(200, 164, 93, 0.25)" : "rgba(200, 164, 93, 0.16)",
+      boxShadow: solid ? "0 14px 44px rgba(0, 0, 0, 0.36)" : "0 0 0 rgba(0, 0, 0, 0)"
+    }, { duration: reducedMotion.matches ? 0 : 0.28, ease });
+  }
+  async function setMobile(open: boolean) {
+    if (menuOpen === open) return;
+    menuOpen = open;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
+    toggle.querySelector(".sr-only")!.textContent = open ? "閉じる" : "メニュー";
+    toggle.querySelector("path")!.setAttribute("d", open ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16");
+    mobile.inert = !open;
+    updateHeader();
+    if (open) {
+      mobile.hidden = false;
+      animate(mobile, { opacity: [0, 1], y: [-12, 0] }, { duration: reducedMotion.matches ? 0 : 0.28, ease });
+      if (!reducedMotion.matches) animate(mobile.querySelectorAll("[data-mobile-item]"),
+        { opacity: [0, 1], x: [-14, 0] }, { delay: stagger(0.035, { startDelay: 0.08 }), duration: 0.3, ease });
+    } else {
+      await animate(mobile, { opacity: 0, y: -8 }, { duration: reducedMotion.matches ? 0 : 0.28, ease });
+      if (!menuOpen) mobile.hidden = true;
+    }
+  }
+  async function setServices(open: boolean) {
+    if (open === servicesOpen) return;
+    servicesOpen = open;
+    serviceLink.setAttribute("aria-expanded", String(open));
+    dropdown.inert = !open;
+    if (open) {
+      dropdown.hidden = false;
+      animate(dropdown, { opacity: [0, 1], y: [-8, 0], scale: [0.98, 1] }, { duration: reducedMotion.matches ? 0 : 0.18, ease });
+    } else {
+      await animate(dropdown, { opacity: 0, y: -6, scale: 0.98 }, { duration: reducedMotion.matches ? 0 : 0.18, ease });
+      if (!servicesOpen) dropdown.hidden = true;
+    }
+  }
+  toggle.addEventListener("click", () => setMobile(!menuOpen));
+  if (!reducedMotion.matches) {
+    toggle.addEventListener("pointerenter", () => animate(toggle, { scale: 1.04 }, { duration: 0.15 }));
+    toggle.addEventListener("pointerleave", () => animate(toggle, { scale: 1 }, { duration: 0.15 }));
+    toggle.addEventListener("pointerdown", () => animate(toggle, { scale: 0.94 }, { duration: 0.15 }));
+    toggle.addEventListener("pointerup", () => animate(toggle, { scale: 1.04 }, { duration: 0.15 }));
+  }
+  serviceGroup.addEventListener("pointerenter", () => setServices(true));
+  serviceGroup.addEventListener("pointerleave", () => setServices(false));
+  serviceGroup.addEventListener("focusin", () => setServices(true));
+  serviceGroup.addEventListener("focusout", (event) => {
+    if (!serviceGroup.contains(event.relatedTarget as Node | null)) setServices(false);
+  });
+  header.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    if (menuOpen) { toggle.focus(); setMobile(false); }
+    if (servicesOpen) { serviceLink.focus(); setServices(false); }
+  });
+  header.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => link.addEventListener("click", (event) => {
+    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    setMobile(false);
+    setServices(false);
+    if (link.getAttribute("href") === "/") {
+      event.preventDefault();
+      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "instant" : "smooth" });
+    }
+  }));
+  window.addEventListener("scroll", updateHeader, { passive: true });
+  const desktop = matchMedia("(min-width: 1024px)");
+  desktop.addEventListener("change", () => { if (desktop.matches) setMobile(false); else setServices(false); });
+  updateHeader();
+</script>
+

@@ -31,10 +31,6 @@ function adapted(source, file) {
     .replace(/^  \{ href: routes\.(ourPerformance|usefulMaterials|blog),[^\n]+\n/gm, "")
     .replace(/^  (blog|ourPerformance|usefulMaterials):[^\n]+\n/gm, "");
   if (file === "app/company-profile/page.tsx") source = source.replace('import { companyPhilosophy } from "@/features/company-philosophy"', philosophy);
-  if (file === "app/page.tsx") source = source
-    .replace(/^import JsonLd from [^\n]+\n/gm, "")
-    .replace("organizationJsonLd, SITE_NAME", "SITE_NAME")
-    .replace(/^\s*<JsonLd data=\{organizationJsonLd\(\)\} \/>\n/gm, "\n");
   if (/^(app\/privacy-policy\/page|app\/not-found)\.tsx$/.test(file)) source = source.replaceAll("<main ", "<div ").replaceAll("</main>", "</div>");
   if (file === "app/components/ui/specular-button.tsx") source = source
     .replace('    const renderer = new Renderer({', `    const canvas = document.createElement("canvas")
@@ -62,10 +58,34 @@ for (const file of files) {
 }
 
 const publicRoot = new URL("../public/", import.meta.url);
+// Native Astro sections no longer have the same framework syntax. Compare their
+// original content arrays, literal copy and Tailwind classes instead.
+const nativeSections = [
+  ["Hero", "hero", ["images"]],
+  ["WhatWeDo", "what-we-do", ["areas"]],
+  ["Services", "services", ["serviceLinks", "serviceSequence"]],
+  ["WhyInflu", "why-influ", ["strengths"]],
+  ["SuitableConsultations", "suitable-consultations", ["consultations"]],
+];
+const compact = text => text.replace(/\s+/g, "");
+for (const [name, file, arrays] of nativeSections) {
+  const source = await readFile(resolve(original, `app/components/sections/${file}.tsx`), "utf8");
+  const native = await readFile(new URL(`../src/components/home/${name}.astro`, import.meta.url), "utf8");
+  for (const array of arrays) {
+    const start = source.indexOf(`const ${array} =`);
+    const end = source.indexOf("\n]", start);
+    const declaration = end < 0 || array === "images" ? source.slice(start).split("\n")[0] : source.slice(start, end + 2);
+    assert.ok(compact(native).includes(compact(declaration)), `${name}: original ${array}`);
+  }
+  for (const [, classes] of source.matchAll(/className="([^"]+)"/g))
+    assert.ok(native.includes(classes), `${name}: original Tailwind classes: ${classes}`);
+  for (const [, copy] of source.matchAll(/>([^<>{}]*[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}][^<>{}]*)</gu))
+    assert.ok(compact(native).includes(compact(copy)), `${name}: original copy: ${copy.trim()}`);
+}
 let assets = 0;
 for (const file of (await readdir(publicRoot, { recursive: true })).filter(file => /\.(svg|png|jpe?g|ico)$/.test(file))) {
   const source = resolve(original, /^(favicon.ico|opengraph-image.png)$/.test(file) ? "app" : "public", file);
   assert.deepEqual(await readFile(new URL(file, publicRoot)), await readFile(source), `${file}: original asset bytes`);
   assets++;
 }
-console.log(`PASS ${files.length} original source files and ${assets} byte-identical assets (${execFileSync("git", ["rev-parse", "--short", "HEAD"], { cwd: original, encoding: "utf8" }).trim()})`);
+console.log(`PASS ${files.length} original React/shared source files, ${nativeSections.length} native section content/class comparisons and ${assets} byte-identical assets (${execFileSync("git", ["rev-parse", "--short", "HEAD"], { cwd: original, encoding: "utf8" }).trim()})`);

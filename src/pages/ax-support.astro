@@ -5,91 +5,181 @@ import PageIntro from "../components/company/PageIntro.astro";
 // Content migrated from INFLU, commit fb66476 (PR #115).
 const supportAreas = [
   {
-    "number": "01",
-    "title": "AIマーケティング",
-    "description": "企画、コンテンツ、導線、分析をつなぎ、AIを実務のスピードと精度を高めるために使います。"
+    number: "01",
+    title: "AIマーケティング",
+    description:
+      "企画、コンテンツ、導線、分析をつなぎ、AIを実務のスピードと精度を高めるために使います。",
   },
   {
-    "number": "02",
-    "title": "HPのAI化",
-    "description": "更新や改善を外部への依頼待ちにせず、自社で動かせるホームページ運用へ整えます。"
+    number: "02",
+    title: "HPのAI化",
+    description:
+      "更新や改善を外部への依頼待ちにせず、自社で動かせるホームページ運用へ整えます。",
   },
   {
-    "number": "03",
-    "title": "情報・コンテンツ設計",
-    "description": "社内に眠る一次情報を整理し、営業・採用・発信で使える形へ変えていきます。"
+    number: "03",
+    title: "情報・コンテンツ設計",
+    description:
+      "社内に眠る一次情報を整理し、営業・採用・発信で使える形へ変えていきます。",
   },
   {
-    "number": "04",
-    "title": "計測・改善の伴走",
-    "description": "見るべき数字と改善の優先順位を整理し、施策を一度きりで終わらせない運用を支えます。"
+    number: "04",
+    title: "計測・改善の伴走",
+    description:
+      "見るべき数字と改善の優先順位を整理し、施策を一度きりで終わらせない運用を支えます。",
   },
   {
-    "number": "05",
-    "title": "業務効率化支援",
-    "description": "繰り返し作業や情報の受け渡しを見直し、現場に合う無理のない仕組みを設計します。"
-  }
+    number: "05",
+    title: "業務効率化支援",
+    description:
+      "繰り返し作業や情報の受け渡しを見直し、現場に合う無理のない仕組みを設計します。",
+  },
 ];
 
 const principles = [
   [
     "現場から始める",
-    "話題のツールではなく、今ある業務の詰まりを起点に考えます。"
+    "話題のツールではなく、今ある業務の詰まりを起点に考えます。",
   ],
   [
     "横断して整える",
-    "サイト、コンテンツ、計測、業務フローを別々にせず、一つの流れとして見ます。"
+    "サイト、コンテンツ、計測、業務フローを別々にせず、一つの流れとして見ます。",
   ],
   [
     "残る形にする",
-    "外部に依存し続けるのではなく、社内で続けられる運用と判断基準を残します。"
-  ]
+    "外部に依存し続けるのではなく、社内で続けられる運用と判断基準を残します。",
+  ],
 ];
 
 const processSteps = [
   [
     "DISCOVER",
     "課題を棚卸しする",
-    "業務、マーケティング、既存の仕組みを確認し、どこから手をつけるべきかを見極めます。"
+    "業務、マーケティング、既存の仕組みを確認し、どこから手をつけるべきかを見極めます。",
   ],
   [
     "DESIGN",
     "優先順位を決める",
-    "効果と実行しやすさを見ながら、現場に負荷をかけすぎない進め方を設計します。"
+    "効果と実行しやすさを見ながら、現場に負荷をかけすぎない進め方を設計します。",
   ],
   [
     "BUILD",
     "実行し、引き渡す",
-    "仕組みを動かしながら改善し、社内で使い続けられる状態まで伴走します。"
-  ]
+    "仕組みを動かしながら改善し、社内で使い続けられる状態まで伴走します。",
+  ],
 ];
 
 const faqItems = [
   [
     "どこから相談すべきですか？",
-    "まだ課題が言語化できていない段階でも大丈夫です。今困っていることや、時間がかかっている仕事から一緒に整理します。"
+    "まだ課題が言語化できていない段階でも大丈夫です。今困っていることや、時間がかかっている仕事から一緒に整理します。",
   ],
   [
     "マーケティング以外の相談も対象ですか？",
-    "対象です。情報整理、社内の連携、繰り返し業務の見直しなど、AI活用につながる実務課題を横断して考えます。"
+    "対象です。情報整理、社内の連携、繰り返し業務の見直しなど、AI活用につながる実務課題を横断して考えます。",
   ],
   [
     "社内にAIの担当者がいなくても進められますか？",
-    "進められます。専門部署の新設を前提にせず、今の体制で無理なく始められる範囲から設計します。"
+    "進められます。専門部署の新設を前提にせず、今の体制で無理なく始められる範囲から設計します。",
   ],
   [
     "費用や進め方はどう決まりますか？",
-    "課題と必要な支援範囲を確認したうえでご提案します。まずは相談内容をお聞かせください。"
-  ]
+    "課題と必要な支援範囲を確認したうえでご提案します。まずは相談内容をお聞かせください。",
+  ],
 ];
-
-
 ---
-<Company title="AX・業務効率化支援" description="AIを実務の力に変える。課題の整理から実行、社内に残る運用づくりまで、INFLUが伴走します。">
-  <PageIntro label="SERVICE 02 / AX SUPPORT" title="AX・業務効率化支援" lead="AIを、実務の力に変える。" description="AIを話題や導入で終わらせず、日々の業務とマーケティングへ。課題の整理から実行、社内に残る運用づくりまで伴走します。" />
-  <section class="px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><div class="grid gap-10 lg:grid-cols-2 lg:gap-24"><div><p class="mb-6 text-xs tracking-widest">OUR DEFINITION OF AX</p><h2 class="text-3xl font-semibold leading-relaxed md:text-4xl">生成AIや自動化を、<br />現場の仕事に接続すること。</h2></div><p class="max-w-2xl self-end text-lg leading-loose text-secondary">ツールを増やすことを目的にしません。仕事の流れを見直し、判断や創造に時間を使える状態をつくることを目指します。</p></div><div class="mt-16 grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0">{principles.map(([title,description],i) => <article class="py-10 md:px-8 md:first:pl-0 md:last:pr-0"><span class="font-mono text-xs text-accent">0{i+1}</span><h3 class="mt-8 mb-5 text-xl font-semibold">{title}</h3><p class="leading-loose text-secondary">{description}</p></article>)}</div></section>
-  <section class="border-y border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><p class="mb-6 text-xs tracking-widest">SUPPORT AREAS</p><h2 class="mb-12 text-3xl font-semibold leading-relaxed md:text-4xl">部署や領域を越えて、<br />仕事の流れを整える。</h2>{supportAreas.map(area => <article class="grid gap-5 border-t border-rule py-8 md:grid-cols-[60px_1fr_1.4fr] md:gap-10"><span class="font-mono text-xs text-accent">{area.number}</span><h3 class="text-xl font-semibold md:text-2xl">{area.title}</h3><p class="leading-loose text-secondary">{area.description}</p></article>)}<a href="/ai-homepage" class="mt-8 inline-flex min-h-11 items-center gap-10 border-b border-ink py-3 text-sm hover:text-accent">HPのAI化について詳しく見る<span aria-hidden="true">↗</span></a></section>
-  <section class="px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><p class="mb-6 text-xs tracking-widest">PROCESS</p><h2 class="mb-12 text-3xl font-semibold">小さく始め、使える形へ。</h2><ol class="grid gap-10 md:grid-cols-3">{processSteps.map(([label,title,description],i) => <li class="border-t border-rule pt-8"><p class="font-mono text-xs text-accent">0{i+1} / {label}</p><h3 class="mt-8 mb-4 text-2xl font-semibold">{title}</h3><p class="leading-loose text-secondary">{description}</p></li>)}</ol></section>
-  <section class="grid gap-12 border-t border-rule px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_2fr] xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest">QUESTIONS & ANSWERS</p><h2 class="text-3xl font-semibold">よくあるご質問</h2></div><div class="border-t border-rule">{faqItems.map(([question,answer]) => <details class="group border-b border-rule"><summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-7 text-lg font-medium [&::-webkit-details-marker]:hidden">{question}<span class="text-2xl font-normal group-open:rotate-45" aria-hidden="true">+</span></summary><p class="max-w-3xl pb-8 leading-loose text-secondary">{answer}</p></details>)}</div></section>
+
+<Company
+  title="AX・業務効率化支援"
+  description="AIを実務の力に変える。課題の整理から実行、社内に残る運用づくりまで、INFLUが伴走します。"
+>
+  <PageIntro
+    label="SERVICE 02 / AX SUPPORT"
+    title="AX・業務効率化支援"
+    lead="AIを、実務の力に変える。"
+    description="AIを話題や導入で終わらせず、日々の業務とマーケティングへ。課題の整理から実行、社内に残る運用づくりまで伴走します。"
+  />
+  <section class="px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16">
+    <div class="grid gap-10 lg:grid-cols-2 lg:gap-24">
+      <div>
+        <p class="mb-6 text-xs tracking-widest">OUR DEFINITION OF AX</p>
+        <h2 class="text-3xl font-semibold leading-relaxed md:text-4xl">
+          生成AIや自動化を、
+          <br />
+          現場の仕事に接続すること。
+        </h2>
+      </div>
+      <p class="max-w-2xl self-end text-lg leading-loose text-secondary">
+        ツールを増やすことを目的にしません。仕事の流れを見直し、判断や創造に時間を使える状態をつくることを目指します。
+      </p>
+    </div>
+    <div class="mt-16 grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0">
+      {principles.map(([title, description], i) => (
+        <article class="py-10 md:px-8 md:first:pl-0 md:last:pr-0">
+          <span class="font-mono text-xs text-accent">0{i + 1}</span>
+          <h3 class="mt-8 mb-5 text-xl font-semibold">{title}</h3>
+          <p class="leading-loose text-secondary">{description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="border-y border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16">
+    <p class="mb-6 text-xs tracking-widest">SUPPORT AREAS</p>
+    <h2 class="mb-12 text-3xl font-semibold leading-relaxed md:text-4xl">
+      部署や領域を越えて、
+      <br />
+      仕事の流れを整える。
+    </h2>
+    {supportAreas.map((area) => (
+      <article class="grid gap-5 border-t border-rule py-8 md:grid-cols-[60px_1fr_1.4fr] md:gap-10">
+        <span class="font-mono text-xs text-accent">{area.number}</span>
+        <h3 class="text-xl font-semibold md:text-2xl">{area.title}</h3>
+        <p class="leading-loose text-secondary">{area.description}</p>
+      </article>
+    ))}
+    <a
+      href="/ai-homepage"
+      class="mt-8 inline-flex min-h-11 items-center gap-10 border-b border-ink py-3 text-sm hover:text-accent"
+    >
+      HPのAI化について詳しく見る<span aria-hidden="true">↗</span>
+    </a>
+  </section>
+  <section class="px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16">
+    <p class="mb-6 text-xs tracking-widest">PROCESS</p>
+    <h2 class="mb-12 text-3xl font-semibold">小さく始め、使える形へ。</h2>
+    <ol class="grid gap-10 md:grid-cols-3">
+      {processSteps.map(([label, title, description], i) => (
+        <li class="border-t border-rule pt-8">
+          <p class="font-mono text-xs text-accent">
+            0{i + 1} / {label}
+          </p>
+          <h3 class="mt-8 mb-4 text-2xl font-semibold">{title}</h3>
+          <p class="leading-loose text-secondary">{description}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+  <section class="grid gap-12 border-t border-rule px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_2fr] xl:px-12 2xl:px-16">
+    <div>
+      <p class="mb-6 text-xs tracking-widest">QUESTIONS & ANSWERS</p>
+      <h2 class="text-3xl font-semibold">よくあるご質問</h2>
+    </div>
+    <div class="border-t border-rule">
+      {faqItems.map(([question, answer]) => (
+        <details class="group border-b border-rule">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-7 text-lg font-medium [&::-webkit-details-marker]:hidden">
+            {question}
+            <span
+              class="text-2xl font-normal group-open:rotate-45"
+              aria-hidden="true"
+            >
+              +
+            </span>
+          </summary>
+          <p class="max-w-3xl pb-8 leading-loose text-secondary">{answer}</p>
+        </details>
+      ))}
+    </div>
+  </section>
   <Contact />
 </Company>

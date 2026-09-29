@@ -1,7 +1,9 @@
 export const SITE_NAME = "株式会社INFLU";
 export const SITE_URL = "https://influhp.com";
-export const CONTACT_URL = "https://melodious-sight-6bd.notion.site/37b947bdbcf480dc97d1ce7f01cff921";
-export const RECRUITMENT_URL = "https://melodious-sight-6bd.notion.site/2099e621302e466fa97bf45f31eed426?pvs=105";
+export const CONTACT_URL =
+  "https://melodious-sight-6bd.notion.site/37b947bdbcf480dc97d1ce7f01cff921";
+export const RECRUITMENT_URL =
+  "https://melodious-sight-6bd.notion.site/2099e621302e466fa97bf45f31eed426?pvs=105";
 export const navigation = [
   { href: "/", label: "ホーム", en: "Home" },
   { href: "/business-content", label: "事業内容", en: "Our business" },

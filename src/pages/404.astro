@@ -1,33 +1,29 @@
 ---
-import Base from "../layouts/Base.astro";
+import Company from "../layouts/Company.astro";
 ---
 
-<Base title="Page not found">
-	<div class="not-found">
-		<h1>404</h1>
-		<p>The page you're looking for doesn't exist.</p>
-		<a href="/">Go back home</a>
-	</div>
-</Base>
-
-<style>
-	.not-found {
-		text-align: center;
-		padding: var(--spacing-24) var(--spacing-6);
-	}
-
-	.not-found h1 {
-		font-size: var(--font-size-5xl);
-		margin-bottom: var(--spacing-2);
-		color: var(--color-border);
-	}
-
-	.not-found p {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-6);
-	}
-
-	.not-found a {
-		color: var(--color-text);
-	}
-</style>
+<Company
+  title="ページが見つかりません"
+  description="お探しのページは見つかりませんでした。"
+  noindex
+>
+  <section class="px-5 py-28 sm:px-8 xl:px-12 2xl:px-16">
+    <p class="mb-8 font-mono text-xs tracking-widest text-accent">
+      404 / NOT FOUND
+    </p>
+    <h1 class="mb-8 text-4xl font-semibold leading-relaxed md:text-6xl">
+      ページが
+      <br />
+      見つかりません。
+    </h1>
+    <p class="mb-10 leading-loose text-secondary">
+      URLが変更されたか、ページが存在しない可能性があります。
+    </p>
+    <a
+      href="/"
+      class="inline-flex min-h-11 items-center gap-12 border-b border-ink py-3 hover:text-accent"
+    >
+      ホームへ戻る<span aria-hidden="true">↗</span>
+    </a>
+  </section>
+</Company>

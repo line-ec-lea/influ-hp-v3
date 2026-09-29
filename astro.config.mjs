@@ -22,22 +22,22 @@ export default defineConfig({
 	],
 	fonts: [
 		{
-			provider: fontProviders.google(),
-			name: "Noto Sans JP",
+			provider: fontProviders.npm({ remote: false }),
+			name: "Noto Sans Jp Variable",
 			cssVariable: "--font-noto-sans-jp",
 			weights: ["100 900"],
 			fallbacks: ["sans-serif"],
 		},
 		{
-			provider: fontProviders.google(),
-			name: "Inter",
+			provider: fontProviders.npm({ remote: false }),
+			name: "Inter Variable",
 			cssVariable: "--font-body",
 			weights: [400, 500, 600, 700],
 			fallbacks: ["sans-serif"],
 		},
 		{
-			provider: fontProviders.google(),
-			name: "JetBrains Mono",
+			provider: fontProviders.npm({ remote: false }),
+			name: "Jetbrains Mono Variable",
 			cssVariable: "--font-mono",
 			weights: [400, 500],
 			fallbacks: ["monospace"],

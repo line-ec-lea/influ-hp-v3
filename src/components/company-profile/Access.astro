@@ -1,0 +1,182 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const IMG = "/influhp-assets/wp-content/themes/top/images"
+
+const MAP_EMBED_SRC =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d820.2805272925191!2d135.49623626966167!3d34.676867498308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e7002a23f2c5%3A0x13e94ff84667def1!2z5qCq5byP5Lya56S-SU5GTFU!5e0!3m2!1sen!2sjp!4v1781254963100!5m2!1sja!2sjp"
+
+const routeSlides: { file: string; caption: string }[] = [
+  {
+    file: "route01.png",
+    caption:
+      "①・②番出口方向の四ツ橋駅改札を出て、左前方にある②番出口の階段へ上がります。",
+  },
+  { file: "route02.png", caption: "②番出口の階段を上がってください。" },
+  { file: "route03.png", caption: "②番出口を出ましたら左に曲がります。" },
+  {
+    file: "route04.png",
+    caption: "四ツ橋筋と長堀通りの交差点を左に曲がります。",
+  },
+  { file: "route05.png", caption: "四ツ橋筋を直進してください。" },
+  {
+    file: "route06.png",
+    caption: "直進すると信号があるので渡って進んでください。",
+  },
+  {
+    file: "route07.png",
+    caption: "さらに直進すると「林四ツ橋ビル」の看板が見えてきます。",
+  },
+  {
+    file: "route08.png",
+    caption:
+      "「林四ツ橋ビル」の9階に弊社の事務所があるので、ビルに入ってください。",
+  },
+  {
+    file: "route09.png",
+    caption: "ビルの奥にエレベータがあるので9階まで上がってください。",
+  },
+  { file: "route10.png", caption: "901号室が弊社事務所となります。" },
+]
+
+const accessLines = [
+  "Osaka Metro 四ツ橋線「四ツ橋」駅　2番出口 徒歩3分",
+  "Osaka Metro 鶴見緑地線「西大橋」駅　2番出口 徒歩6分",
+]
+---
+<CinematicSection>
+<section
+        id="a02"
+        class="scroll-mt-24 bg-[#15130F] md:scroll-mt-28"
+        aria-labelledby="access-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(28rem,1.18fr)] lg:items-end">
+            <div>
+              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                ACCESS
+              </p>
+              <h2
+                id="access-title"
+                class="mt-4 text-4xl font-bold leading-tight tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+              >
+                INFLUのオフィス
+              </h2>
+            </div>
+          </CinematicReveal>
+
+          <div class="mt-14 grid gap-12 lg:mt-16 lg:grid-cols-[minmax(16rem,0.48fr)_minmax(0,1.52fr)] lg:gap-14">
+            <CinematicReveal class="flex flex-col justify-between py-2">
+              <div>
+                <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                  OFFICE
+                </p>
+                <address class="mt-5 not-italic text-lg font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl sm:leading-10">
+                  〒550-0013
+                  <br />
+                  大阪府大阪市西区新町1丁目8-3
+                  <br />
+                  林四ツ橋ビル9階901号室
+                </address>
+              </div>
+              <ul class="mt-10 space-y-4 border-t border-[rgba(224,197,132,0.24)] pt-6">
+                {accessLines.map((line) => (
+                  <li
+                    class="flex gap-4 text-sm font-bold leading-7 text-[#CFC8BC] sm:text-base"
+                  >
+                    <span
+                      class="mt-3 h-px w-7 shrink-0 bg-[#E0C584]"
+                      aria-hidden="true"
+                    />
+                    {line}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="https://www.google.com/maps/search/?api=1&query=%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BEINFLU"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group mt-10 inline-flex w-fit items-center gap-3 border-b border-[#E0C584]/70 pb-3 text-sm font-bold text-[#FFF1C7] transition-colors hover:border-[#FFF1C7] hover:text-[#FFFDF7]"
+              >
+                Google Mapsで開く
+                <span
+                  class="text-xl transition-transform duration-300 group-hover:translate-x-1"
+                  aria-hidden="true"
+                >
+                  ↗
+                </span>
+              </a>
+            </CinematicReveal>
+
+            <div class="grid gap-6 sm:grid-cols-2">
+              <CinematicReveal
+                delay={0.08}
+                class="relative aspect-[4/5] overflow-hidden border-y border-[rgba(224,197,132,0.3)] bg-[#090909]"
+              >
+                <img
+                  src={`${IMG}/access01.png`}
+                  alt="株式会社INFLUが入る林四ツ橋ビルの案内"
+                  class="absolute inset-0 h-full w-full object-cover object-center"
+                  sizes="(min-width: 1024px) 28vw, (min-width: 640px) 50vw, 100vw" loading="lazy" decoding="async" />
+              </CinematicReveal>
+              <CinematicReveal
+                delay={0.14}
+                class="relative aspect-[4/5] overflow-hidden border-y border-[rgba(224,197,132,0.3)]"
+              >
+                <iframe
+                  title="株式会社INFLU 地図"
+                  src={MAP_EMBED_SRC}
+                  class="absolute inset-0 h-full w-full"
+                  loading="lazy"
+                  allowfullscreen
+                />
+              </CinematicReveal>
+            </div>
+          </div>
+
+          <details class="group mt-16 border-y border-[rgba(224,197,132,0.25)] lg:mt-24">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-left outline-none transition-colors hover:text-[#FFF1C7] focus-visible:ring-2 focus-visible:ring-[#E0C584] focus-visible:ring-inset sm:py-8">
+              <span>
+                <span class="block text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                  ROUTE GUIDE
+                </span>
+                <span class="mt-2 block text-xl font-bold tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl">
+                  四ツ橋駅からの来社ルートを見る
+                </span>
+              </span>
+              <span
+                class="text-3xl font-light text-[#E0C584] transition-transform duration-300 group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </summary>
+            <div class="pb-10 sm:pb-14">
+              <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+                四ツ橋駅から徒歩でお越しの場合の目印です。必要な方のみ、順番にご確認ください。
+              </p>
+              <ol class="mt-8 grid gap-7 md:grid-cols-2 lg:mt-10 lg:grid-cols-3">
+                {routeSlides.map((step, index) => (
+                  <li class="group/route">
+                    <div class="relative aspect-[16/10] overflow-hidden bg-[#090909]">
+                      <img
+                        src={`${IMG}/${step.file}`}
+                        alt={step.caption}
+                        class="absolute inset-0 h-full w-full object-cover brightness-[0.8] saturate-[0.82] transition duration-500 group-hover/route:scale-[1.025]"
+                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" loading="lazy" decoding="async" />
+                      <span class="absolute left-4 top-4 text-xl font-bold leading-none text-[#FFF1C7]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <p class="mt-4 text-sm font-bold leading-7 text-[#CFC8BC]">
+                      {step.caption}
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </details>
+        </Container>
+      </section>
+</CinematicSection>

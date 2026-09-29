@@ -93,7 +93,7 @@ for (const [name, file, arrays] of nativeSections) {
   for (const [, copy] of source.matchAll(/>([^<>{}]*[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}][^<>{}]*)</gu))
     assert.ok(compact(native).includes(compact(copy)), `${name}: original copy: ${copy.trim()}`);
 }
-const nativePages = ["ax-support", "ai-homepage"];
+const nativePages = ["ax-support", "ai-homepage", "business-content", "company-profile"];
 for (const page of nativePages) {
   const directory = new URL(`../src/components/${page}/`, import.meta.url);
   const native = (await Promise.all((await readdir(directory)).filter(file => file.endsWith(".astro")).map(file => readFile(new URL(file, directory), "utf8")))).join("\n");
@@ -102,12 +102,21 @@ for (const page of nativePages) {
   for (const statement of ast.statements.filter(ts.isVariableStatement)) {
     const name = statement.declarationList.declarations[0].name.getText(ast);
     if (name === "metadata") continue;
+    if (name === "companyRows") {
+      const check = node => {
+        if (ts.isStringLiteral(node)) assert.ok(native.includes(node.text), `${page}: corporate information ${node.text}`);
+        node.forEachChild(check);
+      };
+      check(statement);
+      continue;
+    }
     assert.ok(compact(native).includes(compact(statement.getText(ast))), `${page}: original ${name}`);
   }
   for (const [, classes] of source.matchAll(/className="([^"]+)"/g))
     assert.ok(native.includes(classes), `${page}: original Tailwind classes: ${classes}`);
   for (const [, copy] of source.matchAll(/>([^<>{}]*[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}][^<>{}]*)</gu))
     assert.ok(compact(native).includes(compact(copy)), `${page}: original copy: ${copy.trim()}`);
+  if (page === "company-profile") assert.ok(compact(native).includes(compact(philosophy)), "original company philosophy");
 }
 let assets = 0;
 for (const file of (await readdir(publicRoot, { recursive: true })).filter(file => /\.(svg|png|jpe?g|ico)$/.test(file))) {

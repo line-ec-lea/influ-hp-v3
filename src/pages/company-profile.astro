@@ -1,8 +1,39 @@
 ---
 import Company from "../layouts/Company.astro";
-import Page, { metadata } from "../components/company/company-profile/page";
----
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import Hero from "../components/company-profile/Hero.astro";
+import CurrentDirection from "../components/company-profile/CurrentDirection.astro";
+import Message from "../components/company-profile/Message.astro";
+import Career from "../components/company-profile/Career.astro";
+import Experience from "../components/company-profile/Experience.astro";
+import SupportPolicy from "../components/company-profile/SupportPolicy.astro";
+import RelatedBusinesses from "../components/company-profile/RelatedBusinesses.astro";
+import Media from "../components/company-profile/Media.astro";
+import Philosophy from "../components/company-profile/Philosophy.astro";
+import CorporateInformation from "../components/company-profile/CorporateInformation.astro";
+import Access from "../components/company-profile/Access.astro";
+import Contact from "../components/company-profile/Contact.astro";
 
+const metadata = {
+  title: "会社概要",
+  description:
+    "株式会社INFLUの会社概要、代表取締役 水戸亮太の経歴、企業理念、企業情報、アクセスをご案内します。",
+  alternates: { canonical: "/company-profile" },
+}
+---
 <Company title={metadata.title} description={metadata.description}>
-  <Page client:load />
+  <CinematicPageFrame>
+    <Hero />
+    <CurrentDirection />
+    <Message />
+    <Career />
+    <Experience />
+    <SupportPolicy />
+    <RelatedBusinesses />
+    <Media />
+    <Philosophy />
+    <CorporateInformation />
+    <Access />
+    <Contact />
+  </CinematicPageFrame>
 </Company>

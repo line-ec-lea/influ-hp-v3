@@ -1,0 +1,126 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const companyPhilosophy = {
+  mission: {
+    label: "ミッション",
+    headline:
+      "「誰もがクリエイティブなアイディアや商品やサービスをカンタンに届ける世界を創る」",
+    body: "誰でも、自分の新しいアイディアや商品、サービスをカンタンに届けることができる世界を目指します。",
+  },
+  vision: {
+    label: "ビジョン",
+    headline: "モノ、ジバ、ヒトが集まり成長するコミュニティ",
+    tagline: "とにかく試そう、とにかく語ろう！",
+  },
+  coreValues: {
+    label: "コアバリュー",
+    items: [
+      "とにかく、試す。納得いくまで",
+      "とにかく、語ってみる。自分が腹落ちするまで",
+      "とにかく、出来るように。自然と当たり前に。",
+      "できないことをできるようになろう！",
+      "過去の成功や常識にとらわれず、いつも新しいアイディアや視点を",
+      "成長と上達のために学び、教える。",
+    ],
+  },
+} as const
+---
+<CinematicSection>
+<section
+        id="philosophy"
+        class="scroll-mt-24 overflow-hidden bg-[#090909] md:scroll-mt-28"
+        aria-labelledby="philosophy-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="flex flex-col items-center text-center">
+            <div class="max-w-3xl">
+              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                PHILOSOPHY
+              </p>
+              <h2
+                id="philosophy-title"
+                class="mt-4 text-4xl font-bold leading-tight tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+              >
+                つくる。届ける。育てる。
+              </h2>
+            </div>
+            <p class="mt-6 max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+              INFLUは、挑戦する人のアイデアを形にし、必要な人へ届け、その先で続いていく力を育てます。
+            </p>
+          </CinematicReveal>
+
+          <div class="mt-16 grid gap-14 sm:grid-cols-3 sm:gap-0 lg:mt-24">
+            <CinematicReveal class="relative px-1 sm:px-7 sm:first:pl-0 sm:last:pr-0 [&:not(:last-child)]:sm:border-r [&:not(:last-child)]:sm:border-[rgba(224,197,132,0.2)]">
+              <article>
+                <p class="text-[clamp(3.5rem,8vw,6.5rem)] font-bold leading-none tracking-[-0.08em] text-[#E0C584]">
+                  つくる
+                </p>
+                <p class="mt-7 text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                  {companyPhilosophy.mission.label}
+                </p>
+                <h3 class="mt-4 text-xl font-bold leading-8 tracking-[-0.03em] text-[#F5F1E8] sm:text-2xl sm:leading-9">
+                  {companyPhilosophy.mission.headline}
+                </h3>
+                <p class="mt-5 text-sm leading-8 text-[#CFC8BC]">
+                  {companyPhilosophy.mission.body}
+                </p>
+              </article>
+            </CinematicReveal>
+
+            <CinematicReveal
+              delay={0.08}
+              class="relative px-1 sm:px-7 [&:not(:last-child)]:sm:border-r [&:not(:last-child)]:sm:border-[rgba(224,197,132,0.2)]"
+            >
+              <article>
+                <p class="text-[clamp(3.5rem,8vw,6.5rem)] font-bold leading-none tracking-[-0.08em] text-[#F5F1E8]">
+                  届ける
+                </p>
+                <p class="mt-7 text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                  {companyPhilosophy.vision.label}
+                </p>
+                <h3 class="mt-4 text-xl font-bold leading-8 tracking-[-0.03em] text-[#F5F1E8] sm:text-2xl sm:leading-9">
+                  モノ、ジバ、ヒトを、
+                  <br />
+                  つなげる。
+                </h3>
+                <p class="mt-5 text-sm leading-8 text-[#CFC8BC]">
+                  {companyPhilosophy.vision.headline}
+                </p>
+              </article>
+            </CinematicReveal>
+
+            <CinematicReveal
+              delay={0.16}
+              class="relative px-1 sm:px-7 sm:last:pr-0"
+            >
+              <article>
+                <p class="text-[clamp(3.5rem,8vw,6.5rem)] font-bold leading-none tracking-[-0.08em] text-[#FFF1C7]">
+                  育てる
+                </p>
+                <p class="mt-7 text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                  {companyPhilosophy.coreValues.label}
+                </p>
+                <h3 class="mt-4 text-xl font-bold leading-8 tracking-[-0.03em] text-[#F5F1E8] sm:text-2xl sm:leading-9">
+                  試し、語り、
+                  <br />
+                  学び続ける。
+                </h3>
+                <ul class="mt-5 space-y-2 text-sm leading-7 text-[#CFC8BC]">
+                  {companyPhilosophy.coreValues.items.map((value) => (
+                    <li>{value}</li>
+                  ))}
+                </ul>
+              </article>
+            </CinematicReveal>
+          </div>
+
+          <CinematicReveal delay={0.2} class="mt-14 text-center lg:mt-20">
+            <p class="text-lg font-bold tracking-[-0.02em] text-[#FFF1C7] sm:text-2xl">
+              {companyPhilosophy.vision.tagline}
+            </p>
+          </CinematicReveal>
+        </Container>
+      </section>
+</CinematicSection>

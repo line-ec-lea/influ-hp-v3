@@ -1,7 +1,8 @@
-import { navigation, SITE_URL } from "../data/site";
+import { siteNavItems } from "../components/company/features/navigation";
+import { SITE_URL } from "../components/company/features/seo";
 
 export function GET() {
-  const paths = [...navigation.map((item) => item.href), "/privacy-policy"];
+  const paths = [...siteNavItems.map((item) => item.href), "/privacy-policy"];
   const urls = paths
     .map((path) => `<url><loc>${new URL(path, SITE_URL).href}</loc></url>`)
     .join("");

@@ -1,5 +1,5 @@
 import type { APIContext } from "astro";
-import { SITE_URL } from "../data/site";
+import { SITE_URL } from "../components/company/features/seo";
 
 export function GET({ url }: APIContext) {
   const rules =

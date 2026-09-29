@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 
-// Keep the company site utility-only, independent of the deferred blog's CSS.
+// Tailwind handles styling; original motion components retain their runtime styles.
+// The deferred blog's CSS must stay independent.
 const source = (path) =>
   readFile(new URL(`../${path}`, import.meta.url), "utf8");
 const css = await source("src/styles/global.css");
@@ -32,16 +33,17 @@ const companyFiles = [
     "privacy-policy",
     "404",
   ].map((name) => `src/pages/${name}.astro`),
-  ...(await readdir(new URL("../src/components/company/", import.meta.url)))
-    .filter((name) => /\.(astro|tsx)$/.test(name))
+  ...(await readdir(new URL("../src/components/company/", import.meta.url), { recursive: true }))
+    .filter((name) => /\.(astro|tsx|ts)$/.test(name))
     .map((name) => `src/components/company/${name}`),
 ];
 for (const path of companyFiles) {
   assert.doesNotMatch(
     await source(path),
-    /<style\b|\bstyle\s*=|@apply\b/,
+    /<style\b|@apply\b/,
     `${path}: use Tailwind utilities`,
   );
+  assert.doesNotMatch(await source(path), /from ["']next(?:\/[^"']*)?["']/, `${path}: no Next runtime`);
 }
 console.log("PASS Tailwind-only company styling");
 
@@ -78,9 +80,11 @@ for (const path of paths) {
   );
   assert.doesNotMatch(
     html,
-    /href="\/(?:posts|staff-blog|company-achievement|useful-materials)(?:["/])/,
+    /href="\/(?:posts|staff-blog|company-achievements?|useful-materials)(?:["/])/,
     `${path}: no deferred content links`,
   );
+  assert.match(html, /client="load"/, `${path}: immediate React hydration configured`);
+  assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);
   for (const match of html.matchAll(/<img[^>]+src="(\/[^"?]+)"/g))
     assets.add(match[1]);
   console.log(`PASS ${path}`);
@@ -100,7 +104,12 @@ assert.equal(missing.status, 404);
 assert.match(await missing.text(), /ページが/);
 const sitemap = await (await fetch(new URL("/sitemap.xml", base))).text();
 assert.equal((sitemap.match(/<loc>/g) ?? []).length, paths.length);
-assert.doesNotMatch(sitemap, /posts|staff-blog|useful-materials/);
+assert.doesNotMatch(sitemap, /posts|staff-blog|company-achievements|useful-materials/);
+for (const excluded of ["staff-blog", "company-achievements", "useful-materials"]) {
+  for (const suffix of ["", "/page/1", "/example-article"]) {
+    assert.equal((await fetch(new URL(`/${excluded}${suffix}`, base))).status, 404, `${excluded}${suffix}: excluded`);
+  }
+}
 assert.equal(
   await (await fetch(new URL("/robots.txt", base))).text(),
   "User-agent: *\nDisallow: /\n",

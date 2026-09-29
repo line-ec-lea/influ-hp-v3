@@ -9,7 +9,7 @@ const original = resolve(process.argv[2] ?? "/Users/blaze/react/INFLU");
 const target = new URL("../src/components/company/", import.meta.url);
 const philosophy = (await readFile(resolve(original, "features/company-philosophy.ts"), "utf8")).replace("export const", "const");
 const files = (await readdir(target, { recursive: true }))
-  .filter(file => /^(app|features)\/.+\.tsx?$/.test(file));
+  .filter(file => /\.tsx?$/.test(file) && !["Image.tsx", "Motion.tsx", "Site.tsx"].includes(file));
 
 function adapted(source, file) {
   if (file === "features/seo.ts") {
@@ -48,16 +48,17 @@ function adapted(source, file) {
       canvas,`)
     .replace('  const classes = [', '  const classes = [\n    "data-[no-webgl]:border-[#9A7B10] data-[no-webgl]:bg-[#111016]/85",');
   if (/\/(page|not-found)\.tsx$/.test(file)) source = source.replace("export default function", "function");
-  return source.replaceAll('"@/', '"@company/').trim();
+  return source.replaceAll('"@/app/', '"@company/').replaceAll('"@/', '"@company/').trim();
 }
 
 for (const file of files) {
-  const source = await readFile(resolve(original, file), "utf8");
+  const originalFile = file.startsWith("features/") ? file : `app/${file}`;
+  const source = await readFile(resolve(original, originalFile), "utf8");
   const copy = (await readFile(new URL(file, target), "utf8"))
     .replace(/^import Site from "@company\/Site"\n/, "")
     .replace(/\nexport default function Page\(\) \{\n  return <Site pathname="[^"]+"><\w+ \/><\/Site>\n\}\n$/, "")
     .trim();
-  assert.equal(copy, adapted(source, file), `${file}: original content, Tailwind classes and motion logic`);
+  assert.equal(copy, adapted(source, originalFile), `${file}: original content, Tailwind classes and motion logic`);
 }
 
 const publicRoot = new URL("../public/", import.meta.url);

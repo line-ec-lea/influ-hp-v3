@@ -8,9 +8,9 @@ import {
 } from "@company/Motion"
 import { useEffect, useRef, useState } from "react"
 
-import Container from "@company/app/components/container"
-import SunlitHeading from "@company/app/components/home/sunlit-heading"
-import SpecularButton from "@company/app/components/ui/specular-button"
+import Container from "@company/components/container"
+import SunlitHeading from "@company/components/home/sunlit-heading"
+import SpecularButton from "@company/components/ui/specular-button"
 import { routes } from "@company/features/routes"
 
 const serviceLinks = [

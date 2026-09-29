@@ -13,7 +13,7 @@ Excluded: `/staff-blog`, `/company-achievements`, `/useful-materials`, their det
 ## Architecture
 
 - `src/pages/*.astro`: server-rendered route wrappers with React `client:load` hydration.
-- `src/components/company/app/`: original React pages and component hierarchy.
+- `src/components/company/`: React page components, grouped by page; shared UI lives in `components/`. No Next.js `app/` nesting.
 - `src/components/company/features/`: original shared navigation, contact links, routes and SEO helpers.
 - `src/components/company/Site.tsx`: original motion provider, navigation and footer.
 - `src/components/company/Image.tsx`: native image adapter; no Next.js image optimizer.

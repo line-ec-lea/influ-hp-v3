@@ -1,6 +1,6 @@
 import Image from "@company/Image"
 
-import Container from "@company/app/components/container"
+import Container from "@company/components/container"
 import { siteNavItems } from "@company/features/navigation"
 import { routes } from "@company/features/routes"
 import { SITE_NAME } from "@company/features/seo"

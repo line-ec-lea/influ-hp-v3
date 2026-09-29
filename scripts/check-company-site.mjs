@@ -22,6 +22,7 @@ assert.doesNotMatch(
   /styles\/(?:company|tokens|theme)\.css/,
 );
 await assert.rejects(source("src/styles/company.css"), { code: "ENOENT" });
+await assert.rejects(readdir(new URL("../src/components/company/app/", import.meta.url)), { code: "ENOENT" });
 const companyFiles = [
   "src/layouts/Company.astro",
   ...[
@@ -44,6 +45,7 @@ for (const path of companyFiles) {
     `${path}: use Tailwind utilities`,
   );
   assert.doesNotMatch(await source(path), /from ["']next(?:\/[^"']*)?["']/, `${path}: no Next runtime`);
+  assert.doesNotMatch(await source(path), /(?:@company|company|\.)\/app\//, `${path}: no removed app nesting`);
 }
 console.log("PASS Tailwind-only company styling");
 

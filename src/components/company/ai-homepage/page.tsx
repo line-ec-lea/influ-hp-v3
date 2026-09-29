@@ -1,15 +1,15 @@
 import Site from "@company/Site"
 
-import AiHomepageFreefallCard from "@company/app/components/ai-homepage-freefall-card"
-import AiHomepageGoodFitSequence from "@company/app/components/ai-homepage-good-fit-sequence"
-import AsanohaHeroPattern from "@company/app/components/asanoha-hero-pattern"
-import Container from "@company/app/components/container"
-import SunlitHeading from "@company/app/components/home/sunlit-heading"
+import AiHomepageFreefallCard from "@company/components/ai-homepage-freefall-card"
+import AiHomepageGoodFitSequence from "@company/components/ai-homepage-good-fit-sequence"
+import AsanohaHeroPattern from "@company/components/asanoha-hero-pattern"
+import Container from "@company/components/container"
+import SunlitHeading from "@company/components/home/sunlit-heading"
 import {
   CinematicPageFrame,
   CinematicReveal,
-} from "@company/app/components/motion/cinematic-reveal"
-import SpecularButton from "@company/app/components/ui/specular-button"
+} from "@company/components/motion/cinematic-reveal"
+import SpecularButton from "@company/components/ui/specular-button"
 import { CONTACT_FORM_HREF } from "@company/features/contact"
 import { routes } from "@company/features/routes"
 

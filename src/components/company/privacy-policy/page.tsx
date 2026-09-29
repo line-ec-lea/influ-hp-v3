@@ -1,9 +1,9 @@
 import Site from "@company/Site"
 
-import { cinematicStyles } from "@company/app/components/cinematic-styles"
-import PageHeader from "@company/app/components/cms/page-header"
-import Container from "@company/app/components/container"
-import ContactBlock from "@company/app/components/sections/contact"
+import { cinematicStyles } from "@company/components/cinematic-styles"
+import PageHeader from "@company/components/cms/page-header"
+import Container from "@company/components/container"
+import ContactBlock from "@company/components/sections/contact"
 
 export const metadata = {
   title: "プライバシーポリシー",

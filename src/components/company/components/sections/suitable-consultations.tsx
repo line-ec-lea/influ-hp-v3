@@ -2,35 +2,24 @@
 
 import { motion, useReducedMotion } from "@company/Motion"
 
-import Container from "@company/app/components/container"
-import SunlitHeading from "@company/app/components/home/sunlit-heading"
+import Container from "@company/components/container"
+import SunlitHeading from "@company/components/home/sunlit-heading"
+import SpecularButton from "@company/components/ui/specular-button"
+import { CONTACT_FORM_HREF } from "@company/features/contact"
 
-const strengths = [
-  {
-    title: "AIを現場で扱うエンジニアリング力",
-    description:
-      "AIを概念ではなく、日々の業務やWeb運用で動く仕組みとして設計・実装します。",
-  },
-  {
-    title: "マーケティング実務の知見",
-    description:
-      "集客、導線改善、問い合わせ獲得まで、現場の数字に近い視点でAI活用を組み立てます。",
-  },
-  {
-    title: "事業やサイトの詰まりから考える姿勢",
-    description:
-      "ツール導入から入らず、事業・サイト・運用のどこが詰まっているかを見極めて支援します。",
-  },
+const consultations = [
+  "企業のAI活用をどこから始めるか整理したい",
+  "既存HPが更新できず、運用の足かせになっている",
 ]
 
-export default function WhyInflu() {
+export default function SuitableConsultations() {
   const shouldReduceMotion = useReducedMotion()
 
   return (
     <section className="relative overflow-hidden border-t border-[rgba(200,164,93,0.25)] bg-[#0B0B0B]">
       <Container className="relative py-16 md:py-24 lg:py-28">
         <motion.div
-          className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.48fr)] lg:items-end"
+          className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,0.72fr)] lg:items-end"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
@@ -38,30 +27,32 @@ export default function WhyInflu() {
         >
           <div>
             <p className="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-              WHY INFLU?
+              SUITABLE CONSULTATIONS
             </p>
             <SunlitHeading className="mt-4 text-4xl font-bold leading-tight tracking-[-0.03em] md:text-5xl lg:text-6xl">
-              技術だけでなく、事業と現場を理解する。
+              <span className="block">こんなお悩みから、</span>
+              <span className="block">ご相談いただけます。</span>
             </SunlitHeading>
           </div>
-          <p className="text-base leading-8 text-[#D8D1C5]">
-            AI、マーケティング、事業課題を切り離さず、現場で使い続けられる形まで落とし込みます。
+          <p className="max-w-2xl text-base leading-8 text-[#D8D1C5] lg:justify-self-end">
+            何から始めるべきか決まっていない段階でもご相談いただけます。
+            現在の課題を伺い、向き不向きも含めて優先順位を整理します。
           </p>
         </motion.div>
 
         <motion.div
-          className="group/list mt-12 md:mt-16"
+          className="mt-12 md:mt-16"
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-40px" }}
           variants={{
             hidden: {},
-            show: { transition: { staggerChildren: 0.11 } },
+            show: { transition: { staggerChildren: 0.1 } },
           }}
         >
-          {strengths.map((strength, index) => (
+          {consultations.map((consultation, index) => (
             <motion.article
-              key={strength.title}
+              key={consultation}
               variants={{
                 hidden: { opacity: 0, y: 26 },
                 show: {
@@ -70,7 +61,7 @@ export default function WhyInflu() {
                   transition: { duration: 0.52, ease: [0.22, 1, 0.36, 1] },
                 },
               }}
-              className="group/row relative grid gap-x-10 gap-y-5 py-9 transition-opacity duration-500 group-hover/list:opacity-70 hover:!opacity-100 md:grid-cols-[7rem_minmax(0,0.9fr)_minmax(0,1fr)] md:items-start md:py-12"
+              className="group/row relative grid gap-x-10 gap-y-5 py-9 md:grid-cols-[7rem_minmax(0,1fr)] md:items-center md:py-12"
             >
               <motion.span
                 aria-hidden
@@ -88,7 +79,7 @@ export default function WhyInflu() {
                 }}
               />
 
-              <div className="flex items-center gap-4 pt-1">
+              <div className="flex items-center gap-4">
                 <span className="text-xs font-bold tracking-[0.18em] text-[#E0C584]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
@@ -109,31 +100,18 @@ export default function WhyInflu() {
                 />
               </div>
 
-              <h3 className="relative overflow-hidden text-2xl font-bold leading-tight tracking-tight text-[#F5F1E8] md:text-[1.65rem]">
-                <span className="relative z-10">{strength.title}</span>
+              <h3 className="relative w-fit max-w-full overflow-hidden text-2xl font-bold leading-snug tracking-tight text-[#F5F1E8] transition-[color,transform] duration-500 group-hover/row:translate-x-2 group-hover/row:text-[#FFF7E3] md:text-3xl lg:text-[2.55rem]">
+                <span className="relative z-10">{consultation}</span>
                 {!shouldReduceMotion ? (
-                  <motion.span
+                  <span
                     aria-hidden
-                    className="absolute inset-y-[-35%] left-0 z-20 w-1/3 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,253,247,0.24),transparent)] blur-sm"
-                    initial={{ x: "-140%", opacity: 0 }}
-                    whileInView={{
-                      x: "440%",
-                      opacity: [0, 0.9, 0],
-                    }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{
-                      duration: 1.25,
-                      delay: 0.32 + index * 0.12,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
+                    className="absolute inset-y-[-30%] left-0 z-20 w-1/3 -translate-x-[150%] -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,253,247,0.26),transparent)] opacity-0 blur-sm transition-[transform,opacity] duration-1000 ease-out group-hover/row:translate-x-[430%] group-hover/row:opacity-100"
                   />
                 ) : null}
               </h3>
-              <p className="relative max-w-2xl text-[0.95rem] leading-8 text-[#DDD6CB] transition-colors duration-300 group-hover/row:text-[#F0EAE0]">
-                {strength.description}
-              </p>
             </motion.article>
           ))}
+
           <motion.span
             aria-hidden
             className="block h-px origin-left bg-[linear-gradient(90deg,#F4E8CB,rgba(216,194,139,0.42)_48%,rgba(216,194,139,0.08))]"
@@ -149,6 +127,26 @@ export default function WhyInflu() {
               },
             }}
           />
+        </motion.div>
+
+        <motion.div
+          className="mt-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <p className="max-w-xl border-l border-[rgba(224,197,132,0.5)] pl-4 text-sm leading-7 text-[#D8D1C5]">
+            相談内容がまとまっていなくても大丈夫です。
+          </p>
+          <SpecularButton
+            href={CONTACT_FORM_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto"
+          >
+            相談する
+          </SpecularButton>
         </motion.div>
       </Container>
     </section>

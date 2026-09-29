@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { MotionPreferences } from "./Motion";
-import Footer from "./app/components/footer";
-import Navbar from "./app/components/navbar";
-import { CinematicMotionProvider } from "./app/components/motion/cinematic-reveal";
+import Footer from "./components/footer";
+import Navbar from "./components/navbar";
+import { CinematicMotionProvider } from "./components/motion/cinematic-reveal";
 
 export default function Site({ pathname, children }: { pathname: string; children: ReactNode }) {
   return (

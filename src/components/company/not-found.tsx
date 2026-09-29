@@ -1,8 +1,8 @@
 import Site from "@company/Site"
-import { cinematicStyles } from "@company/app/components/cinematic-styles"
-import Container from "@company/app/components/container"
-import ContactBlock from "@company/app/components/sections/contact"
-import SpecularButton from "@company/app/components/ui/specular-button"
+import { cinematicStyles } from "@company/components/cinematic-styles"
+import Container from "@company/components/container"
+import ContactBlock from "@company/components/sections/contact"
+import SpecularButton from "@company/components/ui/specular-button"
 
 function NotFound() {
   return (

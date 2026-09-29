@@ -10,8 +10,8 @@ import {
 import Image from "@company/Image"
 import { useEffect, useRef, useState } from "react"
 
-import SunlitHeading from "@company/app/components/home/sunlit-heading"
-import SpecularButton from "@company/app/components/ui/specular-button"
+import SunlitHeading from "@company/components/home/sunlit-heading"
+import SpecularButton from "@company/components/ui/specular-button"
 import { CONTACT_FORM_HREF } from "@company/features/contact"
 import { routes } from "@company/features/routes"
 

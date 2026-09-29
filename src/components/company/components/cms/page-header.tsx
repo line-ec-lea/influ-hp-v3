@@ -1,7 +1,7 @@
-import { cinematicStyles } from "@company/app/components/cinematic-styles"
-import Breadcrumb from "@company/app/components/cms/breadcrumb"
-import Container from "@company/app/components/container"
-import { CinematicReveal } from "@company/app/components/motion/cinematic-reveal"
+import { cinematicStyles } from "@company/components/cinematic-styles"
+import Breadcrumb from "@company/components/cms/breadcrumb"
+import Container from "@company/components/container"
+import { CinematicReveal } from "@company/components/motion/cinematic-reveal"
 import type { BreadcrumbItem } from "@company/features/seo"
 
 type PageHeaderProps = {

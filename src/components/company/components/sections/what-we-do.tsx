@@ -3,8 +3,8 @@
 import { AnimatePresence, motion, useReducedMotion } from "@company/Motion"
 import { useEffect, useState } from "react"
 
-import Container from "@company/app/components/container"
-import SunlitHeading from "@company/app/components/home/sunlit-heading"
+import Container from "@company/components/container"
+import SunlitHeading from "@company/components/home/sunlit-heading"
 
 const areas = [
   {

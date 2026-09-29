@@ -1,6 +1,6 @@
 "use client"
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "@company/Motion"
 import Image from "@company/Image"
 import { type MouseEvent, useEffect, useState } from "react"
 

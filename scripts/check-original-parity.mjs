@@ -23,6 +23,7 @@ function adapted(source, file) {
     .replace(/^import Link from "next\/link"\n/gm, "")
     .replace(/<(\/?)Link\b/g, "<$1a")
     .replace(/"next\/image"/g, '"@company/Image"')
+    .replace(/"framer-motion"/g, '"@company/Motion"')
     .replace(/^import \{ usePathname \} from "next\/navigation"\n/gm, "")
     .replace("export default function Navbar() {\n  const pathname = usePathname()", 'export default function Navbar({ pathname }: { pathname: string }) {')
     .replace(/^import (BlogPreview|CaseStudiesProof) from [^\n]+\n/gm, "")

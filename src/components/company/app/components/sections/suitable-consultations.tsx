@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion } from "@company/Motion"
 
 import Container from "@company/app/components/container"
 import SunlitHeading from "@company/app/components/home/sunlit-heading"

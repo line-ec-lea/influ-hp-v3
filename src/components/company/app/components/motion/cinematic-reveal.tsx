@@ -6,7 +6,7 @@ import {
   useReducedMotion,
   useScroll,
   useSpring,
-} from "framer-motion"
+} from "@company/Motion"
 import { Children, isValidElement, type ReactNode, useRef } from "react"
 
 const cinematicEase = [0.22, 1, 0.36, 1] as const

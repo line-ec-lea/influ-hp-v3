@@ -6,7 +6,7 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
-} from "framer-motion"
+} from "@company/Motion"
 import Image from "@company/Image"
 import { useEffect, useRef, useState } from "react"
 

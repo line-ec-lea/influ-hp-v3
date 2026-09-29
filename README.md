@@ -17,6 +17,7 @@ Excluded: `/staff-blog`, `/company-achievements`, `/useful-materials`, their det
 - `src/components/company/features/`: original shared navigation, contact links, routes and SEO helpers.
 - `src/components/company/Site.tsx`: original motion provider, navigation and footer.
 - `src/components/company/Image.tsx`: native image adapter; no Next.js image optimizer.
+- `src/components/company/Motion.tsx`: hydration-safe reduced-motion preference shared by the original animation components.
 - `src/layouts/Company.astro`: document, fonts, metadata and EmDash hooks.
 - `src/styles/global.css`: Tailwind import and original theme tokens only. Motion-generated inline styles remain necessary for the original animations.
 

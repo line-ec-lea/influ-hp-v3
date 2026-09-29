@@ -5,7 +5,7 @@ import {
   motion,
   useInView,
   useReducedMotion,
-} from "framer-motion"
+} from "@company/Motion"
 import { useEffect, useRef, useState } from "react"
 
 import Container from "@company/app/components/container"

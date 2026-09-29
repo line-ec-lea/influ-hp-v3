@@ -1,6 +1,6 @@
 "use client"
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "@company/Motion"
 import { useEffect, useState } from "react"
 
 import Container from "@company/app/components/container"

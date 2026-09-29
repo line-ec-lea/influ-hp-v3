@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion } from "@company/Motion"
 import Image from "@company/Image"
 import { useEffect, useState } from "react"
 

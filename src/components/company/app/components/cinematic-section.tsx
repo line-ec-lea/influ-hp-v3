@@ -5,7 +5,7 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
-} from "framer-motion"
+} from "@company/Motion"
 import type { ReactNode } from "react"
 import { useRef } from "react"
 

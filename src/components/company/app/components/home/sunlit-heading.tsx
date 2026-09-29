@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion } from "framer-motion"
+import { motion, useReducedMotion } from "@company/Motion"
 import type { ReactNode } from "react"
 
 type SunlitHeadingProps = {

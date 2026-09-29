@@ -65,6 +65,102 @@
 					"searchable": true
 				}
 			]
+		},
+		{
+			"slug": "company_achievements",
+			"label": "会社実績",
+			"labelSingular": "会社実績記事",
+			"urlPattern": "/company-achievements/{slug}",
+			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "アイキャッチ画像",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "本文",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "概要",
+					"type": "text"
+				}
+			]
+		},
+		{
+			"slug": "useful_materials",
+			"label": "コラム",
+			"labelSingular": "コラム記事",
+			"urlPattern": "/useful-materials/{slug}",
+			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "アイキャッチ画像",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "本文",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "概要",
+					"type": "text"
+				}
+			]
+		},
+		{
+			"slug": "staff_blog",
+			"label": "スタッフBLOG",
+			"labelSingular": "スタッフBLOG記事",
+			"urlPattern": "/staff-blog/{slug}",
+			"supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "タイトル",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "アイキャッチ画像",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "本文",
+					"type": "portableText",
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "概要",
+					"type": "text"
+				}
+			]
 		}
 	],
 	"taxonomies": [
@@ -113,6 +209,14 @@
 					"label": "Creativity"
 				}
 			]
+		},
+		{
+			"name": "material_category",
+			"label": "コラムカテゴリー",
+			"labelSingular": "コラムカテゴリー",
+			"hierarchical": false,
+			"collections": ["useful_materials"],
+			"terms": []
 		}
 	],
 	"bylines": [

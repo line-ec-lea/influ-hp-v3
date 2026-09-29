@@ -116,7 +116,7 @@ for (const path of paths) {
       assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `homepage: ${id} section`);
     assert.equal((html.match(/data-slide(?:\s|>)/g) ?? []).length, 3, "homepage: all hero images server-rendered");
     assert.equal((html.match(/data-area(?:\s|>)/g) ?? []).length, 7, "homepage: seven focus controls");
-  } else {
+  } else if (path !== "/ax-support") {
     assert.match(html, /client="load"/, `${path}: immediate React hydration configured`);
   }
   assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);

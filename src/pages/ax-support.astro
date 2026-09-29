@@ -1,8 +1,29 @@
 ---
 import Company from "../layouts/Company.astro";
-import Page, { metadata } from "../components/company/ax-support/page";
----
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import Hero from "../components/ax-support/Hero.astro";
+import Definition from "../components/ax-support/Definition.astro";
+import SupportAreas from "../components/ax-support/SupportAreas.astro";
+import Process from "../components/ax-support/Process.astro";
+import RelatedSupport from "../components/ax-support/RelatedSupport.astro";
+import FAQ from "../components/ax-support/FAQ.astro";
+import Contact from "../components/ax-support/Contact.astro";
 
+const metadata = {
+  title: "AX・業務効率化支援",
+  description:
+    "企業のAI活用・AXを、AIマーケティング、コンテンツ、計測、業務効率化まで横断して支援します。",
+  alternates: { canonical: "/ax-support" },
+}
+---
 <Company title={metadata.title} description={metadata.description}>
-  <Page client:load />
+  <CinematicPageFrame>
+    <Hero />
+    <Definition />
+    <SupportAreas />
+    <Process />
+    <RelatedSupport />
+    <FAQ />
+    <Contact />
+  </CinematicPageFrame>
 </Company>

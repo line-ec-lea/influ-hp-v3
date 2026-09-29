@@ -1,0 +1,37 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import AiHomepageGoodFitSequence from "./GoodFitSequence.astro";
+const suitableCompanies = [
+  "制作会社にHPを任せきりで、修正が依頼待ちになる",
+  "保守管理費が続くのに更新や改善が進まない",
+  "CMSやサーバーの運用負荷、セキュリティ更新に課題がある",
+  "記事公開、SEO、CTA改善を自社で速く回したい",
+  "既存HPをリプレイスし、AI活用前提の運用へ移行したい",
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#15130F]"
+        aria-labelledby="suitable-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="max-w-4xl">
+            <p class="text-xs font-bold tracking-[0.18em] text-[#E0C584] uppercase">
+              GOOD FIT
+            </p>
+            <SunlitHeading
+              id="suitable-title"
+              delay={0.08}
+              class="mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+            >
+              こんな会社に向いている
+            </SunlitHeading>
+          </CinematicReveal>
+
+          <AiHomepageGoodFitSequence items={suitableCompanies} />
+        </Container>
+      </section>
+</CinematicSection>

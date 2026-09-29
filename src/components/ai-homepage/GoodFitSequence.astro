@@ -1,0 +1,51 @@
+---
+interface Props { items: string[] }
+const { items } = Astro.props;
+---
+<div data-good-fit class="mt-14 border-y border-[rgba(224,197,132,0.28)] py-9 sm:py-12 lg:mt-20 lg:py-14" aria-label={`向いている会社: ${items.join("、")}`}>
+  <div class="grid gap-5 lg:grid-cols-[minmax(14rem,0.42fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
+    <div class="flex items-center gap-3 lg:gap-5">
+      <p class="text-xs font-bold tracking-[0.18em] text-[#E0C584] uppercase lg:hidden">GOOD FIT</p>
+      <p class="hidden whitespace-nowrap text-[clamp(2.5rem,6vw,6rem)] font-bold leading-none tracking-[-0.075em] text-[#F5F1E8] lg:block">FIT</p>
+      <span data-fit-glow aria-hidden="true" class="h-px w-10 bg-[linear-gradient(90deg,transparent,#F4E8CB_18%,#FFFDF7_50%,#D8C28B_82%,transparent)] lg:h-[clamp(2.4rem,5.3vw,5rem)] lg:w-px lg:bg-[linear-gradient(180deg,transparent,#F4E8CB_18%,#FFFDF7_50%,#D8C28B_82%,transparent)]"></span>
+    </div>
+    <div class="relative flex min-h-32 items-center overflow-hidden sm:min-h-28 lg:min-h-36">
+      {items.map((text, index) => <div data-fit-item hidden={index !== 0} class="bg-[linear-gradient(105deg,#FFFDF7_0%,#F4E8CB_55%,#D8C28B_100%)] bg-clip-text text-xl font-bold leading-[1.5] tracking-[-0.04em] text-transparent sm:text-2xl sm:leading-[1.45] lg:text-[clamp(1.9rem,3.2vw,3rem)] lg:leading-[1.38] lg:tracking-[-0.05em]">{text}</div>)}
+    </div>
+  </div>
+  <div class="mt-5 flex items-center gap-2 sm:mt-6 lg:ml-[calc(29.5%+3rem)] lg:mt-7">
+    {items.map((_, index) => <span data-fit-indicator aria-hidden="true" class={`h-px bg-[#D8C28B] ${index === 0 ? "w-[38px] opacity-100" : "w-[13px] opacity-[0.24]"}`}></span>)}
+  </div>
+</div>
+<script>
+  import { animate, inView, ease, reducedMotion } from "@shared/motion";
+  document.querySelectorAll<HTMLElement>("[data-good-fit]").forEach((sequence) => {
+    const items = [...sequence.querySelectorAll<HTMLElement>("[data-fit-item]")];
+    const indicators = [...sequence.querySelectorAll<HTMLElement>("[data-fit-indicator]")];
+    let active = 0, timer: ReturnType<typeof setInterval> | undefined, visible = false;
+    const stop = () => { clearInterval(timer); timer = undefined; };
+    const start = () => {
+      stop();
+      if (!visible || document.hidden || reducedMotion.matches || items.length < 2) return;
+      timer = setInterval(async () => {
+        const previous = items[active];
+        await animate(previous, { filter: "blur(9px)", opacity: 0, y: "-95%" }, { duration: 0.5, ease });
+        previous.hidden = true;
+        active = (active + 1) % items.length;
+        items[active].hidden = false;
+        animate(items[active], { filter: ["blur(9px)", "blur(0px)"], opacity: [0, 1], y: ["95%", "0%"] }, { duration: 0.5, ease });
+        indicators.forEach((indicator, index) => animate(indicator, { opacity: index === active ? 1 : 0.24, width: index === active ? 38 : 13 }, { duration: 0.32, ease }));
+      }, 3200);
+    };
+    if (!reducedMotion.matches) animate(sequence.querySelector("[data-fit-glow]")!, {
+      opacity: [0.38, 1, 0.38], boxShadow: ["0 0 3px rgba(244,232,203,0.16)", "0 0 16px rgba(255,253,247,0.7)", "0 0 3px rgba(244,232,203,0.16)"],
+    }, { duration: 1.15, repeat: Infinity, ease: "easeInOut" });
+    inView(sequence, () => { visible = true; start(); return () => { visible = false; stop(); }; }, { margin: "0px 0px 34% 0px" });
+    document.addEventListener("visibilitychange", start);
+    reducedMotion.addEventListener("change", start);
+    sequence.addEventListener("pointerenter", stop);
+    sequence.addEventListener("pointerleave", start);
+    window.addEventListener("pagehide", stop);
+    window.addEventListener("pageshow", start);
+  });
+</script>

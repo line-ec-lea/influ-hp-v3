@@ -1,6 +1,6 @@
 ---
-import Container from "./Container.astro";
-import SunlitHeading from "./SunlitHeading.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
 const areas = [
   {
     label: "AI戦略",
@@ -114,7 +114,7 @@ const areas = [
       </Container>
     </section>
 <script>
-  import { animate, ease, reducedMotion, reveal } from "./motion";
+  import { animate, ease, reducedMotion, reveal } from "@shared/motion";
   const section = document.querySelector("#what-we-do")!;
   reveal(section.querySelector("[data-intro]")!, { opacity: [0, 1], y: [22, 0] }, { duration: 0.55 });
   reveal(section.querySelector("[data-focus]")!, { opacity: [0, 1], y: [30, 0] }, { duration: 0.65 });

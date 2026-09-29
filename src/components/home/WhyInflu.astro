@@ -1,6 +1,6 @@
 ---
-import Container from "./Container.astro";
-import SunlitHeading from "./SunlitHeading.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
 const strengths = [
   {
     title: "AIを現場で扱うエンジニアリング力",
@@ -63,7 +63,7 @@ const strengths = [
       </Container>
     </section>
 <script>
-  import { animate, inView, stagger, ease, reducedMotion, reveal } from "./motion";
+  import { animate, inView, stagger, ease, reducedMotion, reveal } from "@shared/motion";
   const section = document.querySelector("#why-influ")!;
   reveal(section.querySelector("[data-intro]")!, { opacity: [0, 1], y: [20, 0] }, { duration: 0.5 }, "-80px");
   if (!reducedMotion.matches) {
@@ -76,4 +76,3 @@ const strengths = [
   section.querySelectorAll("[data-shine]").forEach((shine, index) =>
     reveal(shine, { x: ["-140%", "440%"], opacity: [0, 0.9, 0] }, { duration: 1.25, delay: 0.32 + index * 0.12 }, "-80px"));
 </script>
-

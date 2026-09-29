@@ -2,7 +2,9 @@
 import { Font } from "astro:assets";
 import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
-import { organizationJsonLd, SITE_NAME, SITE_URL } from "../components/company/features/seo";
+import { organizationJsonLd, SITE_NAME, SITE_URL } from "@shared/features/seo";
+import Navbar from "@shared/Navbar.astro";
+import Footer from "@shared/Footer.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -53,7 +55,11 @@ const pageCtx = createPublicPageContext({
     <EmDashBodyStart page={pageCtx} />
     {production && <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-574C7JR" height="0" width="0" class="invisible hidden" title="Google Tag Manager" /></noscript>}
     <a class="fixed -top-24 left-5 z-[400] bg-page px-6 py-4 text-foreground focus:top-3" href="#main-content">本文へスキップ</a>
-    <slot />
+    <Navbar />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
     <EmDashBodyEnd page={pageCtx} />
   </body>
 </html>

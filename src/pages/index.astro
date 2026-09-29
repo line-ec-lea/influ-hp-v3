@@ -1,33 +1,27 @@
 ---
 import Company from "../layouts/Company.astro";
-import Navbar from "../components/home/Navbar.astro";
-import Footer from "../components/home/Footer.astro";
 import LogoIntro from "../components/home/LogoIntro.astro";
 import Hero from "../components/home/Hero.astro";
 import WhatWeDo from "../components/home/WhatWeDo.astro";
 import Services from "../components/home/Services.astro";
 import WhyInflu from "../components/home/WhyInflu.astro";
 import SuitableConsultations from "../components/home/SuitableConsultations.astro";
-import Contact from "../components/home/Contact.astro";
+import Contact from "@shared/Contact.astro";
 ---
 
 <Company
   title="企業のAI活用・AXを伴走する｜株式会社INFLU"
   description="株式会社INFLUは、企業のAI活用・AX（AI Transformation）支援、AIホームページ制作、Webサイト運用改善、AIマーケティング、業務効率化をワンストップで支援。AI時代に対応したWebサイトとビジネス変革を実現します。"
 >
-  <Navbar />
-  <main id="main-content" class="flex-1">
-    <LogoIntro />
-    <div class="bg-[#0B0B0B] font-sans text-[#F5F1E8]">
-      <Hero />
-      <div class="relative isolate overflow-hidden bg-[#0B0B0B]">
-        <WhatWeDo />
-        <Services />
-        <WhyInflu />
-        <SuitableConsultations />
-        <Contact />
-      </div>
+  <LogoIntro />
+  <div class="bg-[#0B0B0B] font-sans text-[#F5F1E8]">
+    <Hero />
+    <div class="relative isolate overflow-hidden bg-[#0B0B0B]">
+      <WhatWeDo />
+      <Services />
+      <WhyInflu />
+      <SuitableConsultations />
+      <Contact />
     </div>
-  </main>
-  <Footer />
+  </div>
 </Company>

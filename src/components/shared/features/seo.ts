@@ -42,4 +42,3 @@ export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
     })),
   }
 }
-

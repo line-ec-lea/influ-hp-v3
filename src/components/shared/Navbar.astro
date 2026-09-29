@@ -1,7 +1,7 @@
 ---
 import Container from "./Container.astro";
-import { siteNavItems } from "@company/features/navigation";
-import { routes } from "@company/features/routes";
+import { siteNavItems } from "@shared/features/navigation";
+import { routes } from "@shared/features/routes";
 const serviceMenuItems = [
   {
     href: routes.aiHomepage,
@@ -28,12 +28,15 @@ const serviceMenuItems = [
 ] as const
 const menuOpen = false;
 const servicesOpen = false;
-const isActive = (item: { href: string }) => item.href === "/";
-const isServiceMenuActive = false;
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isHome = pathname === "/";
+const isActive = (item: { href: string }) =>
+  item.href === "/" ? isHome : pathname === item.href || pathname.startsWith(item.href + "/");
+const isServiceMenuActive = serviceMenuItems.some(isActive);
 const navItemClass = (active: boolean) =>
   `relative rounded-sm px-1 py-2 text-[0.8125rem] transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-[linear-gradient(90deg,transparent,#E0C584,transparent)] after:transition-[width] after:duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] ${active ? "text-[#F5F1E8] after:w-8" : "text-[#B8B1A3] after:w-0 hover:text-[#F5F1E8] hover:after:w-5"}`;
 ---
-<header class="border-[rgba(200,164,93,0.16)] bg-[rgba(11,11,11,0.2)] fixed top-0 z-[200] w-full border-b pt-[env(safe-area-inset-top,0px)] backdrop-blur-md" data-header id="home-header">
+<header class:list={["fixed top-0 z-[200] w-full border-b pt-[env(safe-area-inset-top,0px)] backdrop-blur-md", isHome ? "border-[rgba(200,164,93,0.16)] bg-[rgba(11,11,11,0.2)]" : "border-[rgba(200,164,93,0.25)] bg-[rgba(21,19,15,0.94)] shadow-[0_14px_44px_rgba(0,0,0,0.36)]"]} data-header data-home={isHome} id="site-header">
       <Container class="flex h-14 items-center justify-between md:h-16">
         <a href="/" class="shrink-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0B0B0B]">
           <span class="inline-flex px-0 py-0">
@@ -72,12 +75,12 @@ const navItemClass = (active: boolean) =>
             if (item.href === routes.service) {
               return (
                 <div class="relative">
-                  <a href={item.href} class={navItemClass(serviceActive)} aria-current={serviceActive ? "page" : undefined} aria-expanded={servicesOpen} aria-controls="home-service-menu">
+                  <a href={item.href} class={navItemClass(serviceActive)} aria-current={active ? "page" : undefined} aria-expanded={servicesOpen} aria-controls="service-menu">
                     {item.label}
                   </a>
 
                   {(
-                      <div class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-4" data-service-menu hidden id="home-service-menu">
+                      <div class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-4" data-service-menu hidden id="service-menu">
                         <div class="overflow-hidden rounded-md border border-white/10 bg-[#151515]/98 p-2 shadow-[0_20px_48px_rgba(0,0,0,0.42)] backdrop-blur-xl">
                           <div>
                             {serviceMenuItems.map((service) => {
@@ -119,7 +122,7 @@ const navItemClass = (active: boolean) =>
             }
 
             return (
-              <a href={item.href} class={navItemClass(serviceActive)} aria-current={serviceActive ? "page" : undefined}>
+              <a href={item.href} class={navItemClass(serviceActive)} aria-current={active ? "page" : undefined}>
                 {item.label}
               </a>
             )
@@ -150,7 +153,7 @@ const navItemClass = (active: boolean) =>
                         serviceActive
                           ? "border border-[rgba(200,164,93,0.35)] bg-[rgba(200,164,93,0.1)] text-[#F5F1E8]"
                           : "text-[#B8B1A3] hover:bg-[rgba(200,164,93,0.1)] hover:text-[#F5F1E8]"
-                      }`} aria-current={serviceActive ? "page" : undefined}>
+                      }`} aria-current={active ? "page" : undefined}>
                       {item.label}
                     </a>
                     {item.href === routes.service && (
@@ -191,7 +194,8 @@ const navItemClass = (active: boolean) =>
     </header>
 <script>
   import { animate, stagger, ease, reducedMotion } from "./motion";
-  const header = document.querySelector<HTMLElement>("#home-header")!;
+  const header = document.querySelector<HTMLElement>("#site-header")!;
+  const isHome = header.dataset.home === "true";
   const toggle = header.querySelector<HTMLButtonElement>("[data-menu-toggle]")!;
   const mobile = header.querySelector<HTMLElement>("[data-mobile-menu]")!;
   const dropdown = header.querySelector<HTMLElement>("[data-service-menu]")!;
@@ -201,7 +205,7 @@ const navItemClass = (active: boolean) =>
   let servicesOpen = false;
   let lastSolid: boolean | undefined;
   function updateHeader() {
-    const solid = scrollY > 50 || menuOpen;
+    const solid = scrollY > 50 || menuOpen || !isHome;
     if (solid === lastSolid) return;
     lastSolid = solid;
     animate(header, {
@@ -264,7 +268,7 @@ const navItemClass = (active: boolean) =>
     if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     setMobile(false);
     setServices(false);
-    if (link.getAttribute("href") === "/") {
+    if (isHome && link.getAttribute("href") === "/") {
       event.preventDefault();
       window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "instant" : "smooth" });
     }
@@ -274,4 +278,3 @@ const navItemClass = (active: boolean) =>
   desktop.addEventListener("change", () => { if (desktop.matches) setMobile(false); else setServices(false); });
   updateHeader();
 </script>
-

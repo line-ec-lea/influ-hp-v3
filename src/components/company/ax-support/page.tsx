@@ -1,15 +1,15 @@
-import Site from "@company/Site"
+import MotionProvider from "@shared/react/MotionProvider"
 
-import AsanohaHeroPattern from "@company/components/asanoha-hero-pattern"
-import Container from "@company/components/container"
-import SunlitHeading from "@company/components/home/sunlit-heading"
+import AsanohaHeroPattern from "@shared/react/asanoha-hero-pattern"
+import Container from "@shared/react/container"
+import SunlitHeading from "@shared/react/home/sunlit-heading"
 import {
   CinematicPageFrame,
   CinematicReveal,
-} from "@company/components/motion/cinematic-reveal"
-import SpecularButton from "@company/components/ui/specular-button"
-import { CONTACT_FORM_HREF } from "@company/features/contact"
-import { routes } from "@company/features/routes"
+} from "@shared/react/motion/cinematic-reveal"
+import SpecularButton from "@shared/react/ui/specular-button"
+import { CONTACT_FORM_HREF } from "@shared/features/contact"
+import { routes } from "@shared/features/routes"
 
 export const metadata = {
   title: "AX・業務効率化支援",
@@ -455,5 +455,5 @@ function AxSupportPage() {
 }
 
 export default function Page() {
-  return <Site pathname="/ax-support"><AxSupportPage /></Site>
+  return <MotionProvider><AxSupportPage /></MotionProvider>
 }

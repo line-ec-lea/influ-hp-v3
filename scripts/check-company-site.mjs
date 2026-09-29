@@ -40,6 +40,9 @@ const companyFiles = [
   ...(await readdir(new URL("../src/components/home/", import.meta.url)))
     .filter((name) => /\.(astro|ts)$/.test(name))
     .map((name) => `src/components/home/${name}`),
+  ...(await readdir(new URL("../src/components/shared/", import.meta.url), { recursive: true }))
+    .filter((name) => /\.(astro|tsx|ts)$/.test(name))
+    .map((name) => `src/components/shared/${name}`),
 ];
 for (const path of companyFiles) {
   assert.doesNotMatch(
@@ -53,9 +56,16 @@ for (const path of companyFiles) {
 console.log("PASS Tailwind-only company styling");
 
 const home = await source("src/pages/index.astro");
-for (const section of ["Hero", "WhatWeDo", "Services", "WhyInflu", "SuitableConsultations", "Contact"]) {
+for (const section of ["Hero", "WhatWeDo", "Services", "WhyInflu", "SuitableConsultations"]) {
   assert.match(home, new RegExp(`import ${section} from "../components/home/${section}\\.astro"`));
   assert.ok(home.includes(`<${section} />`), `homepage: composes ${section}`);
+}
+assert.match(home, /import Contact from "@shared\/Contact\.astro"/);
+const layout = await source("src/layouts/Company.astro");
+for (const component of ["Navbar", "Footer"]) {
+  assert.ok(layout.includes(`<${component} />`), `layout owns ${component}`);
+  assert.doesNotMatch(home, new RegExp(`<${component}\\b`), `homepage must not duplicate ${component}`);
+  await assert.rejects(source(`src/components/company/components/${component.toLowerCase()}.tsx`), { code: "ENOENT" });
 }
 for (const file of ["page.tsx", "components/logo-intro.tsx", ...["hero", "what-we-do", "services", "why-influ", "suitable-consultations"].map(name => `components/sections/${name}.tsx`)]) {
   await assert.rejects(source(`src/components/company/${file}`), { code: "ENOENT" });
@@ -110,6 +120,8 @@ for (const path of paths) {
     assert.match(html, /client="load"/, `${path}: immediate React hydration configured`);
   }
   assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);
+  assert.equal((html.match(/<header\b/g) ?? []).length, 1, `${path}: one shared header`);
+  assert.equal((html.match(/<footer\b/g) ?? []).length, 1, `${path}: one shared footer`);
   for (const match of html.matchAll(/<img[^>]+src="(\/[^"?]+)"/g))
     assets.add(match[1]);
   console.log(`PASS ${path}`);

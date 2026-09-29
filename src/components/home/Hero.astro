@@ -1,8 +1,8 @@
 ---
-import SunlitHeading from "./SunlitHeading.astro";
-import SpecularButton from "./SpecularButton.astro";
-import { CONTACT_FORM_HREF } from "@company/features/contact";
-import { routes } from "@company/features/routes";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import { CONTACT_FORM_HREF } from "@shared/features/contact";
+import { routes } from "@shared/features/routes";
 const images = ["/p1.jpg", "/p2.jpg", "/p3.jpg"]
 ---
 <section id="hero" class="relative isolate min-h-svh w-full overflow-hidden bg-[#0B0B0B] text-[#F5F1E8]" aria-labelledby="homepage-heading">
@@ -76,7 +76,7 @@ const images = ["/p1.jpg", "/p2.jpg", "/p3.jpg"]
       </button>
     </section>
 <script>
-  import { animate, scroll, ease, reducedMotion } from "./motion";
+  import { animate, scroll, ease, reducedMotion } from "@shared/motion";
   const hero = document.querySelector("#hero")!;
   const slides = [...hero.querySelectorAll<HTMLElement>("[data-slide]")];
   const buttons = [...hero.querySelectorAll<HTMLButtonElement>("[data-dots] button")];

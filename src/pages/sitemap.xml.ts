@@ -1,5 +1,5 @@
-import { siteNavItems } from "../components/company/features/navigation";
-import { SITE_URL } from "../components/company/features/seo";
+import { siteNavItems } from "@shared/features/navigation";
+import { SITE_URL } from "@shared/features/seo";
 
 export function GET() {
   const paths = [...siteNavItems.map((item) => item.href), "/privacy-policy"];

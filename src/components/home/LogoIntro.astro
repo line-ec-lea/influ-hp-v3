@@ -18,7 +18,7 @@
       </div>
     </div>
 <script>
-  import { animate, ease, reducedMotion } from "./motion";
+  import { animate, ease, reducedMotion } from "@shared/motion";
   const intro = document.querySelector<HTMLElement>("[data-logo-intro]")!;
   if (!reducedMotion.matches) {
     intro.hidden = false;
@@ -45,4 +45,3 @@
     if (!loaded) window.addEventListener("load", onLoad, { once: true });
   }
 </script>
-

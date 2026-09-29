@@ -1,6 +1,6 @@
 "use client"
 
-import { motion, useReducedMotion } from "@company/Motion"
+import { motion, useReducedMotion } from "@shared/react/Motion"
 import type { ReactNode } from "react"
 
 type AiHomepageFreefallCardProps = {

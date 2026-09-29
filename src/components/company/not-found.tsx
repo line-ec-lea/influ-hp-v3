@@ -1,8 +1,8 @@
-import Site from "@company/Site"
-import { cinematicStyles } from "@company/components/cinematic-styles"
-import Container from "@company/components/container"
+import MotionProvider from "@shared/react/MotionProvider"
+import { cinematicStyles } from "@shared/react/cinematic-styles"
+import Container from "@shared/react/container"
 import ContactBlock from "@company/components/sections/contact"
-import SpecularButton from "@company/components/ui/specular-button"
+import SpecularButton from "@shared/react/ui/specular-button"
 
 function NotFound() {
   return (
@@ -27,5 +27,5 @@ function NotFound() {
 }
 
 export default function Page() {
-  return <Site pathname="/404"><NotFound /></Site>
+  return <MotionProvider><NotFound /></MotionProvider>
 }

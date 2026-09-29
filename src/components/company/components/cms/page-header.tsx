@@ -1,8 +1,8 @@
-import { cinematicStyles } from "@company/components/cinematic-styles"
+import { cinematicStyles } from "@shared/react/cinematic-styles"
 import Breadcrumb from "@company/components/cms/breadcrumb"
-import Container from "@company/components/container"
-import { CinematicReveal } from "@company/components/motion/cinematic-reveal"
-import type { BreadcrumbItem } from "@company/features/seo"
+import Container from "@shared/react/container"
+import { CinematicReveal } from "@shared/react/motion/cinematic-reveal"
+import type { BreadcrumbItem } from "@shared/features/seo"
 
 type PageHeaderProps = {
   eyebrow: string

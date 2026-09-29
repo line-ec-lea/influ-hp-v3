@@ -1,8 +1,8 @@
 ---
-import Container from "./Container.astro";
-import SunlitHeading from "./SunlitHeading.astro";
-import SpecularButton from "./SpecularButton.astro";
-import { CONTACT_FORM_HREF } from "@company/features/contact";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import { CONTACT_FORM_HREF } from "@shared/features/contact";
 const consultations = [
   "企業のAI活用をどこから始めるか整理したい",
   "既存HPが更新できず、運用の足かせになっている",
@@ -61,7 +61,7 @@ const consultations = [
       </Container>
     </section>
 <script>
-  import { animate, inView, stagger, ease, reducedMotion, reveal } from "./motion";
+  import { animate, inView, stagger, ease, reducedMotion, reveal } from "@shared/motion";
   const section = document.querySelector("#suitable-consultations")!;
   reveal(section.querySelector("[data-intro]")!, { opacity: [0, 1], y: [20, 0] }, { duration: 0.5 }, "-80px");
   if (!reducedMotion.matches) {
@@ -73,4 +73,3 @@ const consultations = [
   }
   reveal(section.querySelector("[data-cta]")!, { opacity: [0, 1], y: [14, 0] }, { duration: 0.45 }, "0px");
 </script>
-

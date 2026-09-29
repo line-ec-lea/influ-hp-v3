@@ -1,8 +1,8 @@
-import Site from "@company/Site"
+import MotionProvider from "@shared/react/MotionProvider"
 
-import { cinematicStyles } from "@company/components/cinematic-styles"
+import { cinematicStyles } from "@shared/react/cinematic-styles"
 import PageHeader from "@company/components/cms/page-header"
-import Container from "@company/components/container"
+import Container from "@shared/react/container"
 import ContactBlock from "@company/components/sections/contact"
 
 export const metadata = {
@@ -78,5 +78,5 @@ function PrivacyPolicyPage() {
 }
 
 export default function Page() {
-  return <Site pathname="/privacy-policy"><PrivacyPolicyPage /></Site>
+  return <MotionProvider><PrivacyPolicyPage /></MotionProvider>
 }

@@ -1,7 +1,7 @@
 import { Fragment } from "react"
 
 import JsonLd from "@company/components/json-ld"
-import { type BreadcrumbItem, breadcrumbJsonLd } from "@company/features/seo"
+import { type BreadcrumbItem, breadcrumbJsonLd } from "@shared/features/seo"
 
 type BreadcrumbProps = {
   items: BreadcrumbItem[]

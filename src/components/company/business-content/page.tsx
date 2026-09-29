@@ -1,18 +1,18 @@
-import Site from "@company/Site"
-import Image from "@company/Image"
+import MotionProvider from "@shared/react/MotionProvider"
+import Image from "@shared/react/Image"
 
 import BusinessSystemFlow from "@company/business-content/business-system-flow"
-import AsanohaHeroPattern from "@company/components/asanoha-hero-pattern"
-import Container from "@company/components/container"
-import SunlitHeading from "@company/components/home/sunlit-heading"
+import AsanohaHeroPattern from "@shared/react/asanoha-hero-pattern"
+import Container from "@shared/react/container"
+import SunlitHeading from "@shared/react/home/sunlit-heading"
 import {
   CinematicImageReveal,
   CinematicPageFrame,
   CinematicReveal,
-} from "@company/components/motion/cinematic-reveal"
-import SpecularButton from "@company/components/ui/specular-button"
-import { CONTACT_FORM_HREF } from "@company/features/contact"
-import { routes } from "@company/features/routes"
+} from "@shared/react/motion/cinematic-reveal"
+import SpecularButton from "@shared/react/ui/specular-button"
+import { CONTACT_FORM_HREF } from "@shared/features/contact"
+import { routes } from "@shared/features/routes"
 
 export const metadata = {
   title: "事業内容",
@@ -516,5 +516,5 @@ function BusinessContentPage() {
 }
 
 export default function Page() {
-  return <Site pathname="/business-content"><BusinessContentPage /></Site>
+  return <MotionProvider><BusinessContentPage /></MotionProvider>
 }

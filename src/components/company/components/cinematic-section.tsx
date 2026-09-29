@@ -5,7 +5,7 @@ import {
   useReducedMotion,
   useScroll,
   useTransform,
-} from "@company/Motion"
+} from "@shared/react/Motion"
 import type { ReactNode } from "react"
 import { useRef } from "react"
 

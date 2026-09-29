@@ -6,10 +6,17 @@ import { execFileSync } from "node:child_process";
 // Compare against the actual source, allowing only the documented Astro adapters
 // and the user's three excluded article areas. No snapshots that bless a redesign.
 const original = resolve(process.argv[2] ?? "/Users/blaze/react/INFLU");
-const target = new URL("../src/components/company/", import.meta.url);
 const philosophy = (await readFile(resolve(original, "features/company-philosophy.ts"), "utf8")).replace("export const", "const");
-const files = (await readdir(target, { recursive: true }))
-  .filter(file => /\.tsx?$/.test(file) && !["Image.tsx", "Motion.tsx", "Site.tsx"].includes(file));
+const files = (await Promise.all([
+  ["company", "app/"],
+  ["shared/react", "app/components/"],
+  ["shared/features", "features/"],
+].map(async ([folder, prefix]) => {
+  const target = new URL(`../src/components/${folder}/`, import.meta.url);
+  return (await readdir(target, { recursive: true }))
+    .filter(file => /\.tsx?$/.test(file) && !["Image.tsx", "Motion.tsx", "MotionProvider.tsx"].includes(file))
+    .map(file => ({ file, target, originalFile: prefix + file }));
+}))).flat();
 
 function adapted(source, file) {
   if (file === "features/seo.ts") {
@@ -47,12 +54,15 @@ function adapted(source, file) {
   return source.replaceAll('"@/app/', '"@company/').replaceAll('"@/', '"@company/').trim();
 }
 
-for (const file of files) {
-  const originalFile = file.startsWith("features/") ? file : `app/${file}`;
+for (const { file, target, originalFile } of files) {
   const source = await readFile(resolve(original, originalFile), "utf8");
   const copy = (await readFile(new URL(file, target), "utf8"))
-    .replace(/^import Site from "@company\/Site"\n/, "")
-    .replace(/\nexport default function Page\(\) \{\n  return <Site pathname="[^"]+"><\w+ \/><\/Site>\n\}\n$/, "")
+    .replaceAll('"@shared/features/', '"@company/features/')
+    .replaceAll('"@shared/react/Motion"', '"@company/Motion"')
+    .replaceAll('"@shared/react/Image"', '"@company/Image"')
+    .replaceAll('"@shared/react/', '"@company/components/')
+    .replace(/^import MotionProvider from "@company\/components\/MotionProvider"\n/, "")
+    .replace(/\nexport default function Page\(\) \{\n  return <MotionProvider><\w+ \/><\/MotionProvider>\n\}\n$/, "")
     .trim();
   assert.equal(copy, adapted(source, originalFile), `${file}: original content, Tailwind classes and motion logic`);
 }

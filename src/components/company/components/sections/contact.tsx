@@ -1,12 +1,12 @@
 
 import CinematicSection from "@company/components/cinematic-section"
-import { cinematicStyles } from "@company/components/cinematic-styles"
-import Container from "@company/components/container"
-import SunlitHeading from "@company/components/home/sunlit-heading"
-import { CinematicReveal } from "@company/components/motion/cinematic-reveal"
-import SpecularButton from "@company/components/ui/specular-button"
-import { CONTACT_FORM_HREF, RECRUITMENT_FORM_HREF } from "@company/features/contact"
-import { routes } from "@company/features/routes"
+import { cinematicStyles } from "@shared/react/cinematic-styles"
+import Container from "@shared/react/container"
+import SunlitHeading from "@shared/react/home/sunlit-heading"
+import { CinematicReveal } from "@shared/react/motion/cinematic-reveal"
+import SpecularButton from "@shared/react/ui/specular-button"
+import { CONTACT_FORM_HREF, RECRUITMENT_FORM_HREF } from "@shared/features/contact"
+import { routes } from "@shared/features/routes"
 
 type ContactBlockProps = {
   context?: "default" | "homepage"

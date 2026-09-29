@@ -5,7 +5,7 @@ import {
   motion,
   useInView,
   useReducedMotion,
-} from "@company/Motion"
+} from "@shared/react/Motion"
 import { useEffect, useRef, useState } from "react"
 
 type AiHomepageGoodFitSequenceProps = {

@@ -2,7 +2,7 @@
 
 /* eslint-disable functional/immutable-data, @typescript-eslint/no-unsafe-member-access -- OGL exposes mutable shader uniforms and renderer state. */
 
-import { useReducedMotion } from "@company/Motion"
+import { useReducedMotion } from "@shared/react/Motion"
 import { Color, Mesh, Program, Renderer, Triangle } from "ogl"
 import {
   type CSSProperties,

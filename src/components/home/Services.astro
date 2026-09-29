@@ -1,8 +1,8 @@
 ---
-import Container from "./Container.astro";
-import SunlitHeading from "./SunlitHeading.astro";
-import SpecularButton from "./SpecularButton.astro";
-import { routes } from "@company/features/routes";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import { routes } from "@shared/features/routes";
 const serviceLinks = [
   {
     href: routes.aiHomepage,
@@ -74,7 +74,7 @@ const serviceSequence = [
       </Container>
     </section>
 <script>
-  import { animate, inView, ease, reducedMotion, reveal } from "./motion";
+  import { animate, inView, ease, reducedMotion, reveal } from "@shared/motion";
   const section = document.querySelector("#services")!;
   reveal(section.querySelector("[data-intro]")!, { opacity: [0, 1], y: [20, 0] }, { duration: 0.5 });
   const sequence = section.querySelector<HTMLElement>("[data-sequence]")!;

@@ -1,4 +1,4 @@
-import { routes } from "@company/features/routes"
+import { routes } from "@shared/features/routes"
 
 export const siteNavItems = [
   { href: routes.home, label: "HOME" },

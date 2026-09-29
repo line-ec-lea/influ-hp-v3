@@ -82,16 +82,16 @@ The article layout is the standout feature: a three-column reading view with a l
 
 Pages using `src/layouts/Company.astro` use Tailwind utilities directly in the markup. Their only stylesheet entry is `src/styles/global.css`, containing the Tailwind import and `@theme` values. Do not add custom selectors, `<style>` blocks, `@apply`, or imports of the legacy template styles to these pages.
 
-The company pages are a faithful port of `/Users/blaze/react/INFLU` at `fb66476`, not a new design. Preserve the original black/gold palette, Noto Sans JP typography, content and motion. The homepage is composed in `src/pages/index.astro` from separate `src/components/home/*.astro` sections, with native browser scripts using `framer-motion/dom`. Keep it free of a React page wrapper. Other routes still SSR and hydrate their React pages in `src/components/company/` with `client:load`; leave those alone until individually requested. Motion's runtime inline styles are intentional; use native anchors instead of Next.js imports.
+The company pages are a faithful port of `/Users/blaze/react/INFLU` at `fb66476`, not a new design. Preserve the original black/gold palette, Noto Sans JP typography, content and motion. All company routes, including privacy and 404, compose native Astro sections with browser scripts using `framer-motion/dom`. Keep them free of React page wrappers and `client:load`. Motion's runtime inline styles are intentional; use native anchors instead of Next.js imports. React remains installed for EmDash's admin integration.
 
 Keep staff-blog, company-achievements and useful-materials excluded, including their links and homepage sections. Do not add a theme toggle or a duplicate site-data layer. Run `node scripts/check-original-parity.mjs` and `node scripts/check-company-site.mjs` after company changes; the latter needs the local preview running.
 
 ### Component ownership
 
 - Put components reused in more than two places in `src/components/shared/`; reuse that implementation instead of copying it between pages.
-- Keep homepage-only sections in `src/components/home/` and other page-specific code with its page. Common React helpers for pages not yet migrated belong in `src/components/shared/react/`.
+- Keep homepage-only sections in `src/components/home/` and other page-specific sections under `src/components/<page>/`. Keep section content in its Astro frontmatter or markup. Do not restore the removed `company/` React tree or `shared/react/` adapters.
 - `Company.astro` owns the Navbar, main landmark and Footer. Page bodies must not render duplicates. Its navigation reads the current route; do not hard-code homepage behavior.
-- Keep the deferred blog template separate. Contact currently has page-specific designs; agree on those variants before unifying its layout placement.
+- Keep the deferred blog template separate. Contact retains page-specific designs: shared `Contact.astro` for home, shared `GeneralContact.astro` for privacy/404, and each other page's own closing section. Agree on a common variant before unifying its layout placement.
 
 ### Deferred blog template
 

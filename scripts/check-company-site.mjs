@@ -122,7 +122,10 @@ for (const path of paths) {
   }
   if (path === "/business-content") {
     assert.equal((html.match(/data-signal-path(?:\s|>)/g) ?? []).length, 7, "five input and two output signal paths");
+    assert.doesNotMatch(html, /<path[^>]+data-signal-glow[^>]+class="[^"]*opacity-0/, "SVG opacity animation must not be overridden by a CSS utility");
     assert.doesNotMatch(html, /\b(?:strokeWidth|strokeLinecap|stopColor|fontSize)=/, "native SVG attribute names");
+    for (const [svg] of html.matchAll(/<svg\b[\s\S]*?<\/svg>/g))
+      assert.doesNotMatch(svg, /<script\b/, "SVG component scripts must run from the HTML parent");
   }
   if (path === "/company-profile") assert.match(html, /<details\b[^>]*>[\s\S]*?ROUTE GUIDE/, "native access-guide disclosure");
   assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);

@@ -4,24 +4,5 @@ const { d, delay } = Astro.props;
 ---
 <g data-signal-path data-delay={delay}>
   <path d={d} fill="none" stroke="#E0C584" stroke-opacity="0.42" stroke-width="1.5" stroke-linecap="round" />
-  <path data-signal-glow d={d} fill="none" stroke="url(#signal-gold)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 72" filter="url(#signal-glow)" class="opacity-0" />
+  <path data-signal-glow d={d} fill="none" stroke="url(#signal-gold)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 72" filter="url(#signal-glow)" opacity="0" />
 </g>
-<script>
-  import { animate, inView, ease, reducedMotion } from "@shared/motion";
-  if (!reducedMotion.matches) {
-    document.querySelectorAll<SVGElement>("[data-signal-path]").forEach((group) => {
-      const line = group.children[0] as SVGPathElement;
-      const glow = group.children[1];
-      const delay = Number(group.dataset.delay);
-      inView(line, () => {
-        const length = line.getTotalLength();
-        line.style.strokeDasharray = `${length}`;
-        animate(line, { strokeDashoffset: [length, 0], opacity: [0, 1] }, { delay, duration: 1.15, ease });
-      }, { amount: 0.5 });
-      inView(glow, () => {
-        const animation = animate(glow, { opacity: [0, 1, 1, 0.65], strokeDashoffset: [74, -222] }, { delay: delay + 0.65, duration: 3.8, ease: "linear", repeat: Infinity, repeatDelay: 1.2 });
-        return () => animation.stop();
-      }, { amount: 0.5 });
-    });
-  }
-</script>

@@ -287,7 +287,7 @@ const ease = [0.22, 1, 0.36, 1] as const
       </div>
     </div>
 <script>
-  import { animate, inView, reducedMotion } from "@shared/motion";
+  import { animate, inView, ease, reducedMotion } from "@shared/motion";
   import type { DOMKeyframesDefinition, AnimationOptions } from "framer-motion/dom";
   if (!reducedMotion.matches) {
     document.querySelectorAll<HTMLElement | SVGElement>("[data-business-flow] [data-flow-animation]").forEach((element) => {
@@ -300,4 +300,22 @@ const ease = [0.22, 1, 0.36, 1] as const
       if (settings.animate) animate(element, settings.animate, options);
     });
   }
+
+  if (!reducedMotion.matches) {
+    document.querySelectorAll<SVGElement>("[data-signal-path]").forEach((group) => {
+      const line = group.children[0] as SVGPathElement;
+      const glow = group.children[1];
+      const delay = Number(group.dataset.delay);
+      inView(line, () => {
+        const length = line.getTotalLength();
+        line.style.strokeDasharray = `${length}`;
+        animate(line, { strokeDashoffset: [length, 0], opacity: [0, 1] }, { delay, duration: 1.15, ease });
+      }, { amount: 0.5 });
+      inView(glow, () => {
+        const animation = animate(glow, { opacity: [0, 1, 1, 0.65], strokeDashoffset: [74, -222] }, { delay: delay + 0.65, duration: 3.8, ease: "linear", repeat: Infinity, repeatDelay: 1.2 });
+        return () => animation.stop();
+      }, { amount: 0.5 });
+    });
+  }
+
 </script>

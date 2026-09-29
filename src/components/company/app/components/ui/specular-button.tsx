@@ -176,7 +176,15 @@ export default function SpecularButton({
     if (isSmallScreen) return
 
     const dpr = window.devicePixelRatio || 1
+    const canvas = document.createElement("canvas")
+    // The decorative shader must not unmount the page when WebGL is unavailable.
+    if (!canvas.getContext("webgl2")) {
+      button.dataset.noWebgl = "true"
+      return
+    }
+    delete button.dataset.noWebgl
     const renderer = new Renderer({
+      canvas,
       alpha: true,
       premultipliedAlpha: true,
       antialias: true,
@@ -341,6 +349,7 @@ export default function SpecularButton({
     lg: "px-6 py-3.5 text-base sm:px-10 sm:py-[18px] sm:text-[1.15rem]",
   }
   const classes = [
+    "data-[no-webgl]:border-[#9A7B10] data-[no-webgl]:bg-[#111016]/85",
     "relative m-0 inline-grid cursor-pointer place-items-center overflow-visible rounded-[var(--sb-radius)] border border-[#9A7B10] bg-[#111016]/85 font-medium leading-none tracking-[0.01em] text-[var(--sb-text-color)] no-underline shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.25)] outline-none backdrop-blur-[var(--sb-blur)] transition-transform duration-150 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color-mix(in_srgb,var(--sb-text-color)_60%,transparent)] aria-disabled:cursor-default aria-disabled:opacity-55 disabled:cursor-default disabled:opacity-55 disabled:active:scale-100 sm:border-transparent sm:bg-[color-mix(in_srgb,var(--sb-tint)_calc(var(--sb-tint-opacity)*100%),transparent)] motion-reduce:transition-none motion-reduce:active:scale-100",
     sizeClasses[size],
     fullWidth ? "w-full" : "w-fit max-w-full",

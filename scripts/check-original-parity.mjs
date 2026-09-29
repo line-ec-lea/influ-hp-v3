@@ -36,6 +36,17 @@ function adapted(source, file) {
     .replace("organizationJsonLd, SITE_NAME", "SITE_NAME")
     .replace(/^\s*<JsonLd data=\{organizationJsonLd\(\)\} \/>\n/gm, "\n");
   if (/^(app\/privacy-policy\/page|app\/not-found)\.tsx$/.test(file)) source = source.replaceAll("<main ", "<div ").replaceAll("</main>", "</div>");
+  if (file === "app/components/ui/specular-button.tsx") source = source
+    .replace('    const renderer = new Renderer({', `    const canvas = document.createElement("canvas")
+    // The decorative shader must not unmount the page when WebGL is unavailable.
+    if (!canvas.getContext("webgl2")) {
+      button.dataset.noWebgl = "true"
+      return
+    }
+    delete button.dataset.noWebgl
+    const renderer = new Renderer({
+      canvas,`)
+    .replace('  const classes = [', '  const classes = [\n    "data-[no-webgl]:border-[#9A7B10] data-[no-webgl]:bg-[#111016]/85",');
   if (/\/(page|not-found)\.tsx$/.test(file)) source = source.replace("export default function", "function");
   return source.replaceAll('"@/', '"@company/').trim();
 }

@@ -23,6 +23,8 @@ Excluded: `/staff-blog`, `/company-achievements`, `/useful-materials`, their det
 
 Next.js links use native anchors, so route changes are full-page navigations. Astro owns routing, fonts and server rendering; the original Next.js/Vinext runtime is not copied. There is no company theme toggle.
 
+Two compatibility safeguards preserve usability: hydration-safe reduced-motion preferences and a plain bordered button fallback when WebGL2 is unavailable. Supported browsers retain the original shader effect.
+
 ## Development and checks
 
 ```bash

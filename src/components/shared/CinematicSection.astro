@@ -1,0 +1,20 @@
+---
+interface Props { first?: boolean; sticky?: boolean }
+const { first = false, sticky = false } = Astro.props;
+---
+<div class={`relative ${sticky ? "overflow-clip" : "overflow-hidden"}`} data-cinematic-section data-delay={first ? 0.16 : 0}>
+  <slot />
+  <div aria-hidden="true" data-section-shine class="pointer-events-none absolute inset-y-0 left-0 z-50 w-1/4 bg-[linear-gradient(90deg,transparent,rgb(201_165_109_/_0.2),transparent)] mix-blend-screen opacity-0"></div>
+</div>
+<script>
+  import { animate, inView, ease, reducedMotion } from "./motion";
+  if (!reducedMotion.matches) {
+    inView("[data-cinematic-section]", (element) => {
+      animate(element, {
+        clipPath: ["inset(0 0 22% 0)", "inset(0 0 0% 0)"],
+        filter: ["blur(10px)", "blur(0px)"], opacity: [0.16, 1], scale: [0.985, 1], y: [76, 0],
+      }, { delay: Number((element as HTMLElement).dataset.delay), duration: 1.05, ease });
+      animate(element.querySelector("[data-section-shine]")!, { x: ["-120%", "520%"], opacity: [0, 1, 0] }, { duration: 1.35, ease });
+    }, { amount: 0.08 });
+  }
+</script>

@@ -1,8 +1,8 @@
 ---
-interface Props { href: string; target?: string; rel?: string; class?: string }
-const { href, target, rel, class: className = "" } = Astro.props;
+interface Props { href: string; target?: string; rel?: string; class?: string; fullWidth?: boolean }
+const { href, target, rel, class: className = "", fullWidth = false } = Astro.props;
 ---
-<a href={href} target={target} rel={rel} data-specular class={`relative m-0 inline-grid w-fit max-w-full cursor-pointer place-items-center overflow-visible rounded-[18px] border border-[#9A7B10] bg-[#111016]/85 px-6 py-3.5 text-base font-medium leading-none tracking-[0.01em] text-[#f5f5f5] no-underline shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.25)] outline-none transition-transform duration-150 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f5f5f5]/60 sm:px-10 sm:py-[18px] sm:text-[1.15rem] sm:data-[webgl]:border-transparent sm:data-[webgl]:bg-transparent motion-reduce:transition-none motion-reduce:active:scale-100 ${className}`}>
+<a href={href} target={target} rel={rel} data-specular class={`relative m-0 inline-grid ${fullWidth ? "w-full" : "w-fit"} max-w-full cursor-pointer place-items-center overflow-visible rounded-[18px] border border-[#9A7B10] bg-[#111016]/85 px-6 py-3.5 text-base font-medium leading-none tracking-[0.01em] text-[#f5f5f5] no-underline shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.25)] outline-none transition-transform duration-150 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f5f5f5]/60 sm:px-10 sm:py-[18px] sm:text-[1.15rem] sm:data-[webgl]:border-transparent sm:data-[webgl]:bg-transparent motion-reduce:transition-none motion-reduce:active:scale-100 ${className}`}>
   <span data-fx class="pointer-events-none absolute -inset-5 z-[1] overflow-hidden rounded-[38px] [&_canvas]:block [&_canvas]:h-full [&_canvas]:w-full" aria-hidden="true"></span>
   <span class="relative z-[2] inline-flex min-w-0 max-w-full items-center justify-center text-center break-words"><slot /></span>
 </a>

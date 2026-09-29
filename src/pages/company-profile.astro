@@ -1,0 +1,226 @@
+---
+import Company from "../layouts/Company.astro";
+import Contact from "../components/company/Contact.astro";
+import PageIntro from "../components/company/PageIntro.astro";
+// Content migrated from INFLU, commit fb66476 (PR #115).
+const MAP_EMBED_SRC = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d820.2805272925191!2d135.49623626966167!3d34.676867498308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6000e7002a23f2c5%3A0x13e94ff84667def1!2z5qCq5byP5Lya56S-SU5GTFU!5e0!3m2!1sen!2sjp!4v1781254963100!5m2!1sja!2sjp";
+
+const routeSlides = [
+  {
+    "file": "route01.png",
+    "caption": "①・②番出口方向の四ツ橋駅改札を出て、左前方にある②番出口の階段へ上がります。"
+  },
+  {
+    "file": "route02.png",
+    "caption": "②番出口の階段を上がってください。"
+  },
+  {
+    "file": "route03.png",
+    "caption": "②番出口を出ましたら左に曲がります。"
+  },
+  {
+    "file": "route04.png",
+    "caption": "四ツ橋筋と長堀通りの交差点を左に曲がります。"
+  },
+  {
+    "file": "route05.png",
+    "caption": "四ツ橋筋を直進してください。"
+  },
+  {
+    "file": "route06.png",
+    "caption": "直進すると信号があるので渡って進んでください。"
+  },
+  {
+    "file": "route07.png",
+    "caption": "さらに直進すると「林四ツ橋ビル」の看板が見えてきます。"
+  },
+  {
+    "file": "route08.png",
+    "caption": "「林四ツ橋ビル」の9階に弊社の事務所があるので、ビルに入ってください。"
+  },
+  {
+    "file": "route09.png",
+    "caption": "ビルの奥にエレベータがあるので9階まで上がってください。"
+  },
+  {
+    "file": "route10.png",
+    "caption": "901号室が弊社事務所となります。"
+  }
+];
+
+const careerItems = [
+  {
+    "period": "1989",
+    "title": "商いを身近に感じながら育つ",
+    "description": "大阪府に生まれ、事業を営む家族や親族の姿を見ながら、商いと人とのつながりに触れて育つ。高校時代にはホームページ制作も経験する。"
+  },
+  {
+    "period": "2012",
+    "title": "飲食店の現場で、商売の本質を学ぶ",
+    "description": "大学中退後、親戚が営む韓国料理店で修業し、大阪で店舗経営に挑戦。商品だけでなく、接客や集客、日々の改善が事業を支えることを学ぶ。"
+  },
+  {
+    "period": "2015",
+    "title": "WEBを通じた事業支援へ",
+    "description": "個人での情報発信を起点に、メールマガジン運用、販売導線の設計、システム制作・販売へと領域を広げ、事業者の売上づくりを支援する。"
+  },
+  {
+    "period": "NEXT",
+    "title": "顧客と長くつながる仕組みをつくる",
+    "description": "公式LINEを活用した集客・販売・運用支援を通じて、一度きりではなく、顧客との関係が続く仕組みづくりに取り組む。"
+  },
+  {
+    "period": "2019",
+    "title": "株式会社INFLUを設立",
+    "description": "飲食店経営とWEBマーケティングで培った経験をもとに、事業者の挑戦と成長を支える株式会社INFLUを12月に設立する。"
+  },
+  {
+    "period": "NOW",
+    "title": "AIと人が、ともに働ける現場へ",
+    "description": "Lea、オンラインスクール、焼肉処 味来で得た実践知を生かし、HPのAI化とAX・業務効率化支援を展開。企業が自ら運用し、改善を続けられる仕組みをつくる。"
+  }
+];
+
+const experienceStrengths = [
+  {
+    "number": "01",
+    "title": "事業を運営した現場経験",
+    "description": "飲食店を自ら立ち上げ、運営し、撤退まで経験したからこそ、限られた予算や人員の中で挑戦する難しさを理解しています。"
+  },
+  {
+    "number": "02",
+    "title": "マーケティングの実務",
+    "description": "メール、公式LINE、SNS、販売シナリオ、コンテンツを横断し、顧客へ価値を届ける仕組みを実務で磨いてきました。"
+  },
+  {
+    "number": "03",
+    "title": "技術と成果をつなぐ視点",
+    "description": "ホームページやシステムを作るだけで終わらせず、更新、計測、改善まで含めて事業で使い続けられる状態を設計します。"
+  },
+  {
+    "number": "04",
+    "title": "自社で試し、改善する姿勢",
+    "description": "自社サービスや実店舗でも施策を試し、失敗を振り返り、同じ過ちを繰り返さない形で次の改善へつなげます。"
+  }
+];
+
+const supportPrinciples = [
+  {
+    "title": "小さく始めて、確かめながら進める",
+    "description": "最初から大きな仕組みをつくらず、優先度の高い課題から着手し、現場の反応を見ながら育てます。"
+  },
+  {
+    "title": "導入ではなく、使い続けられる状態をつくる",
+    "description": "新しい技術を入れること自体を目的にせず、日々の業務に無理なく定着するところまで支援します。"
+  },
+  {
+    "title": "自社で動かし、改善できる力を残す",
+    "description": "外部へ任せ続ける状態から、必要な更新や改善を自社で判断し、進められる状態へつなげます。"
+  },
+  {
+    "title": "事業の背景を理解し、長く伴走する",
+    "description": "目の前の施策だけで判断せず、事業の成り立ちや想い、これから目指す姿を共有して支援します。"
+  }
+];
+
+const relatedBusinesses = [
+  {
+    "label": "ものづくり",
+    "title": "気軽にEC『Lea = レア』",
+    "description": "いい商品やサービスを持つ事業者と顧客を、LINE連動ECでつなぐ事業です。",
+    "image": "/images/businesses/lea-line-ec.png",
+    "imageAlt": "Leaの管理画面とLINE上の商品画面",
+    "href": "https://lea-market.com/"
+  },
+  {
+    "label": "人づくり",
+    "title": "オンラインスクール",
+    "description": "SNS運用からコンテンツ作成・販売まで、実務で活用するマーケティングの考え方を伝えます。",
+    "image": "/images/influhp/school_image.jpg",
+    "imageAlt": "オンラインスクールの講座を受講している様子"
+  },
+  {
+    "label": "地場づくり",
+    "title": "焼肉処 味来",
+    "description": "心斎橋に根ざす飲食事業であり、実店舗でマーケティング施策を試す実践の場でもあります。",
+    "image": "/images/businesses/mirai-yakiniku.jpg",
+    "imageAlt": "焼肉処 味来で提供する黒毛和牛を焼いている様子",
+    "href": "https://yakinikudokoro-mirai.com/"
+  }
+];
+
+const mediaCoverage = [
+  {
+    "publisher": "Focus On",
+    "title": "試しつづける者が、商いをつくる ― 実践から生まれたマーケティングと生き方",
+    "href": "https://focuson.life/article/view/289",
+    "image": "https://s3-ap-northeast-1.amazonaws.com/stg-focuson-api-assets-d7c/article%2Fcontent%2F2026%2F01%2F1768378946138-inf_1.jpg",
+    "imageAlt": "Focus Onに掲載された株式会社INFLU代表 水戸亮太のインタビュー写真",
+    "detailImage": "https://s3-ap-northeast-1.amazonaws.com/stg-focuson-api-assets-d7c/article%2Fcontent%2F2026%2F01%2F1768379143273-inf_01.jpg",
+    "detailImageAlt": "Focus Onの記事内に掲載されたINFLUの写真",
+    "issue": "FEATURE / 01"
+  },
+  {
+    "publisher": "社長の履歴書",
+    "title": "株式会社INFLU代表 水戸 亮太氏",
+    "href": "https://donzoko-ceo.com/influhp/",
+    "image": "https://donzoko-ceo.com/wp-content/uploads/2024/08/IMG_5855-2-1-scaled-e1722496639667.jpg",
+    "imageAlt": "社長の履歴書に掲載された株式会社INFLU代表 水戸亮太の写真",
+    "issue": "INTERVIEW / 02"
+  }
+];
+
+const accessLines = [
+  "Osaka Metro 四ツ橋線「四ツ橋」駅　2番出口 徒歩3分",
+  "Osaka Metro 鶴見緑地線「西大橋」駅　2番出口 徒歩6分"
+];
+
+
+const companyPhilosophy = {
+  mission: {
+    label: "ミッション",
+    headline:
+      "「誰もがクリエイティブなアイディアや商品やサービスをカンタンに届ける世界を創る」",
+    body: "誰でも、自分の新しいアイディアや商品、サービスをカンタンに届けることができる世界を目指します。",
+  },
+  vision: {
+    label: "ビジョン",
+    headline: "モノ、ジバ、ヒトが集まり成長するコミュニティ",
+    tagline: "とにかく試そう、とにかく語ろう！",
+  },
+  coreValues: {
+    label: "コアバリュー",
+    items: [
+      "とにかく、試す。納得いくまで",
+      "とにかく、語ってみる。自分が腹落ちするまで",
+      "とにかく、出来るように。自然と当たり前に。",
+      "できないことをできるようになろう！",
+      "過去の成功や常識にとらわれず、いつも新しいアイディアや視点を",
+      "成長と上達のために学び、教える。",
+    ],
+  },
+} as const
+
+---
+<Company title="会社概要" description="株式会社INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。">
+  <PageIntro label="ABOUT INFLU" title="会社概要" lead="技術とマーケティングを、現場で使い続けられる仕組みへ。" description="INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。" />
+  <section class="grid gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_1.4fr] lg:gap-24 xl:px-12 2xl:px-16">
+    <div><p class="mb-6 text-xs tracking-widest">MESSAGE FROM OUR FOUNDER</p><img src="/images/company-profile/gochan-message.jpeg" alt="株式会社INFLU 代表取締役 水戸亮太" width="960" height="1200" loading="lazy" class="aspect-[4/5] w-full object-cover grayscale" /><p class="mt-5 text-sm text-secondary">代表取締役</p><p class="mt-2 text-2xl font-medium">水戸 亮太 <span class="ml-3 text-xs font-normal tracking-wide text-secondary">RYOTA MITO</span></p></div>
+    <div><h2 class="mb-10 text-3xl font-semibold leading-relaxed md:text-4xl">挑戦を、<br />続けられる仕組みに。</h2><div class="space-y-7 leading-loose text-secondary">
+      <p>これまで、お客様の商品やサービスを必要な人へ届けるために、何をすべきかを常に考えてきました。お客様の事業が成長することが、私たちの喜びでもあります。</p>
+      <p>飲食店の経営、WEBでの情報発信、メールや公式LINEを使った販売支援、システムづくり。異なるように見える経験のすべてに共通していたのは、現場で試し、数字や反応を確認し、次の改善へつなげることでした。</p>
+      <p>個人時代から一貫して、個人や小さな組織が挑戦し、成長できるよう全面的に支えることを目指してきました。これまで掲げてきた「ノーコードで起業する」という考えを、現在はAIを使いながら自社で運用・改善できる仕組みづくりへ発展させています。</p>
+      <p>目先の施策だけではなく、事業の背景や成長の段階を理解し、長期的な視点で一緒に考える組織でありたいと思っています。事業の成長が、その先の社会価値につながるよう支援を続けてまいります。</p>
+    </div></div>
+  </section>
+  <section class="grid gap-12 border-y border-rule px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_2fr] xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest">OUR JOURNEY</p><h2 class="text-3xl font-semibold leading-relaxed">現場から始まった、<br />私たちの歩み。</h2></div><ol>{careerItems.map(item => <li class="grid gap-4 border-t border-rule py-8 sm:grid-cols-[80px_1fr]"><span class="font-mono text-xs text-accent">{item.period}</span><div><h3 class="mb-3 text-lg font-semibold">{item.title}</h3><p class="leading-loose text-secondary">{item.description}</p></div></li>)}</ol></section>
+  <section class="px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><p class="mb-6 text-xs tracking-widest">EXPERIENCE & PRINCIPLES</p><h2 class="mb-12 text-3xl font-semibold leading-relaxed md:text-4xl">経験を、支える力へ。</h2><div class="grid gap-x-12 md:grid-cols-2">{experienceStrengths.map(item => <article class="border-t border-rule py-8"><p class="font-mono text-xs text-accent">{item.number}</p><h3 class="mt-6 mb-4 text-xl font-semibold">{item.title}</h3><p class="leading-loose text-secondary">{item.description}</p></article>)}</div><h3 class="mt-12 mb-8 text-2xl font-semibold">支援で大切にしていること</h3><div class="grid gap-8 md:grid-cols-2">{supportPrinciples.map(item => <article class="border-l border-rule pl-6"><h4 class="mb-4 text-lg font-medium">{item.title}</h4><p class="leading-loose text-secondary">{item.description}</p></article>)}</div></section>
+  <section class="border-y border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><p class="mb-12 text-xs tracking-widest">OUR PHILOSOPHY</p><div class="grid gap-10 lg:grid-cols-[1fr_2fr]"><h2 class="text-sm">{companyPhilosophy.mission.label} / MISSION</h2><div><p class="text-3xl font-semibold leading-relaxed md:text-4xl">{companyPhilosophy.mission.headline}</p><p class="mt-6 leading-loose text-secondary">{companyPhilosophy.mission.body}</p></div></div><div class="mt-16 grid gap-10 border-t border-rule pt-12 lg:grid-cols-[1fr_2fr]"><h3 class="text-sm">{companyPhilosophy.vision.label} / VISION</h3><div><p class="text-2xl font-medium leading-relaxed">{companyPhilosophy.vision.headline}</p><p class="mt-4 text-secondary">{companyPhilosophy.vision.tagline}</p></div></div><div class="mt-12 grid gap-10 border-t border-rule pt-12 lg:grid-cols-[1fr_2fr]"><h3 class="text-sm">{companyPhilosophy.coreValues.label} / VALUES</h3><ol class="space-y-5">{companyPhilosophy.coreValues.items.map((item,i) => <li class="flex gap-5 leading-loose"><span class="font-mono text-xs text-accent">0{i+1}</span>{item}</li>)}</ol></div></section>
+  <section class="px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><p class="mb-6 text-xs tracking-widest">OUR BUSINESSES</p><h2 class="mb-12 text-3xl font-semibold">モノ、ヒト、ジバをつなぐ。</h2><div class="grid gap-10 md:grid-cols-3">{relatedBusinesses.map(item => <article><img src={item.image} alt={item.imageAlt} width="900" height="600" loading="lazy" class="aspect-[3/2] w-full object-cover grayscale" /><p class="mt-6 text-xs text-secondary">{item.label}</p><h3 class="mt-3 mb-4 text-xl font-semibold">{item.title}</h3><p class="leading-loose text-secondary">{item.description}</p>{item.href && <a href={item.href} target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-11 items-center gap-10 border-b border-ink py-3 text-sm hover:text-accent">公式サイトへ<span aria-hidden="true">↗</span></a>}</article>)}</div></section>
+  <section class="grid gap-12 border-y border-rule px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_2fr] xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest">IN THE MEDIA</p><h2 class="text-3xl font-semibold">メディア掲載</h2></div><div>{mediaCoverage.map(item => <a href={item.href} target="_blank" rel="noopener noreferrer" class="group block border-t border-rule py-8"><p class="mb-4 flex justify-between text-xs tracking-wide text-secondary">{item.publisher}<span aria-hidden="true">↗</span></p><h3 class="text-xl font-medium leading-relaxed group-hover:text-accent">{item.title}</h3></a>)}</div></section>
+  <section class="grid gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_2fr] xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest">COMPANY INFORMATION</p><h2 class="text-3xl font-semibold">会社情報</h2></div><dl class="divide-y divide-rule border-y border-rule [&>div]:grid [&>div]:grid-cols-[80px_1fr] [&>div]:gap-5 [&>div]:py-6 [&_dt]:text-sm [&_dd]:text-sm [&_dd]:leading-loose [&_dd]:text-secondary sm:[&>div]:grid-cols-[140px_1fr]">
+    <div><dt>会社名</dt><dd>株式会社INFLU</dd></div><div><dt>代表者</dt><dd>水戸 亮太</dd></div><div><dt>設立</dt><dd>2019年12月</dd></div><div><dt>資本金</dt><dd>5,550,000円</dd></div><div><dt>所在地</dt><dd>〒550-0013<br />大阪府大阪市西区新町1丁目8-3<br />林四ツ橋ビル9階901号室</dd></div><div><dt>事業内容</dt><dd><ul class="space-y-2"><li>HPのAI化</li><li>AX・業務効率化支援</li><li>WEBマーケティング事業</li><li>アウトソーシング事業</li><li>コンテンツ作成事業</li><li>WEBエンジニアの育成及びWEBシステムの開発と運営</li><li>WEBエンジニア育成スクールの運営</li><li>データサイエンスからの経営改善アドバイス事業</li><li>LINE連動EC Lea</li><li>飲食事業 焼肉処味来</li></ul></dd></div><div><dt>方針</dt><dd><a href="https://influ-inc.notion.site/info-sec-policy" target="_blank" rel="noopener noreferrer" class="underline underline-offset-4 hover:text-accent">情報セキュリティ基本方針 ↗</a></dd></div>
+  </dl></section>
+  <section id="a02" class="border-t border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><div class="mb-12 grid gap-10 lg:grid-cols-2"><div><p class="mb-6 text-xs tracking-widest">VISIT US</p><h2 class="text-3xl font-semibold">大阪・新町で、お待ちしています。</h2></div><div><ul class="space-y-3 text-sm leading-loose text-secondary">{accessLines.map(line => <li>{line}</li>)}</ul><a href="https://www.google.com/maps/search/?api=1&query=%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BEINFLU" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex min-h-11 items-center gap-10 border-b border-ink py-3 text-sm hover:text-accent">Google Mapsで開く<span aria-hidden="true">↗</span></a></div></div><iframe src={MAP_EMBED_SRC} title="株式会社INFLUへのアクセスマップ" width="1400" height="480" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="h-80 w-full border-0 grayscale md:h-[480px]"></iframe><details class="group mt-10 border-y border-rule"><summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-6 text-lg [&::-webkit-details-marker]:hidden">四ツ橋駅からの道順<span class="text-2xl group-open:rotate-45" aria-hidden="true">+</span></summary><ol class="grid gap-8 pb-10 sm:grid-cols-2 lg:grid-cols-3">{routeSlides.map((slide,i) => <li><img src={"/influhp-assets/wp-content/themes/top/images/"+slide.file} alt={slide.caption} loading="lazy" width="640" height="480" class="aspect-[4/3] w-full object-cover" /><p class="mt-4 text-sm leading-loose"><span class="mr-3 font-mono text-xs text-accent">{String(i+1).padStart(2,"0")}</span>{slide.caption}</p></li>)}</ol></details></section>
+  <Contact />
+</Company>

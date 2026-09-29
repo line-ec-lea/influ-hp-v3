@@ -1,466 +1,89 @@
 ---
-import {
-	getEmDashCollection,
-	getTermsForEntries,
-	getSiteSettings,
-} from "emdash";
-import { Image } from "emdash/ui";
-import Base from "../layouts/Base.astro";
-import PostCard from "../components/PostCard.astro";
-import { getReadingTime } from "../utils/reading-time";
-import { resolveBlogSiteIdentity } from "../utils/site-identity";
-
-// Limit to what we render (1 featured + 6 grid). The DB does the slicing
-// instead of fetching every post and discarding the tail in JS.
-const POSTS_PER_PAGE = 7;
-
-const [{ entries: posts, cacheHint }, settings] = await Promise.all([
-	getEmDashCollection("posts", {
-		orderBy: { published_at: "desc" },
-		limit: POSTS_PER_PAGE + 1, // +1 to detect "view all" need
-	}),
-	getSiteSettings(),
-]);
-const { siteTitle, siteTagline } = resolveBlogSiteIdentity(settings);
-
-if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-
-// Trim the lookahead post used to detect overflow
-const visiblePosts = posts.slice(0, POSTS_PER_PAGE);
-const hasMorePosts = posts.length > POSTS_PER_PAGE;
-
-// Find the first post with a featured image for the hero
-const featuredPost = visiblePosts.find((p) => p.data.featured_image);
-const featuredIndex = featuredPost ? visiblePosts.indexOf(featuredPost) : -1;
-
-// Get remaining posts (exclude featured if found, limit to 6 for grid)
-const gridPosts = visiblePosts
-	.filter((_, i) => i !== featuredIndex)
-	.slice(0, 6);
-
-// Single batched query for tags across the featured post + grid posts.
-// Avoids the N+1 pattern of calling getEntryTerms() per entry.
-// Bylines are already hydrated on entry.data.bylines by getEmDashCollection.
-const tagEntryIds = [
-	...(featuredPost ? [featuredPost.data.id] : []),
-	...gridPosts.map((p) => p.data.id),
+import Company from "../layouts/Company.astro";
+import Contact from "../components/company/Contact.astro";
+import OfficeGallery from "../components/company/OfficeGallery";
+// Content migrated from INFLU, commit fb66476 (PR #115).
+const areas = [
+  {
+    "label": "AI戦略",
+    "description": "事業課題に合わせて、AI活用の優先順位と導入ロードマップを設計します。"
+  },
+  {
+    "label": "SEO",
+    "description": "検索ニーズと競合状況を整理し、必要な情報へ自然に届くサイト構造と記事設計を整えます。"
+  },
+  {
+    "label": "マーケティング",
+    "description": "届けたい相手と価値を明確にし、発信から問い合わせまで一貫した導線を設計します。"
+  },
+  {
+    "label": "Webデザイン",
+    "description": "企業らしさと使いやすさを両立し、安心して相談できるWeb体験をかたちにします。"
+  },
+  {
+    "label": "Webサイト改善",
+    "description": "ホームページを集客・信頼形成・問い合わせにつながる導線へ整えます。"
+  },
+  {
+    "label": "集客",
+    "description": "マーケティング視点で、見込み顧客との接点づくりと改善を支援します。"
+  },
+  {
+    "label": "業務効率化",
+    "description": "日々の業務にAIを組み込み、現場で継続して使える仕組みにします。"
+  }
 ];
-const tagsByEntry = await getTermsForEntries("posts", tagEntryIds, "tag");
 
-const featuredTags = featuredPost
-	? (tagsByEntry.get(featuredPost.data.id) ?? []).map((t) => ({
-			slug: t.slug,
-			label: t.label,
-		}))
-	: [];
-const featuredBylines = featuredPost?.data.bylines ?? [];
+const strengths = [
+  {
+    "title": "AIを現場で扱うエンジニアリング力",
+    "description": "AIを概念ではなく、日々の業務やWeb運用で動く仕組みとして設計・実装します。"
+  },
+  {
+    "title": "マーケティング実務の知見",
+    "description": "集客、導線改善、問い合わせ獲得まで、現場の数字に近い視点でAI活用を組み立てます。"
+  },
+  {
+    "title": "事業やサイトの詰まりから考える姿勢",
+    "description": "ツール導入から入らず、事業・サイト・運用のどこが詰まっているかを見極めて支援します。"
+  }
+];
 
-const gridPostsWithTags = gridPosts.map((post) => ({
-	post,
-	tags: (tagsByEntry.get(post.data.id) ?? []).map((t) => ({
-		slug: t.slug,
-		label: t.label,
-	})),
-	bylines: post.data.bylines ?? [],
-}));
+const consultations = [
+  "企業のAI活用をどこから始めるか整理したい",
+  "既存HPが更新できず、運用の足かせになっている"
+];
 
-// Format date helper
-function formatDate(date: Date | null | undefined) {
-	if (!date) return null;
-	return date.toLocaleDateString("en-US", {
-		year: "numeric",
-		month: "long",
-		day: "numeric",
-	});
-}
+
 ---
-
-<Base title={siteTitle} description={siteTagline}>
-	{
-		posts.length === 0 ? (
-			<section class="empty-state">
-				<h1>No posts yet</h1>
-				<p>Create your first post in the admin panel.</p>
-				<a href="/_emdash/admin/content/posts/new" class="btn">
-					Create a post
-				</a>
-			</section>
-		) : (
-			<div class="home-content">
-				{/* Featured Post - Side by side */}
-				{featuredPost && (
-					<section class="featured-section">
-						<div class="featured-grid">
-							<a href={`/posts/${featuredPost.id}`} class="featured-image-link">
-								<div class="featured-image" {...featuredPost.edit.featured_image}>
-									<Image image={featuredPost.data.featured_image} />
-								</div>
-							</a>
-							<div class="featured-content">
-								<div class="featured-meta">
-									{featuredBylines.length > 0 && (
-										<>
-											<div class="featured-bylines">
-												{featuredBylines.slice(0, 2).map((credit, index) => (
-													<>
-														{index > 0 && <span class="byline-sep">,</span>}
-														<span class="featured-byline">
-															{credit.byline.avatarMediaId && (
-																<img
-																	src={`/_emdash/api/media/file/${credit.byline.avatarMediaId}`}
-																	alt={credit.byline.displayName}
-																	class="featured-byline-avatar"
-																/>
-															)}
-															<span class="featured-byline-name">
-																{credit.byline.displayName}
-															</span>
-														</span>
-													</>
-												))}
-												{featuredBylines.length > 2 && (
-													<span class="byline-more">
-														+{featuredBylines.length - 2}
-													</span>
-												)}
-											</div>
-											<span class="meta-dot" />
-										</>
-									)}
-									{formatDate(featuredPost.data.publishedAt) && (
-										<time>{formatDate(featuredPost.data.publishedAt)}</time>
-									)}
-									<span class="meta-dot" />
-									<span>
-										{getReadingTime(featuredPost.data.content)} min read
-									</span>
-								</div>
-								<a
-									href={`/posts/${featuredPost.id}`}
-									class="featured-title-link"
-								>
-									<h1 class="featured-title" {...featuredPost.edit.title}>{featuredPost.data.title}</h1>
-								</a>
-								{featuredPost.data.excerpt && (
-									<p class="featured-excerpt" {...featuredPost.edit.excerpt}>{featuredPost.data.excerpt}</p>
-								)}
-								{featuredTags.length > 0 && (
-									<div class="featured-tags">
-										{featuredTags.map((tag) => (
-											<a href={`/tag/${tag.slug}`} class="featured-tag">
-												{tag.label}
-											</a>
-										))}
-									</div>
-								)}
-							</div>
-						</div>
-					</section>
-				)}
-
-				{/* Latest Posts */}
-				{gridPostsWithTags.length > 0 && (
-					<section class="posts-section">
-						<header class="section-header">
-							<h2 class="section-title">Latest</h2>
-							{hasMorePosts && (
-								<a href="/posts" class="section-link">
-									View all
-								</a>
-							)}
-						</header>
-						<div class="posts-grid">
-							{gridPostsWithTags.map(({ post, tags, bylines }) => (
-								<PostCard
-									title={post.data.title ?? "Untitled"}
-									excerpt={post.data.excerpt}
-									featuredImage={post.data.featured_image}
-									href={`/posts/${post.id}`}
-									date={post.data.publishedAt ?? undefined}
-									readingTime={getReadingTime(post.data.content)}
-									tags={tags}
-									bylines={bylines}
-									edit={post.edit}
-								/>
-							))}
-						</div>
-					</section>
-				)}
-			</div>
-		)
-	}
-</Base>
-
-<style>
-	.home-content {
-		max-width: var(--wide-width);
-		margin: 0 auto;
-		padding: var(--spacing-16) var(--spacing-6);
-	}
-
-	/* Featured Section - Side by side */
-	.featured-section {
-		margin-bottom: var(--spacing-16);
-	}
-
-	.featured-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-8);
-		align-items: center;
-	}
-
-	.featured-image-link {
-		grid-column: 1 / 3;
-		display: block;
-		/* Extend to viewport edge, but cap at -6rem minimum extension */
-		margin-left: min(
-			-6rem,
-			calc(-1 * (var(--spacing-6) + (100vw - var(--wide-width)) / 2))
-		);
-	}
-
-	.featured-image {
-		overflow: hidden;
-		border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-		background: var(--color-surface);
-	}
-
-	.featured-image img {
-		width: 100%;
-		height: auto;
-		aspect-ratio: 4 / 3;
-		object-fit: cover;
-		transition: transform 0.4s ease;
-	}
-
-	.featured-image-link:hover .featured-image img,
-	.featured-grid:has(.featured-title-link:hover) .featured-image img {
-		transform: scale(1.02);
-	}
-
-	.featured-content {
-		display: flex;
-		flex-direction: column;
-		gap: var(--spacing-4);
-	}
-
-	.featured-meta {
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		column-gap: var(--spacing-3);
-		row-gap: var(--spacing-1);
-		font-size: var(--font-size-sm);
-		color: var(--color-muted);
-	}
-
-	.meta-dot {
-		width: 3px;
-		height: 3px;
-		border-radius: 50%;
-		background: var(--color-muted);
-	}
-
-	/* Featured bylines */
-	.featured-bylines {
-		display: flex;
-		align-items: center;
-		gap: 2px;
-	}
-
-	.featured-byline {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--spacing-2);
-	}
-
-	.featured-byline-avatar {
-		width: var(--avatar-size-md);
-		height: var(--avatar-size-md);
-		border-radius: 50%;
-		object-fit: cover;
-	}
-
-	.featured-byline-name {
-		font-weight: 500;
-		color: var(--color-text-secondary);
-	}
-
-	.byline-sep {
-		color: var(--color-muted);
-		margin-right: 2px;
-	}
-
-	.byline-more {
-		font-size: var(--font-size-xs);
-		color: var(--color-muted);
-		margin-left: 2px;
-	}
-
-	.featured-title-link {
-		text-decoration: none;
-		color: inherit;
-	}
-
-	.featured-title {
-		font-size: clamp(var(--font-size-2xl), 4vw, var(--font-size-4xl));
-		font-weight: var(--font-weight-display);
-		line-height: var(--leading-tight);
-		letter-spacing: var(--tracking-tight);
-		transition: color var(--transition-fast);
-	}
-
-	.featured-title-link:hover .featured-title,
-	.featured-grid:has(.featured-image-link:hover) .featured-title {
-		color: var(--color-brand);
-	}
-
-	.featured-excerpt {
-		font-size: var(--font-size-lg);
-		line-height: var(--leading-relaxed);
-		color: var(--color-text-secondary);
-	}
-
-	.featured-tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--spacing-2);
-		margin-top: var(--spacing-2);
-	}
-
-	.featured-tag {
-		display: inline-block;
-		padding: var(--tag-padding-y) var(--spacing-2);
-		font-size: var(--font-size-xs);
-		color: var(--color-text-secondary);
-		background: var(--color-surface);
-		border-radius: var(--radius);
-		text-decoration: none;
-		transition:
-			color var(--transition-fast),
-			background var(--transition-fast);
-	}
-
-	.featured-tag:hover {
-		color: var(--color-text);
-		background: var(--color-border);
-	}
-
-	/* Section header */
-	.section-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		margin-bottom: var(--spacing-8);
-		padding-bottom: var(--spacing-4);
-		border-bottom: 1px solid var(--color-border-subtle);
-	}
-
-	.section-title {
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: var(--tracking-wider);
-		color: var(--color-muted);
-	}
-
-	.section-link {
-		font-size: var(--font-size-sm);
-		color: var(--color-brand);
-		text-decoration: none;
-		transition: color var(--transition-fast);
-	}
-
-	.section-link:hover {
-		color: var(--color-brand-hover);
-	}
-
-	/* Posts Grid */
-	.posts-section {
-	}
-
-	.posts-grid {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: var(--spacing-12) var(--spacing-8);
-	}
-
-	/* Empty State */
-	.empty-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: var(--spacing-3);
-		text-align: center;
-		padding: var(--spacing-20) var(--spacing-6);
-		max-width: 400px;
-		margin: 0 auto;
-	}
-
-	.empty-state h2 {
-		font-size: var(--font-size-2xl);
-		font-weight: var(--font-weight-heading);
-	}
-
-	.empty-state p {
-		color: var(--color-muted);
-	}
-
-	.btn {
-		display: inline-block;
-		margin-top: var(--spacing-4);
-		padding: var(--spacing-3) var(--spacing-6);
-		background: var(--color-brand);
-		color: var(--color-on-brand);
-		text-decoration: none;
-		border-radius: var(--radius);
-		font-size: var(--font-size-sm);
-		font-weight: 500;
-		transition: background var(--transition-fast);
-	}
-
-	.btn:hover {
-		background: var(--color-brand-hover);
-	}
-
-	/* Responsive */
-	@media (max-width: 900px) {
-		.home-content {
-			padding: var(--spacing-6) var(--spacing-4) var(--spacing-12);
-		}
-
-		.featured-image-link {
-			margin-left: 0;
-		}
-
-		.featured-grid {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-6);
-		}
-
-		.featured-image {
-			border-radius: var(--radius-lg);
-		}
-
-		.featured-image img {
-			aspect-ratio: 16 / 9;
-		}
-
-		.posts-grid {
-			grid-template-columns: repeat(2, 1fr);
-			gap: var(--spacing-8) var(--spacing-6);
-		}
-	}
-
-	@media (max-width: 600px) {
-		.featured-title {
-			font-size: var(--font-size-2xl);
-		}
-
-		.posts-grid {
-			grid-template-columns: 1fr;
-			gap: var(--spacing-8);
-		}
-	}
-</style>
+<Company title="株式会社INFLU｜AIホームページ制作・AX支援" description="大阪を拠点に、AIホームページ制作・業務効率化支援・AI活用の導入整理まで、現場で使い続けられる形で伴走します。">
+  <section class="px-5 pt-7 pb-8 sm:px-8 md:pt-10 xl:px-12 2xl:px-16" aria-labelledby="hero-title">
+    <div class="mb-8 flex items-center justify-between gap-6 text-[10px] tracking-widest md:mb-12 md:text-xs"><span class="flex items-center gap-3"><span class="size-1.5 rounded-full bg-accent"></span>AX & MARKETING PARTNER</span><span class="hidden sm:block">INFLU INC. — OSAKA, JAPAN</span><span class="sm:hidden">OSAKA, JP</span></div>
+    <div class="grid gap-10 lg:min-h-[620px] lg:grid-cols-[1.18fr_1fr] lg:gap-12 xl:min-h-[680px]">
+      <div class="flex flex-col justify-between pb-4">
+        <h1 id="hero-title" class="font-semibold leading-[1.35] tracking-[-.055em]"><span class="mb-5 block text-[clamp(1.2rem,2.2vw,2.5rem)] tracking-tight">AIホームページ制作と</span><span class="block text-[clamp(3rem,5.7vw,7.5rem)]">AX支援を、<br />現場に合う<br /><span class="text-secondary">かたちへ。</span></span></h1>
+        <div class="mt-10 max-w-md"><p class="mb-7 text-sm leading-loose text-secondary md:text-base">大阪を拠点に、AIホームページ制作・業務効率化支援・AI活用の導入整理まで、現場で使い続けられる形で伴走します。</p><a href="/business-content" class="flex min-h-11 w-full items-center justify-between gap-10 border-b border-ink py-3 text-sm hover:text-accent sm:w-64">私たちの事業について<span aria-hidden="true">↗</span></a></div>
+      </div>
+      <OfficeGallery client:load />
+    </div>
+    <div class="mt-8 flex flex-wrap justify-between gap-4 border-t border-rule pt-5 text-[10px] tracking-widest text-secondary"><span>TECHNOLOGY × MARKETING × PEOPLE</span><a href="#what-we-do" class="hover:text-accent">SCROLL TO EXPLORE ↓</a></div>
+  </section>
+  <section id="what-we-do" class="border-b border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16">
+    <div class="grid gap-12 lg:grid-cols-[1fr_2fr] lg:gap-20"><p class="flex items-start gap-6 text-xs tracking-widest"><span class="text-accent">01 /</span> WHAT WE DO</p><div><h2 class="text-4xl font-semibold leading-[1.45] tracking-tight md:text-5xl xl:text-6xl">難しいAIを、<br />使い続けられる<br class="sm:hidden" />仕組みに。</h2><p class="mt-10 max-w-3xl leading-loose text-secondary md:text-lg">企業のAI活用を、マーケティングと実装の両面から伴走します。ツール選定だけでなく、発信内容、Webサイト、社内運用まで整理し、現場で動き続ける仕組みとして定着させます。</p></div></div>
+    <div class="mt-16 grid border-t border-rule sm:grid-cols-2 lg:grid-cols-4">{areas.map((area, i) => <details class="group border-b border-rule py-5 sm:mr-8"><summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-sm [&::-webkit-details-marker]:hidden"><span><span class="mr-4 font-mono text-xs text-secondary">0{i + 1}</span>{area.label}</span><span class="text-accent group-open:rotate-45" aria-hidden="true">+</span></summary><p class="pt-3 text-sm leading-loose text-secondary">{area.description}</p></details>)}</div>
+  </section>
+  <section class="px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16">
+    <div class="mb-12 flex flex-wrap items-end justify-between gap-8"><div><p class="mb-6 text-xs tracking-widest"><span class="mr-6 text-accent">02 /</span> OUR SERVICES</p><h2 class="text-3xl font-semibold leading-relaxed md:text-4xl">つくる。動かす。<br />自分たちの力にする。</h2></div><a class="inline-flex min-h-11 items-center gap-10 border-b border-ink py-3 text-sm hover:text-accent" href="/business-content">事業内容を詳しく見る <span aria-hidden="true">↗</span></a></div>
+    <div class="border-t border-rule">
+      <a href="/ai-homepage" class="group grid gap-8 border-b border-rule py-10 transition-colors hover:text-accent md:grid-cols-[.25fr_1fr_1fr_50px] md:py-14"><span class="font-mono text-xs text-secondary">01</span><div><p class="mb-4 text-xs tracking-widest text-secondary">AI-READY HOMEPAGE</p><h3 class="text-3xl font-semibold leading-relaxed xl:text-4xl">HPのAI化</h3></div><div><p class="mb-4 text-lg font-medium leading-relaxed">既存ホームページを、AI活用前提の運用へ。</p><p class="text-sm leading-loose text-secondary">ホームページを、専門業者へ依頼し続けるものから、社内で育てられる事業基盤へ変えていきます。</p></div><span class="flex size-12 items-center justify-center rounded-full border border-rule text-2xl transition-transform group-hover:rotate-45" aria-hidden="true">↗</span></a>
+      <a href="/ax-support" class="group grid gap-8 border-b border-rule py-10 transition-colors hover:text-accent md:grid-cols-[.25fr_1fr_1fr_50px] md:py-14"><span class="font-mono text-xs text-secondary">02</span><div><p class="mb-4 text-xs tracking-widest text-secondary">AX SUPPORT</p><h3 class="text-3xl font-semibold leading-relaxed xl:text-4xl">AX・業務効率化支援</h3></div><div><p class="mb-4 text-lg font-medium leading-relaxed">AIを、企業の業務とマーケティングの実務へ。</p><p class="text-sm leading-loose text-secondary">AIを導入して終わらせず、現場で使い続けられる業務の仕組みとして定着させます。</p></div><span class="flex size-12 items-center justify-center rounded-full border border-rule text-2xl transition-transform group-hover:rotate-45" aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+  <section class="border-y border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16">
+    <div class="mb-12 flex flex-wrap items-end justify-between gap-8"><div><p class="mb-6 text-xs tracking-widest"><span class="mr-6 text-accent">03 /</span> WHY INFLU</p><h2 class="text-3xl font-semibold leading-relaxed md:text-4xl">技術だけでなく、<br />事業と現場を理解する。</h2></div><p class="max-w-sm text-sm leading-loose text-secondary">現場で試す。反応を見る。次の改善へつなげる。<br />私たち自身も、事業の当事者です。</p></div>
+    <div class="grid divide-y divide-rule border-y border-rule md:grid-cols-3 md:divide-x md:divide-y-0">{strengths.map((item, i) => <article class="py-10 md:px-8 md:first:pl-0 md:last:pr-0"><span class="font-mono text-xs text-accent">0{i + 1}</span><h3 class="mt-8 mb-5 text-xl font-semibold leading-relaxed">{item.title}</h3><p class="leading-loose text-secondary">{item.description}</p></article>)}</div>
+    <a href="/company-profile" class="mt-10 inline-flex min-h-11 items-center gap-10 border-b border-ink py-3 text-sm hover:text-accent">INFLUについて <span aria-hidden="true">↗</span></a>
+  </section>
+  <section class="grid gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_2fr] lg:gap-20 xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest"><span class="mr-6 text-accent">04 /</span> START A CONVERSATION</p><h2 class="text-3xl font-semibold leading-relaxed">こんなお悩みから、<br />ご相談いただけます。</h2></div><ul class="divide-y divide-rule border-y border-rule">{consultations.map((item, i) => <li class="flex items-start gap-6 py-6 leading-loose"><span class="pt-1 font-mono text-xs text-accent">0{i + 1}</span><p class="text-lg md:text-xl">{item}</p></li>)}</ul></section>
+  <Contact />
+</Company>

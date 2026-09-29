@@ -1,0 +1,92 @@
+---
+import Company from "../layouts/Company.astro";
+import Contact from "../components/company/Contact.astro";
+import PageIntro from "../components/company/PageIntro.astro";
+// Content migrated from INFLU, commit fb66476 (PR #115).
+const commonIssues = [
+  "保守管理の内容が見えにくい",
+  "軽微な修正にも、依頼と確認のやり取りが必要になる",
+  "記事公開やSEO施策に時間がかかり、改善を進めにくい",
+  "CMSやサーバーの更新・セキュリティ対応が把握しにくい"
+];
+
+const definitionPoints = [
+  "見た目を変えるだけでなく、制作・保守・更新・改善の進め方そのものを見直す",
+  "自社で情報や記事を管理し、AIを活用して修正やカスタマイズを行う",
+  "表示と更新を支える仕組みを整え、外部に頼りすぎない運用へ整える",
+  "技術導入を目的にせず、自社で運用・改善を続けられる状態を目指す"
+];
+
+const comparisonRows = [
+  {
+    "label": "記事管理",
+    "before": "外部に依存した記事管理",
+    "after": "自社で記事を作成・管理する運用"
+  },
+  {
+    "label": "サイト修正",
+    "before": "制作会社への依頼中心",
+    "after": "AIを活用し、社内で確認しながら進める運用"
+  },
+  {
+    "label": "表示基盤",
+    "before": "従来のサーバー依存",
+    "after": "安定した表示と更新を支える基盤"
+  },
+  {
+    "label": "セキュリティ",
+    "before": "更新や動作確認が把握しにくい状態",
+    "after": "更新内容を確認しながら進める体制"
+  }
+];
+
+const changes = [
+  "記事や文言を自社で更新できる範囲が広がる",
+  "ヘッドコピー、CTA、導線などの改善を外部への依頼待ちにしにくくなる",
+  "自社の一次情報を使ったコンテンツ制作と公開を進めやすくなる",
+  "保守内容や更新状況を把握しやすくなる",
+  "サイトを「置物」にせず、マーケティング施策と連動させやすくなる"
+];
+
+const processSteps = [
+  "現状のホームページ、記事、運用課題の確認",
+  "既存データの抽出と移行範囲の設計",
+  "記事・情報の移行と管理方法の整理",
+  "Webサイトの表示基盤と更新フローの構築",
+  "画像URL、API制限、キャッシュ等の技術課題への対応",
+  "動作確認、運用方法の共有、引き渡し"
+];
+
+const suitableCompanies = [
+  "制作会社にHPを任せきりで、修正が依頼待ちになる",
+  "保守管理費が続くのに更新や改善が進まない",
+  "CMSやサーバーの運用負荷、セキュリティ更新に課題がある",
+  "記事公開、SEO、CTA改善を自社で速く回したい",
+  "既存HPをリプレイスし、AI活用前提の運用へ移行したい"
+];
+
+const unsuitableCases = [
+  "デザイン品質や世界観づくりを最優先したい",
+  "AIに任せれば確認なしですべて自動化できることを期待している",
+  "完成品を納品してもらうだけの発注関係を求めている",
+  "一度作って終わりで、運用体制の見直しは不要",
+  "改善を続ける必要がなく、現状維持で十分"
+];
+
+const caseStudyPoints = [
+  "外部依存の運用から、自社で更新・改善を進めやすい体制へ移行",
+  "記事更新、コード修正、セキュリティ更新を自社で管理しやすい体制へ変更",
+  "技術的な変更そのものではなく、マーケティングのスピードと精度を高めるための事例として紹介"
+];
+
+
+---
+<Company title="HPのAI化" description="ホームページの運用を、外注任せから自社で改善できる状態へ。制作・保守・更新・改善の進め方を、AI活用前提で再設計します。">
+  <PageIntro label="SERVICE 01 / AI-READY HOMEPAGE" title="HPのAI化" lead="ホームページの運用を、外注任せから自社で改善できる状態へ。" description="更新・記事公開・サイト改善を、AI活用前提で自社主導に変える。単なる制作費の削減ではなく、マーケティングを速く正確に進めるための仕組みとして再設計します。" />
+  <section class="grid gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_1.5fr] lg:gap-24 xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest">THE CHALLENGE</p><h2 class="text-3xl font-semibold leading-relaxed md:text-4xl">更新したい。<br />でも、進まない。</h2></div><ul class="divide-y divide-rule border-y border-rule">{commonIssues.map((item, i) => <li class="flex gap-6 py-6 leading-loose"><span class="shrink-0 font-mono text-xs text-accent">0{i + 1}</span>{item}</li>)}</ul></section>
+  <section class="border-y border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><p class="mb-6 text-xs tracking-widest">WHAT CHANGES</p><h2 class="mb-12 text-3xl font-semibold leading-relaxed md:text-4xl">見た目だけではなく、<br />運用そのものを変える。</h2><div class="grid gap-x-12 sm:grid-cols-2">{definitionPoints.map((item,i) => <p class="flex gap-6 border-t border-rule py-8 text-lg leading-loose"><span class="font-mono text-xs text-accent">0{i+1}</span>{item}</p>)}</div><div class="mt-10 overflow-x-auto" tabindex="0" role="region" aria-label="従来の運用とHPのAI化の比較"><table class="w-full min-w-[600px] border-collapse text-left text-sm"><caption class="sr-only">従来の運用と、AI活用前提の運用の比較</caption><thead><tr class="border-y border-rule"><th scope="col" class="p-5">項目</th><th scope="col" class="p-5 font-normal text-secondary">これまで</th><th scope="col" class="p-5">これから</th></tr></thead><tbody>{comparisonRows.map(row => <tr class="border-b border-rule"><th scope="row" class="p-5 font-medium">{row.label}</th><td class="p-5 leading-loose text-secondary">{row.before}</td><td class="p-5 leading-loose">{row.after}</td></tr>)}</tbody></table></div><p class="mt-6 text-xs leading-loose text-secondary">※費用、更新速度、SEO・AI検索への影響は、サイト規模や運用体制によって異なるため成果を断定しません。</p></section>
+  <section class="grid gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-2 lg:gap-24 xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest">POSSIBILITIES</p><h2 class="mb-10 text-3xl font-semibold">改善を、日常に。</h2><ul class="divide-y divide-rule border-y border-rule">{changes.map(item => <li class="py-5 leading-loose text-secondary">{item}</li>)}</ul></div><div><p class="mb-6 text-xs tracking-widest">PROCESS</p><h2 class="mb-10 text-3xl font-semibold">移行から引き渡しまで。</h2><ol class="divide-y divide-rule border-y border-rule">{processSteps.map((item,i) => <li class="flex gap-5 py-5 leading-loose"><span class="font-mono text-xs text-accent">0{i+1}</span>{item}</li>)}</ol></div></section>
+  <section class="border-y border-rule px-5 py-20 sm:px-8 md:py-28 xl:px-12 2xl:px-16"><p class="mb-6 text-xs tracking-widest">IS IT RIGHT FOR YOU?</p><h2 class="mb-12 text-3xl font-semibold leading-relaxed">私たちの支援が、合うかどうか。</h2><div class="grid gap-12 md:grid-cols-2"><div><h3 class="mb-6 text-xl font-semibold">こんな企業に向いています</h3><ul class="list-disc space-y-5 pl-5 leading-loose text-secondary">{suitableCompanies.map(item => <li>{item}</li>)}</ul></div><div><h3 class="mb-6 text-xl font-semibold">別の選択肢が合う場合もあります</h3><ul class="list-disc space-y-5 pl-5 leading-loose text-secondary">{unsuitableCases.map(item => <li>{item}</li>)}</ul></div></div></section>
+  <section class="grid gap-12 px-5 py-20 sm:px-8 md:py-28 lg:grid-cols-[1fr_1.5fr] xl:px-12 2xl:px-16"><div><p class="mb-6 text-xs tracking-widest">OUR OWN PRACTICE</p><h2 class="text-3xl font-semibold leading-relaxed">まず、自分たちの<br />運用から。</h2></div><ul class="divide-y divide-rule border-y border-rule">{caseStudyPoints.map(item => <li class="py-6 leading-loose text-secondary">{item}</li>)}</ul></section>
+  <Contact />
+</Company>

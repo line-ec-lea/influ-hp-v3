@@ -86,6 +86,13 @@ The company pages are a faithful port of `/Users/blaze/react/INFLU` at `fb66476`
 
 Keep staff-blog, company-achievements and useful-materials excluded, including their links and homepage sections. Do not add a theme toggle or a duplicate site-data layer. Run `node scripts/check-original-parity.mjs` and `node scripts/check-company-site.mjs` after company changes; the latter needs the local preview running.
 
+### Component ownership
+
+- Put components reused in more than two places in `src/components/shared/`; reuse that implementation instead of copying it between pages.
+- Keep homepage-only sections in `src/components/home/` and other page-specific code with its page. Common React helpers for pages not yet migrated belong in `src/components/shared/react/`.
+- `Company.astro` owns the Navbar, main landmark and Footer. Page bodies must not render duplicates. Its navigation reads the current route; do not hard-code homepage behavior.
+- Keep the deferred blog template separate. Contact currently has page-specific designs; agree on those variants before unifying its layout placement.
+
 ### Deferred blog template
 
 The rules below apply to the original blog template using `Base.astro`, not the company pages. Keep blog work deferred unless explicitly requested.

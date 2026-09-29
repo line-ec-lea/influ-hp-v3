@@ -1,0 +1,84 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const principles = [
+  [
+    "現場から始める",
+    "話題のツールではなく、今ある業務の詰まりを起点に考えます。",
+  ],
+  [
+    "横断して整える",
+    "サイト、コンテンツ、計測、業務フローを別々にせず、一つの流れとして見ます。",
+  ],
+  [
+    "残る形にする",
+    "外部に依存し続けるのではなく、社内で続けられる運用と判断基準を残します。",
+  ],
+]
+
+const principleRowLayouts = [
+  "lg:w-full",
+  "lg:ml-[6%] lg:w-[94%]",
+  "lg:ml-[12%] lg:w-[88%]",
+]
+
+const sectionLabel =
+  "text-xs font-bold tracking-[0.2em] text-gold-300 uppercase"
+
+const darkHeading =
+  "mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-foreground sm:text-5xl lg:text-6xl"
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#15130F]"
+        aria-labelledby="definition-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-end lg:gap-20">
+            <CinematicReveal direction="left">
+              <p class={sectionLabel}>WHAT AX MEANS</p>
+              <SunlitHeading
+                id="definition-title"
+                delay={0.08}
+                class={darkHeading}
+              >
+                INFLUにおけるAX
+              </SunlitHeading>
+            </CinematicReveal>
+            <CinematicReveal delay={0.12}>
+              <p class="max-w-2xl text-lg font-bold leading-9 tracking-[-0.025em] text-[#F5F1E8] sm:text-xl sm:leading-10">
+                生成AIや自動化を、現場の仕事に接続すること。
+              </p>
+              <p class="mt-5 max-w-xl text-sm leading-8 text-muted sm:text-base sm:leading-9">
+                ツールを増やすことを目的にしません。仕事の流れを見直し、判断や創造に時間を使える状態をつくることを目指します。
+              </p>
+            </CinematicReveal>
+          </div>
+          <ol class="mt-12 border-t border-line-gold lg:mt-16">
+            {principles.map(([title, description], index) => (
+              <li
+                class={`border-b border-line-gold py-8 sm:py-10 lg:py-12 ${principleRowLayouts[index] ?? ""}`}
+              >
+                <CinematicReveal
+                  delay={0.12 + index * 0.08}
+                  direction="left"
+                  class="grid gap-5 sm:grid-cols-[3.5rem_minmax(15rem,0.8fr)_minmax(20rem,1fr)] sm:items-start sm:gap-7 lg:grid-cols-[4rem_minmax(17rem,0.8fr)_minmax(22rem,1fr)] lg:gap-10"
+                >
+                  <span class="text-xs font-bold tracking-[0.2em] text-gold-300">
+                    0{index + 1}
+                  </span>
+                  <h3 class="text-2xl font-bold leading-tight tracking-[-0.035em] text-foreground sm:text-3xl">
+                    {title}
+                  </h3>
+                  <p class="max-w-xl text-sm leading-8 text-muted sm:text-base">
+                    {description}
+                  </p>
+                </CinematicReveal>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+</CinematicSection>

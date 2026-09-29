@@ -1,0 +1,53 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import AsanohaHeroPattern from "@shared/AsanohaHeroPattern.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import { CONTACT_FORM_HREF } from "@shared/features/contact";
+const sectionLabel =
+  "text-xs font-bold tracking-[0.2em] text-gold-300 uppercase"
+---
+<CinematicSection first>
+<section class="relative min-h-[min(48rem,100svh)] overflow-hidden bg-[#090909] pt-14">
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_32%,rgba(201,165,109,0.18),transparent_18%),radial-gradient(circle_at_44%_110%,rgba(176,138,85,0.16),transparent_31%)]"
+        />
+        <AsanohaHeroPattern class="opacity-25" />
+        <Container class="relative flex min-h-[calc(min(48rem,100svh)-3.5rem)] items-center py-24 sm:py-28 lg:py-32">
+          <div class="max-w-5xl">
+            <CinematicReveal direction="left">
+              <p class={sectionLabel}>AX SUPPORT / AI TRANSFORMATION</p>
+              <SunlitHeading
+                as="h1"
+                delay={0.1}
+                class="mt-6 max-w-5xl text-balance text-5xl font-bold leading-[1.12] tracking-[-0.055em] text-foreground sm:text-6xl lg:text-8xl"
+              >
+                AIを、
+                <br />
+                実務の力に変える。
+              </SunlitHeading>
+            </CinematicReveal>
+            <CinematicReveal delay={0.16} class="mt-8 max-w-2xl sm:mt-10">
+              <p class="text-xl font-bold leading-9 tracking-[-0.03em] text-[#F5F1E8] sm:text-2xl sm:leading-10">
+                AX・業務効率化支援
+              </p>
+              <p class="mt-5 text-sm leading-8 text-muted sm:text-base sm:leading-9">
+                AIを話題や導入で終わらせず、日々の業務とマーケティングへ。課題の整理から実行、社内に残る運用づくりまで伴走します。
+              </p>
+            </CinematicReveal>
+            <CinematicReveal delay={0.26} class="mt-10">
+              <SpecularButton
+                href={CONTACT_FORM_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                企業のAI活用・AXについて相談する
+              </SpecularButton>
+            </CinematicReveal>
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

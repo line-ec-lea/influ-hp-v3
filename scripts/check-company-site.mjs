@@ -1,4 +1,49 @@
 import assert from "node:assert/strict";
+import { readFile, readdir } from "node:fs/promises";
+
+// Keep the company site utility-only, independent of the deferred blog's CSS.
+const source = (path) =>
+  readFile(new URL(`../${path}`, import.meta.url), "utf8");
+const css = await source("src/styles/global.css");
+assert.match(css, /@import "tailwindcss";/);
+assert.equal(
+  css
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/@import "tailwindcss";/g, "")
+    .replace(/@theme inline\s*\{[^{}]*\}/g, "")
+    .trim(),
+  "",
+  "global.css contains only Tailwind setup and theme values",
+);
+assert.match(await source("src/layouts/Company.astro"), /styles\/global\.css/);
+assert.doesNotMatch(
+  await source("src/layouts/Company.astro"),
+  /styles\/(?:company|tokens|theme)\.css/,
+);
+await assert.rejects(source("src/styles/company.css"), { code: "ENOENT" });
+const companyFiles = [
+  "src/layouts/Company.astro",
+  ...[
+    "index",
+    "business-content",
+    "company-profile",
+    "ai-homepage",
+    "ax-support",
+    "privacy-policy",
+    "404",
+  ].map((name) => `src/pages/${name}.astro`),
+  ...(await readdir(new URL("../src/components/company/", import.meta.url)))
+    .filter((name) => /\.(astro|tsx)$/.test(name))
+    .map((name) => `src/components/company/${name}`),
+];
+for (const path of companyFiles) {
+  assert.doesNotMatch(
+    await source(path),
+    /<style\b|\bstyle\s*=|@apply\b/,
+    `${path}: use Tailwind utilities`,
+  );
+}
+console.log("PASS Tailwind-only company styling");
 
 // Run against the local preview: node scripts/check-company-site.mjs [base-url]
 const base = process.argv[2] ?? "http://localhost:4321";

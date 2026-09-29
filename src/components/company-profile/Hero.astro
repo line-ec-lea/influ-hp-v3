@@ -1,0 +1,48 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import AsanohaHeroPattern from "@shared/AsanohaHeroPattern.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import { CONTACT_FORM_HREF } from "@shared/features/contact";
+
+---
+<CinematicSection first>
+<section class="relative isolate overflow-hidden border-b border-[rgba(200,164,93,0.25)] bg-[#090909] pt-14">
+        <div
+          class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_76%_38%,rgba(255,241,199,0.09),transparent_25%),linear-gradient(180deg,transparent_58%,rgba(200,164,93,0.04))]"
+          aria-hidden="true"
+        />
+        <AsanohaHeroPattern class="opacity-25" />
+        <Container class="relative flex min-h-[calc(min(48rem,100svh)-3.5rem)] items-center py-24 sm:py-28 lg:py-32">
+          <CinematicReveal direction="left" class="max-w-4xl">
+            <p class="text-xs font-bold tracking-[0.18em] text-[#E0C584] uppercase">
+              COMPANY
+            </p>
+            <SunlitHeading
+              as="h1"
+              delay={0.12}
+              class="mt-6 text-balance text-5xl font-bold leading-[1.12] tracking-[-0.055em] sm:text-6xl lg:text-8xl"
+            >
+              会社概要
+            </SunlitHeading>
+            <p class="mt-8 max-w-3xl text-xl font-bold leading-9 tracking-normal text-[#F5F1E8] sm:mt-10 sm:text-2xl sm:leading-10">
+              技術とマーケティングを、現場で使い続けられる仕組みへ。
+            </p>
+            <p class="mt-5 max-w-3xl text-base leading-8 text-[#CFC8BC] sm:text-lg">
+              INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。
+            </p>
+            <div class="mt-9">
+              <SpecularButton
+                href={CONTACT_FORM_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                INFLUに相談する
+              </SpecularButton>
+            </div>
+          </CinematicReveal>
+        </Container>
+      </section>
+</CinematicSection>

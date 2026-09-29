@@ -1,0 +1,88 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import { routes } from "@shared/features/routes";
+
+---
+<CinematicSection>
+<section class="bg-[#0B0B0B]" aria-labelledby="direction-title">
+        <Container class="py-16 md:py-24 lg:py-28">
+          <div class="grid gap-7 lg:grid-cols-[minmax(0,0.9fr)_minmax(24rem,0.72fr)] lg:items-end lg:gap-16">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#D8B66B]">
+                CURRENT DIRECTION
+              </p>
+              <h2
+                id="direction-title"
+                class="mt-4 text-4xl font-bold leading-tight tracking-[-0.04em] text-[#F7F3EA] sm:text-5xl lg:text-6xl"
+              >
+                現在の支援領域
+              </h2>
+            </div>
+            <p class="max-w-xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+              これまでのWEBマーケティングと事業運営の経験を、現在はHPのAI化と企業のAX支援へつなげています。
+            </p>
+          </div>
+
+          <div
+            role="list"
+            class="mt-12 border-t border-[rgba(216,182,107,0.32)] md:mt-16"
+          >
+            <div
+              role="listitem"
+              class="group relative grid gap-6 border-b border-[rgba(216,182,107,0.24)] py-9 sm:py-11 lg:grid-cols-[5.5rem_minmax(15rem,0.82fr)_minmax(22rem,1.18fr)] lg:items-start lg:gap-10"
+            >
+              <span class="text-5xl font-bold leading-none tracking-[-0.07em] text-[#D8B66B]/45 transition-colors duration-300 group-hover:text-[#D8B66B] sm:text-6xl">
+                01
+              </span>
+              <div>
+                <p class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#D8B66B]">
+                  AI-READY HOMEPAGE
+                </p>
+                <h3 class="mt-4 text-2xl font-bold tracking-[-0.035em] text-[#F7F3EA] sm:text-3xl">
+                  HPのAI化
+                </h3>
+              </div>
+              <div>
+                <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+                  既存ホームページの制作・保守・更新・改善を、AI活用前提で自社主導に変える支援です。
+                </p>
+                <div class="mt-7">
+                  <SpecularButton href={routes.aiHomepage}>
+                    HPのAI化を見る
+                  </SpecularButton>
+                </div>
+              </div>
+            </div>
+
+            <div
+              role="listitem"
+              class="group relative grid gap-6 border-b border-[rgba(216,182,107,0.24)] py-9 sm:py-11 lg:grid-cols-[5.5rem_minmax(15rem,0.82fr)_minmax(22rem,1.18fr)] lg:items-start lg:gap-10"
+            >
+              <span class="text-5xl font-bold leading-none tracking-[-0.07em] text-[#D8B66B]/45 transition-colors duration-300 group-hover:text-[#D8B66B] sm:text-6xl">
+                02
+              </span>
+              <div>
+                <p class="text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#D8B66B]">
+                  AX SUPPORT
+                </p>
+                <h3 class="mt-4 text-2xl font-bold tracking-[-0.035em] text-[#F7F3EA] sm:text-3xl">
+                  AX・業務効率化支援
+                </h3>
+              </div>
+              <div>
+                <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+                  AIを話題やツール導入で終わらせず、企業の業務とマーケティングの実務へ接続します。
+                </p>
+                <div class="mt-7">
+                  <SpecularButton href={routes.axSupport}>
+                    AX・業務効率化支援を見る
+                  </SpecularButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

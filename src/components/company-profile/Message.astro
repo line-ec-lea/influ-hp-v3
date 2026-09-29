@@ -1,0 +1,86 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+const IMG = "/influhp-assets/wp-content/themes/top/images"
+---
+<CinematicSection>
+<section
+        id="a01"
+        class="scroll-mt-24 bg-[#090909] md:scroll-mt-28"
+        aria-labelledby="greeting-title"
+      >
+        <Container class="py-16 md:py-24 lg:py-28">
+          <div class="max-w-5xl">
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-[#D8B66B]">
+              MESSAGE
+            </p>
+            <h2
+              id="greeting-title"
+              class="mt-4 text-4xl font-bold leading-tight tracking-[-0.04em] text-[#F7F3EA] sm:text-5xl lg:text-6xl"
+            >
+              挑戦を、続けられる仕組みに。
+            </h2>
+          </div>
+
+          <div class="mt-12 grid items-start gap-12 lg:grid-cols-[minmax(27rem,0.94fr)_minmax(0,1.06fr)] lg:gap-16 xl:grid-cols-[minmax(31rem,0.98fr)_minmax(0,1.02fr)] xl:gap-20">
+            <figure class="relative -mx-5 overflow-hidden border-y border-[rgba(216,182,107,0.32)] shadow-[0_30px_80px_rgba(0,0,0,0.34)] sm:-mx-8 lg:sticky lg:top-24 lg:-ml-12 lg:mr-0 lg:border-y-0 lg:border-r xl:-ml-20">
+              <div class="relative aspect-[3/2] [container-type:inline-size]">
+                <img
+                  src="/images/company-profile/gochan-message.jpeg"
+                  alt="株式会社INFLU 代表取締役 水戸亮太"
+                  class="absolute inset-0 h-full w-full object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 48vw" loading="eager" fetchpriority="high" decoding="async" />
+                <figcaption class="absolute inset-0">
+                  <p class="absolute inset-x-6 top-6 text-[0.64rem] font-bold uppercase tracking-[0.2em] text-[#715321] sm:inset-x-8 sm:top-8">
+                    INFLU / REPRESENTATIVE DIRECTOR
+                  </p>
+
+                  <div class="absolute inset-x-[5.5%] bottom-[8%] font-bold tracking-[-0.065em] drop-shadow-[0_3px_18px_rgba(0,0,0,0.42)]">
+                    <div class="relative w-full overflow-visible">
+                      <div class="relative h-[clamp(2rem,10.5cqi,4.05rem)] whitespace-nowrap text-[clamp(2rem,10.5cqi,4.05rem)] leading-[0.88] text-[#FFFDF7]">
+                        <span class="absolute bottom-0 left-0">HEY,</span>
+                        <span class="absolute bottom-0 left-[68%] sm:left-[69%] lg:left-[68%] xl:left-[69%]">
+                          I&apos;M
+                        </span>
+                      </div>
+                      <div class="mt-[2cqi] w-full whitespace-nowrap text-[clamp(3rem,18cqi,7.15rem)] leading-[0.78] text-[#FFFDF7]">
+                        GOCHAN
+                      </div>
+                    </div>
+                  </div>
+                </figcaption>
+              </div>
+            </figure>
+
+            <div>
+              <p class="border-l border-[rgba(216,182,107,0.55)] pl-5 text-xl font-bold leading-9 tracking-[-0.025em] text-[#F7F3EA] sm:pl-7 sm:text-2xl sm:leading-10">
+                これまで、お客様の商品やサービスを必要な人へ届けるために、何をすべきかを常に考えてきました。お客様の事業が成長することが、私たちの喜びでもあります。
+              </p>
+
+              <div class="mt-9 space-y-6 text-sm leading-8 text-[#CFC8BC] sm:text-base">
+                <p>
+                  飲食店の経営、WEBでの情報発信、メールや公式LINEを使った販売支援、システムづくり。異なるように見える経験のすべてに共通していたのは、現場で試し、数字や反応を確認し、次の改善へつなげることでした。
+                </p>
+                <p>
+                  個人時代から一貫して、個人や小さな組織が挑戦し、成長できるよう全面的に支えることを目指してきました。これまで掲げてきた「ノーコードで起業する」という考えを、現在はAIを使いながら自社で運用・改善できる仕組みづくりへ発展させています。
+                </p>
+                <p>
+                  目先の施策だけではなく、事業の背景や成長の段階を理解し、長期的な視点で一緒に考える組織でありたいと思っています。事業の成長が、その先の社会価値につながるよう支援を続けてまいります。
+                </p>
+              </div>
+
+              <figure class="mt-10 border-t border-[rgba(216,182,107,0.28)] pt-7">
+                <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                  <img
+                    src={`${IMG}/name.png`}
+                    alt="代表者 水戸 亮太（署名）"
+                    width={208}
+                    height={30}
+                    class="h-auto w-auto max-w-[min(72%,208px)] brightness-0 invert" loading="lazy" decoding="async" />
+                </div>
+              </figure>
+            </div>
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

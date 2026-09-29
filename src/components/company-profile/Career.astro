@@ -1,0 +1,95 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const careerItems = [
+  {
+    period: "1989",
+    title: "商いを身近に感じながら育つ",
+    description:
+      "大阪府に生まれ、事業を営む家族や親族の姿を見ながら、商いと人とのつながりに触れて育つ。高校時代にはホームページ制作も経験する。",
+  },
+  {
+    period: "2012",
+    title: "飲食店の現場で、商売の本質を学ぶ",
+    description:
+      "大学中退後、親戚が営む韓国料理店で修業し、大阪で店舗経営に挑戦。商品だけでなく、接客や集客、日々の改善が事業を支えることを学ぶ。",
+  },
+  {
+    period: "2015",
+    title: "WEBを通じた事業支援へ",
+    description:
+      "個人での情報発信を起点に、メールマガジン運用、販売導線の設計、システム制作・販売へと領域を広げ、事業者の売上づくりを支援する。",
+  },
+  {
+    period: "NEXT",
+    title: "顧客と長くつながる仕組みをつくる",
+    description:
+      "公式LINEを活用した集客・販売・運用支援を通じて、一度きりではなく、顧客との関係が続く仕組みづくりに取り組む。",
+  },
+  {
+    period: "2019",
+    title: "株式会社INFLUを設立",
+    description:
+      "飲食店経営とWEBマーケティングで培った経験をもとに、事業者の挑戦と成長を支える株式会社INFLUを12月に設立する。",
+  },
+  {
+    period: "NOW",
+    title: "AIと人が、ともに働ける現場へ",
+    description:
+      "Lea、オンラインスクール、焼肉処 味来で得た実践知を生かし、HPのAI化とAX・業務効率化支援を展開。企業が自ら運用し、改善を続けられる仕組みをつくる。",
+  },
+]
+---
+<CinematicSection>
+<section class="bg-[#090909]" aria-labelledby="career-title">
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(28rem,1.2fr)] lg:items-end">
+            <div>
+              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                CAREER
+              </p>
+              <h2
+                id="career-title"
+                class="mt-4 text-4xl font-bold leading-tight tracking-[-0.04em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+              >
+                歩んできた道
+              </h2>
+            </div>
+            <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+              現場で商いを学び、試し、改善を重ねてきた経験が、現在のINFLUの支援につながっています。
+            </p>
+          </CinematicReveal>
+
+          <ol class="mt-14 border-t border-[rgba(224,197,132,0.34)] md:mt-16">
+            {careerItems.map((item, index) => (
+              <li
+                class="relative border-b border-[rgba(224,197,132,0.2)] px-5 py-9 sm:px-8 sm:py-11 lg:px-12 lg:py-14"
+              >
+                <CinematicReveal
+                  delay={Math.min(index * 0.04, 0.16)}
+                  class="grid gap-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-12 lg:grid-cols-[13rem_minmax(0,1fr)]"
+                >
+                  <div class="flex items-baseline gap-4 md:block">
+                    <span class="text-[0.65rem] font-bold tracking-[0.18em] text-[#E0C584]/70">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p class="text-3xl font-bold tracking-[-0.04em] text-[#E0C584] sm:text-4xl md:mt-4 lg:text-5xl">
+                      {item.period}
+                    </p>
+                  </div>
+                  <div class="md:pt-1">
+                    <h3 class="text-xl font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl lg:text-3xl">
+                      {item.title}
+                    </h3>
+                    <p class="mt-4 max-w-3xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+                      {item.description}
+                    </p>
+                  </div>
+                </CinematicReveal>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </section>
+</CinematicSection>

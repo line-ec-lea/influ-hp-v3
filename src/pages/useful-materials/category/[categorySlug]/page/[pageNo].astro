@@ -1,0 +1,33 @@
+---
+import { decodeSlug, getTerm } from "emdash";
+import Company from "../../../../../layouts/Company.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import EditorialArchive from "@shared/EditorialArchive.astro";
+
+const page = Number(Astro.params.pageNo);
+const categorySlug = decodeSlug(Astro.params.categorySlug);
+if (!Number.isInteger(page) || page < 1 || !categorySlug) return Astro.redirect("/404");
+
+const category = await getTerm("material_category", categorySlug, {
+  includeCounts: false,
+});
+if (!category) return Astro.redirect("/404");
+
+const title = `${category.label} | コラム${page > 1 ? `（${page}ページ目）` : ""}`;
+const description = "マーケティングや事業運営に役立つ記事を掲載しています。";
+---
+
+<Company title={title} description={description}>
+  <CinematicPageFrame>
+    <EditorialArchive
+      collection="useful_materials"
+      basePath="/useful-materials"
+      sectionLabel="コラム"
+      eyebrow="Column"
+      description={description}
+      page={page}
+      categorySlug={category.slug}
+      categoryLabel={category.label}
+    />
+  </CinematicPageFrame>
+</Company>

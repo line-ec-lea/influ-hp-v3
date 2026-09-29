@@ -1,0 +1,26 @@
+---
+import { decodeSlug, getEmDashEntry } from "emdash";
+import Company from "../../layouts/Company.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import EditorialArticle from "@shared/EditorialArticle.astro";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect("/404");
+
+const { entry, error, cacheHint } = await getEmDashEntry("staff_blog", slug);
+if (error) return new Response("Unable to load article", { status: 500 });
+if (!entry) return Astro.redirect("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<Company title={entry.data.title} description={entry.data.excerpt ?? "株式会社INFLUのスタッフBLOG記事です。"}>
+  <CinematicPageFrame>
+    <EditorialArticle
+      entry={entry}
+      collection="staff_blog"
+      basePath="/staff-blog"
+      sectionLabel="スタッフBLOG"
+      eyebrow="Staff Blog"
+    />
+  </CinematicPageFrame>
+</Company>

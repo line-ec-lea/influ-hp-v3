@@ -1,0 +1,24 @@
+---
+import Company from "../../../layouts/Company.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import EditorialArchive from "@shared/EditorialArchive.astro";
+
+const page = Number(Astro.params.pageNo);
+if (!Number.isInteger(page) || page < 1) return Astro.redirect("/404");
+
+const title = page === 1 ? "スタッフBLOG" : `スタッフBLOG（${page}ページ目）`;
+const description = "日々の取り組みや社内の様子を、スタッフ目線でお届けします。";
+---
+
+<Company title={title} description={description}>
+  <CinematicPageFrame>
+    <EditorialArchive
+      collection="staff_blog"
+      basePath="/staff-blog"
+      sectionLabel="スタッフBLOG"
+      eyebrow="Staff Blog"
+      description={description}
+      page={page}
+    />
+  </CinematicPageFrame>
+</Company>

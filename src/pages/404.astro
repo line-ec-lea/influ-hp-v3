@@ -1,29 +1,8 @@
 ---
 import Company from "../layouts/Company.astro";
+import Page from "../components/company/app/not-found";
 ---
 
-<Company
-  title="ページが見つかりません"
-  description="お探しのページは見つかりませんでした。"
-  noindex
->
-  <section class="px-5 py-28 sm:px-8 xl:px-12 2xl:px-16">
-    <p class="mb-8 font-mono text-xs tracking-widest text-accent">
-      404 / NOT FOUND
-    </p>
-    <h1 class="mb-8 text-4xl font-semibold leading-relaxed md:text-6xl">
-      ページが
-      <br />
-      見つかりません。
-    </h1>
-    <p class="mb-10 leading-loose text-secondary">
-      URLが変更されたか、ページが存在しない可能性があります。
-    </p>
-    <a
-      href="/"
-      class="inline-flex min-h-11 items-center gap-12 border-b border-ink py-3 hover:text-accent"
-    >
-      ホームへ戻る<span aria-hidden="true">↗</span>
-    </a>
-  </section>
+<Company title="ページが見つかりません" description="お探しのページは移動または削除された可能性があります。" noindex>
+  <Page client:load />
 </Company>

@@ -78,6 +78,14 @@ The article layout is the standout feature: a three-column reading view with a l
 
 ## Customisation
 
+### Company pages
+
+Pages using `src/layouts/Company.astro` use Tailwind utilities directly in the markup. Their only stylesheet entry is `src/styles/global.css`, containing the Tailwind import and `@theme` values. Do not add custom selectors, `<style>` blocks, `@apply`, or imports of the legacy template styles to these pages.
+
+### Deferred blog template
+
+The rules below apply to the original blog template using `Base.astro`, not the company pages. Keep blog work deferred unless explicitly requested.
+
 Design tokens live in `src/styles/tokens.css` with their default values. To restyle the site, override tokens in `src/styles/theme.css` -- declarations there are unlayered, so they always beat the `@layer base` defaults. Don't edit `tokens.css` or `Base.astro` for visual changes.
 
 Colours are defined with `light-dark(<light>, <dark>)`, so each token carries both modes. Overriding with a plain colour changes light and dark at once; use `light-dark()` in the override to keep them distinct. There is no separate dark palette to maintain.

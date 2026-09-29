@@ -82,6 +82,10 @@ The article layout is the standout feature: a three-column reading view with a l
 
 Pages using `src/layouts/Company.astro` use Tailwind utilities directly in the markup. Their only stylesheet entry is `src/styles/global.css`, containing the Tailwind import and `@theme` values. Do not add custom selectors, `<style>` blocks, `@apply`, or imports of the legacy template styles to these pages.
 
+The company pages are a faithful port of `/Users/blaze/react/INFLU` at `fb66476`, not a new design. Preserve the original black/gold palette, Noto Sans JP typography, content, component hierarchy and motion in `src/components/company/`. Framer Motion's runtime inline styles are intentional. Astro route wrappers SSR the React pages and hydrate with `client:load`; use the native image adapter and anchors instead of Next.js imports.
+
+Keep staff-blog, company-achievements and useful-materials excluded, including their links and homepage sections. Do not add a theme toggle or a duplicate site-data layer. Run `node scripts/check-original-parity.mjs` and `node scripts/check-company-site.mjs` after company changes; the latter needs the local preview running.
+
 ### Deferred blog template
 
 The rules below apply to the original blog template using `Base.astro`, not the company pages. Keep blog work deferred unless explicitly requested.

@@ -1,68 +1,38 @@
-# EmDash Blog Template (Cloudflare)
+# INFLU company site
 
-A clean, minimal blog built with [EmDash](https://github.com/emdash-cms/emdash) and deployed on Cloudflare Workers with D1 and R2.
+The original INFLU company website ported to Astro, React, TypeScript and Tailwind CSS, with EmDash retained for future CMS work.
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/emdash-cms/templates/tree/main/blog-cloudflare)
+Source: `/Users/blaze/react/INFLU`, commit `fb66476` (`codex/shared-article-design`). The copy preserves the original content, assets, black/gold palette, Noto Sans JP typography, Framer Motion animations and OGL button effects.
 
-![Blog template homepage](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-light-desktop.jpg)
+## Scope
 
-## What's Included
+Included: `/`, `/business-content`, `/company-profile`, `/ai-homepage`, `/ax-support`, `/privacy-policy` and the original 404 design. `/home` redirects to `/`.
 
-- Featured post hero on the homepage
-- Post archive with reading time estimates
-- Category and tag archives
-- Full-text search
-- RSS feed
-- SEO metadata and JSON-LD
-- Dark/light mode
+Excluded: `/staff-blog`, `/company-achievements`, `/useful-materials`, their detail/pagination routes, navigation links and homepage article sections. The existing EmDash blog template is deferred, not integrated into the company navigation or sitemap.
 
-## Pages
+## Architecture
 
-| Page | Route |
-|---|---|
-| Homepage | `/` |
-| All posts | `/posts` |
-| Single post | `/posts/:slug` |
-| Category archive | `/category/:slug` |
-| Tag archive | `/tag/:slug` |
-| Search | `/search` |
-| Static pages | `/pages/:slug` |
-| 404 | fallback |
+- `src/pages/*.astro`: server-rendered route wrappers with React `client:load` hydration.
+- `src/components/company/app/`: original React pages and component hierarchy.
+- `src/components/company/features/`: original shared navigation, contact links, routes and SEO helpers.
+- `src/components/company/Site.tsx`: original motion provider, navigation and footer.
+- `src/components/company/Image.tsx`: native image adapter; no Next.js image optimizer.
+- `src/layouts/Company.astro`: document, fonts, metadata and EmDash hooks.
+- `src/styles/global.css`: Tailwind import and original theme tokens only. Motion-generated inline styles remain necessary for the original animations.
 
-## Screenshots
+Next.js links use native anchors, so route changes are full-page navigations. Astro owns routing, fonts and server rendering; the original Next.js/Vinext runtime is not copied. There is no company theme toggle.
 
-| | Desktop | Mobile |
-|---|---|---|
-| Light | ![homepage light desktop](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-light-desktop.jpg) | ![homepage light mobile](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-light-mobile.jpg) |
-| Dark | ![homepage dark desktop](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-dark-desktop.jpg) | ![homepage dark mobile](https://raw.githubusercontent.com/emdash-cms/emdash/main/assets/templates/blog/latest/homepage-dark-mobile.jpg) |
-
-## Infrastructure
-
-- **Runtime:** Cloudflare Workers
-- **Database:** D1
-- **Storage:** R2
-- **Framework:** Astro with `@astrojs/cloudflare`
-
-## Local Development
+## Development and checks
 
 ```bash
 pnpm install
 pnpm dev
+pnpm typecheck
+pnpm build
+node scripts/check-company-site.mjs
+node scripts/check-original-parity.mjs /Users/blaze/react/INFLU
 ```
 
-Open http://localhost:4321/_emdash/admin and complete the setup wizard. EmDash runs database migrations and applies the blog seed during setup. The site is available at http://localhost:4321.
+The route check requires the preview at `http://localhost:4321` (or pass another base URL). The parity check compares 33 source-derived files and 22 original assets, allowing only framework adaptations and the requested exclusions. It requires the original checkout; later source changes must be reviewed before changing the comparison.
 
-## Deploying
-
-```bash
-pnpm wrangler login
-pnpm deploy
-```
-
-The first deployment provisions the named D1 database and R2 bucket from `wrangler.jsonc`. See [Deploy to Cloudflare](https://docs.emdashcms.com/deployment/cloudflare/) for production setup, or use the deploy button above.
-
-## See Also
-
-- [Node.js variant](../blog) -- same template using SQLite and local file storage
-- [All templates](../)
-- [EmDash documentation](https://docs.emdashcms.com/)
+The EmDash admin remains at `http://localhost:4321/_emdash/admin`. Existing Cloudflare configuration is retained; local checks do not establish deployment status. Preview hosts are noindex and disallow crawling.

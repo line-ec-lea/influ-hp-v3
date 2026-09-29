@@ -1,0 +1,64 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const definitionPoints = [
+  "見た目を変えるだけでなく、制作・保守・更新・改善の進め方そのものを見直す",
+  "自社で情報や記事を管理し、AIを活用して修正やカスタマイズを行う",
+  "表示と更新を支える仕組みを整え、外部に頼りすぎない運用へ整える",
+  "技術導入を目的にせず、自社で運用・改善を続けられる状態を目指す",
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#15130F]"
+        aria-labelledby="definition-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <div class="grid gap-7 border-b border-[rgba(224,197,132,0.24)] pb-10 lg:grid-cols-[minmax(0,0.84fr)_minmax(28rem,1.16fr)] lg:items-end lg:gap-16 lg:pb-14">
+            <CinematicReveal direction="left" class="max-w-xl">
+              <p class="text-xs font-bold tracking-[0.18em] text-[#E0C584] uppercase">
+                WHAT IT MEANS
+              </p>
+              <SunlitHeading
+                id="definition-title"
+                delay={0.08}
+                class="mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+              >
+                HPのAI化とは
+              </SunlitHeading>
+            </CinematicReveal>
+            <CinematicReveal delay={0.1} class="lg:pb-1">
+              <p class="max-w-xl text-sm leading-8 text-[#CFC8BC] sm:text-base sm:leading-9">
+                既存ホームページを作り直すだけではありません。制作・保守・更新・改善の仕組みを、AIを活用しながら自社で運用・改善を進められる形へ整えていきます。
+              </p>
+            </CinematicReveal>
+          </div>
+
+          <div class="mt-10 md:mt-12 lg:mt-14">
+            <ol class="grid gap-px overflow-hidden border border-[rgba(224,197,132,0.24)] bg-[rgba(224,197,132,0.24)] sm:grid-cols-2">
+              {definitionPoints.map((point, index) => (
+                <li
+                  class="group relative min-h-48 overflow-hidden bg-[#15130F] px-6 py-7 sm:min-h-52 sm:px-8 sm:py-8 lg:min-h-52 lg:px-10 lg:py-8"
+                >
+                  <CinematicReveal
+                    direction={index % 2 === 0 ? "left" : "right"}
+                    delay={0.2 + index * 0.07}
+                    class="relative z-10 flex h-full flex-col"
+                  >
+                    <span class="flex items-center gap-3 text-xs font-bold tracking-[0.18em] text-[#E0C584]">
+                      <span>POINT {String(index + 1).padStart(2, "0")}</span>
+                      <span class="h-px w-5 bg-[#E0C584]/50" aria-hidden="true" />
+                    </span>
+                    <p class="mt-6 max-w-md text-lg font-bold leading-8 tracking-[-0.025em] text-[#F5F1E8] sm:text-xl sm:leading-9 lg:mt-7">
+                      {point}
+                    </p>
+                  </CinematicReveal>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

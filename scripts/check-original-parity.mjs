@@ -93,7 +93,7 @@ for (const [name, file, arrays] of nativeSections) {
   for (const [, copy] of source.matchAll(/>([^<>{}]*[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}][^<>{}]*)</gu))
     assert.ok(compact(native).includes(compact(copy)), `${name}: original copy: ${copy.trim()}`);
 }
-const nativePages = ["ax-support"];
+const nativePages = ["ax-support", "ai-homepage"];
 for (const page of nativePages) {
   const directory = new URL(`../src/components/${page}/`, import.meta.url);
   const native = (await Promise.all((await readdir(directory)).filter(file => file.endsWith(".astro")).map(file => readFile(new URL(file, directory), "utf8")))).join("\n");

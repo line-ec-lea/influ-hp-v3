@@ -1,0 +1,45 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import { CONTACT_FORM_HREF } from "@shared/features/contact";
+import { routes } from "@shared/features/routes";
+
+---
+<CinematicSection>
+<section class="bg-[#1f4e79] text-white" aria-labelledby="cta-title">
+        <Container class="py-16 md:py-24">
+          <div class="grid gap-10 lg:grid-cols-2 lg:items-end">
+            <div class="max-w-3xl">
+              <p class="text-xs font-bold tracking-widest text-white/70 uppercase">
+                CONTACT
+              </p>
+              <SunlitHeading
+                id="cta-title"
+                delay={0.08}
+                class="mt-4 text-balance text-3xl font-bold leading-tight tracking-tight sm:text-4xl lg:text-5xl"
+              >
+                相談する
+              </SunlitHeading>
+              <p class="mt-6 max-w-2xl text-sm leading-8 text-white/80 sm:text-base">
+                既存サイトの状態と社内体制を確認し、移行範囲や運用方法を整理します。
+              </p>
+            </div>
+            <div class="grid gap-3">
+              <SpecularButton
+                href={CONTACT_FORM_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                fullWidth
+              >
+                HPのAI化について相談する
+              </SpecularButton>
+              <SpecularButton href={routes.axSupport} fullWidth>
+                AX・業務効率化支援を見る
+              </SpecularButton>
+            </div>
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

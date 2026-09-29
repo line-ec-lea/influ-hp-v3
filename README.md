@@ -12,8 +12,10 @@ Excluded: `/staff-blog`, `/company-achievements`, `/useful-materials`, their det
 
 ## Architecture
 
-- `src/pages/*.astro`: server-rendered route wrappers with React `client:load` hydration.
-- `src/components/company/`: React page components, grouped by page; shared UI lives in `components/`. No Next.js `app/` nesting.
+- `src/pages/index.astro`: composes the homepage directly from separate Astro sections.
+- `src/components/home/`: native Astro homepage sections, header, footer and effects. Section scripts use the installed `framer-motion/dom` API; no React island is loaded by the homepage.
+- Other `src/pages/*.astro` company routes still wrap React with `client:load` hydration.
+- `src/components/company/`: the remaining React pages and their shared UI. No Next.js `app/` nesting or React homepage.
 - `src/components/company/features/`: original shared navigation, contact links, routes and SEO helpers.
 - `src/components/company/Site.tsx`: original motion provider, navigation and footer.
 - `src/components/company/Image.tsx`: native image adapter; no Next.js image optimizer.
@@ -36,6 +38,10 @@ node scripts/check-company-site.mjs
 node scripts/check-original-parity.mjs /Users/blaze/react/INFLU
 ```
 
-The route check requires the preview at `http://localhost:4321` (or pass another base URL). The parity check compares 33 source-derived files and 22 original assets, allowing only framework adaptations and the requested exclusions. It requires the original checkout; later source changes must be reviewed before changing the comparison.
+The route check requires the preview at `http://localhost:4321` (or pass another base URL). It also verifies native homepage composition, server-rendered controls, no homepage React island, and deletion of its old TSX files.
+
+The parity check compares 26 remaining React/shared source files, the content arrays, literal copy and Tailwind classes of five native homepage sections, and 22 original assets. It requires the original checkout; later source changes must be reviewed before changing the comparison. It does not establish pixel-perfect or animation-timing equivalence.
+
+The native homepage was checked against the previous React page at 390×844 and 1280×800: section sizes matched at both viewport sizes, with no horizontal overflow. Manual checks covered hero selection, focus controls, navigation and Escape, reduced motion, and readable content with JavaScript disabled. These are local checks, not deployment verification.
 
 The EmDash admin remains at `http://localhost:4321/_emdash/admin`. Existing Cloudflare configuration is retained; local checks do not establish deployment status. Preview hosts are noindex and disallow crawling.

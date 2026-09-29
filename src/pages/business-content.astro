@@ -1,8 +1,25 @@
 ---
 import Company from "../layouts/Company.astro";
-import Page, { metadata } from "../components/company/business-content/page";
----
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import Hero from "../components/business-content/Hero.astro";
+import PrimaryServices from "../components/business-content/PrimaryServices.astro";
+import Workflow from "../components/business-content/Workflow.astro";
+import RelatedBusinesses from "../components/business-content/RelatedBusinesses.astro";
+import Contact from "../components/business-content/Contact.astro";
 
+const metadata = {
+  title: "事業内容",
+  description:
+    "HPのAI化とAX・業務効率化支援を中心に、エンジニアリングとマーケティングの両面から企業のAI活用を支援します。",
+  alternates: { canonical: "/business-content" },
+}
+---
 <Company title={metadata.title} description={metadata.description}>
-  <Page client:load />
+  <CinematicPageFrame>
+    <Hero />
+    <PrimaryServices />
+    <Workflow />
+    <RelatedBusinesses />
+    <Contact />
+  </CinematicPageFrame>
 </Company>

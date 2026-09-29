@@ -1,0 +1,119 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import CinematicImageReveal from "@shared/CinematicImageReveal.astro";
+const relatedBusinesses = [
+  {
+    eyebrow: "LINE × EC",
+    title: "気軽にEC『Lea = レア』",
+    description:
+      "LINE公式アカウントと連動し、注文・決済・お客様とのやり取りをLINEでつなぐEC構築サービスです。",
+    image: "/images/businesses/lea-line-ec.png",
+    imageAlt: "Leaの管理画面とLINE上の商品画面",
+    href: "https://lea-market.com/",
+    cta: "Lea公式サイトへ",
+  },
+  {
+    eyebrow: "RESTAURANT",
+    title: "焼肉処 味来",
+    description:
+      "大阪・心斎橋で、厳選した黒毛和牛と落ち着いた個室空間を提供する飲食事業です。",
+    image: "/images/businesses/mirai-yakiniku.jpg",
+    imageAlt: "焼肉処 味来で提供する黒毛和牛を焼いている様子",
+    href: "https://yakinikudokoro-mirai.com/",
+    cta: "焼肉処 味来公式サイトへ",
+  },
+]
+
+const eyebrowClass =
+  "text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase"
+
+const headingClass =
+  "mt-4 text-3xl font-bold leading-tight tracking-[-0.03em] text-[#F5F1E8] sm:text-4xl lg:text-5xl"
+
+const bodyClass = "text-sm leading-8 text-[#CFC8BC] sm:text-base"
+---
+<CinematicSection>
+<section
+        class="border-b border-[rgba(200,164,93,0.25)] bg-[#0B0B0B]"
+        aria-labelledby="related-businesses-title"
+      >
+        <Container class="py-16 md:py-24">
+          <div class="max-w-3xl">
+            <p class={eyebrowClass}>RELATED BUSINESSES</p>
+            <h2 id="related-businesses-title" class={headingClass}>
+              関連事業
+            </h2>
+            <p class="mt-6 max-w-3xl text-base font-bold leading-8 text-[#FFF1C7] sm:text-lg sm:leading-9">
+              INFLUは、デジタル支援だけでなく、
+              <br class="hidden sm:block" />
+              自ら事業を運営しながら、現場で得た知見を蓄積しています。
+            </p>
+          </div>
+          <div class="mt-12 border-t border-[rgba(224,197,132,0.28)] lg:mt-16">
+            {relatedBusinesses.map((business, businessIndex) => (
+              <article
+                class="group grid border-b border-[rgba(224,197,132,0.28)] lg:grid-cols-2"
+              >
+                <CinematicImageReveal
+                  delay={businessIndex * 0.08}
+                  class={`aspect-[16/10] overflow-hidden bg-[#15130F] lg:aspect-auto lg:min-h-[25rem] ${
+                    businessIndex === 0 ? "lg:order-2" : "lg:order-1"
+                  }`}
+                >
+                  <img
+                    src={business.image}
+                    alt={business.imageAlt}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    class="absolute inset-0 h-full w-full object-cover brightness-[0.76] saturate-[0.78] transition duration-[1200ms] ease-out group-hover:scale-[1.035] group-hover:brightness-[0.88] group-hover:saturate-100" loading="lazy" decoding="async" />
+                  <div
+                    aria-hidden="true"
+                    class="absolute inset-0 bg-[linear-gradient(135deg,rgba(7,7,7,0.34),transparent_48%,rgba(224,197,132,0.08))]"
+                  />
+                </CinematicImageReveal>
+
+                <CinematicReveal
+                  delay={0.08 + businessIndex * 0.08}
+                  direction={businessIndex === 0 ? "left" : "right"}
+                  class={`relative flex flex-col justify-center px-1 py-10 sm:px-8 sm:py-14 lg:min-h-[25rem] lg:px-12 ${
+                    businessIndex === 0 ? "lg:order-1" : "lg:order-2"
+                  }`}
+                >
+                  <div>
+                    <h3
+                      class={`mt-5 font-bold tracking-[-0.03em] text-[#F5F1E8] ${
+                        business.href === "https://lea-market.com/"
+                          ? "whitespace-nowrap text-2xl sm:text-3xl lg:text-3xl xl:text-4xl"
+                          : "text-3xl sm:text-4xl lg:text-5xl"
+                      }`}
+                    >
+                      {business.title}
+                    </h3>
+                    <p class={`mt-6 max-w-xl ${bodyClass}`}>
+                      {business.description}
+                    </p>
+                  </div>
+                  <div class="relative z-10 mt-9">
+                    <a
+                      href={business.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="group/link flex w-fit items-center gap-5 border-b border-[rgba(224,197,132,0.42)] pb-2 text-sm font-bold text-[#F5F1E8] transition duration-300 hover:border-[#FFF1C7] hover:text-[#FFF1C7] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFF1C7]"
+                    >
+                      {business.cta}
+                      <span
+                        aria-hidden="true"
+                        class="text-[#E0C584] transition-transform duration-300 group-hover/link:translate-x-1"
+                      >
+                        →
+                      </span>
+                    </a>
+                  </div>
+                </CinematicReveal>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

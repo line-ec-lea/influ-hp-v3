@@ -11,7 +11,7 @@
       const line = frame.querySelector<HTMLElement>("[data-page-progress]")!;
       const progress = springValue(0, { damping: 28, mass: 0.32, stiffness: 120 });
       progress.on("change", (value) => { line.style.transform = `scaleY(${value})`; });
-      scroll((value) => progress.set(value), { target: frame, offset: ["start start", "end end"] });
+      scroll((value: number) => progress.set(value), { target: frame, offset: ["start start", "end end"] });
     });
   }
 </script>

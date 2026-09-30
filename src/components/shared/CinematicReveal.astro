@@ -1,0 +1,19 @@
+---
+interface Props { class?: string; delay?: number; direction?: "up" | "left" | "right" }
+const { class: className = "", delay = 0, direction = "up" } = Astro.props;
+---
+<div class={className} data-reveal data-delay={delay} data-direction={direction}><slot /></div>
+<script>
+  import { animate, inView, ease, reducedMotion } from "./motion";
+  if (!reducedMotion.matches) {
+    inView("[data-reveal]", (element) => {
+      const { direction, delay } = (element as HTMLElement).dataset;
+      animate(element, {
+        clipPath: ["inset(0 0 34% 0)", "inset(0 0 0% 0)"],
+        filter: ["blur(8px)", "blur(0px)"], opacity: [0, 1],
+        x: [direction === "left" ? -48 : direction === "right" ? 48 : 0, 0],
+        y: [direction === "up" ? 42 : 0, 0],
+      }, { delay: Number(delay), duration: 0.82, ease });
+    }, { amount: 0.16 });
+  }
+</script>

@@ -1,0 +1,118 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const mediaCoverage = [
+  {
+    publisher: "Focus On",
+    title:
+      "試しつづける者が、商いをつくる ― 実践から生まれたマーケティングと生き方",
+    href: "https://focuson.life/article/view/289",
+    image:
+      "https://s3-ap-northeast-1.amazonaws.com/stg-focuson-api-assets-d7c/article%2Fcontent%2F2026%2F01%2F1768378946138-inf_1.jpg",
+    imageAlt:
+      "Focus Onに掲載された株式会社INFLU代表 水戸亮太のインタビュー写真",
+    detailImage:
+      "https://s3-ap-northeast-1.amazonaws.com/stg-focuson-api-assets-d7c/article%2Fcontent%2F2026%2F01%2F1768379143273-inf_01.jpg",
+    detailImageAlt: "Focus Onの記事内に掲載されたINFLUの写真",
+    issue: "FEATURE / 01",
+  },
+  {
+    publisher: "社長の履歴書",
+    title: "株式会社INFLU代表 水戸 亮太氏",
+    href: "https://donzoko-ceo.com/influhp/",
+    image:
+      "https://donzoko-ceo.com/wp-content/uploads/2024/08/IMG_5855-2-1-scaled-e1722496639667.jpg",
+    imageAlt: "社長の履歴書に掲載された株式会社INFLU代表 水戸亮太の写真",
+    issue: "INTERVIEW / 02",
+  },
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#15130F]"
+        aria-labelledby="media-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="max-w-4xl">
+            <div>
+              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                MEDIA
+              </p>
+              <h2
+                id="media-title"
+                class="mt-4 text-4xl font-bold tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+              >
+                INFLUを語る、
+                <br />
+                ふたつのインタビュー。
+              </h2>
+            </div>
+            <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+              私たちの取り組みと、その背景にある考え方を、外部メディアでご紹介いただきました。
+            </p>
+          </CinematicReveal>
+
+          <div class="mt-16 lg:mt-20">
+            {mediaCoverage.map((item, index) => (
+              <CinematicReveal
+                delay={index * 0.1}
+                class={index === 1 ? "mt-14 lg:mt-20" : ""}
+              >
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class={`group grid overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] focus-visible:ring-offset-4 focus-visible:ring-offset-[#15130F] ${index === 0 ? "lg:grid-cols-[minmax(0,1.24fr)_minmax(25rem,0.76fr)]" : "lg:grid-cols-[minmax(21rem,0.65fr)_minmax(0,1.35fr)]"}`}
+                >
+                  <div
+                    class={`relative min-h-80 overflow-hidden bg-[#090909] ${index === 1 ? "lg:order-2" : ""}`}
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.imageAlt}
+                      class="h-full w-full object-cover brightness-[0.76] saturate-[0.8] transition duration-700 group-hover:scale-[1.035] group-hover:brightness-[0.94]"
+                    />
+                    <div
+                      aria-hidden="true"
+                      class="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,9,9,0.06)_28%,rgba(9,9,9,0.68)_100%)]"
+                    />
+                    <p class="absolute left-5 top-5 text-[0.65rem] font-bold tracking-[0.18em] text-[#FFF1C7] sm:left-7 sm:top-7">
+                      {item.issue}
+                    </p>
+                  </div>
+                  <div
+                    class={`relative flex min-h-80 flex-col justify-end bg-[#201D16] p-7 sm:p-10 lg:p-12 ${index === 1 ? "lg:order-1" : ""}`}
+                  >
+                    {index === 0 && item.detailImage ? (
+                      <div class="absolute right-7 top-7 h-20 w-28 overflow-hidden border border-[#E0C584]/35 sm:right-10 sm:top-10 sm:h-28 sm:w-40">
+                        <img
+                          src={item.detailImage}
+                          alt={item.detailImageAlt}
+                          class="h-full w-full object-cover brightness-[0.75] saturate-[0.78]"
+                        />
+                      </div>
+                    ) : null}
+                    <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
+                      {item.publisher}
+                    </p>
+                    <h3 class="mt-5 text-2xl font-bold leading-9 tracking-[-0.035em] text-[#F5F1E8] transition-colors group-hover:text-[#FFF1C7] sm:text-3xl sm:leading-10">
+                      {item.title}
+                    </h3>
+                    <p class="mt-8 inline-flex items-center gap-3 text-sm font-bold text-[#FFF1C7]">
+                      記事を読む
+                      <span
+                        class="text-xl transition-transform duration-300 group-hover:translate-x-1"
+                        aria-hidden="true"
+                      >
+                        →
+                      </span>
+                    </p>
+                  </div>
+                </a>
+              </CinematicReveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

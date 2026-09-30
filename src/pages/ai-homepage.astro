@@ -1,0 +1,35 @@
+---
+import Company from "../layouts/Company.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import Hero from "../components/ai-homepage/Hero.astro";
+import Issues from "../components/ai-homepage/Issues.astro";
+import Definition from "../components/ai-homepage/Definition.astro";
+import Comparison from "../components/ai-homepage/Comparison.astro";
+import Outcomes from "../components/ai-homepage/Outcomes.astro";
+import Process from "../components/ai-homepage/Process.astro";
+import SuitableCompanies from "../components/ai-homepage/SuitableCompanies.astro";
+import UnsuitableCases from "../components/ai-homepage/UnsuitableCases.astro";
+import CaseStudy from "../components/ai-homepage/CaseStudy.astro";
+import Contact from "../components/ai-homepage/Contact.astro";
+
+const metadata = {
+  title: "HPのAI化",
+  description:
+    "既存ホームページの制作・保守・更新をAI活用前提で再設計し、自社主導で運用・改善できる体制への移行を支援します。",
+  alternates: { canonical: "/ai-homepage" },
+}
+---
+<Company title={metadata.title} description={metadata.description}>
+  <CinematicPageFrame>
+    <Hero />
+    <Issues />
+    <Definition />
+    <Comparison />
+    <Outcomes />
+    <Process />
+    <SuitableCompanies />
+    <UnsuitableCases />
+    <CaseStudy />
+    <Contact />
+  </CinematicPageFrame>
+</Company>

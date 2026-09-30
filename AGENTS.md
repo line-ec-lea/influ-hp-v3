@@ -78,6 +78,25 @@ The article layout is the standout feature: a three-column reading view with a l
 
 ## Customisation
 
+### Company pages
+
+Pages using `src/layouts/Company.astro` use Tailwind utilities directly in the markup. Their only stylesheet entry is `src/styles/global.css`, containing the Tailwind import and `@theme` values. Do not add custom selectors, `<style>` blocks, `@apply`, or imports of the legacy template styles to these pages.
+
+The company pages are a faithful port of `/Users/blaze/react/INFLU` at `fb66476`, not a new design. Preserve the original black/gold palette, Noto Sans JP typography, content and motion. All company routes, including privacy and 404, compose native Astro sections with browser scripts using `framer-motion/dom`. Keep them free of React page wrappers and `client:load`. Motion's runtime inline styles are intentional; use native anchors instead of Next.js imports. React remains installed for EmDash's admin integration.
+
+Keep staff-blog, company-achievements and useful-materials excluded, including their links and homepage sections. Do not add a theme toggle or a duplicate site-data layer. Run `node scripts/check-original-parity.mjs` and `node scripts/check-company-site.mjs` after company changes; the latter needs the local preview running.
+
+### Component ownership
+
+- Put components reused in more than two places in `src/components/shared/`; reuse that implementation instead of copying it between pages.
+- Keep homepage-only sections in `src/components/home/` and other page-specific sections under `src/components/<page>/`. Keep section content in its Astro frontmatter or markup. Do not restore the removed `company/` React tree or `shared/react/` adapters.
+- `Company.astro` owns the Navbar, main landmark and Footer. Page bodies must not render duplicates. Its navigation reads the current route; do not hard-code homepage behavior.
+- Keep the deferred blog template separate. Contact retains page-specific designs: shared `Contact.astro` for home, shared `GeneralContact.astro` for privacy/404, and each other page's own closing section. Agree on a common variant before unifying its layout placement.
+
+### Deferred blog template
+
+The rules below apply to the original blog template using `Base.astro`, not the company pages. Keep blog work deferred unless explicitly requested.
+
 Design tokens live in `src/styles/tokens.css` with their default values. To restyle the site, override tokens in `src/styles/theme.css` -- declarations there are unlayered, so they always beat the `@layer base` defaults. Don't edit `tokens.css` or `Base.astro` for visual changes.
 
 Colours are defined with `light-dark(<light>, <dark>)`, so each token carries both modes. Overriding with a plain colour changes light and dark at once; use `light-dark()` in the override to keep them distinct. There is no separate dark palette to maintain.

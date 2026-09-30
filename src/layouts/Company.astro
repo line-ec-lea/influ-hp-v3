@@ -1,0 +1,65 @@
+---
+import { Font } from "astro:assets";
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import { organizationJsonLd, SITE_NAME, SITE_URL } from "@shared/features/seo";
+import Navbar from "@shared/Navbar.astro";
+import Footer from "@shared/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex = false } = Astro.props;
+const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+const production = Astro.url.hostname === new URL(SITE_URL).hostname;
+const pageCtx = createPublicPageContext({
+  Astro,
+  kind: "custom",
+  pageType: "website",
+  title: fullTitle,
+  description,
+  canonical,
+  siteName: SITE_NAME,
+  image: new URL("/opengraph-image.png", SITE_URL).href,
+  seo: { robots: noindex || !production ? "noindex, nofollow" : "index, follow" },
+});
+---
+
+<!doctype html>
+<html lang="ja" class="relative scroll-smooth motion-reduce:scroll-auto scheme-dark" data-scroll-behavior="smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <Font cssVariable="--font-noto-sans-jp" preload />
+    <title>{fullTitle}</title>
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <EmDashHead page={pageCtx} />
+    <meta property="og:locale" content="ja_JP" />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd()).replace(/</g, "\\u003c")} />
+    {production && <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-574C7JR");
+    </script>}
+  </head>
+  <body class="m-0 flex min-h-dvh flex-col overflow-x-hidden bg-page font-sans leading-[1.7] text-foreground antialiased [font-synthesis:none] [text-rendering:optimizeLegibility] selection:bg-gold-400/34 selection:text-foreground [&_:focus-visible]:outline-2 [&_:focus-visible]:outline-offset-3 [&_:focus-visible]:outline-gold-300/68 motion-reduce:[&_*]:duration-[0.001ms] motion-reduce:[&_*]:scroll-auto">
+    <EmDashBodyStart page={pageCtx} />
+    {production && <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-574C7JR" height="0" width="0" class="invisible hidden" title="Google Tag Manager" /></noscript>}
+    <a class="fixed -top-24 left-5 z-[400] bg-page px-6 py-4 text-foreground focus:top-3" href="#main-content">本文へスキップ</a>
+    <Navbar />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <EmDashBodyEnd page={pageCtx} />
+  </body>
+</html>

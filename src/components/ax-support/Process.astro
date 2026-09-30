@@ -1,0 +1,99 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const processSteps = [
+  [
+    "DISCOVER",
+    "課題を棚卸しする",
+    "業務、マーケティング、既存の仕組みを確認し、どこから手をつけるべきかを見極めます。",
+  ],
+  [
+    "DESIGN",
+    "優先順位を決める",
+    "効果と実行しやすさを見ながら、現場に負荷をかけすぎない進め方を設計します。",
+  ],
+  [
+    "BUILD",
+    "実行し、引き渡す",
+    "仕組みを動かしながら改善し、社内で使い続けられる状態まで伴走します。",
+  ],
+]
+
+const sectionLabel =
+  "text-xs font-bold tracking-[0.2em] text-gold-300 uppercase"
+
+const darkHeading =
+  "mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-foreground sm:text-5xl lg:text-6xl"
+---
+<CinematicSection>
+<section class="bg-[#15130F]" aria-labelledby="process-title">
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal
+            direction="left"
+            class="grid gap-8 border-b border-line-gold pb-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-20 lg:pb-14"
+          >
+            <div>
+              <p class={sectionLabel}>HOW WE WORK</p>
+              <SunlitHeading
+                id="process-title"
+                delay={0.08}
+                class={darkHeading}
+              >
+                一緒に考え、
+                <br />
+                動かせる形へ。
+              </SunlitHeading>
+            </div>
+            <p class="max-w-2xl text-sm leading-8 text-muted sm:text-base lg:pb-1">
+              大きな変革を急ぐよりも、今の組織で確実に動かせる一歩から。進めながら調整し、実務に定着するところまで見届けます。
+            </p>
+          </CinematicReveal>
+
+          <div
+            role="list"
+            aria-label="AX支援の進め方"
+            class="mt-12 lg:grid lg:grid-cols-3 lg:gap-10"
+          >
+            {processSteps.map(([label, title, description], index) => (
+              <div
+                role="listitem"
+                class="relative border-b border-line-gold py-9 last:border-b-0 lg:border-b-0 lg:border-r lg:py-4 lg:pr-10 lg:last:border-r-0 lg:last:pr-0"
+              >
+                <CinematicReveal
+                  delay={0.08 + index * 0.1}
+                  class="flex h-full flex-col"
+                >
+                  <span class="whitespace-nowrap text-[clamp(2.25rem,3.6vw,3.75rem)] font-bold leading-none tracking-[-0.05em] text-gold-300">
+                    {label}
+                  </span>
+                  <h3 class="mt-8 text-2xl font-bold tracking-[-0.035em] text-foreground sm:text-3xl lg:mt-12">
+                    {title}
+                  </h3>
+                  <p class="mt-4 max-w-md text-sm leading-8 text-muted">
+                    {description}
+                  </p>
+                </CinematicReveal>
+                {index < processSteps.length - 1 ? (
+                  <>
+                    <span
+                      aria-hidden="true"
+                      class="absolute -bottom-6 left-3 z-10 text-xl text-gold-300 lg:hidden"
+                    >
+                      ↓
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      class="absolute -right-7 top-5 z-10 hidden text-xl text-gold-300 lg:block"
+                    >
+                      →
+                    </span>
+                  </>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

@@ -1,0 +1,26 @@
+---
+import { decodeSlug, getEmDashEntry } from "emdash";
+import Company from "../../layouts/Company.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import EditorialArticle from "@shared/EditorialArticle.astro";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect("/404");
+
+const { entry, error, cacheHint } = await getEmDashEntry("company_achievements", slug);
+if (error) return new Response("Unable to load article", { status: 500 });
+if (!entry) return Astro.redirect("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+---
+
+<Company title={entry.data.title} description={entry.data.excerpt ?? "株式会社INFLUの会社実績をご紹介します。"}>
+  <CinematicPageFrame>
+    <EditorialArticle
+      entry={entry}
+      collection="company_achievements"
+      basePath="/company-achievements"
+      sectionLabel="会社実績"
+      eyebrow="Achievements"
+    />
+  </CinematicPageFrame>
+</Company>

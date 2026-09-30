@@ -1,0 +1,59 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const unsuitableCases = [
+  "デザイン品質や世界観づくりを最優先したい",
+  "AIに任せれば確認なしですべて自動化できることを期待している",
+  "完成品を納品してもらうだけの発注関係を求めている",
+  "一度作って終わりで、運用体制の見直しは不要",
+  "改善を続ける必要がなく、現状維持で十分",
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#0C0B09]"
+        aria-labelledby="unsuitable-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal direction="left" class="max-w-4xl">
+            <p class="text-xs font-bold tracking-[0.18em] text-[#E0C584] uppercase">
+              NOT A GOOD FIT
+            </p>
+            <SunlitHeading
+              id="unsuitable-title"
+              delay={0.08}
+              class="mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+            >
+              向いていない場合
+            </SunlitHeading>
+          </CinematicReveal>
+
+          <ul class="mt-16 grid gap-14 md:mt-20 lg:mt-24 lg:grid-cols-3 lg:gap-16">
+            {unsuitableCases.map((item, index) => (
+              <li class="group relative min-h-64">
+                <CinematicReveal
+                  delay={0.08 + index * 0.1}
+                  class="relative h-full pt-20"
+                >
+                  <span
+                    aria-hidden="true"
+                    class="pointer-events-none absolute top-0 left-0 text-[7.5rem] font-light leading-none text-[#E0C584]/18 transition-[color,transform] duration-500 group-hover:translate-x-2 group-hover:text-[#E0C584]/28 sm:text-[9rem]"
+                  >
+                    ×
+                  </span>
+                  <p class="relative z-10 max-w-md text-xl font-bold leading-9 tracking-[-0.025em] text-[#F5F1E8] sm:text-2xl sm:leading-10">
+                    {item}
+                  </p>
+                  <span
+                    aria-hidden="true"
+                    class="mt-8 block h-px w-12 bg-[#E0C584]/45 transition-[width,opacity] duration-500 group-hover:w-20 group-hover:bg-[#FFF1C7]/70"
+                  />
+                </CinematicReveal>
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </section>
+</CinematicSection>

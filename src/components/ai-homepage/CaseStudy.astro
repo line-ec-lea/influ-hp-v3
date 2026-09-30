@@ -1,0 +1,81 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const caseStudyPoints = [
+  "外部依存の運用から、自社で更新・改善を進めやすい体制へ移行",
+  "記事更新、コード修正、セキュリティ更新を自社で管理しやすい体制へ変更",
+  "技術的な変更そのものではなく、マーケティングのスピードと精度を高めるための事例として紹介",
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#15130F]"
+        aria-labelledby="case-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal direction="left">
+            <p class="text-xs font-bold tracking-[0.18em] text-[#E0C584] uppercase">
+              INFLU CASE STUDY
+            </p>
+            <SunlitHeading
+              id="case-title"
+              delay={0.08}
+              class="mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+            >
+              INFLU自身の事例
+            </SunlitHeading>
+          </CinematicReveal>
+
+          <div class="relative mt-14 md:mt-18 lg:mt-24 lg:min-h-[38rem]">
+            <CinematicReveal
+              delay={0.12}
+              class="pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 select-none lg:block"
+            >
+              <p
+                aria-hidden="true"
+                class="text-center text-[clamp(9rem,20vw,19rem)] font-bold leading-none tracking-[-0.09em] text-transparent [-webkit-text-stroke:1px_rgba(224,197,132,0.16)]"
+              >
+                INFLU
+              </p>
+            </CinematicReveal>
+
+            <ol class="relative z-10 grid gap-14 lg:block lg:min-h-[38rem]">
+              {caseStudyPoints.map((point, index) => (
+                <li
+                  class={`relative max-w-2xl ${index === 0 ? "lg:absolute lg:top-0 lg:left-0 lg:w-[46%]" : index === 1 ? "lg:absolute lg:top-20 lg:right-0 lg:w-[40%]" : "lg:absolute lg:bottom-0 lg:left-[18%] lg:w-[64%] lg:max-w-4xl"}`}
+                >
+                  <CinematicReveal
+                    direction={index === 1 ? "right" : "left"}
+                    delay={0.18 + index * 0.1}
+                    class="group"
+                  >
+                    <div class="flex items-center gap-4">
+                      <span class="text-xs font-bold tracking-[0.18em] text-[#E0C584]">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        class="h-px w-10 bg-[#E0C584]/50 transition-[width] duration-500 group-hover:w-16"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <p class="mt-6 text-lg font-bold leading-9 tracking-[-0.025em] text-[#F5F1E8] sm:text-xl sm:leading-10 lg:text-2xl">
+                      {point}
+                    </p>
+                  </CinematicReveal>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <p class="mt-14 flex max-w-4xl gap-4 text-xs leading-7 text-[#9F988D] sm:text-sm sm:leading-8 lg:mt-20">
+            <span
+              class="mt-3 h-px w-8 shrink-0 bg-[#E0C584]/70"
+              aria-hidden="true"
+            />
+            ※費用・期間・アクセス数等の具体的な数字は、掲載可否を確認したものだけ使用します。
+          </p>
+        </Container>
+      </section>
+</CinematicSection>

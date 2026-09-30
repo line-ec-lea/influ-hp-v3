@@ -1,0 +1,78 @@
+---
+import Container from "./Container.astro";
+import CinematicReveal from "./CinematicReveal.astro";
+import SpecularButton from "./SpecularButton.astro";
+import { CONTACT_FORM_HREF, RECRUITMENT_FORM_HREF } from "@shared/features/contact";
+import { routes } from "@shared/features/routes";
+---
+<section data-general-contact class="relative z-30 min-h-[88svh] overflow-hidden border-t border-line bg-page">
+  <div data-contact-line aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 z-[1] h-px origin-left bg-[linear-gradient(90deg,transparent,var(--color-gold-300),transparent)] shadow-[0_0_18px_rgb(201_165_109_/_0.28)]"></div>
+  <div data-contact-ambient aria-hidden="true" class="pointer-events-none absolute -right-48 top-1/4 h-96 w-96 rounded-full bg-gold-300/[0.035] blur-3xl"></div>
+  <div data-contact-content class="relative z-[2]">
+<Container class={"py-16 md:py-20"}>
+      <CinematicReveal class={"relative overflow-hidden border-y border-line py-10 text-foreground md:py-14"}>
+        <div class={"grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.42fr)] lg:items-end"}>
+          <div class="max-w-3xl">
+            <p class={"text-xs font-bold tracking-normal text-gold-300"}>
+              CONTACT
+            </p>
+            {(<h2 class={`${"text-4xl font-semibold leading-tight tracking-normal text-foreground md:text-5xl lg:text-6xl"} mt-4 text-balance`}>
+                まずは、いまの課題を聞かせてください。
+              </h2>)}
+            <p class={`mt-5 max-w-2xl leading-8 ${"text-muted"}`}>
+              {"AI導入、AX、ホームページの課題、業務効率化まで。事業と現場の状況に合わせて、どこから始めるべきか一緒に整理します。"}
+            </p>
+          </div>
+
+          {(<div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" fullWidth>
+                相談する
+              </SpecularButton>
+              <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" fullWidth>
+                ホームページについて相談する
+              </SpecularButton>
+            </div>)}
+        </div>
+
+        {(<div class="mt-10 grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-2">
+            <div class={`${"relative overflow-hidden rounded-lg border border-line bg-[linear-gradient(180deg,rgb(255_255_255_/_0.026),transparent_70%)] bg-[#0a0b0b]/90 shadow-[0_18px_70px_rgb(0_0_0_/_0.22)] transition duration-200 hover:-translate-y-0.5 hover:border-line-gold hover:bg-surface"} bg-page p-6 md:p-7`}>
+              <h3 class="text-lg font-bold">事業を知る</h3>
+              <p class="mt-3 text-sm leading-7 text-muted">
+                WEBマーケティング、スクール、LINE構築など、INFLUの事業内容をご覧いただけます。
+              </p>
+              <a href={routes.service} class="mt-6 inline-flex min-h-11 items-center text-sm font-semibold text-gold-300 transition-colors duration-200 hover:text-foreground">
+                事業内容を見る
+              </a>
+            </div>
+
+            <div class={`${"relative overflow-hidden rounded-lg border border-line bg-[linear-gradient(180deg,rgb(255_255_255_/_0.026),transparent_70%)] bg-[#0a0b0b]/90 shadow-[0_18px_70px_rgb(0_0_0_/_0.22)] transition duration-200 hover:-translate-y-0.5 hover:border-line-gold hover:bg-surface"} bg-page p-6 md:p-7`}>
+              <h3 class="text-lg font-bold">一緒に働く</h3>
+              <p class="mt-3 text-sm leading-7 text-muted">
+                INFLUで一緒に働く仲間を募集しています。ご興味のある方はフォームよりお気軽にご応募ください。
+              </p>
+              <a href={RECRUITMENT_FORM_HREF} target="_blank" rel="noopener noreferrer" class="mt-6 inline-flex min-h-11 items-center text-sm font-semibold text-gold-300 transition-colors duration-200 hover:text-foreground">
+                採用に応募する
+              </a>
+            </div>
+          </div>)}
+      </CinematicReveal>
+    </Container>
+  </div>
+  <div data-contact-shine aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 z-[4] w-[22vw] bg-[linear-gradient(90deg,transparent,rgb(201_165_109_/_0.16),transparent)] mix-blend-screen opacity-0"></div>
+</section>
+<script>
+  import { animate, inView, scroll, ease, reducedMotion } from "./motion";
+  if (!reducedMotion.matches) {
+    document.querySelectorAll<HTMLElement>("[data-general-contact]").forEach((section) => {
+      const ambient = section.querySelector("[data-contact-ambient]")!;
+      scroll(animate(ambient, { y: [80, -80] }, { ease: "linear" }), { target: section, offset: ["start end", "end start"] });
+      inView(section.querySelector("[data-contact-line]")!, (line) => { animate(line, { scaleX: [0, 1] }, { duration: 1.1, ease }); }, { amount: 0.08 });
+      inView(section.querySelector("[data-contact-content]")!, (content) => {
+        animate(content, { clipPath: ["inset(0 0 20% 0)", "inset(0 0 0% 0)"], filter: ["blur(9px)", "blur(0px)"], opacity: [0.18, 1], scale: [0.988, 1], y: [68, 0] }, { duration: 1, ease });
+      }, { amount: 0.07 });
+      inView(section.querySelector("[data-contact-shine]")!, (shine) => {
+        animate(shine, { x: ["-120%", "560%"], opacity: [0, 1, 0] }, { duration: 1.45, ease });
+      }, { amount: 0.07 });
+    });
+  }
+</script>

@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Original INFLU palette. Layout and state styling stay in Tailwind utilities. */
+@theme inline {
+  --color-background: #060606;
+  --color-foreground: #f4f2ed;
+  --color-page: #060606;
+  --color-section: #090a0a;
+  --color-elevated: #0e1010;
+  --color-surface: #131515;
+  --color-soft: #181a19;
+  --color-muted: #aaa9a4;
+  --color-subtle: #85857f;
+  --color-accent: #b08a55;
+  --color-gold-300: #c9a56d;
+  --color-gold-400: #b08a55;
+  --color-gold-700: #765b36;
+  --color-line: rgb(255 255 255 / 0.09);
+  --color-line-gold: rgb(176 138 85 / 0.3);
+  --color-focus: rgb(201 165 109 / 0.68);
+  --font-sans: var(--font-noto-sans-jp), "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, system-ui, sans-serif;
+}

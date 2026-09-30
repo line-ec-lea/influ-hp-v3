@@ -1,0 +1,70 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const changes = [
+  "記事や文言を自社で更新できる範囲が広がる",
+  "ヘッドコピー、CTA、導線などの改善を外部への依頼待ちにしにくくなる",
+  "自社の一次情報を使ったコンテンツ制作と公開を進めやすくなる",
+  "保守内容や更新状況を把握しやすくなる",
+  "サイトを「置物」にせず、マーケティング施策と連動させやすくなる",
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#15130F]"
+        aria-labelledby="changes-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal direction="left">
+            <p class="text-xs font-bold tracking-[0.18em] text-[#E0C584] uppercase">
+              OUTCOMES
+            </p>
+            <SunlitHeading
+              id="changes-title"
+              delay={0.08}
+              class="mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+            >
+              何が変わるか
+            </SunlitHeading>
+          </CinematicReveal>
+
+          <ol class="mt-14 grid gap-12 md:mt-18 md:gap-16 lg:mt-24 lg:gap-20">
+            {changes.map((change, index) => (
+              <li
+                class={`relative w-full max-w-5xl ${index % 2 === 0 ? "mr-auto" : "ml-auto"}`}
+              >
+                <CinematicReveal
+                  direction={index % 2 === 0 ? "left" : "right"}
+                  delay={0.06 + index * 0.07}
+                >
+                  <div class="grid gap-5 sm:grid-cols-[5.5rem_minmax(0,1fr)] sm:items-start sm:gap-8">
+                    <div class="flex items-center gap-3 sm:block">
+                      <span class="text-4xl font-bold leading-none tracking-[-0.07em] text-[#E0C584]/45 sm:text-5xl">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span
+                        class="h-px w-10 bg-[#E0C584]/60 sm:mt-5 sm:block sm:w-full"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <p class="text-xl font-bold leading-[1.55] tracking-[-0.03em] text-[#F5F1E8] sm:text-2xl lg:text-3xl lg:leading-[1.45]">
+                      {change}
+                    </p>
+                  </div>
+                </CinematicReveal>
+              </li>
+            ))}
+          </ol>
+
+          <p class="mt-16 flex max-w-4xl gap-4 text-xs leading-7 text-[#9F988D] sm:mt-20 sm:text-sm sm:leading-8 lg:mt-24">
+            <span
+              class="mt-3 h-px w-8 shrink-0 bg-[#E0C584]/75"
+              aria-hidden="true"
+            />
+            ※費用、更新速度、SEO・AI検索への影響は、サイト規模や運用体制によって異なるため成果を断定しません。
+          </p>
+        </Container>
+      </section>
+</CinematicSection>

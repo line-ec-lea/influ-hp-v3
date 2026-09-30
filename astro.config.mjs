@@ -3,8 +3,10 @@ import react from "@astrojs/react";
 import { d1, r2 } from "@emdash-cms/cloudflare";
 import { defineConfig, fontProviders } from "astro/config";
 import emdash from "emdash/astro";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
+	vite: { plugins: [tailwindcss()] },
 	output: "server",
 	adapter: cloudflare(),
 	image: {
@@ -19,6 +21,13 @@ export default defineConfig({
 		}),
 	],
 	fonts: [
+		{
+			provider: fontProviders.google(),
+			name: "Noto Sans JP",
+			cssVariable: "--font-noto-sans-jp",
+			weights: ["100 900"],
+			fallbacks: ["sans-serif"],
+		},
 		{
 			provider: fontProviders.google(),
 			name: "Inter",

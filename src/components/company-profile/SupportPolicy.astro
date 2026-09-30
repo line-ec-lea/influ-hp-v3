@@ -1,0 +1,122 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const supportPrinciples = [
+  {
+    title: "小さく始めて、確かめながら進める",
+    description:
+      "最初から大きな仕組みをつくらず、優先度の高い課題から着手し、現場の反応を見ながら育てます。",
+  },
+  {
+    title: "導入ではなく、使い続けられる状態をつくる",
+    description:
+      "新しい技術を入れること自体を目的にせず、日々の業務に無理なく定着するところまで支援します。",
+  },
+  {
+    title: "自社で動かし、改善できる力を残す",
+    description:
+      "外部へ任せ続ける状態から、必要な更新や改善を自社で判断し、進められる状態へつなげます。",
+  },
+  {
+    title: "事業の背景を理解し、長く伴走する",
+    description:
+      "目の前の施策だけで判断せず、事業の成り立ちや想い、これから目指す姿を共有して支援します。",
+  },
+]
+---
+<CinematicSection>
+<section class="bg-[#15130F]" aria-labelledby="support-policy-title">
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="mx-auto max-w-4xl text-center">
+            <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+              SUPPORT POLICY
+            </p>
+            <h2
+              id="support-policy-title"
+              class="mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+            >
+              支援の先に、自走を。
+            </h2>
+            <p class="mx-auto mt-6 max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+              私たちが目指すのは、支援がなくても改善を続けられる状態です。現場と一緒に考え、試し、運用できる力を企業の中に残します。
+            </p>
+          </CinematicReveal>
+
+          <div class="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.8fr)_minmax(0,1fr)] lg:items-center lg:gap-14">
+            <ol class="order-2 grid gap-10 sm:grid-cols-2 lg:order-1 lg:grid-cols-1 lg:gap-20">
+              {supportPrinciples.slice(0, 2).map((principle, index) => (
+                <li class="lg:text-right">
+                  <CinematicReveal delay={index * 0.05} class="group">
+                    <span class="text-xs font-bold tracking-[0.18em] text-[#E0C584]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3 class="mt-3 text-xl font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl sm:leading-9">
+                      {principle.title}
+                    </h3>
+                    <p class="mt-3 text-sm leading-7 text-[#CFC8BC] sm:leading-8">
+                      {principle.description}
+                    </p>
+                  </CinematicReveal>
+                </li>
+              ))}
+            </ol>
+
+            <CinematicReveal
+              delay={0.08}
+              class="order-1 flex min-h-72 items-center justify-center lg:order-2 lg:min-h-[30rem]"
+            >
+              <div class="relative isolate w-full text-center">
+                <div
+                  aria-hidden="true"
+                  class="absolute left-1/2 top-1/2 -z-10 h-72 w-72 -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(224,197,132,0.14),rgba(224,197,132,0.035)_42%,transparent_70%)] blur-xl"
+                />
+                <p class="text-xs font-bold tracking-[0.22em] text-[#E0C584]/70 uppercase">
+                  INFLU SUPPORT
+                </p>
+                <div class="mt-7 flex items-center justify-center gap-4 sm:gap-6 lg:flex-col lg:gap-3">
+                  <span class="text-4xl font-bold tracking-[-0.05em] text-[#F5F1E8] sm:text-5xl">
+                    伴走
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    class="text-4xl font-light text-[#E0C584] lg:rotate-90"
+                  >
+                    →
+                  </span>
+                  <span class="text-5xl font-bold tracking-[-0.05em] text-[#FFF1C7] sm:text-6xl lg:text-7xl">
+                    自走
+                  </span>
+                </div>
+                <p class="mx-auto mt-8 max-w-60 text-sm leading-7 text-[#CFC8BC]">
+                  一緒につくる支援から、
+                  <br />
+                  自社で育てる力へ。
+                </p>
+              </div>
+            </CinematicReveal>
+
+            <ol
+              start={3}
+              class="order-3 grid gap-10 sm:grid-cols-2 lg:grid-cols-1 lg:gap-20"
+            >
+              {supportPrinciples.slice(2).map((principle, index) => (
+                <li>
+                  <CinematicReveal delay={(index + 2) * 0.05} class="group">
+                    <span class="text-xs font-bold tracking-[0.18em] text-[#E0C584]">
+                      {String(index + 3).padStart(2, "0")}
+                    </span>
+                    <h3 class="mt-3 text-xl font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl sm:leading-9">
+                      {principle.title}
+                    </h3>
+                    <p class="mt-3 text-sm leading-7 text-[#CFC8BC] sm:leading-8">
+                      {principle.description}
+                    </p>
+                  </CinematicReveal>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

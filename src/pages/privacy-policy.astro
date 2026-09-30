@@ -1,0 +1,14 @@
+---
+import Company from "../layouts/Company.astro";
+import Header from "../components/privacy-policy/Header.astro";
+import Policy from "../components/privacy-policy/Policy.astro";
+import GeneralContact from "@shared/GeneralContact.astro";
+---
+
+<Company title="プライバシーポリシー" description="株式会社INFLUの個人情報保護方針（プライバシーポリシー）をご案内します。">
+  <div class="relative isolate overflow-hidden bg-[linear-gradient(180deg,var(--color-page),var(--color-section)_42%,var(--color-page))] text-foreground [&>section]:relative [&>section]:z-30 [&>.mx-auto]:relative [&>.mx-auto]:z-30">
+    <Header />
+    <Policy />
+  </div>
+  <GeneralContact />
+</Company>

@@ -1,0 +1,43 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import { CONTACT_FORM_HREF } from "@shared/features/contact";
+
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#090909]"
+        aria-labelledby="cta-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <div class="max-w-3xl">
+              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                CONTACT
+              </p>
+              <h2
+                id="cta-title"
+                class="mt-4 text-balance text-4xl font-bold leading-tight tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+              >
+                まずは、いまの課題を
+                <br />
+                聞かせてください。
+              </h2>
+              <p class="mt-6 max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+                HPのAI化、AX・業務効率化、マーケティング支援について。何から始めるべきか決まっていない段階でも、ご相談いただけます。
+              </p>
+            </div>
+            <SpecularButton
+              href={CONTACT_FORM_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="w-full md:w-auto lg:justify-self-end"
+            >
+              相談してみる
+            </SpecularButton>
+          </CinematicReveal>
+        </Container>
+      </section>
+</CinematicSection>

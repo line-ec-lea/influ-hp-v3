@@ -1,0 +1,47 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import { CONTACT_FORM_HREF } from "@shared/features/contact";
+const sectionLabel =
+  "text-xs font-bold tracking-[0.2em] text-gold-300 uppercase"
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#090909]"
+        aria-labelledby="cta-title"
+      >
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,rgba(201,165,109,0.24),transparent_48%)]"
+        />
+        <Container class="relative py-24 text-center md:py-32 lg:py-40">
+          <CinematicReveal class="mx-auto max-w-4xl">
+            <p class={sectionLabel}>LET&apos;S START WITH THE REAL WORK</p>
+            <SunlitHeading
+              id="cta-title"
+              delay={0.08}
+              class="mt-5 text-balance text-4xl font-bold leading-[1.18] tracking-[-0.05em] text-foreground sm:text-5xl lg:text-7xl"
+            >
+              AIを、次の仕事の
+              <br />
+              味方にしよう。
+            </SunlitHeading>
+            <p class="mx-auto mt-7 max-w-2xl text-sm leading-8 text-muted sm:text-base">
+              まずは、いまの仕事で時間がかかっていること、前に進めたいことをお聞かせください。
+            </p>
+            <div class="mt-10">
+              <SpecularButton
+                href={CONTACT_FORM_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                企業のAI活用・AXについて相談する
+              </SpecularButton>
+            </div>
+          </CinematicReveal>
+        </Container>
+      </section>
+</CinematicSection>

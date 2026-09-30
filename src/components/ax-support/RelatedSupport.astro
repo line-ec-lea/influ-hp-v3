@@ -1,0 +1,56 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import { routes } from "@shared/features/routes";
+const sectionLabel =
+  "text-xs font-bold tracking-[0.2em] text-gold-300 uppercase"
+
+const darkHeading =
+  "mt-4 text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-foreground sm:text-5xl lg:text-6xl"
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden border-y border-line-gold bg-[#090909]"
+        aria-labelledby="relation-title"
+      >
+        <Container class="py-16 md:py-20">
+          <CinematicReveal
+            direction="left"
+            class="relative z-10 grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(24rem,0.72fr)] lg:items-end lg:gap-24"
+          >
+            <div>
+              <p class={sectionLabel}>RELATED SUPPORT</p>
+              <SunlitHeading
+                id="relation-title"
+                delay={0.08}
+                class={darkHeading}
+              >
+                HPのAI化
+              </SunlitHeading>
+            </div>
+            <div class="max-w-xl">
+              <p class="text-base font-bold leading-8 tracking-[-0.02em] text-foreground sm:text-lg sm:leading-9">
+                ホームページも、AXの土台になる。
+              </p>
+              <p class="mt-4 text-sm leading-8 tracking-normal text-muted sm:text-base">
+                更新や発信の速度が課題になっている場合は、AI活用を前提にホームページの仕組みから見直すこともできます。
+              </p>
+              <a
+                href={routes.aiHomepage}
+                class="group mt-8 grid w-fit min-w-48 grid-cols-[1fr_auto] items-center gap-10 border-b border-gold-300/70 pb-3 text-sm font-bold tracking-[0.02em] text-foreground transition-colors duration-300 hover:text-gold-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300"
+              >
+                詳しく見る
+                <span
+                  aria-hidden="true"
+                  class="text-gold-300 transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </a>
+            </div>
+          </CinematicReveal>
+        </Container>
+      </section>
+</CinematicSection>

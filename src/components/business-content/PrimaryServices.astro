@@ -1,0 +1,166 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+import BusinessSystemFlow from "./BusinessSystemFlow.astro";
+import { routes } from "@shared/features/routes";
+const primaryServices = [
+  {
+    number: "01",
+    eyebrow: "AI-READY HOMEPAGE",
+    title: "HPのAI化",
+    lead: "既存ホームページを、AI活用前提の運用へ。",
+    description:
+      "ホームページを、専門業者へ依頼し続けるものから、社内で育てられる事業基盤へ変えていきます。",
+    details: [
+      {
+        label: "今の課題",
+        text: "更新のたびに、外部への依頼が必要になる。",
+      },
+      {
+        label: "INFLUの支援",
+        text: "社内で更新・改善できる仕組みを整える。",
+      },
+      {
+        label: "実現する状態",
+        text: "必要なときに、安全に改善を続けられる。",
+      },
+    ],
+    href: routes.aiHomepage,
+    cta: "HPのAI化を詳しく見る",
+  },
+  {
+    number: "02",
+    eyebrow: "AX SUPPORT",
+    title: "AX・業務効率化支援",
+    lead: "AIを、企業の業務とマーケティングの実務へ。",
+    description:
+      "AIを導入して終わらせず、現場で使い続けられる業務の仕組みとして定着させます。",
+    details: [
+      {
+        label: "今の課題",
+        text: "AIを導入しても、現場で使われない。",
+      },
+      {
+        label: "INFLUの支援",
+        text: "実際の業務に合わせて、運用を設計する。",
+      },
+      {
+        label: "実現する状態",
+        text: "現場が自ら使い、改善できるようになる。",
+      },
+    ],
+    href: routes.axSupport,
+    cta: "AX・業務効率化支援を詳しく見る",
+  },
+]
+
+const eyebrowClass =
+  "text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase"
+
+const bodyClass = "text-sm leading-8 text-[#CFC8BC] sm:text-base"
+---
+<CinematicSection>
+<section
+        class="border-b border-[rgba(200,164,93,0.25)] bg-[#15130F]"
+        aria-labelledby="primary-services-title"
+      >
+        <Container class="py-20 md:py-28">
+          <div class="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(26rem,1.18fr)] lg:items-end">
+            <CinematicReveal direction="left">
+              <p class={eyebrowClass}>PRIMARY SERVICES</p>
+              <SunlitHeading
+                id="primary-services-title"
+                class="mt-4 text-4xl font-bold leading-[1.15] tracking-[-0.04em] sm:text-5xl lg:text-6xl"
+              >
+                <span class="block">INFLUがつくる、</span>
+                <span class="mt-2 block">2つの事業基盤。</span>
+              </SunlitHeading>
+            </CinematicReveal>
+            <CinematicReveal delay={0.1}>
+              <p class="max-w-2xl text-base font-bold leading-8 text-[#FFF1C7] sm:text-lg sm:leading-9">
+                ホームページの運用改善と、企業全体のAX。
+                <br class="hidden sm:block" />
+                入口は異なっても、目指すのは「自社で動かし、改善を続けられる状態」です。
+              </p>
+              <p class={`mt-5 max-w-2xl ${bodyClass}`}>
+                サイト、コンテンツ、SEO、計測、業務フローを分断せず、企業ごとの課題に合わせて必要な仕組みを設計します。
+              </p>
+            </CinematicReveal>
+          </div>
+
+          <BusinessSystemFlow />
+
+          <div class="mt-8 border-t border-[rgba(224,197,132,0.3)]">
+            {primaryServices.map((service, serviceIndex) => (
+              <CinematicReveal
+                delay={serviceIndex * 0.08}
+                class="border-b border-[rgba(224,197,132,0.3)] py-14 md:py-18 lg:py-20"
+              >
+                <div class="grid gap-9 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-14">
+                  <div>
+                    <p class="text-[clamp(4.5rem,9vw,8.5rem)] font-bold leading-none tracking-[-0.08em] text-[#E0C584]/22">
+                      {service.number}
+                    </p>
+                    <p class={`${eyebrowClass} mt-5`}>{service.eyebrow}</p>
+                  </div>
+
+                  <div>
+                    <h3 class="text-3xl font-bold leading-tight tracking-[-0.03em] text-[#F5F1E8] sm:text-4xl lg:text-5xl">
+                      {service.title}
+                    </h3>
+                    <p class="mt-5 max-w-3xl text-xl font-bold leading-9 tracking-[-0.02em] text-[#FFF1C7] sm:text-2xl sm:leading-10">
+                      {service.lead}
+                    </p>
+                    <p class={`mt-5 max-w-3xl ${bodyClass}`}>
+                      {service.description}
+                    </p>
+
+                    <dl class="mt-10 grid gap-2 md:grid-cols-3 md:gap-0">
+                      {service.details.map((detail, detailIndex) => (
+                        <div
+                          class="relative py-3 md:px-9 md:py-0 md:first:pl-0 md:last:pr-0"
+                        >
+                          <dt class="flex items-center gap-3 text-xs font-bold tracking-[0.14em] text-[#E0C584]">
+                            <span class="h-2 w-2 shrink-0 rounded-full border border-[#FFF1C7] shadow-[0_0_12px_rgba(255,241,199,0.65)]" />
+                            <span>{detail.label}</span>
+                            {detailIndex < service.details.length - 1 && (
+                              <span
+                                aria-hidden="true"
+                                class="absolute top-0 right-0 hidden translate-x-1/2 items-center md:flex"
+                              >
+                                <span class="h-px w-8 bg-[linear-gradient(90deg,rgba(224,197,132,0.2),#FFF1C7)]" />
+                                <span class="ml-1 text-base leading-none text-[#FFF1C7]">
+                                  →
+                                </span>
+                              </span>
+                            )}
+                          </dt>
+                          <dd class="mt-4 text-lg font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8]">
+                            <span>{detail.text}</span>
+                            {detailIndex < service.details.length - 1 && (
+                              <span
+                                aria-hidden="true"
+                                class="ml-[0.2rem] mt-5 block h-8 w-px bg-[linear-gradient(180deg,#FFF1C7,rgba(224,197,132,0.16))] md:hidden"
+                              />
+                            )}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+
+                    <div class="mt-9 flex justify-start lg:justify-end">
+                      <SpecularButton href={service.href}>
+                        {service.cta}
+                      </SpecularButton>
+                    </div>
+                  </div>
+                </div>
+              </CinematicReveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

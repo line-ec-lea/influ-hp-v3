@@ -1,0 +1,84 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const experienceStrengths = [
+  {
+    number: "01",
+    title: "事業を運営した現場経験",
+    description:
+      "飲食店を自ら立ち上げ、運営し、撤退まで経験したからこそ、限られた予算や人員の中で挑戦する難しさを理解しています。",
+  },
+  {
+    number: "02",
+    title: "マーケティングの実務",
+    description:
+      "メール、公式LINE、SNS、販売シナリオ、コンテンツを横断し、顧客へ価値を届ける仕組みを実務で磨いてきました。",
+  },
+  {
+    number: "03",
+    title: "技術と成果をつなぐ視点",
+    description:
+      "ホームページやシステムを作るだけで終わらせず、更新、計測、改善まで含めて事業で使い続けられる状態を設計します。",
+  },
+  {
+    number: "04",
+    title: "自社で試し、改善する姿勢",
+    description:
+      "自社サービスや実店舗でも施策を試し、失敗を振り返り、同じ過ちを繰り返さない形で次の改善へつなげます。",
+  },
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#090909]"
+        aria-labelledby="experience-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:items-end">
+            <div>
+              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+                EXPERIENCE
+              </p>
+              <h2
+                id="experience-title"
+                class="mt-4 max-w-2xl text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+              >
+                実務経験が、
+                <br />
+                支援の違いになる。
+              </h2>
+            </div>
+            <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+              INFLUの支援を支えているのは、経営、集客、制作、運用を自ら経験してきた実践知です。机上の提案ではなく、現場で使い続けられる形へつなげます。
+            </p>
+          </CinematicReveal>
+
+          <div class="mt-16 grid gap-x-14 gap-y-14 md:grid-cols-2 lg:mt-24 lg:gap-x-24 lg:gap-y-20">
+            {experienceStrengths.map((strength, index) => (
+              <CinematicReveal
+                delay={index * 0.06}
+                class="group grid min-h-52 grid-cols-[5rem_minmax(0,1fr)] gap-5 sm:min-h-56 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-7"
+              >
+                <div class="pt-1">
+                  <span class="block text-[0.6rem] font-bold tracking-[0.16em] text-[#E0C584]/75">
+                    実践経験
+                  </span>
+                  <span class="mt-2 block text-6xl font-bold leading-none tracking-[-0.07em] text-[#E0C584] sm:text-7xl">
+                    {strength.number}
+                  </span>
+                </div>
+                <div class="border-l border-[rgba(224,197,132,0.24)] pl-5 sm:pl-7">
+                  <h3 class="max-w-lg text-xl font-bold leading-8 tracking-[-0.025em] text-[#F5F1E8] sm:text-2xl sm:leading-9">
+                    {strength.title}
+                  </h3>
+                  <p class="mt-4 max-w-xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+                    {strength.description}
+                  </p>
+                </div>
+              </CinematicReveal>
+            ))}
+          </div>
+        </Container>
+      </section>
+</CinematicSection>

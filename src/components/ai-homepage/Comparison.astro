@@ -1,0 +1,103 @@
+---
+import CinematicSection from "@shared/CinematicSection.astro";
+import Container from "@shared/Container.astro";
+import SunlitHeading from "@shared/SunlitHeading.astro";
+import CinematicReveal from "@shared/CinematicReveal.astro";
+const comparisonRows = [
+  {
+    label: "記事管理",
+    before: "外部に依存した記事管理",
+    after: "自社で記事を作成・管理する運用",
+  },
+  {
+    label: "サイト修正",
+    before: "制作会社への依頼中心",
+    after: "AIを活用し、社内で確認しながら進める運用",
+  },
+  {
+    label: "表示基盤",
+    before: "従来のサーバー依存",
+    after: "安定した表示と更新を支える基盤",
+  },
+  {
+    label: "セキュリティ",
+    before: "更新や動作確認が把握しにくい状態",
+    after: "更新内容を確認しながら進める体制",
+  },
+]
+---
+<CinematicSection>
+<section
+        class="relative overflow-hidden bg-[#090909]"
+        aria-labelledby="comparison-title"
+      >
+        <Container class="py-20 md:py-28 lg:py-32">
+          <CinematicReveal direction="left">
+            <SunlitHeading
+              id="comparison-title"
+              delay={0.08}
+              class="text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
+            >
+              移行前後の違い
+            </SunlitHeading>
+          </CinematicReveal>
+
+          <div class="mt-12 border-t border-[rgba(224,197,132,0.28)] pt-5 md:mt-16 md:pt-6 lg:mt-18">
+            <div
+              role="list"
+              class="grid gap-px bg-[rgba(224,197,132,0.24)] sm:grid-cols-2"
+            >
+              {comparisonRows.map((row, index) => (
+                <div
+                  role="listitem"
+                  class="bg-[#090909] px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-9"
+                >
+                  <CinematicReveal delay={0.04 + index * 0.05}>
+                    <p class="text-base font-bold tracking-[-0.015em] text-[#F5F1E8] sm:text-lg">
+                      {row.label}
+                    </p>
+                  </CinematicReveal>
+
+                  <div class="mt-6 space-y-4 border-t border-[rgba(224,197,132,0.18)] pt-5">
+                    <CinematicReveal
+                      direction="left"
+                      delay={0.08 + index * 0.06}
+                    >
+                      <p class="flex gap-3 text-sm leading-7 text-[#979086] sm:text-base sm:leading-8">
+                        <span
+                          class="mt-0.5 text-xl leading-none text-[#8E887E]"
+                          aria-hidden="true"
+                        >
+                          ×
+                        </span>
+                        {row.before}
+                      </p>
+                    </CinematicReveal>
+
+                    <CinematicReveal
+                      direction="right"
+                      delay={0.16 + index * 0.06}
+                    >
+                      <p class="flex gap-3 text-base font-bold leading-7 tracking-[-0.015em] text-[#F5F1E8] sm:text-lg sm:leading-8">
+                        <span
+                          class="mt-0.5 text-xl leading-none text-[#E0C584]"
+                          aria-hidden="true"
+                        >
+                          ○
+                        </span>
+                        {row.after}
+                      </p>
+                    </CinematicReveal>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <p class="mt-8 flex max-w-3xl gap-4 text-sm leading-8 text-[#CFC8BC]">
+            <span class="mt-3 h-px w-8 shrink-0 bg-[#E0C584]" aria-hidden="true" />
+            採用する構成や運用方法は、既存サイトの状態と社内体制に応じて設計します。
+          </p>
+        </Container>
+      </section>
+</CinematicSection>

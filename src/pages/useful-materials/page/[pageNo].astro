@@ -1,0 +1,24 @@
+---
+import Company from "../../../layouts/Company.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import EditorialArchive from "@shared/EditorialArchive.astro";
+
+const page = Number(Astro.params.pageNo);
+if (!Number.isInteger(page) || page < 1) return Astro.redirect("/404");
+
+const title = page === 1 ? "コラム" : `コラム（${page}ページ目）`;
+const description = "マーケティングや事業運営に役立つ記事を掲載しています。";
+---
+
+<Company title={title} description={description}>
+  <CinematicPageFrame>
+    <EditorialArchive
+      collection="useful_materials"
+      basePath="/useful-materials"
+      sectionLabel="コラム"
+      eyebrow="Column"
+      description={description}
+      page={page}
+    />
+  </CinematicPageFrame>
+</Company>

@@ -1,0 +1,24 @@
+---
+import Company from "../../../layouts/Company.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
+import EditorialArchive from "@shared/EditorialArchive.astro";
+
+const page = Number(Astro.params.pageNo);
+if (!Number.isInteger(page) || page < 1) return Astro.redirect("/404");
+
+const title = page === 1 ? "会社実績" : `会社実績（${page}ページ目）`;
+const description = "これまでの支援実績やプロジェクトの事例をご紹介します。";
+---
+
+<Company title={title} description={description}>
+  <CinematicPageFrame>
+    <EditorialArchive
+      collection="company_achievements"
+      basePath="/company-achievements"
+      sectionLabel="会社実績"
+      eyebrow="Achievements"
+      description={description}
+      page={page}
+    />
+  </CinematicPageFrame>
+</Company>

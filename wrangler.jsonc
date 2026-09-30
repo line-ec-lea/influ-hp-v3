@@ -1,9 +1,17 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "influ-hp-v3",
+	"account_id": "f785367f9b03316c012885ca7fe60ead",
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "b6f6fba5b50f461c887eff7d61bdf108",
+			"preview_id": "ffe03486ac694e63aeb834333479fb8d",
+		},
+	],
 	"d1_databases": [
 		{
 			"binding": "DB",
@@ -16,6 +24,14 @@
 			"bucket_name": "influ-hp-v3","preview_bucket_name": "influ-hp-v3",
 		},
 	],
+	"previews": {
+		"kv_namespaces": [
+			{
+				"binding": "SESSION",
+				"id": "ffe03486ac694e63aeb834333479fb8d",
+			},
+		],
+	},
 	// Sandboxed plugins require Worker Loader, available on Workers paid plans. Uncomment to enable:
 	// "worker_loaders": [{ "binding": "LOADER" }],
 	// General maintenance cron trigger

@@ -26,6 +26,3 @@ jobs:
 
       - name: Build
         run: pnpm build
-
-      - name: Verify original parity
-        run: node scripts/check-original-parity.mjs

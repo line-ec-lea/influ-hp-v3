@@ -138,6 +138,11 @@ for (const path of paths) {
     for (const [svg] of html.matchAll(/<svg\b[\s\S]*?<\/svg>/g))
       assert.doesNotMatch(svg, /<script\b/, "SVG component scripts must run from the HTML parent");
   }
+  if (path === "/company-profile" || path === "/ax-support") {
+    for (const [list] of html.matchAll(/<dl\b[\s\S]*?<\/dl>/g)) {
+      assert.doesNotMatch(list, /data-reveal[^>]*>\s*<div\b/, `${path}: definition terms belong directly to their reveal group`);
+    }
+  }
   if (path === "/company-profile") assert.match(html, /<details\b[^>]*>[\s\S]*?ROUTE GUIDE/, "native access-guide disclosure");
   assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);
   assert.equal((html.match(/<header\b[^>]*id="site-header"/g) ?? []).length, 1, `${path}: one shared header`);
@@ -168,7 +173,9 @@ for (const section of ["staff-blog", "company-achievements", "useful-materials"]
   assert.equal(root.status, 308, `${section}: archive redirect`);
   assert.equal(root.headers.get("location"), `/${section}/page/1`);
   assert.equal((await fetch(new URL(`/${section}/page/1`, base))).status, 200, `${section}: archive`);
-  assert.equal((await fetch(new URL(`/${section}/example-article`, base))).status, 404, `${section}: missing article`);
+  const missingArticle = await fetch(new URL(`/${section}/example-article`, base), { redirect: "manual" });
+  assert.equal(missingArticle.status, 404, `${section}: missing article returns 404 directly`);
+  assert.match(await missingArticle.text(), /ページが見つかりません/, `${section}: branded missing article`);
   assert.match(sitemap, new RegExp(`/${section}/page/1`), `${section}: sitemap archive`);
   for (const page of ["0", "1.5", "invalid", "999999"]) {
     const response = await fetch(new URL(`/${section}/page/${page}`, base), { redirect: "manual" });

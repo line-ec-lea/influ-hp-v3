@@ -3,155 +3,88 @@ import CinematicSection from "@shared/CinematicSection.astro";
 import Container from "@shared/Container.astro";
 import CinematicReveal from "@shared/CinematicReveal.astro";
 
+const companyFacts = [
+  { label: "会社名", value: "株式会社INFLU" },
+  { label: "代表者", value: "水戸　亮太" },
+  { label: "設立", value: "2019年12月" },
+  { label: "資本金", value: "5,550,000円" },
+];
+const rowClass = "grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10";
+const labelClass = "text-xs font-bold tracking-[0.16em] text-[#E0C584]";
+const valueClass = "text-sm leading-8 text-[#CFC8BC] sm:text-base";
 ---
-<CinematicSection>
-<section class="bg-[#090909]" aria-labelledby="corp-title">
-        <Container class="py-20 md:py-28 lg:py-32">
-          <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(28rem,1.18fr)] lg:items-end">
-            <div>
-              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
-                CORPORATE INFORMATION
-              </p>
-              <h2
-                id="corp-title"
-                class="mt-4 text-4xl font-bold leading-tight tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
-              >
-                企業情報
-              </h2>
-            </div>
-            <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
-              株式会社INFLUの基本情報と事業内容をご案内します。
-            </p>
-          </CinematicReveal>
 
-          <dl class="mt-14 border-t border-[rgba(224,197,132,0.3)] md:mt-20">
-            <CinematicReveal
-                delay={0}
-              >
-                <div class="grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10">
-                  <dt class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    会社名
-                  </dt>
-                  <dd class="text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    株式会社INFLU
-                  </dd>
-                </div>
-              </CinematicReveal>
-<CinematicReveal
-                delay={0.035}
-              >
-                <div class="grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10">
-                  <dt class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    代表者
-                  </dt>
-                  <dd class="text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    水戸　亮太
-                  </dd>
-                </div>
-              </CinematicReveal>
-<CinematicReveal
-                delay={0.07}
-              >
-                <div class="grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10">
-                  <dt class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    設立
-                  </dt>
-                  <dd class="text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    2019年12月
-                  </dd>
-                </div>
-              </CinematicReveal>
-<CinematicReveal
-                delay={0.10500000000000001}
-              >
-                <div class="grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10">
-                  <dt class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    資本金
-                  </dt>
-                  <dd class="text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    5,550,000円
-                  </dd>
-                </div>
-              </CinematicReveal>
-<CinematicReveal
-                delay={0.14}
-              >
-                <div class="grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10">
-                  <dt class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    住所
-                  </dt>
-                  <dd class="text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    <>
-        〒550-0013
-        <br />
-        大阪府大阪市西区新町１丁目8-3
-        <br />
-        林四ツ橋ビル9階901号室
-      </>
-                  </dd>
-                </div>
-              </CinematicReveal>
-<CinematicReveal
-                delay={0.17500000000000002}
-              >
-                <div class="grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10">
-                  <dt class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    事業内容
-                  </dt>
-                  <dd class="text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    <ul class="grid gap-2 text-left text-[#CFC8BC]">
-        <li>HPのAI化</li>
-        <li>AX・業務効率化支援</li>
-        <li>
-          WEBマーケティング事業、アウトソーシング事業、コンテンツ作成事業、
-        </li>
-        <li>WEBエンジニアの育成及びWEBシステムの開発と運営、</li>
-        <li>WEBエンジニア育成スクールの運営、</li>
-        <li>データサイエンスからの経営改善アドバイス事業</li>
-        <li>
-          <a
-            href="https://lea-market.com/"
-            class="font-semibold text-[#FFF1C7] underline decoration-[#E0C584]/45 underline-offset-4 transition-colors hover:text-[#FFFDF7]"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            LINE連動ECサービス Lea
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://yakinikudokoro-mirai.com/"
-            class="font-semibold text-[#FFF1C7] underline decoration-[#E0C584]/45 underline-offset-4 transition-colors hover:text-[#FFFDF7]"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            飲食事業 焼肉処 味来
-          </a>
-        </li>
-      </ul>
-                  </dd>
-                </div>
-              </CinematicReveal>
-<CinematicReveal
-                delay={0.18}
-              >
-                <div class="grid gap-4 border-b border-[rgba(224,197,132,0.18)] py-7 sm:py-8 md:grid-cols-[12rem_minmax(0,1fr)] md:gap-10 lg:grid-cols-[15rem_minmax(0,1fr)] lg:py-10">
-                  <dt class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    情報セキュリティ方針
-                  </dt>
-                  <dd class="text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    <a
-        href="https://influ-inc.notion.site/info-sec-policy"
-        class="font-semibold text-[#FFF1C7] underline decoration-[#E0C584]/45 underline-offset-4 transition-colors hover:text-[#FFFDF7]"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        詳細についてはこちら
-      </a>
-                  </dd>
-                </div>
-              </CinematicReveal>
-          </dl>
-        </Container>
-      </section>
+<CinematicSection>
+  <section class="bg-[#090909]" aria-labelledby="corp-title">
+    <Container class="py-20 md:py-28 lg:py-32">
+      <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(28rem,1.18fr)] lg:items-end">
+        <div>
+          <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
+            CORPORATE INFORMATION
+          </p>
+          <h2 id="corp-title" class="mt-4 text-4xl font-bold leading-tight tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl">
+            企業情報
+          </h2>
+        </div>
+        <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
+          株式会社INFLUの基本情報と事業内容をご案内します。
+        </p>
+      </CinematicReveal>
+
+      <dl class="mt-14 border-t border-[rgba(224,197,132,0.3)] md:mt-20">
+        {companyFacts.map(({ label, value }, index) => (
+          <CinematicReveal delay={index * 0.035} class={rowClass}>
+            <dt class={labelClass}>{label}</dt>
+            <dd class={valueClass}>{value}</dd>
+          </CinematicReveal>
+        ))}
+
+        <CinematicReveal delay={0.14} class={rowClass}>
+          <dt class={labelClass}>住所</dt>
+          <dd class={valueClass}>
+            〒550-0013
+            <br />
+            大阪府大阪市西区新町１丁目8-3
+            <br />
+            林四ツ橋ビル9階901号室
+          </dd>
+        </CinematicReveal>
+
+        <CinematicReveal delay={0.175} class={rowClass}>
+          <dt class={labelClass}>事業内容</dt>
+          <dd class={valueClass}>
+            <ul class="grid gap-2 text-left text-[#CFC8BC]">
+              <li>HPのAI化</li>
+              <li>AX・業務効率化支援</li>
+              <li>
+                WEBマーケティング事業、アウトソーシング事業、コンテンツ作成事業、
+              </li>
+              <li>WEBエンジニアの育成及びWEBシステムの開発と運営、</li>
+              <li>WEBエンジニア育成スクールの運営、</li>
+              <li>データサイエンスからの経営改善アドバイス事業</li>
+              <li>
+                <a href="https://lea-market.com/" class="font-semibold text-[#FFF1C7] underline decoration-[#E0C584]/45 underline-offset-4 transition-colors hover:text-[#FFFDF7]" target="_blank" rel="noopener noreferrer">
+                  LINE連動ECサービス Lea
+                </a>
+              </li>
+              <li>
+                <a href="https://yakinikudokoro-mirai.com/" class="font-semibold text-[#FFF1C7] underline decoration-[#E0C584]/45 underline-offset-4 transition-colors hover:text-[#FFFDF7]" target="_blank" rel="noopener noreferrer">
+                  飲食事業 焼肉処 味来
+                </a>
+              </li>
+            </ul>
+          </dd>
+        </CinematicReveal>
+
+        <CinematicReveal delay={0.18} class={rowClass}>
+          <dt class={labelClass}>情報セキュリティ方針</dt>
+          <dd class={valueClass}>
+            <a href="https://influ-inc.notion.site/info-sec-policy" class="font-semibold text-[#FFF1C7] underline decoration-[#E0C584]/45 underline-offset-4 transition-colors hover:text-[#FFFDF7]" target="_blank" rel="noopener noreferrer">
+              詳細についてはこちら
+            </a>
+          </dd>
+        </CinematicReveal>
+      </dl>
+    </Container>
+  </section>
 </CinematicSection>

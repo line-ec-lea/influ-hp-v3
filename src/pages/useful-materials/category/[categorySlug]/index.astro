@@ -1,5 +1,5 @@
 ---
 const categorySlug = Astro.params.categorySlug;
-if (!categorySlug) return Astro.redirect("/404");
+if (!categorySlug) return Astro.rewrite("/404");
 return Astro.redirect(`/useful-materials/category/${encodeURIComponent(categorySlug)}/page/1`, 308);
 ---

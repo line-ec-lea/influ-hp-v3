@@ -26,8 +26,6 @@ const serviceMenuItems = [
     external: true,
   },
 ] as const
-const menuOpen = false;
-const servicesOpen = false;
 const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const isHome = pathname === "/";
 const isActive = (item: { href: string }) => {
@@ -47,17 +45,11 @@ const navItemClass = (active: boolean) =>
           </span>
         </a>
 
-        <button type="button" class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md border border-white/15 bg-white/[0.04] text-[#F5F1E8] transition-colors duration-200 hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] lg:hidden" aria-expanded={menuOpen} aria-controls="mobile-nav" aria-label={menuOpen ? "メニューを閉じる" : "メニューを開く"} data-menu-toggle>
-          <span class="sr-only">{menuOpen ? "閉じる" : "メニュー"}</span>
-          {menuOpen ? (
-            <svg class="h-6 w-6 text-[#F5F1E8]" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
-          ) : (
+        <button type="button" class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md border border-white/15 bg-white/[0.04] text-[#F5F1E8] transition-colors duration-200 hover:border-white/25 hover:bg-white/[0.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] lg:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="メニューを開く" data-menu-toggle>
+          <span class="sr-only">メニュー</span>
             <svg class="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <path d="M4 7h16M4 12h16M4 17h16" />
             </svg>
-          )}
         </button>
 
         <nav class="hidden items-center gap-4 font-bold tracking-normal lg:flex">
@@ -78,12 +70,11 @@ const navItemClass = (active: boolean) =>
             if (item.href === routes.service) {
               return (
                 <div class="relative">
-                  <a href={item.href} class={navItemClass(serviceActive)} aria-current={active ? "page" : undefined} aria-expanded={servicesOpen} aria-controls="service-menu">
+                  <a href={item.href} class={navItemClass(serviceActive)} aria-current={active ? "page" : undefined} aria-expanded="false" aria-controls="service-menu">
                     {item.label}
                   </a>
 
-                  {(
-                      <div class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-4" data-service-menu hidden id="service-menu">
+                  <div class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-4" data-service-menu hidden id="service-menu">
                         <div class="overflow-hidden rounded-md border border-white/10 bg-[#0B0B0B]/75 bg-gradient-to-b from-white/[0.04] to-transparent p-2 shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md backdrop-saturate-125">
                           <div>
                             {serviceMenuItems.map((service) => {
@@ -119,7 +110,6 @@ const navItemClass = (active: boolean) =>
                           </div>
                         </div>
                       </div>
-                    )}
                 </div>
               )
             }
@@ -133,8 +123,7 @@ const navItemClass = (active: boolean) =>
         </nav>
       </Container>
 
-      {(
-          <div id="mobile-nav" class="max-h-[calc(100dvh-3.5rem-env(safe-area-inset-top,0px))] overflow-y-auto overscroll-contain border-t border-white/10 bg-[#0B0B0B]/80 backdrop-blur-md lg:hidden" data-mobile-menu hidden>
+      <div id="mobile-nav" class="max-h-[calc(100dvh-3.5rem-env(safe-area-inset-top,0px))] overflow-y-auto overscroll-contain border-t border-white/10 bg-[#0B0B0B]/80 backdrop-blur-md lg:hidden" data-mobile-menu hidden>
             <nav class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 text-[15px] font-bold tracking-normal sm:px-6" data-mobile-links>
               {siteNavItems.map((item) => {
                 if (
@@ -193,7 +182,6 @@ const navItemClass = (active: boolean) =>
               })}
             </nav>
           </div>
-        )}
     </header>
 <script>
   import { animate, stagger, ease, reducedMotion } from "./motion";

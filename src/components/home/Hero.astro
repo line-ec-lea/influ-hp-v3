@@ -46,11 +46,11 @@ const images = ["/p1.jpg", "/p2.jpg", "/p3.jpg"]
               ・AI活用の導入整理まで、現場で使い続けられる形で伴走します。
             </p>
 
-            <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap" data-actions>
-              <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer">
+            <div class="mx-auto mt-8 flex w-full max-w-xs flex-row items-center justify-center gap-2 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap" data-actions>
+              <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="max-sm:!w-full max-sm:min-w-0 max-sm:min-h-12 max-sm:flex-1 max-sm:!rounded-lg max-sm:!px-3 max-sm:!text-sm max-sm:!shadow-none">
                 相談する
               </SpecularButton>
-              <SpecularButton href={routes.service}>
+              <SpecularButton href={routes.service} mobileEffect class="max-sm:!w-full max-sm:min-w-0 max-sm:min-h-12 max-sm:flex-1 max-sm:!rounded-lg max-sm:!px-3 max-sm:!text-sm max-sm:!shadow-none">
                 事業内容を見る
               </SpecularButton>
             </div>

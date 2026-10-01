@@ -6,18 +6,22 @@ const source = (await readFile(new URL("../src/components/shared/SpecularButton.
   .split("<script>")[1].split("</script>")[0].replace(/^\s*import .*;$/gm, "");
 const run = new Function("Mesh", "Program", "Renderer", "Triangle", "inView", "reducedMotion", "matchMedia", "document", "window", "ResizeObserver", "performance", "requestAnimationFrame", "cancelAnimationFrame",
   ts.transpile(source, { target: ts.ScriptTarget.ES2022 }));
-for (const reduced of [false, true]) {
+for (const [reduced, mobile, mobileEffect] of [[false, false, false], [true, false, false], [false, true, true], [true, true, true], [false, true, false]]) {
   const frames = new Map(), listeners = new Set();
   let enter, leave, pagehide, stopped = false, nextFrame = 0, renders = 0;
   const gl = { BLEND: 1, ONE: 1, ONE_MINUS_SRC_ALPHA: 1, clearColor() {}, enable() {}, blendFunc() {}, getExtension: () => null };
-  const button = { dataset: {}, querySelector: () => ({ appendChild() {} }), getBoundingClientRect: () => ({ width: 160, height: 50, left: 0, top: 0, right: 160, bottom: 50 }) };
+  const button = { dataset: {}, hasAttribute: () => mobileEffect, querySelector: () => ({ appendChild() {} }), getBoundingClientRect: () => ({ width: 160, height: 50, left: 0, top: 0, right: 160, bottom: 50 }) };
   run(class {}, class { constructor(gl, options) { this.uniforms = options.uniforms; } }, class { gl = gl; setSize() {} render() { renders++; } }, class { attributes = {}; },
-    (target, callback) => { assert.equal(target, button); enter = callback; return () => { stopped = true; }; }, { matches: reduced }, () => ({ matches: false }),
+    (target, callback) => { assert.equal(target, button); enter = callback; return () => { stopped = true; }; }, { matches: reduced }, () => ({ matches: mobile }),
     { createElement: () => ({ getContext: () => gl, remove() {} }), querySelectorAll: () => [button] },
     { devicePixelRatio: 1, addEventListener: (event, handler) => { if (event === "pagehide") pagehide = handler; else listeners.add(handler); }, removeEventListener: (event, handler) => listeners.delete(handler) },
     class { observe() {} disconnect() {} }, { now: () => 100 }, callback => { frames.set(++nextFrame, callback); return nextFrame; }, id => frames.delete(id));
   assert.equal(frames.size, 0, "Offscreen buttons must not schedule frames");
   assert.equal(listeners.size, 0, "Offscreen buttons must not track pointers");
+  if (mobile && !mobileEffect) {
+    assert.equal(enter, undefined, "Other mobile buttons retain their static fallback");
+    continue;
+  }
   if (!reduced) {
     leave = enter();
     assert.equal(frames.size, 1);

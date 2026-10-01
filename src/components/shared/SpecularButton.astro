@@ -1,8 +1,8 @@
 ---
-interface Props { href: string; target?: string; rel?: string; class?: string; fullWidth?: boolean }
-const { href, target, rel, class: className = "", fullWidth = false } = Astro.props;
+interface Props { href: string; target?: string; rel?: string; class?: string; fullWidth?: boolean; mobileEffect?: boolean }
+const { href, target, rel, class: className = "", fullWidth = false, mobileEffect = false } = Astro.props;
 ---
-<a href={href} target={target} rel={rel} data-specular class={`relative m-0 inline-grid ${fullWidth ? "w-full" : "w-fit"} max-w-full cursor-pointer place-items-center overflow-visible rounded-[18px] border border-[#9A7B10] bg-[#111016]/85 px-6 py-3.5 text-base font-medium leading-none tracking-[0.01em] text-[#f5f5f5] no-underline shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.25)] outline-none transition-transform duration-150 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f5f5f5]/60 sm:px-10 sm:py-[18px] sm:text-[1.15rem] sm:data-[webgl]:border-transparent sm:data-[webgl]:bg-transparent motion-reduce:transition-none motion-reduce:active:scale-100 ${className}`}>
+<a href={href} target={target} rel={rel} data-specular data-mobile-effect={mobileEffect ? "" : undefined} class={`relative m-0 inline-grid ${fullWidth ? "w-full" : "w-fit"} max-w-full cursor-pointer place-items-center overflow-visible rounded-[18px] border border-[#9A7B10] bg-[#111016]/85 px-6 py-3.5 text-base font-medium leading-none tracking-[0.01em] text-[#f5f5f5] no-underline shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_8px_24px_rgba(0,0,0,0.25)] outline-none transition-transform duration-150 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f5f5f5]/60 sm:px-10 sm:py-[18px] sm:text-[1.15rem] max-sm:data-[mobile-effect]:data-[webgl]:border-transparent sm:data-[webgl]:border-transparent sm:data-[webgl]:bg-transparent motion-reduce:transition-none motion-reduce:active:scale-100 ${className}`}>
   <span data-fx class="pointer-events-none absolute -inset-5 z-[1] overflow-hidden rounded-[38px] [&_canvas]:block [&_canvas]:h-full [&_canvas]:w-full" aria-hidden="true"></span>
   <span class="relative z-[2] inline-flex min-w-0 max-w-full items-center justify-center text-center break-words"><slot /></span>
 </a>
@@ -72,8 +72,10 @@ void main() {
 `
 
 
-  if (!matchMedia("(max-width: 639px)").matches) {
+  const mobile = matchMedia("(max-width: 639px)").matches;
+  {
     document.querySelectorAll<HTMLElement>("[data-specular]").forEach((button) => {
+      if (mobile && !button.hasAttribute("data-mobile-effect")) return;
       const canvas = document.createElement("canvas");
       if (!canvas.getContext("webgl2")) return;
       const dpr = window.devicePixelRatio || 1;
@@ -99,7 +101,7 @@ void main() {
       button.dataset.webgl = "";
       const render = (angle: number, brightness: number) => {
         program.uniforms.uAngle.value = angle;
-        program.uniforms.uIntensity.value = brightness;
+        program.uniforms.uIntensity.value = brightness * (mobile ? 0.55 : 1);
         renderer.render({ scene: mesh });
       };
       const resize = () => {
@@ -107,7 +109,7 @@ void main() {
         renderer.setSize(width + PAD * 2, height + PAD * 2);
         program.uniforms.uCenter.value = [(PAD + width / 2) * dpr, (PAD + height / 2) * dpr];
         program.uniforms.uHalfSize.value = [width / 2 * dpr, height / 2 * dpr];
-        program.uniforms.uRadius.value = Math.min(18, width / 2, height / 2) * dpr;
+        program.uniforms.uRadius.value = Math.min(mobile ? 8 : 18, width / 2, height / 2) * dpr;
         render(2.4, reducedMotion.matches ? 0 : 1);
       };
       const observer = new ResizeObserver(resize);

@@ -8,6 +8,10 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
 	vite: { plugins: [tailwindcss()] },
 	output: "server",
+	i18n: {
+		defaultLocale: "ja",
+		locales: ["ja"],
+	},
 	adapter: cloudflare(),
 	image: {
 		layout: "constrained",
@@ -27,20 +31,6 @@ export default defineConfig({
 			cssVariable: "--font-noto-sans-jp",
 			weights: ["100 900"],
 			fallbacks: ["sans-serif"],
-		},
-		{
-			provider: fontProviders.google(),
-			name: "Inter",
-			cssVariable: "--font-body",
-			weights: [400, 500, 600, 700],
-			fallbacks: ["sans-serif"],
-		},
-		{
-			provider: fontProviders.google(),
-			name: "JetBrains Mono",
-			cssVariable: "--font-mono",
-			weights: [400, 500],
-			fallbacks: ["monospace"],
 		},
 	],
 	devToolbar: { enabled: false },

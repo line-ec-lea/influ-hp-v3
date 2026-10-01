@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 
 // Tailwind handles styling; original motion components retain their runtime styles.
-// The deferred blog's CSS must stay independent.
+// The retired starter blog must not be restored.
 const source = (path) =>
   readFile(new URL(`../${path}`, import.meta.url), "utf8");
 const css = await source("src/styles/global.css");
@@ -178,3 +178,12 @@ assert.equal(
 console.log(
   `PASS ${assets.size} image assets, redirect, 404, sitemap and preview robots`,
 );
+
+// Retiring the starter must remove its routes and seed content together.
+for (const path of ["/posts", "/posts/example", "/pages/about", "/category/development", "/tag/webdev", "/search", "/rss.xml"]) {
+  assert.equal((await fetch(new URL(path, base))).status, 404, `${path}: retired starter route`);
+}
+const seed = JSON.parse(await source("seed/seed.json"));
+assert.deepEqual(seed.collections.map(item => item.slug).sort(), ["company_achievements", "staff_blog", "useful_materials"]);
+assert.ok(!seed.content, "no starter sample posts");
+console.log("PASS retired starter routes and clean editorial seed");

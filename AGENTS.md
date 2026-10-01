@@ -15,9 +15,8 @@ The admin UI is at `http://localhost:4321/_emdash/admin`.
 | ------------------------ | ---------------------------------------------------------------------------------- |
 | `astro.config.mjs`       | Astro config with `emdash()` integration, database, and storage                    |
 | `src/live.config.ts`     | EmDash loader registration (boilerplate -- don't modify)                           |
-| `seed/seed.json`         | Schema definition + demo content (collections, fields, taxonomies, menus, widgets) |
+| `seed/seed.json`         | Initial editorial schema and categories (collections, fields, taxonomies, menus, widgets) |
 | `emdash-env.d.ts`        | Generated types for collections (auto-regenerated on dev server start)             |
-| `src/layouts/Base.astro` | Base layout with EmDash wiring (menus, search, page contributions)                 |
 | `src/pages/`             | Astro pages -- all server-rendered                                                 |
 
 ## Skills
@@ -42,39 +41,13 @@ This template ships with `.mcp.json`, `.cursor/mcp.json`, and `.vscode/mcp.json`
 - When Astro's cache is enabled, pass content-query hints to `Astro.cache.set(cacheHint)`. Use the `WithCacheHint` variants for site settings, menus, taxonomies, and widget areas rendered by cached routes.
 - Taxonomy names in queries must match the seed's `"name"` field exactly (e.g., `"category"` not `"categories"`).
 
-## This Template
+## Current site
 
-A blog with posts, pages, categories, tags, full-text search, and RSS. Designed for personal writing, technical writing, indie newsletters, and anything where the writing is the product. Editorial-tech aesthetic: confident sans-serif, restrained accent, real article structure with bylines and reading time.
+Company pages use `src/layouts/Company.astro`. EmDash editorial pages use shared `EditorialArchive.astro` and `EditorialArticle.astro` inside the company layout.
 
-## Pages
+Collections: `company_achievements`, `useful_materials`, `staff_blog`. Column category queries use `material_category`. Archive roots redirect to `/page/1`; articles use `/<section>/[slug]`.
 
-| Page        | Path               | What it shows                                                                                          |
-| ----------- | ------------------ | ------------------------------------------------------------------------------------------------------ |
-| Home        | `/`                | Featured post hero (large image + excerpt), latest posts grid                                          |
-| All posts   | `/posts`           | Article count, full post list with excerpts and tag chips                                              |
-| Post detail | `/posts/[slug]`    | Featured image, title, body, left meta column (authors + date), right TOC + search + categories gutter |
-| Search      | `/search`          | Full-text search UI                                                                                    |
-| Page        | `/pages/[slug]`    | Static page content (Portable Text)                                                                    |
-| Category    | `/category/[slug]` | Posts filtered by category                                                                             |
-| Tag         | `/tag/[slug]`      | Posts filtered by tag                                                                                  |
-| RSS         | `/rss.xml`         | Generated feed                                                                                         |
-
-## Schema
-
-- `posts` collection: `title`, `featured_image`, `content` (Portable Text), `excerpt` (text).
-- `pages` collection: `title`, `content` (Portable Text). Used for `/about` etc.
-- Taxonomies: `category`, `tag`.
-- Single `primary` menu (Home, About, Posts by default).
-
-Site settings have `title` and `tagline` -- both render in the header / footer.
-
-## Visual character
-
-Single typeface: **Inter** on `--font-body`, used for everything including headings (`--font-heading` defaults to the body face; tighter letter-spacing on h1/h2). **JetBrains Mono** on `--font-mono` for inline code and code blocks. Body and headings share the same family; weight and size carry the hierarchy (`--font-weight-heading` 600, `--font-weight-display` 700 for h1/page titles).
-
-The brand colour is `#0066cc` (`--color-brand`) -- used for links, the post-card title hover, and the search input focus ring. There's also a secondary text colour (`--color-text-secondary`) and a `--color-muted` for meta info. Don't add a second accent.
-
-The article layout is the standout feature: a three-column reading view with a left meta column (author bylines, date), centred 680px body column, and a right gutter for search, table of contents, and categories. Don't flatten that into one column on desktop -- the layout signals "this is something to read".
+The generic starter blog routes, Base layout, starter styles and migration tooling have been removed. Do not restore them. Manage migrated posts and media in EmDash.
 
 ## Customisation
 
@@ -84,43 +57,11 @@ Pages using `src/layouts/Company.astro` use Tailwind utilities directly in the m
 
 The company pages are a faithful port of `/Users/blaze/react/INFLU` at `fb66476`, not a new design. Preserve the original black/gold palette, Noto Sans JP typography, content and motion. All company routes, including privacy and 404, compose native Astro sections with browser scripts using `framer-motion/dom`. Keep them free of React page wrappers and `client:load`. Motion's runtime inline styles are intentional; use native anchors instead of Next.js imports. React remains installed for EmDash's admin integration.
 
-Keep staff-blog, company-achievements and useful-materials excluded, including their links and homepage sections. Do not add a theme toggle or a duplicate site-data layer. Run `node scripts/check-original-parity.mjs` and `node scripts/check-company-site.mjs` after company changes; the latter needs the local preview running.
+Keep homepage article sections excluded. Do not add a theme toggle or a duplicate site-data layer. Run `node scripts/check-original-parity.mjs` and `node scripts/check-company-site.mjs` after company changes; the latter needs the local preview running.
 
 ### Component ownership
 
 - Put components reused in more than two places in `src/components/shared/`; reuse that implementation instead of copying it between pages.
 - Keep homepage-only sections in `src/components/home/` and other page-specific sections under `src/components/<page>/`. Keep section content in its Astro frontmatter or markup. Do not restore the removed `company/` React tree or `shared/react/` adapters.
 - `Company.astro` owns the Navbar, main landmark and Footer. Page bodies must not render duplicates. Its navigation reads the current route; do not hard-code homepage behavior.
-- Keep the deferred blog template separate. Contact retains page-specific designs: shared `Contact.astro` for home, shared `GeneralContact.astro` for privacy/404, and each other page's own closing section. Agree on a common variant before unifying its layout placement.
-
-### Deferred blog template
-
-The rules below apply to the original blog template using `Base.astro`, not the company pages. Keep blog work deferred unless explicitly requested.
-
-Design tokens live in `src/styles/tokens.css` with their default values. To restyle the site, override tokens in `src/styles/theme.css` -- declarations there are unlayered, so they always beat the `@layer base` defaults. Don't edit `tokens.css` or `Base.astro` for visual changes.
-
-Colours are defined with `light-dark(<light>, <dark>)`, so each token carries both modes. Overriding with a plain colour changes light and dark at once; use `light-dark()` in the override to keep them distinct. There is no separate dark palette to maintain.
-
-Webfonts are configured in `astro.config.mjs` under `fonts:`. To swap the body face, change the `name:` for the entry bound to `cssVariable: "--font-body"`. Good alternatives: Geist, IBM Plex Sans, Söhne (if you have a licence), Public Sans. If you want a serif-bodied blog, swap to a humanist serif like Source Serif, Crimson Pro, or Lora -- but then also raise `--font-size-base` to `1.0625rem` for readability. To give headings their own face (or use a system font) without touching the font pipeline, override `--font-heading` or `--font-body` in `theme.css`.
-
-CSS variables worth knowing (see `tokens.css` for the full list):
-
-- `--color-brand`, `--color-brand-hover`, `--color-on-brand`, `--color-brand-ring`
-- `--color-bg`, `--color-bg-subtle`, `--color-surface`, `--color-text`, `--color-text-secondary`, `--color-muted`, `--color-border`, `--color-border-subtle`
-- `--font-body`, `--font-heading`, `--font-mono`
-- `--font-weight-heading` (600) / `--font-weight-display` (700) -- heading weights; lower them if you switch to a serif
-- `--tracking-tight` / `--tracking-snug` / `--tracking-wide` / `--tracking-wider` -- letter-spacing tokens used across headings and meta labels
-- `--content-width` (680px) -- article body column
-- `--wide-width` (1200px) -- max container
-- `--gutter-width` (200px) -- right sidebar (TOC) on article pages
-- `--meta-col-width` (180px) -- left meta column on article pages
-- `--avatar-size-{xs,sm,md,lg}` -- byline avatar sizes at different scales
-
-## What not to do
-
-- Don't add a second accent colour or coloured section backgrounds. The page should be black, white, and one blue.
-- Don't replace Inter with a display sans (Bebas, Anton, etc.). Headings rely on weight contrast, not novelty faces.
-- Don't collapse the article gutter on desktop -- it's part of the reading experience.
-- Don't use stock blog copy ("Welcome to my blog", "Stay tuned for more"). Write a real tagline that says what this blog is about.
-- Don't seed the home page with three identical placeholder posts. If you only have one real post, show one real post.
-- Comments are enabled on posts and rendered on the post detail page. Configure moderation before publishing the site, or remove `commentsEnabled` and the comments UI together.
+- Contact retains page-specific designs: shared `Contact.astro` for home, shared `GeneralContact.astro` for privacy/404, and each other page's own closing section. Agree on a common variant before unifying its layout placement.

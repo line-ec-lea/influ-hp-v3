@@ -1,6 +1,11 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import ts from "typescript";
+import config from "../astro.config.mjs";
+import { AstroCache, applyCacheHeaders } from "../node_modules/astro/dist/core/cache/runtime/cache.js";
+import { compileCacheRoutes, matchCacheRoute } from "../node_modules/astro/dist/core/cache/runtime/route-matching.js";
+import createProvider from "../node_modules/@astrojs/cloudflare/dist/cache/provider.js";
+import { applyCloudflareResponseHeaders } from "../node_modules/@astrojs/cloudflare/dist/utils/response.js";
 
 // Load the handler without Astro's virtual module so this runs with plain Node.
 const legacySource = await readFile(new URL("../src/lib/legacy-redirects.ts", import.meta.url), "utf8");
@@ -57,3 +62,29 @@ for (const path of ["/", "/unknown", "/category/unknown", "/category/toString", 
   assert.equal(await onRequest({ url: new URL(path, "https://influhp.com") }, async () => ordinary), ordinary);
 }
 console.log(`PASS ${cases.length} legacy mappings, trailing slashes, encoded categories, 301 responses, fallthrough, preview headers, and OAuth cookie metadata`);
+
+assert.equal(config.cache.provider.name, "cloudflare");
+const routes = compileCacheRoutes(config.routeRules, "/", "ignore");
+for (const path of ["/", "/business-content", "/company-profile", "/ai-homepage", "/ax-support", "/privacy-policy", "/staff-blog/post-123", "/company-achievements/page/1", "/useful-materials/category/ec/page/1"]) {
+  const rule = matchCacheRoute(path, routes);
+  assert.deepEqual(rule, { maxAge: 300, swr: 60 }, path);
+}
+for (const path of ["/_emdash/admin", "/_emdash/api/content", "/sitemap.xml", "/robots.txt", "/unknown"]) {
+  assert.equal(matchCacheRoute(path, routes), null, path);
+}
+for (const [status, cacheControl, shouldCache] of [[200, null, true], [404, null, false], [500, null, false], [301, null, false], [200, "private, no-store", false], [200, "no-store", false]]) {
+  const request = new Request("https://influhp.com/useful-materials/line-works");
+  const cache = new AstroCache(createProvider());
+  cache.set(matchCacheRoute(new URL(request.url).pathname, routes));
+  // EmDash's existing query hints add publishing invalidation tags to route rules.
+  cache.set({ tags: ["collection:useful_materials"], lastModified: new Date("2026-10-01T00:00:00Z") });
+  const response = await onRequest({ url: new URL(request.url), cache }, async () => new Response("Content", {
+    status, headers: cacheControl ? { "Cache-Control": cacheControl } : {},
+  }));
+  applyCacheHeaders(cache, response, request);
+  applyCloudflareResponseHeaders(response, [], true);
+  assert.equal(response.headers.get("Cloudflare-CDN-Cache-Control"), shouldCache ? "public, max-age=300, stale-while-revalidate=60" : "no-store");
+  assert.equal(response.headers.has("Cache-Tag"), shouldCache);
+  if (shouldCache) assert.ok(response.headers.get("Cache-Tag").includes("collection:useful_materials"));
+}
+console.log("PASS Workers cache route rules, content tags, and no-store for errors, redirects, and private responses");

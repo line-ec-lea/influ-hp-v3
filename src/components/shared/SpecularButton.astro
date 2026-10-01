@@ -8,7 +8,7 @@ const { href, target, rel, class: className = "", fullWidth = false } = Astro.pr
 </a>
 <script>
   import { Mesh, Program, Renderer, Triangle } from "ogl";
-  import { reducedMotion } from "./motion";
+  import { inView, reducedMotion } from "./motion";
   const PAD = 20
 
 const VERT = `#version 300 es
@@ -64,7 +64,8 @@ void main() {
   float line = gaussianLine(d, uThickness);
   float edgeClamp = 1.0 - smoothstep(0.5 * uPx, 3.0 * uPx, abs(d));
   float hi = line * rim * edgeClamp * uIntensity;
-  vec3 col = uBaseColor * base + uLineColor * hi;
+  vec3 edgeColor = mix(uLineColor, vec3(0.88, 0.92, 0.96), smoothstep(-0.6, 0.6, dot(nEll, L)));
+  vec3 col = uBaseColor * base + edgeColor * hi;
   float a = clamp(base + hi, 0.0, 1.0);
   fragColor = vec4(col, a);
 }
@@ -136,12 +137,20 @@ void main() {
         render(angle, brightness);
         frame = requestAnimationFrame(update);
       };
-      if (!reducedMotion.matches) {
+      const stopVisibility = reducedMotion.matches ? () => {} : inView(button, () => {
+        previous = performance.now();
+        pointerAngle = null;
+        proximity = 0;
         window.addEventListener("pointermove", onPointerMove, { passive: true });
         frame = requestAnimationFrame(update);
-      }
+        return () => {
+          cancelAnimationFrame(frame);
+          window.removeEventListener("pointermove", onPointerMove);
+        };
+      });
       window.addEventListener("pagehide", (event) => {
         if (event.persisted) return;
+        stopVisibility();
         cancelAnimationFrame(frame);
         observer.disconnect();
         window.removeEventListener("pointermove", onPointerMove);

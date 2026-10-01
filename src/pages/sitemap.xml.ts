@@ -8,6 +8,11 @@ export async function GET() {
     getEmDashCollection("useful_materials", { status: "published" }),
     getEmDashCollection("staff_blog", { status: "published" }),
   ]);
+  const error = achievements.error ?? materials.error ?? staffPosts.error;
+  if (error) {
+    console.error("Unable to load sitemap content", error);
+    return new Response("Unable to load sitemap", { status: 500 });
+  }
   const paths = [
     ...siteNavItems.map((item) => item.href),
     "/privacy-policy",

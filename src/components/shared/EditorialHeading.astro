@@ -1,0 +1,6 @@
+---
+interface Props { node: { _key: string; style: string }; }
+const { node } = Astro.props;
+const Heading = node.style === "h3" ? "h3" : "h2";
+---
+<Heading id={`heading-${node._key}`} class="scroll-mt-24"><slot /></Heading>

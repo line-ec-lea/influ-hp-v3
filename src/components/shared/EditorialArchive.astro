@@ -35,14 +35,16 @@ const {
   categoryLabel,
 } = Astro.props;
 
-const pageSize = 11;
-const offset = (page - 1) * pageSize;
-const { entries, error, cacheHint, hasMore } = await getEmDashCollection(
+// The first page has a featured story plus four complete rows of cards.
+const pageSize = page === 1 ? 13 : 12;
+const offset = page === 1 ? 0 : 13 + (page - 2) * 12;
+const { entries: availableEntries, error, cacheHint } = await getEmDashCollection(
   collection,
   {
     status: "published",
     orderBy: { published_at: "desc" },
-    limit: pageSize,
+    // Look ahead for the numbered pagination without loading the whole collection.
+    limit: pageSize + 48,
     offset,
     where: categorySlug ? { material_category: categorySlug } : undefined,
   },
@@ -60,9 +62,15 @@ if (collection === "useful_materials") {
   if (Astro.cache?.enabled) Astro.cache.set(result.cacheHint);
 }
 
+const entries = availableEntries.slice(0, pageSize);
+const hasMore = availableEntries.length > pageSize;
+const lastVisiblePage = page + Math.ceil(Math.max(0, availableEntries.length - pageSize) / 12);
+const paginationEnd = Math.min(Math.max(5, page + 2), lastVisiblePage);
+const paginationStart = Math.max(1, paginationEnd - 4);
+const pageNumbers = Array.from({ length: paginationEnd - paginationStart + 1 }, (_, index) => paginationStart + index);
+
 const featuredPost = page === 1 ? entries[0] : undefined;
 const archivePosts = featuredPost ? entries.slice(1) : entries;
-const archiveStart = offset + (featuredPost ? 2 : 1);
 const paginationBase = categorySlug
   ? `${basePath}/category/${categorySlug}/page`
   : `${basePath}/page`;
@@ -79,7 +87,7 @@ const formatDate = (date: Date | null) =>
 
 <div class="bg-page pt-14 text-foreground md:pt-16">
   <header class="border-b border-line-gold py-12 md:py-16">
-    <Container>
+    <Container class="!px-4 sm:!px-6">
       <nav aria-label="パンくず" class="text-sm text-muted">
         <a href="/" class="transition-colors hover:text-gold-300">ホーム</a>
         <span aria-hidden="true" class="mx-3 text-subtle">/</span>
@@ -95,15 +103,15 @@ const formatDate = (date: Date | null) =>
 
       {
         collection === "useful_materials" && (
-          <nav aria-label="コラムのカテゴリー" class="mt-9 flex flex-wrap justify-center gap-2">
+          <nav aria-label="コラムのカテゴリー" class="mt-9 flex flex-wrap gap-2">
             <a
               href={`${basePath}/page/1`}
               aria-current={!categorySlug ? "page" : undefined}
               class:list={[
-                "inline-flex min-h-10 items-center border px-4 py-2 text-sm font-semibold transition-colors",
+                "inline-flex min-h-10 items-center rounded-lg border px-4 py-2 text-sm font-semibold transition-colors",
                 !categorySlug
                   ? "border-gold-300 bg-accent text-page"
-                  : "border-line-gold text-gold-300 hover:border-gold-300 hover:text-foreground",
+                  : "border-gold-400 text-gold-300 hover:bg-gold-400/10 hover:text-foreground",
               ]}
             >
               すべて
@@ -113,10 +121,10 @@ const formatDate = (date: Date | null) =>
                 href={`${basePath}/category/${category.slug}/page/1`}
                 aria-current={category.slug === categorySlug ? "page" : undefined}
                 class:list={[
-                  "inline-flex min-h-10 items-center border px-4 py-2 text-sm font-semibold transition-colors",
+                  "inline-flex min-h-10 items-center rounded-lg border px-4 py-2 text-sm font-semibold transition-colors",
                   category.slug === categorySlug
                     ? "border-gold-300 bg-accent text-page"
-                    : "border-line-gold text-gold-300 hover:border-gold-300 hover:text-foreground",
+                    : "border-gold-400 text-gold-300 hover:bg-gold-400/10 hover:text-foreground",
                 ]}
               >
                 {category.label}
@@ -128,7 +136,7 @@ const formatDate = (date: Date | null) =>
     </Container>
   </header>
 
-  <Container class="py-12 md:py-16">
+  <Container class="!px-4 py-12 sm:!px-6 md:py-16">
     {
       entries.length === 0 ? (
         <div class="border-y border-line-gold py-20 text-center">
@@ -141,9 +149,9 @@ const formatDate = (date: Date | null) =>
             <section aria-label={`最新の${sectionLabel}`}>
               <a
                 href={`${basePath}/${featuredPost.id}`}
-                class="group grid overflow-hidden border-y border-line-gold bg-surface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 lg:grid-cols-[minmax(0,1.45fr)_minmax(19rem,0.75fr)]"
+                class="group grid items-center gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300 lg:grid-cols-2 lg:gap-10"
               >
-                <div class="aspect-[16/10] overflow-hidden bg-elevated lg:aspect-[16/9] [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
+                <div class="aspect-[3/2] overflow-hidden rounded-md bg-elevated [&_picture]:h-full [&_img]:!h-full [&_img]:!w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
                   {featuredPost.data.featured_image ? (
                     <Image image={featuredPost.data.featured_image} priority />
                   ) : (
@@ -152,11 +160,11 @@ const formatDate = (date: Date | null) =>
                     </span>
                   )}
                 </div>
-                <div class="flex min-h-64 flex-col justify-end px-6 py-8 lg:border-l lg:border-line-gold lg:px-10 lg:py-12">
+                <div class="flex flex-col justify-center py-2">
                   <span class="text-xs font-bold tracking-[0.18em] text-gold-300">
-                    01 / FEATURED STORY
+                    最新の{sectionLabel}
                   </span>
-                  <h2 class="mt-7 text-2xl font-semibold leading-relaxed tracking-normal transition-colors group-hover:text-gold-300 sm:text-3xl">
+                  <h2 class="mt-4 text-2xl font-semibold leading-relaxed tracking-normal transition-colors group-hover:text-gold-300 sm:text-3xl">
                     {featuredPost.data.title}
                   </h2>
                   {featuredPost.data.excerpt && (
@@ -167,9 +175,6 @@ const formatDate = (date: Date | null) =>
                       {formatDate(featuredPost.data.publishedAt)}
                     </time>
                   )}
-                  <span class="mt-8 text-xs font-bold tracking-[0.16em] text-gold-300">
-                    READ STORY →
-                  </span>
                 </div>
               </a>
             </section>
@@ -177,15 +182,15 @@ const formatDate = (date: Date | null) =>
 
           {archivePosts.length > 0 && (
             <section aria-labelledby="archive-heading" class={featuredPost ? "mt-12 md:mt-16" : ""}>
-              <h2 id="archive-heading" class="sr-only">{sectionLabel}一覧</h2>
+              <h2 id="archive-heading" class="mb-8 text-xl font-semibold">{sectionLabel}一覧</h2>
               <div class="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
-                {archivePosts.map((post, index) => (
-                  <article class="min-w-0 border-b border-line-gold pb-7">
+                {archivePosts.map((post) => (
+                  <article class="min-w-0">
                     <a
                       href={`${basePath}/${post.id}`}
                       class="group flex h-full flex-col focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300"
                     >
-                      <div class="aspect-[16/10] overflow-hidden bg-elevated [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
+                      <div class="aspect-[3/2] overflow-hidden rounded-md bg-elevated [&_picture]:h-full [&_img]:!h-full [&_img]:!w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
                         {post.data.featured_image ? (
                           <Image image={post.data.featured_image} />
                         ) : (
@@ -195,23 +200,17 @@ const formatDate = (date: Date | null) =>
                         )}
                       </div>
                       <div class="flex flex-1 flex-col pt-5">
-                        <div class="flex items-center justify-between gap-4 text-xs">
-                          <span class="font-bold tracking-[0.18em] text-gold-300">
-                            {String(archiveStart + index).padStart(2, "0")} / ARCHIVE
-                          </span>
-                          {post.data.publishedAt && (
-                            <time class="text-subtle" datetime={post.data.publishedAt.toISOString()}>
-                              {formatDate(post.data.publishedAt)}
-                            </time>
-                          )}
-                        </div>
-                        <h3 class="mt-5 text-xl font-semibold leading-relaxed transition-colors group-hover:text-gold-300">
+                        <h3 class="text-lg font-semibold leading-relaxed transition-colors group-hover:text-gold-300">
                           {post.data.title}
                         </h3>
                         {post.data.excerpt && (
-                          <p class="mt-3 line-clamp-2 text-sm leading-7 text-muted">{post.data.excerpt}</p>
+                          <p class="mt-3 line-clamp-3 text-sm leading-7 text-muted">{post.data.excerpt}</p>
                         )}
-                        <span class="mt-auto self-end pt-7 text-gold-300" aria-hidden="true">→</span>
+                        {post.data.publishedAt && (
+                          <time class="mt-4 text-sm text-subtle" datetime={post.data.publishedAt.toISOString()}>
+                            {formatDate(post.data.publishedAt)}
+                          </time>
+                        )}
                       </div>
                     </a>
                   </article>
@@ -220,24 +219,36 @@ const formatDate = (date: Date | null) =>
             </section>
           )}
 
-          <nav aria-label="ページネーション" class="mt-14 flex items-center justify-center gap-3">
+          <nav aria-label="ページネーション" class="mt-14 flex flex-wrap items-center justify-center gap-1 sm:gap-2">
             {page > 1 && (
               <a
                 href={`${paginationBase}/${page - 1}`}
-                class="inline-flex min-h-11 items-center border border-line-gold px-4 text-sm font-semibold text-gold-300 transition-colors hover:border-gold-300 hover:text-foreground"
+                aria-label="前のページ"
+                class="inline-flex min-h-11 min-w-9 items-center justify-center rounded-lg border border-gold-400 px-2 text-sm font-semibold text-gold-300 sm:px-4 transition-colors hover:border-gold-300 hover:text-foreground"
               >
-                ← 前へ
+                <span aria-hidden="true" class="sm:hidden">←</span>
+                <span class="hidden sm:inline">← 前へ</span>
               </a>
             )}
-            <span class="inline-flex min-h-11 min-w-11 items-center justify-center border border-gold-300 bg-accent px-3 text-sm font-bold text-page">
-              {page}
-            </span>
+            {pageNumbers.map((number) => (
+              <a
+                href={`${paginationBase}/${number}`}
+                aria-label={`${number}ページ目`}
+                aria-current={number === page ? "page" : undefined}
+                class:list={[
+                  "inline-flex min-h-11 min-w-9 items-center justify-center rounded-lg border px-2 sm:min-w-11 sm:px-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300",
+                  number === page ? "border-gold-300 bg-accent text-page" : "border-gold-400 text-gold-300 hover:bg-gold-400/10",
+                ]}
+              >{number}</a>
+            ))}
             {hasMore && (
               <a
                 href={`${paginationBase}/${page + 1}`}
-                class="inline-flex min-h-11 items-center border border-line-gold px-4 text-sm font-semibold text-gold-300 transition-colors hover:border-gold-300 hover:text-foreground"
+                aria-label="次のページ"
+                class="inline-flex min-h-11 min-w-9 items-center justify-center rounded-lg border border-gold-400 px-2 text-sm font-semibold text-gold-300 sm:px-4 transition-colors hover:border-gold-300 hover:text-foreground"
               >
-                次へ →
+                <span aria-hidden="true" class="sm:hidden">→</span>
+                <span class="hidden sm:inline">次へ →</span>
               </a>
             )}
           </nav>

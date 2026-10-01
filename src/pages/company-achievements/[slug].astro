@@ -14,7 +14,7 @@ if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 ---
 
 <Company title={entry.data.title} description={entry.data.excerpt ?? "株式会社INFLUの会社実績をご紹介します。"}>
-  <CinematicPageFrame>
+  <CinematicPageFrame editorial>
     <EditorialArticle
       entry={entry}
       collection="company_achievements"

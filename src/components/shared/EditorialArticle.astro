@@ -9,6 +9,8 @@ import {
 import { Image, PortableText } from "emdash/ui";
 import Container from "./Container.astro";
 import Contact from "./Contact.astro";
+import EditorialHeading from "./EditorialHeading.astro";
+import { SITE_URL } from "./features/seo";
 
 type EditorialCollection =
   | "company_achievements"
@@ -44,12 +46,19 @@ const { entries: recentEntries, error, cacheHint } = await getEmDashCollection(
   {
     status: "published",
     orderBy: { published_at: "desc" },
-    limit: 4,
+    limit: 5,
   },
 );
 if (error) throw error;
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-const relatedEntries = recentEntries.filter((item) => item.id !== entry.id).slice(0, 3);
+const relatedEntries = recentEntries.filter((item) => item.id !== entry.id).slice(0, 4);
+const headings = (entry.data.content ?? []).flatMap((block) => {
+  if (block._type !== "block" || block.style !== "h2") return [];
+  const text = Array.isArray(block.children) ? block.children.map((child: { text?: string }) => child.text ?? "").join("") : "";
+  return text ? [{ id: `heading-${block._key}`, text }] : [];
+});
+const shareUrl = encodeURIComponent(new URL(`${basePath}/${entry.id}`, SITE_URL).href);
+const shareTitle = encodeURIComponent(entry.data.title);
 const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
   year: "numeric",
   month: "long",
@@ -59,13 +68,13 @@ const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
 
 <article class="bg-page pt-14 text-foreground md:pt-16">
   <header class="relative overflow-hidden border-b border-line-gold py-12 md:py-16 lg:py-20">
-    <Container>
-      <nav aria-label="パンくず" class="text-sm text-muted">
-        <a href="/" class="transition-colors hover:text-gold-300">ホーム</a>
-        <span aria-hidden="true" class="mx-3 text-subtle">/</span>
-        <a href={`${basePath}/page/1`} class="transition-colors hover:text-gold-300">{sectionLabel}</a>
-        <span aria-hidden="true" class="mx-3 text-subtle">/</span>
-        <span aria-current="page">{entry.data.title}</span>
+    <Container class="!px-4 sm:!px-6 lg:!px-12">
+      <nav aria-label="パンくず" class="flex items-center gap-2 text-sm text-muted">
+        <a href="/" class="shrink-0 transition-colors hover:text-gold-300">ホーム</a>
+        <span aria-hidden="true" class="shrink-0 text-subtle">/</span>
+        <a href={`${basePath}/page/1`} class="shrink-0 transition-colors hover:text-gold-300">{sectionLabel}</a>
+        <span aria-hidden="true" class="shrink-0 text-subtle">/</span>
+        <span aria-current="page" class="min-w-0 truncate">{entry.data.title}</span>
       </nav>
 
       <div class="mt-10 grid items-center gap-10 lg:grid-cols-12">
@@ -75,7 +84,7 @@ const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
             {entry.data.title}
           </h1>
           {entry.data.excerpt && (
-            <p class="mt-6 text-base leading-8 text-muted md:text-lg" {...entry.edit.excerpt}>
+            <p class="mt-6 line-clamp-3 text-base leading-8 text-muted md:text-lg" {...entry.edit.excerpt}>
               {entry.data.excerpt}
             </p>
           )}
@@ -94,7 +103,7 @@ const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
 
         <div class="lg:col-span-6 lg:col-start-7">
           {entry.data.featured_image ? (
-            <div class="aspect-video overflow-hidden bg-elevated [&_img]:h-full [&_img]:w-full [&_img]:object-cover" {...entry.edit.featured_image}>
+            <div class="aspect-video overflow-hidden rounded-md bg-elevated [&_img]:!h-full [&_img]:!w-full [&_img]:object-cover" {...entry.edit.featured_image}>
               <Image image={entry.data.featured_image} priority />
             </div>
           ) : (
@@ -107,18 +116,46 @@ const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
     </Container>
   </header>
 
-  <Container class="py-14 md:py-20">
-    <div class="mx-auto max-w-3xl">
-      <div class="wrap-anywhere text-base leading-8 text-foreground [&_a]:text-gold-300 [&_a]:underline [&_a]:underline-offset-4 [&_blockquote]:my-8 [&_blockquote]:border-l-2 [&_blockquote]:border-gold-300 [&_blockquote]:pl-6 [&_code]:text-sm [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:text-3xl [&_h2]:font-bold [&_h2]:leading-tight [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:text-2xl [&_h3]:font-semibold [&_hr]:my-10 [&_hr]:border-line [&_img]:my-8 [&_img]:w-full [&_li]:my-2 [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-5 [&_p]:text-foreground [&_pre]:my-8 [&_pre]:overflow-x-auto [&_pre]:bg-elevated [&_pre]:p-5 [&_strong]:font-bold [&_table]:my-8 [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_td]:border [&_td]:border-line [&_td]:p-3 [&_th]:border [&_th]:border-line [&_th]:bg-elevated [&_th]:p-3 [&_ul]:my-6 [&_ul]:list-disc [&_ul]:pl-6">
-        <PortableText value={entry.data.content} />
+  <Container class="!px-4 py-14 sm:!px-6 lg:!px-12 md:py-20">
+    <div class="mx-auto grid max-w-6xl min-w-0 gap-12 lg:grid-cols-[minmax(0,42rem)_18rem] lg:justify-between lg:gap-12">
+      <div class="min-w-0 wrap-anywhere [--color-bg-subtle:#0e1010] [--color-surface:#131515] [--color-border:#30302a] text-base leading-8 text-foreground [&_a]:text-gold-300 [&_a]:underline [&_a]:underline-offset-4 [&_blockquote]:my-8 [&_blockquote]:border-l-2 [&_blockquote]:border-gold-300 [&_blockquote]:pl-6 [&_code]:text-sm [&_h2]:mb-5 [&_h2]:mt-14 [&_h2]:text-3xl md:[&_h2]:text-4xl [&_h2]:font-bold [&_h2]:leading-tight [&_h3]:mb-4 [&_h3]:mt-10 [&_h3]:text-2xl [&_h3]:font-semibold [&_hr]:my-10 [&_hr]:border-line [&_img]:my-8 [&_img]:w-full [&_li]:my-2 [&_ol]:my-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_p]:my-5 [&_p]:text-foreground [&_pre]:my-8 [&_pre]:overflow-x-auto [&_pre]:bg-elevated [&_pre]:p-5 [&_strong]:font-bold [&_table]:my-8 [&_table]:max-w-full [&_td]:border [&_td]:border-line [&_td]:p-3 [&_th]:border [&_th]:border-line [&_th]:bg-elevated [&_th]:p-3 [&_ul]:my-6 [&_ul]:list-disc [&_ul]:pl-6">
+        <PortableText value={entry.data.content} components={{ block: { h2: EditorialHeading, h3: EditorialHeading } }} />
       </div>
+      <aside class="min-w-0 lg:sticky lg:top-24 lg:self-start">
+        {headings.length > 0 && (
+          <details open class="rounded-lg border border-line-gold p-6">
+            <summary class="cursor-pointer text-lg font-semibold text-gold-300">目次</summary>
+            <nav aria-label="目次" class="mt-5">
+              <ol class="space-y-3 text-sm leading-6">
+                {headings.map((heading) => (
+                  <li>
+                    <a href={`#${heading.id}`} class="text-muted transition-colors hover:text-gold-300">{heading.text}</a>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </details>
+        )}
+        <div class="mt-8 border-t border-line-gold pt-6">
+          <p class="text-sm font-semibold">この記事をシェア</p>
+          <div class="mt-4 flex gap-3">
+            {[
+              { label: "X", href: `https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}` },
+              { label: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}` },
+              { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}` },
+            ].map((link) => (
+              <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={`${link.label}でシェア`} class="rounded-lg border border-line-gold px-3 py-2 text-xs text-gold-300 hover:bg-gold-400/10">{link.label}</a>
+            ))}
+          </div>
+        </div>
+      </aside>
     </div>
   </Container>
 
   {
     relatedEntries.length > 0 && (
       <section class="border-t border-line-gold bg-section py-14 md:py-20" aria-labelledby="related-heading">
-        <Container>
+        <Container class="!px-4 sm:!px-6 lg:!px-12">
           <div class="flex items-end justify-between gap-6">
             <div>
               <p class="text-xs font-bold tracking-[0.18em] text-gold-300">CONTINUE READING</p>
@@ -128,11 +165,15 @@ const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
               一覧を見る →
             </a>
           </div>
-          <div class="mt-8 grid gap-8 md:grid-cols-3">
+          <div class="mt-6 flex justify-end gap-2">
+            <button type="button" data-related-direction="-1" aria-label="前の関連記事" class="h-11 w-11 rounded-lg border border-line-gold text-gold-300 hover:bg-gold-400/10">←</button>
+            <button type="button" data-related-direction="1" aria-label="次の関連記事" class="h-11 w-11 rounded-lg border border-line-gold text-gold-300 hover:bg-gold-400/10">→</button>
+          </div>
+          <div data-related-stories class="mt-8 flex snap-x snap-mandatory gap-6 overflow-x-auto pb-4">
             {relatedEntries.map((related) => (
-              <article class="border-b border-line-gold pb-6">
+              <article class="w-[85%] shrink-0 snap-start pb-6 sm:w-[45%] lg:w-[calc((100%_-_3rem)/3)]">
                 <a href={`${basePath}/${related.id}`} class="group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300">
-                  <div class="aspect-[16/10] overflow-hidden bg-elevated [&_img]:h-full [&_img]:w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
+                  <div class="aspect-[3/2] overflow-hidden rounded-md bg-elevated [&_img]:!h-full [&_img]:!w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
                     {related.data.featured_image ? (
                       <Image image={related.data.featured_image} />
                     ) : (
@@ -153,3 +194,13 @@ const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
 </article>
 
 <Contact />
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>("[data-related-direction]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const stories = button.closest("section")?.querySelector<HTMLElement>("[data-related-stories]");
+      if (!stories) return;
+      stories.scrollBy({ left: stories.clientWidth * Number(button.dataset.relatedDirection), behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    });
+  });
+</script>

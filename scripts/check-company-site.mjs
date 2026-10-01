@@ -170,6 +170,20 @@ for (const section of ["staff-blog", "company-achievements", "useful-materials"]
   assert.equal((await fetch(new URL(`/${section}/page/1`, base))).status, 200, `${section}: archive`);
   assert.equal((await fetch(new URL(`/${section}/example-article`, base))).status, 404, `${section}: missing article`);
   assert.match(sitemap, new RegExp(`/${section}/page/1`), `${section}: sitemap archive`);
+  for (const page of ["0", "1.5", "invalid", "999999"]) {
+    const response = await fetch(new URL(`/${section}/page/${page}`, base), { redirect: "manual" });
+    assert.equal(response.status, 404, `${section}: invalid archive page ${page}`);
+    assert.match(await response.text(), /ページが見つかりません/, `${section}: branded 404`);
+  }
+}
+const columnHtml = await (await fetch(new URL("/useful-materials/page/1", base))).text();
+const categoryPath = columnHtml.match(/href="(\/useful-materials\/category\/[^"/]+\/page\/)1"/)?.[1];
+if (categoryPath) {
+  assert.equal((await fetch(new URL(`${categoryPath}1`, base))).status, 200, "category first page");
+  const response = await fetch(new URL(`${categoryPath}999999`, base), { redirect: "manual" });
+  assert.equal(response.status, 404, "category: out-of-range archive page");
+} else {
+  console.log("SKIP category HTTP pagination: no local categories");
 }
 assert.equal(
   await (await fetch(new URL("/robots.txt", base))).text(),

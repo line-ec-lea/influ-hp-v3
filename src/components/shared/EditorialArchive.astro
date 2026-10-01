@@ -1,12 +1,12 @@
 ---
 import {
-  getEmDashCollection,
   getTaxonomyTermsWithCacheHint,
   type TaxonomyTerm,
 } from "emdash";
 import { Image } from "emdash/ui";
 import Container from "./Container.astro";
 import Contact from "./Contact.astro";
+import type { loadEditorialArchive } from "./editorial-archive";
 
 type EditorialCollection =
   | "company_achievements"
@@ -20,6 +20,7 @@ interface Props {
   eyebrow: string;
   description: string;
   page: number;
+  availableEntries: Awaited<ReturnType<typeof loadEditorialArchive>>["entries"];
   categorySlug?: string;
   categoryLabel?: string;
 }
@@ -31,28 +32,13 @@ const {
   eyebrow,
   description,
   page,
+  availableEntries,
   categorySlug,
   categoryLabel,
 } = Astro.props;
 
 // The first page has a featured story plus four complete rows of cards.
 const pageSize = page === 1 ? 13 : 12;
-const offset = page === 1 ? 0 : 13 + (page - 2) * 12;
-const { entries: availableEntries, error, cacheHint } = await getEmDashCollection(
-  collection,
-  {
-    status: "published",
-    orderBy: { published_at: "desc" },
-    // Look ahead for the numbered pagination without loading the whole collection.
-    limit: pageSize + 48,
-    offset,
-    where: categorySlug ? { material_category: categorySlug } : undefined,
-  },
-);
-
-if (error) throw error;
-if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
-
 let categories: TaxonomyTerm[] = [];
 if (collection === "useful_materials") {
   const result = await getTaxonomyTermsWithCacheHint("material_category", {

@@ -2,9 +2,15 @@
 import Company from "../../../layouts/Company.astro";
 import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
 import EditorialArchive from "@shared/EditorialArchive.astro";
+import { loadEditorialArchive } from "@shared/editorial-archive";
 
 const page = Number(Astro.params.pageNo);
-if (!Number.isInteger(page) || page < 1) return Astro.redirect("/404");
+if (!Number.isInteger(page) || page < 1) return Astro.rewrite("/404");
+
+const { entries, error, cacheHint } = await loadEditorialArchive("company_achievements", page);
+if (error) return new Response("Unable to load archive", { status: 500 });
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+if (page > 1 && entries.length === 0) return Astro.rewrite("/404");
 
 const title = page === 1 ? "会社実績" : `会社実績（${page}ページ目）`;
 const description = "これまでの支援実績やプロジェクトの事例をご紹介します。";
@@ -19,6 +25,7 @@ const description = "これまでの支援実績やプロジェクトの事例�
       eyebrow="Achievements"
       description={description}
       page={page}
+      availableEntries={entries}
     />
   </CinematicPageFrame>
 </Company>

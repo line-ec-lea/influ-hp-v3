@@ -2,9 +2,15 @@
 import Company from "../../../layouts/Company.astro";
 import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
 import EditorialArchive from "@shared/EditorialArchive.astro";
+import { loadEditorialArchive } from "@shared/editorial-archive";
 
 const page = Number(Astro.params.pageNo);
-if (!Number.isInteger(page) || page < 1) return Astro.redirect("/404");
+if (!Number.isInteger(page) || page < 1) return Astro.rewrite("/404");
+
+const { entries, error, cacheHint } = await loadEditorialArchive("staff_blog", page);
+if (error) return new Response("Unable to load archive", { status: 500 });
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+if (page > 1 && entries.length === 0) return Astro.rewrite("/404");
 
 const title = page === 1 ? "スタッフBLOG" : `スタッフBLOG（${page}ページ目）`;
 const description = "日々の取り組みや社内の様子を、スタッフ目線でお届けします。";
@@ -19,6 +25,7 @@ const description = "日々の取り組みや社内の様子を、スタッフ�
       eyebrow="Staff Blog"
       description={description}
       page={page}
+      availableEntries={entries}
     />
   </CinematicPageFrame>
 </Company>

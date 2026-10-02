@@ -8,7 +8,10 @@ const page = Number(Astro.params.pageNo);
 if (!Number.isInteger(page) || page < 1) return Astro.rewrite("/404");
 
 const { entries, error, cacheHint } = await loadEditorialArchive("company_achievements", page);
-if (error) return new Response("Unable to load archive", { status: 500 });
+if (error) {
+  console.error("Unable to load company_achievements archive", error);
+  return new Response("Unable to load archive", { status: 500 });
+}
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 if (page > 1 && entries.length === 0) return Astro.rewrite("/404");
 

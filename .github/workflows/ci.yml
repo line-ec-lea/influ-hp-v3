@@ -33,5 +33,8 @@ jobs:
       - name: Type check
         run: bun run typecheck
 
+      - name: Check editorial error handling
+        run: node scripts/check-editorial-errors.mjs
+
       - name: Build
         run: bun run build

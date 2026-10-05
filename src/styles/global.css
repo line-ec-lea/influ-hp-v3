@@ -14,5 +14,5 @@
   --color-gold-400: #b08a55;
   --color-line: rgb(255 255 255 / 0.09);
   --color-line-gold: rgb(176 138 85 / 0.3);
-  --font-sans: var(--font-noto-sans-jp), "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, system-ui, sans-serif;
+  --font-sans: var(--font-line-seed-en), var(--font-line-seed-jp), "LINE Seed Sans", "LINE Seed JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, system-ui, sans-serif;
 }

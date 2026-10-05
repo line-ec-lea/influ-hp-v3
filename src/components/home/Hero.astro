@@ -1,124 +1,68 @@
 ---
-import SunlitHeading from "@shared/SunlitHeading.astro";
+import HeroMedia from "./HeroMedia.astro";
+import Container from "@shared/Container.astro";
 import SpecularButton from "@shared/SpecularButton.astro";
 import { CONTACT_FORM_HREF } from "@shared/features/contact";
 import { routes } from "@shared/features/routes";
-const images = ["/p1.jpg", "/p2.jpg", "/p3.jpg"]
+
+// Add the real asset here: videoSrc: "/hero.mp4", mobileVideoSrc: "/hero-mobile.mp4".
+const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } = {
+  posterSrc: "/p1.jpg",
+};
 ---
-<section id="hero" class="relative isolate min-h-svh w-full overflow-hidden bg-[#0B0B0B] text-[#F5F1E8]" aria-labelledby="homepage-heading">
-      <div class="absolute -inset-y-8 inset-x-0" data-photos>
-        {images.map((image, index) => (<div class:list={["absolute inset-0", index === 0 ? "opacity-100" : "opacity-0"]} data-slide>
-            <div class="absolute inset-0" data-zoom>
-              <img src={image} loading={index === 0 ? "eager" : "lazy"} fetchpriority={index === 0 ? "high" : "auto"} alt="" sizes="100vw" class="absolute inset-0 h-full w-full object-cover object-center opacity-70 saturate-[0.68] contrast-[1.08] sm:object-[center_48%]" />
-            </div>
-          </div>))}
-</div>
+<section id="hero" class="relative isolate flex min-h-svh w-full items-end overflow-hidden bg-page text-foreground lg:min-h-[max(100svh,720px)]" aria-labelledby="homepage-heading" data-video={Boolean(media.videoSrc)}>
+  <HeroMedia {...media} />
 
-      <div aria-hidden="true" class="opacity-[0.76] absolute inset-0 bg-[linear-gradient(90deg,rgba(11,11,11,0.99)_0%,rgba(11,11,11,0.94)_44%,rgba(11,11,11,0.56)_76%,rgba(11,11,11,0.74)_100%)] sm:bg-[linear-gradient(90deg,rgba(11,11,11,0.99)_0%,rgba(11,11,11,0.92)_46%,rgba(11,11,11,0.42)_80%,rgba(11,11,11,0.62)_100%)]" data-overlay />
-      <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(circle_at_20%_42%,rgba(200,164,93,0.17),transparent_30%),linear-gradient(180deg,rgba(11,11,11,0.22),transparent_28%,rgba(11,11,11,0.76))]" />
-      <div aria-hidden="true" class="absolute inset-0 opacity-[0.035] [background-image:url('data:image/svg+xml,%3Csvg_viewBox=%220_0_180_180%22_xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter_id=%22n%22%3E%3CfeTurbulence_type=%22fractalNoise%22_baseFrequency=%220.78%22_numOctaves=%223%22_stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect_width=%22100%25%22_height=%22100%25%22_filter=%22url(%23n)%22_opacity=%22.55%22/%3E%3C/svg%3E')]" />
+  <!-- Independent content, edge and top gradients control changing video brightness. -->
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-page/25" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-t from-page/90 via-page/40 to-transparent lg:bg-linear-to-r lg:from-page/85 lg:via-page/45 lg:to-transparent" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-l from-page/35 via-page/10 via-25% to-transparent to-60% lg:from-page/65 lg:via-page/20" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-1/2 bg-linear-to-t from-page/60 to-transparent lg:block" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-48 bg-linear-to-b from-page/75 to-transparent" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-radial from-transparent from-45% to-page/25" />
 
-      <div aria-hidden="true" class="absolute inset-y-0 left-[clamp(1.25rem,4vw,4rem)] z-[2] w-px origin-top bg-[linear-gradient(180deg,transparent,rgba(224,197,132,0.72)_28%,rgba(200,164,93,0.2)_76%,transparent)]" data-line />
-
-      <div class="relative z-10 flex min-h-svh items-center pb-28 pt-32 md:pb-24 md:pt-36" data-content>
-        <div class="mx-auto w-full max-w-[100rem] px-5 sm:px-8 lg:px-12" data-container>
-          <div class="mx-auto text-center">
-            <div class="flex items-center justify-center gap-3" data-eyebrow>
-              <span class="h-px w-10 bg-[#C8A45D]" aria-hidden="true" />
-              <p class="text-[0.6875rem] font-bold tracking-[0.2em] text-[#E0C584] sm:text-xs">
-                AX &amp; MARKETING PARTNER
-              </p>
-            </div>
-
-            <SunlitHeading as="h1" id="homepage-heading" delay={4.17} class="mt-6 text-[clamp(1.7rem,8.2vw,3.6rem)] font-bold leading-[1.14] tracking-[-0.045em] text-[#F5F1E8] sm:text-[clamp(2.75rem,6.5vw,4.25rem)] lg:text-[clamp(2.5rem,3.35vw,4rem)] lg:leading-[1.08]">
-              <span class="inline-block pb-[0.08em]">
-                AIホームページ制作と
-              </span>
-              <span class="inline-block pb-[0.08em]">AX支援を、</span>
-              <span class="inline-block pb-[0.08em]">
-                現場に合うかたちへ。
-              </span>
-            </SunlitHeading>
-
-            <p class="mx-auto mt-7 max-w-[50rem] text-base font-medium leading-8 text-[#D8D1C5] sm:text-lg md:mt-8 md:text-xl md:leading-9" data-summary>
-              大阪を拠点に、AIホームページ制作・業務効率化支援
-              <br class="hidden sm:block" />
-              ・AI活用の導入整理まで、現場で使い続けられる形で伴走します。
-            </p>
-
-            <div class="mx-auto mt-8 flex w-full max-w-xs flex-row items-center justify-center gap-2 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap" data-actions>
-              <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="max-sm:!w-full max-sm:min-w-0 max-sm:min-h-12 max-sm:flex-1 max-sm:!rounded-lg max-sm:!px-3 max-sm:!text-sm max-sm:!shadow-none">
-                相談する
-              </SpecularButton>
-              <SpecularButton href={routes.service} mobileEffect class="max-sm:!w-full max-sm:min-w-0 max-sm:min-h-12 max-sm:flex-1 max-sm:!rounded-lg max-sm:!px-3 max-sm:!text-sm max-sm:!shadow-none">
-                事業内容を見る
-              </SpecularButton>
-            </div>
-          </div>
-        </div>
+  <!-- Company.astro owns the fixed navigation above these media layers. -->
+  <Container class="relative z-10 pb-28 pt-32 sm:pb-32 lg:pb-36 lg:pt-40">
+    <div class="max-w-[53rem] lg:w-[60%]">
+      <div class="flex items-center gap-3" data-hero-reveal>
+        <span class="h-px w-8 bg-gold-300" aria-hidden="true" />
+        <p class="text-[0.6875rem] font-bold tracking-[0.2em] text-gold-300 sm:text-xs">AX &amp; MARKETING PARTNER</p>
       </div>
-
-      <div class="absolute bottom-7 right-5 z-20 flex items-center gap-1 sm:bottom-8 sm:right-8 lg:right-12" aria-label="ヒーロー画像を選択" role="group" data-dots>
-        {images.map((_, index) => (
-          <button type="button" class="group inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584]" aria-label={`ヒーロー画像 ${index + 1}`} aria-pressed={index === 0}>
-            <span class={`h-px transition-[width,background-color] duration-300 ${
-                index === 0
-                  ? "w-8 bg-[#E0C584]"
-                  : "w-4 bg-[#B8B1A3] group-hover:w-6 group-hover:bg-[#F5F1E8]"
-              }`} />
-          </button>
-        ))}
+      <h1 id="homepage-heading" class="mt-6 text-[clamp(2.25rem,6vw,3rem)] font-extrabold leading-[1.02] tracking-[-0.045em] text-foreground lg:text-[clamp(3.5rem,4.5vw,5.5rem)]" data-hero-reveal>
+        <span class="block">AIホームページ<span class="inline-block">制作と</span></span>
+        <span class="block">AX支援を、</span>
+        <span class="block">現場に合う<span class="inline-block">かたちへ。</span></span>
+      </h1>
+      <p class="mt-8 max-w-xl text-sm font-normal leading-7 text-foreground/85 sm:text-base sm:leading-8 lg:mt-9" data-hero-reveal>
+        大阪を拠点に、AIホームページ制作・業務効率化支援
+        <br class="hidden sm:block" />
+        ・AI活用の導入整理まで、現場で使い続けられる形で伴走します。
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-3 sm:mt-10" data-hero-reveal>
+        <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+          相談する
+        </SpecularButton>
+        <SpecularButton href={routes.service} mobileEffect class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+          事業内容を見る
+        </SpecularButton>
       </div>
-
-      <button type="button" class="absolute bottom-7 left-1/2 z-20 hidden min-h-11 -translate-x-1/2 cursor-pointer items-center gap-3 rounded-lg px-3 text-[0.625rem] font-bold tracking-[0.2em] text-[#B8B1A3] transition-colors duration-200 hover:text-[#E0C584] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] md:flex" data-scroll>
-        <span>SCROLL</span>
-        <span class="h-px w-8 bg-current" aria-hidden="true" />
-      </button>
-    </section>
+    </div>
+  </Container>
+  <a href="#what-we-do" class="absolute bottom-6 left-5 z-20 inline-flex min-h-11 items-center gap-3 rounded-sm text-[0.625rem] font-bold tracking-[0.2em] text-foreground/70 transition-colors hover:text-gold-300 motion-reduce:transition-none sm:left-8 lg:left-[max(3rem,calc((100vw-80rem)/2+3rem))]" aria-label="次のセクションへスクロール">
+    <span>SCROLL</span><span class="h-8 w-px bg-gold-300/70" aria-hidden="true" />
+  </a>
+</section>
 <script>
-  import { animate, scroll, ease, reducedMotion } from "@shared/motion";
-  const hero = document.querySelector("#hero")!;
-  const slides = [...hero.querySelectorAll<HTMLElement>("[data-slide]")];
-  const buttons = [...hero.querySelectorAll<HTMLButtonElement>("[data-dots] button")];
-  let current = 0;
-  function select(index: number) {
-    if (index === current) return;
-    const duration = reducedMotion.matches ? 0 : 1.15;
-    animate(slides[current], { opacity: 0 }, { duration, ease });
-    current = index;
-    animate(slides[index], { opacity: 1 }, { duration, ease });
-    if (!reducedMotion.matches) animate(slides[index].querySelector("[data-zoom]")!,
-      { scale: [1.04, 1] }, { duration: 7.2, ease: "linear" });
-    buttons.forEach((button, i) => {
-      const active = i === index;
-      button.setAttribute("aria-pressed", String(active));
-      button.firstElementChild!.className = "h-px transition-[width,background-color] duration-300 " +
-        (active ? "w-8 bg-[#E0C584]" : "w-4 bg-[#B8B1A3] group-hover:w-6 group-hover:bg-[#F5F1E8]");
-    });
-  }
-  buttons.forEach((button, index) => button.addEventListener("click", () => select(index)));
-  hero.querySelector("[data-scroll]")!.addEventListener("click", () =>
-    document.querySelector("#what-we-do")!.scrollIntoView({ behavior: reducedMotion.matches ? "instant" : "smooth", block: "start" }));
-  const timer = window.setInterval(() => {
-    if (!reducedMotion.matches && !document.hidden) select((current + 1) % slides.length);
-  }, 7200);
-  window.addEventListener("pagehide", (event) => { if (!event.persisted) clearInterval(timer); });
+  import { animate, ease, reducedMotion } from "@shared/motion";
+  const hero = document.querySelector<HTMLElement>("#hero")!;
   if (!reducedMotion.matches) {
-    animate(slides[0].querySelector("[data-zoom]")!, { scale: [1.04, 1] }, { delay: 4.05, duration: 0.9, ease });
-    animate(hero.querySelector("[data-line]")!, { scaleY: [0, 1], opacity: [0, 1] }, { delay: 4.15, duration: 0.8, ease });
-    ["eyebrow", "summary", "actions"].forEach((name, index) =>
-      animate(hero.querySelector("[data-" + name + "]")!, { opacity: [0, 1], y: [24, 0] }, { delay: 4.05 + index * 0.1, duration: 0.72, ease }));
-    animate(hero.querySelector("[data-dots]")!, { opacity: [0, 1], y: [12, 0] }, { delay: 4.75, duration: 0.55, ease });
-    animate(hero.querySelector("[data-scroll]")!, { opacity: [0, 1] }, { delay: 4.85, duration: 0.5, ease });
-    scroll((progress: number) => {
-      const photos = hero.querySelector<HTMLElement>("[data-photos]")!;
-      const content = hero.querySelector<HTMLElement>("[data-content]")!;
-      photos.style.transform = "translateY(" + -32 * progress + "px)";
-      content.style.transform = "translateY(" + -38 * Math.min(progress / 0.55, 1) + "px)";
-      content.style.opacity = String(1 - 0.82 * Math.min(progress / 0.52, 1));
-      hero.querySelector<HTMLElement>("[data-overlay]")!.style.opacity = String(0.76 + 0.14 * Math.min(progress / 0.7, 1));
-    }, { target: hero, offset: ["start start", "end start"] });
-  } else {
-    hero.querySelector<HTMLElement>("[data-overlay]")!.style.opacity = "0.76";
+    // Match the existing logo intro; the image and content animate independently.
+    const animations = [...hero.querySelectorAll<HTMLElement>("[data-hero-reveal]")].map((element, index) =>
+      animate(element, { opacity: [0, 1], y: [16, 0] }, { delay: 4.05 + index * 0.1, duration: 0.7, ease }));
+    if (hero.dataset.video !== "true") animations.push(
+      animate(hero.querySelector<HTMLElement>("[data-hero-still]")!, { scale: [1.035, 1] }, { delay: 4.05, duration: 1.8, ease }));
+    reducedMotion.addEventListener("change", () => {
+      if (reducedMotion.matches) animations.forEach((animation) => animation.complete());
+    });
   }
 </script>

@@ -1,4 +1,5 @@
 ---
+import { getEmDashCollection } from "emdash";
 import Company from "../layouts/Company.astro";
 import LogoIntro from "../components/home/LogoIntro.astro";
 import Hero from "../components/home/Hero.astro";
@@ -7,6 +8,18 @@ import Services from "../components/home/Services.astro";
 import WhyInflu from "../components/home/WhyInflu.astro";
 import SuitableConsultations from "../components/home/SuitableConsultations.astro";
 import Contact from "@shared/Contact.astro";
+import EditorialHighlights from "../components/home/EditorialHighlights.astro";
+
+const [achievements, columns] = await Promise.all([
+  getEmDashCollection("company_achievements", { status: "published", orderBy: { published_at: "desc" }, limit: 3 }),
+  getEmDashCollection("useful_materials", { status: "published", orderBy: { published_at: "desc" }, limit: 4 }),
+]);
+for (const [collection, result] of [["company_achievements", achievements], ["useful_materials", columns]] as const) {
+  if (result.error) console.error(`Unable to load homepage ${collection}`, result.error);
+  else if (Astro.cache?.enabled) Astro.cache.set(result.cacheHint);
+}
+// Keep the rest of the homepage available, without caching a temporary CMS failure.
+if (achievements.error || columns.error) Astro.cache.set(false);
 ---
 
 <Company
@@ -20,7 +33,19 @@ import Contact from "@shared/Contact.astro";
       <WhatWeDo />
       <Services />
       <WhyInflu />
+      <EditorialHighlights
+        id="achievements" title="実績・根拠" eyebrow="PROOF"
+        description="メディア掲載や取り組みを通じて、INFLUの活動をご紹介します。"
+        basePath="/company-achievements" archiveLabel="実績をすべて見る"
+        entries={achievements.entries} error={Boolean(achievements.error)}
+      />
       <SuitableConsultations />
+      <EditorialHighlights
+        id="columns" title="コラム" eyebrow="COLUMN"
+        description="AI活用やWeb運用に役立つ情報をお届けします。"
+        basePath="/useful-materials" archiveLabel="コラムをすべて見る"
+        entries={columns.entries} error={Boolean(columns.error)}
+      />
       <Contact />
     </div>
   </div>

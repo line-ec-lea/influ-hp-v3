@@ -1,0 +1,73 @@
+---
+interface Props {
+  posterSrc: string;
+  videoSrc?: string;
+  mobileVideoSrc?: string;
+}
+const { posterSrc, videoSrc, mobileVideoSrc } = Astro.props;
+---
+<div class="absolute inset-0 overflow-hidden" data-hero-media>
+  <img src={posterSrc} alt="" loading="eager" fetchpriority="high" sizes="100vw" class="absolute inset-0 h-full w-full object-cover object-[62%_center] lg:object-[center_48%]" data-hero-still />
+  {videoSrc && <>
+    <!-- Sources are assigned only when motion is allowed; the still remains underneath. -->
+    <video muted loop playsinline preload="metadata" poster={posterSrc} aria-hidden="true" tabindex="-1" class="absolute inset-0 h-full w-full object-cover object-[62%_center] opacity-0 transition-opacity duration-500 motion-reduce:hidden lg:object-[center_48%]" data-hero-video data-desktop-src={videoSrc} data-mobile-src={mobileVideoSrc} />
+    <button type="button" hidden class="absolute bottom-6 right-5 z-20 min-h-11 rounded-sm border border-foreground/30 bg-page/60 px-4 text-xs text-foreground hover:bg-page/80 focus-visible:outline-gold-300 sm:right-8 lg:right-12" data-video-toggle aria-label="背景動画を一時停止">動画を一時停止</button>
+  </>}
+</div>
+<script>
+  import { reducedMotion } from "@shared/motion";
+  document.querySelectorAll<HTMLElement>("[data-hero-media]").forEach((media) => {
+    const video = media.querySelector<HTMLVideoElement>("[data-hero-video]");
+    const toggle = media.querySelector<HTMLButtonElement>("[data-video-toggle]");
+    if (!video || !toggle) return;
+    const mobile = window.matchMedia("(max-width: 767px)");
+    let pausedByUser = false;
+    const fallback = () => {
+      video.pause();
+      video.classList.add("opacity-0");
+      toggle.hidden = true;
+    };
+    const update = () => {
+      fallback();
+      if (reducedMotion.matches) {
+        video.removeAttribute("src");
+        video.load();
+        return;
+      }
+      const src = mobile.matches && video.dataset.mobileSrc
+        ? video.dataset.mobileSrc : video.dataset.desktopSrc!;
+      video.muted = true;
+      video.autoplay = !pausedByUser;
+      if (video.getAttribute("src") !== src) {
+        video.src = src;
+        video.load();
+      }
+      if (pausedByUser) toggle.hidden = false;
+      else if (!document.hidden) video.play().catch(fallback);
+    };
+    video.addEventListener("playing", () => {
+      if (reducedMotion.matches || document.hidden) return fallback();
+      video.classList.remove("opacity-0");
+      toggle.hidden = false;
+      toggle.textContent = "動画を一時停止";
+      toggle.setAttribute("aria-label", "背景動画を一時停止");
+    });
+    video.addEventListener("error", fallback);
+    toggle.addEventListener("click", () => {
+      pausedByUser = !pausedByUser;
+      video.autoplay = !pausedByUser;
+      if (pausedByUser) {
+        video.pause();
+        toggle.textContent = "動画を再生";
+        toggle.setAttribute("aria-label", "背景動画を再生");
+      } else video.play().catch(fallback);
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) video.pause();
+      else if (!pausedByUser) update();
+    });
+    mobile.addEventListener("change", update);
+    reducedMotion.addEventListener("change", update);
+    update();
+  });
+</script>

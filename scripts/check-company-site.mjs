@@ -123,7 +123,8 @@ for (const path of paths) {
     assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, "homepage: native Astro, no React hydration");
     for (const id of ["hero", "what-we-do", "services", "why-influ", "suitable-consultations", "contact"])
       assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `homepage: ${id} section`);
-    assert.equal((html.match(/data-slide(?:\s|>)/g) ?? []).length, 3, "homepage: all hero images server-rendered");
+    assert.match(html, /<img[^>]+src="\/p1.jpg"[^>]+data-hero-still/, "homepage: current hero poster server-rendered");
+    assert.doesNotMatch(html, /<video\b/, "homepage: no video loaded until the real asset is configured");
     assert.equal((html.match(/data-area(?:\s|>)/g) ?? []).length, 7, "homepage: seven focus controls");
   }
   assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, `${path}: native Astro, no React hydration`);

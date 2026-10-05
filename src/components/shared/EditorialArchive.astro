@@ -65,6 +65,7 @@ const pageTitle = categoryLabel
   : sectionLabel;
 const formatDate = (date: Date | null) =>
   date?.toLocaleDateString("ja-JP", {
+    timeZone: "Asia/Tokyo",
     year: "numeric",
     month: "long",
     day: "numeric",

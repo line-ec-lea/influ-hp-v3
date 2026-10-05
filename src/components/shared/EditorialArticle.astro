@@ -60,6 +60,7 @@ const headings = (entry.data.content ?? []).flatMap((block) => {
 const shareUrl = encodeURIComponent(new URL(`${basePath}/${entry.id}`, SITE_URL).href);
 const shareTitle = encodeURIComponent(entry.data.title);
 const publishedDate = entry.data.publishedAt?.toLocaleDateString("ja-JP", {
+  timeZone: "Asia/Tokyo",
   year: "numeric",
   month: "long",
   day: "numeric",

@@ -8,7 +8,7 @@ const consultations = [
   "既存HPが更新できず、運用の足かせになっている",
 ]
 ---
-<section id="suitable-consultations" class="relative overflow-hidden border-t border-[rgba(200,164,93,0.25)] bg-[#0B0B0B]">
+<section id="suitable-consultations" class="relative overflow-hidden bg-[#0B0B0B]">
       <Container class="relative py-16 md:py-24 lg:py-28">
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(24rem,0.72fr)] lg:items-end" data-intro>
           <div>
@@ -29,13 +29,12 @@ const consultations = [
         <div class="mt-12 md:mt-16" data-list>
           {consultations.map((consultation, index) => (
             <article class="group/row relative grid gap-x-10 gap-y-5 py-9 md:grid-cols-[7rem_minmax(0,1fr)] md:items-center md:py-12" data-row>
-              <span aria-hidden="true" class="absolute inset-x-0 top-0 h-px origin-left bg-[linear-gradient(90deg,#F4E8CB,rgba(216,194,139,0.42)_48%,rgba(216,194,139,0.08))]" data-rule />
 
               <div class="flex items-center gap-4">
                 <span class="text-xs font-bold tracking-[0.18em] text-[#E0C584]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span aria-hidden="true" class="h-px flex-1 origin-left bg-[linear-gradient(90deg,#E0C584,transparent)]" data-number-rule />
+                <span aria-hidden="true" class="h-px w-8 origin-left bg-[linear-gradient(90deg,#E0C584,transparent)]" data-number-rule />
               </div>
 
               <h3 class="relative w-fit max-w-full overflow-hidden text-2xl font-bold leading-snug tracking-tight text-[#F5F1E8] transition-[color,transform] duration-500 group-hover/row:translate-x-2 group-hover/row:text-[#FFF7E3] md:text-3xl lg:text-[2.55rem]">
@@ -45,7 +44,6 @@ const consultations = [
             </article>
           ))}
 
-          <span aria-hidden="true" class="block h-px origin-left bg-[linear-gradient(90deg,#F4E8CB,rgba(216,194,139,0.42)_48%,rgba(216,194,139,0.08))]" data-end-rule />
         </div>
 
         <div class="mt-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between" data-cta>
@@ -65,7 +63,6 @@ const consultations = [
   if (!reducedMotion.matches) {
     inView(section.querySelector("[data-list]")!, () => {
       animate(section.querySelectorAll("[data-row]"), { opacity: [0, 1], y: [26, 0] }, { duration: 0.52, delay: stagger(0.1), ease });
-      animate(section.querySelectorAll("[data-rule], [data-end-rule]"), { scaleX: [0, 1], opacity: [0.35, 1] }, { duration: 0.8, ease });
       animate(section.querySelectorAll("[data-number-rule]"), { scaleX: [0, 1] }, { duration: 0.65, delay: 0.18, ease });
     }, { margin: "-40px" });
   }

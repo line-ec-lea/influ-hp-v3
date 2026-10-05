@@ -1,6 +1,7 @@
 ---
 import HeroMedia from "./HeroMedia.astro";
 import Container from "@shared/Container.astro";
+import SpecularButton from "@shared/SpecularButton.astro";
 import { CONTACT_FORM_HREF } from "@shared/features/contact";
 import { routes } from "@shared/features/routes";
 
@@ -36,12 +37,12 @@ const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } =
         ・AI活用の導入整理まで、現場で使い続けられる形で伴走します。
       </p>
       <div class="mt-8 flex flex-wrap items-center gap-3 sm:mt-10" data-hero-reveal>
-        <a href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-12 items-center justify-center gap-4 rounded-sm border border-foreground bg-foreground px-5 text-sm font-bold text-page transition-colors hover:border-gold-300 hover:bg-white motion-reduce:transition-none sm:px-6">
-          相談する <span aria-hidden="true">↗</span>
-        </a>
-        <a href={routes.service} class="inline-flex min-h-12 items-center justify-center gap-4 rounded-sm border border-foreground/40 bg-page/20 px-5 text-sm font-bold text-foreground transition-colors hover:border-gold-300 hover:text-gold-300 motion-reduce:transition-none sm:px-6">
-          事業内容を見る <span class="text-gold-300" aria-hidden="true">→</span>
-        </a>
+        <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+          相談する
+        </SpecularButton>
+        <SpecularButton href={routes.service} mobileEffect class="max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+          事業内容を見る
+        </SpecularButton>
       </div>
     </div>
   </Container>

@@ -2,11 +2,12 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import ts from "typescript";
 
-// Exercise the component's entrance setup independently of its existing pill-selection logic.
-const source = (await readFile(new URL("../src/components/home/WhatWeDo.astro", import.meta.url), "utf8"))
-  .split("<script>")[1].split("  const buttons =")[0].replace(/^\s*import .*;$/gm, "");
+// Exercise the shared entrance behavior used by What We Do and Services.
+const source = (await readFile(new URL("../src/components/shared/motion.ts", import.meta.url), "utf8"))
+  .split("export function revealStaggered")[1];
 const run = new Function("document", "window", "reducedMotion", "IntersectionObserver", "animate", "ease",
-  ts.transpile(source, { target: ts.ScriptTarget.ES2022 }));
+  ts.transpile(`function revealStaggered${source}
+revealStaggered(document.querySelector("section"), "[data-reveal]");`, { target: ts.ScriptTarget.ES2022 }));
 
 function setup(reduced, desktop) {
   const targets = Array.from({ length: 16 }, () => ({ style: {}, contains(node) { return node === this; } }));
@@ -84,4 +85,4 @@ assert.equal(toggled.observed.size, 0);
 const finished = toggled.animations.length;
 toggled.enter(1);
 assert.equal(toggled.animations.length, finished, "Queued intersections stay inert after reduced motion is enabled");
-console.log("PASS What We Do entrances: viewport timing, stagger, mobile distance, keyboard access, reduced motion and cleanup");
+console.log("PASS shared What We Do / Services entrances: viewport timing, stagger, mobile distance, keyboard access, reduced motion and cleanup");

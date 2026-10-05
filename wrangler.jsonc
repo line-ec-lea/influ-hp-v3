@@ -1,6 +1,7 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "influ-hp-v3",
+	"workers_dev": true,
 	"routes": [
 		{ "pattern": "influhp.com", "custom_domain": true },
 	],

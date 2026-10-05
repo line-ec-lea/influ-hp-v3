@@ -1,6 +1,9 @@
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "influ-hp-v3",
+	"routes": [
+		{ "pattern": "influhp.com", "custom_domain": true },
+	],
 	"account_id": "f785367f9b03316c012885ca7fe60ead",
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
@@ -11,7 +14,7 @@
 		},
 	},
 	"vars": {
-		"EMDASH_SITE_URL": "https://influ-hp-v3.influ.workers.dev", // Change to https://influhp.com when the custom domain launches.
+		"EMDASH_SITE_URL": "https://influhp.com",
 	},
 	"kv_namespaces": [
 		{

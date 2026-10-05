@@ -15,6 +15,7 @@ for (const file of files) {
   if (file === "seo.ts") source = source.slice(source.indexOf("export const SITE_URL"), source.indexOf("export function excerptFromMarkdown"))
     + source.slice(source.indexOf("function absoluteUrl"), source.indexOf("export function articleJsonLd"))
     + source.slice(source.indexOf("export type BreadcrumbItem"), source.indexOf("export function postMetadata"));
+  if (file === "routes.ts") source = source.replace(/^  contact: "\/contact",\r?\n/m, ""); // Unused in the Astro site.
   source = source.replaceAll("routes.ourPerformance", "routes.companyAchievements")
     .replaceAll("routes.blog", "routes.staffBlog")
     .replace(/^  blog:/m, "  staffBlog:")

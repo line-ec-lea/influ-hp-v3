@@ -15,7 +15,10 @@ const category = await getTerm("material_category", categorySlug, {
 if (!category) return Astro.rewrite("/404");
 
 const { entries, error, cacheHint } = await loadEditorialArchive("useful_materials", page, category.slug);
-if (error) return new Response("Unable to load archive", { status: 500 });
+if (error) {
+  console.error("Unable to load useful_materials archive", error);
+  return new Response("Unable to load archive", { status: 500 });
+}
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 if (page > 1 && entries.length === 0) return Astro.rewrite("/404");
 

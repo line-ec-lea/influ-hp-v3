@@ -5,6 +5,11 @@
 	"main": "./src/worker.ts",
 	"compatibility_date": "2026-02-24",
 	"compatibility_flags": ["nodejs_compat"],
+	"observability": {
+		"issues": {
+			"enabled": true,
+		},
+	},
 	"vars": {
 		"EMDASH_SITE_URL": "https://influ-hp-v3.influ.workers.dev", // Change to https://influhp.com when the custom domain launches.
 	},

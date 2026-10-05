@@ -3,8 +3,8 @@ This is an EmDash site -- a CMS built on Astro with a full admin UI.
 ## Commands
 
 ```bash
-pnpm dev              # Start the Astro dev server
-npx emdash types      # Regenerate TypeScript types from a running site
+bun run dev           # Start the Astro dev server
+bunx emdash types      # Regenerate TypeScript types from a running site
 ```
 
 The admin UI is at `http://localhost:4321/_emdash/admin`.

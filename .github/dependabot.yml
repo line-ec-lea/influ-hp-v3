@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # pnpm dependencies
+  # Bun dependencies (npm ecosystem)
   - package-ecosystem: "npm"
     directory: "/"
     schedule:

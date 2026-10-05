@@ -4,6 +4,7 @@ import {
   type TaxonomyTerm,
 } from "emdash";
 import { Image } from "emdash/ui";
+import { editorialImageDimensions } from "./editorial-image";
 import Container from "./Container.astro";
 import Contact from "./Contact.astro";
 import type { loadEditorialArchive } from "./editorial-archive";
@@ -140,7 +141,7 @@ const formatDate = (date: Date | null) =>
               >
                 <div class="aspect-[3/2] overflow-hidden rounded-md bg-elevated [&_picture]:h-full [&_img]:!h-full [&_img]:!w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
                   {featuredPost.data.featured_image ? (
-                    <Image image={featuredPost.data.featured_image} width={1200} height={800} sizes="(min-width: 1024px) 600px, calc(100vw - 32px)" priority />
+                    <Image image={featuredPost.data.featured_image} {...editorialImageDimensions(featuredPost.data.featured_image, 1200)} sizes="(min-width: 1024px) 600px, calc(100vw - 32px)" priority />
                   ) : (
                     <span class="flex h-full items-center justify-center text-xs font-bold tracking-[0.18em] text-subtle">
                       NO IMAGE
@@ -179,7 +180,7 @@ const formatDate = (date: Date | null) =>
                     >
                       <div class="aspect-[3/2] overflow-hidden rounded-md bg-elevated [&_picture]:h-full [&_img]:!h-full [&_img]:!w-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-700 group-hover:[&_img]:scale-[1.03]">
                         {post.data.featured_image ? (
-                          <Image image={post.data.featured_image} width={600} height={400} sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, calc(100vw - 32px)" />
+                          <Image image={post.data.featured_image} {...editorialImageDimensions(post.data.featured_image)} sizes="(min-width: 1024px) 400px, (min-width: 768px) 50vw, calc(100vw - 32px)" />
                         ) : (
                           <span class="flex h-full items-center justify-center text-xs font-bold tracking-[0.18em] text-subtle">
                             NO IMAGE

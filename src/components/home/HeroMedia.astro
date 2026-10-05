@@ -7,10 +7,10 @@ interface Props {
 const { posterSrc, videoSrc, mobileVideoSrc } = Astro.props;
 ---
 <div class="absolute inset-0 overflow-hidden" data-hero-media>
-  <img src={posterSrc} alt="" loading="eager" fetchpriority="high" sizes="100vw" class="absolute inset-0 h-full w-full object-cover object-[62%_center] lg:object-[center_48%]" data-hero-still />
+  <img src={posterSrc} alt="" loading="eager" fetchpriority="high" sizes="100vw" class="absolute inset-0 h-full w-full object-cover object-[62%_center] saturate-[0.35] lg:object-[center_48%]" data-hero-still />
   {videoSrc && <>
     <!-- Sources are assigned only when motion is allowed; the still remains underneath. -->
-    <video muted loop playsinline preload="metadata" poster={posterSrc} aria-hidden="true" tabindex="-1" class="absolute inset-0 h-full w-full object-cover object-[62%_center] opacity-0 transition-opacity duration-500 motion-reduce:hidden lg:object-[center_48%]" data-hero-video data-desktop-src={videoSrc} data-mobile-src={mobileVideoSrc} />
+    <video muted loop playsinline preload="metadata" poster={posterSrc} aria-hidden="true" tabindex="-1" class="absolute inset-0 h-full w-full object-cover object-[62%_center] saturate-[0.35] opacity-0 transition-opacity duration-500 motion-reduce:hidden lg:object-[center_48%]" data-hero-video data-desktop-src={videoSrc} data-mobile-src={mobileVideoSrc} />
     <button type="button" hidden class="absolute bottom-6 right-5 z-20 min-h-11 rounded-sm border border-foreground/30 bg-page/60 px-4 text-xs text-foreground hover:bg-page/80 focus-visible:outline-gold-300 sm:right-8 lg:right-12" data-video-toggle aria-label="背景動画を一時停止">動画を一時停止</button>
   </>}
 </div>

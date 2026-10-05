@@ -4,7 +4,8 @@ import SunlitHeading from "./SunlitHeading.astro";
 import SpecularButton from "./SpecularButton.astro";
 import { CONTACT_FORM_HREF, RECRUITMENT_FORM_HREF } from "@shared/features/contact";
 import { routes } from "@shared/features/routes";
-const showDividers = Astro.url.pathname !== "/";
+const isHome = Astro.url.pathname === "/";
+const showDividers = !isHome;
 const homepageDestinations = [
   {
     title: "事業を知る",
@@ -24,26 +25,26 @@ const homepageDestinations = [
   },
 ]
 ---
-<section id="contact" class="relative overflow-hidden bg-[#0B0B0B]" class:list={[showDividers && "border-t border-[rgba(200,164,93,0.25)]"]}>
-  <Container class="py-16 md:py-24">
-    <div class="relative overflow-hidden py-10 text-[#F5F1E8] md:py-14" class:list={[showDividers && "border-y border-[rgba(200,164,93,0.28)]"]}>
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.35fr)] lg:items-end">
-        <div class="max-w-3xl">
+<section id="contact" data-home={isHome} class="relative overflow-hidden bg-[#0B0B0B]" class:list={[showDividers && "border-t border-[rgba(200,164,93,0.25)]"]}>
+  <Container class={isHome ? "py-18 md:py-24 lg:py-28" : "py-16 md:py-24"}>
+    <div class="relative overflow-hidden text-[#F5F1E8]" class:list={[showDividers && "border-y border-[rgba(200,164,93,0.28)] py-10 md:py-14"]}>
+      <div class={isHome ? "grid gap-8 xl:grid-cols-[minmax(0,1fr)_auto] xl:items-end xl:gap-12" : "grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.35fr)] lg:items-end"}>
+        <div class="max-w-3xl" data-contact-intro>
           <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
             CONTACT
           </p>
-          <SunlitHeading class="mt-4 text-4xl font-bold leading-tight tracking-[-0.03em] md:text-5xl lg:text-[3.25rem]">
-            <span class="block lg:whitespace-nowrap">
-              まだ、うまく言葉にできなくても
+          <SunlitHeading class={isHome ? "mt-4 text-balance text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]" : "mt-4 text-4xl font-bold leading-tight tracking-[-0.03em] md:text-5xl lg:text-[3.25rem]"}>
+            <span class="block" class:list={[!isHome && "lg:whitespace-nowrap"]}>
+              まだ、うまく<span class="inline-block">言葉</span>にできなくても
             </span>
             <span class="block">大丈夫です。</span>
           </SunlitHeading>
-          <p class="mt-5 max-w-2xl leading-8 text-[#D8D1C5]">
+          <p class={isHome ? "mt-6 max-w-[40rem] text-pretty text-base leading-[1.9] text-foreground/80" : "mt-5 max-w-2xl leading-8 text-[#D8D1C5]"}>
             現在のお悩みを伺い、どこから始めるべきか一緒に整理します。
           </p>
         </div>
 
-        <div class="flex flex-col items-start gap-4 lg:items-end">
+        <div data-contact-actions class="flex flex-col items-start gap-4" class:list={[isHome ? "xl:items-end" : "lg:items-end"]}>
           <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer">
             相談する
           </SpecularButton>
@@ -56,19 +57,19 @@ const homepageDestinations = [
         </div>
       </div>
 
-      <div class="mt-12">
+      <div class={isHome ? "mt-10 md:mt-14" : "mt-12"}>
         {homepageDestinations.map((destination, index) => (
-          <div class="group/row grid gap-x-8 gap-y-4 py-8 md:grid-cols-[7rem_minmax(10rem,0.42fr)_minmax(0,1fr)_auto] md:items-center md:py-10" class:list={[showDividers && "border-t border-[rgba(216,194,139,0.28)]"]} data-destination>
+          <div class="group/row grid gap-x-8 gap-y-4 py-8 md:py-10" class:list={[isHome ? "first:pt-0 last:pb-0 lg:grid-cols-[4rem_minmax(10rem,0.42fr)_minmax(0,1fr)_auto] lg:items-center" : "border-t border-[rgba(216,194,139,0.28)] md:grid-cols-[7rem_minmax(10rem,0.42fr)_minmax(0,1fr)_auto] md:items-center"]} data-destination>
             <div class="flex items-center gap-4">
               <span class="text-xs font-bold tracking-[0.18em] text-[#E0C584]">
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span aria-hidden="true" class="h-px bg-[linear-gradient(90deg,#E0C584,transparent)]" class:list={[showDividers ? "flex-1" : "w-8"]} />
             </div>
-            <h3 class="text-xl font-bold text-[#F5F1E8] transition-[color,transform] duration-300 group-hover/row:translate-x-1.5 group-hover/row:text-[#FFF7E3] md:text-2xl">
+            <h3 class="text-xl font-bold text-[#F5F1E8] transition-[color,transform] duration-300 group-hover/row:translate-x-1.5 group-hover/row:text-[#FFF7E3] md:text-2xl" class:list={[isHome && "leading-[1.5] tracking-[-0.01em]"]}>
               {destination.title}
             </h3>
-            <p class="max-w-2xl text-sm leading-7 text-[#CFC8BC]">
+            <p class={isHome ? "max-w-[40rem] text-pretty text-base leading-[1.9] text-foreground/80" : "max-w-2xl text-sm leading-7 text-[#CFC8BC]"}>
               {destination.description}
             </p>
             <a href={destination.href} target={destination.external ? "_blank" : undefined} rel={destination.external ? "noopener noreferrer" : undefined} class="group/link inline-flex min-h-11 items-center gap-3 text-sm font-semibold text-[#E0C584] transition-colors duration-300 hover:text-[#FFF1C7] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FFF1C7]">
@@ -85,8 +86,11 @@ const homepageDestinations = [
   </Container>
 </section>
 <script>
-  import { animate, inView, ease, reducedMotion } from "./motion";
-  if (!reducedMotion.matches) {
+  import { animate, inView, ease, reducedMotion, revealStaggered } from "./motion";
+  const section = document.querySelector<HTMLElement>("#contact")!;
+  if (section.dataset.home === "true") {
+    revealStaggered(section, "[data-contact-intro] > p, [data-contact-intro] > h2, [data-contact-actions], [data-destination]");
+  } else if (!reducedMotion.matches) {
     document.querySelectorAll("#contact [data-destination]").forEach((row, index) => {
       inView(row, () => {
         animate(row, { opacity: [0, 1], x: [-48, 0], clipPath: ["inset(0 0 34% 0)", "inset(0 0 0% 0)"], filter: ["blur(8px)", "blur(0px)"] },

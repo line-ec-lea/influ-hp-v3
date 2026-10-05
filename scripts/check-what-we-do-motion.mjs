@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import ts from "typescript";
 
-// Exercise the shared entrance behavior used by What We Do and Services.
+// Exercise the shared entrance behavior used across the homepage.
 const source = (await readFile(new URL("../src/components/shared/motion.ts", import.meta.url), "utf8"))
   .split("export function revealStaggered")[1];
 const run = new Function("document", "window", "reducedMotion", "IntersectionObserver", "animate", "ease",
@@ -85,4 +85,4 @@ assert.equal(toggled.observed.size, 0);
 const finished = toggled.animations.length;
 toggled.enter(1);
 assert.equal(toggled.animations.length, finished, "Queued intersections stay inert after reduced motion is enabled");
-console.log("PASS shared What We Do / Services entrances: viewport timing, stagger, mobile distance, keyboard access, reduced motion and cleanup");
+console.log("PASS shared homepage entrances: viewport timing, stagger, mobile distance, keyboard access, reduced motion and cleanup");

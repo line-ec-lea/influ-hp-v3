@@ -13,11 +13,13 @@ const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } =
 <section id="hero" class="relative isolate flex min-h-svh w-full items-end overflow-hidden bg-page text-foreground lg:min-h-[max(100svh,720px)]" aria-labelledby="homepage-heading" data-video={Boolean(media.videoSrc)}>
   <HeroMedia {...media} />
 
-  <!-- Independent overlays keep changing video frames readable. -->
+  <!-- Independent content, edge and top gradients control changing video brightness. -->
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-page/25" />
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-t from-page/90 via-page/40 to-transparent lg:bg-linear-to-r lg:from-page/85 lg:via-page/45 lg:to-transparent" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-l from-page/35 via-page/10 via-25% to-transparent to-60% lg:from-page/65 lg:via-page/20" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 hidden h-1/2 bg-linear-to-t from-page/60 to-transparent lg:block" />
   <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-48 bg-linear-to-b from-page/75 to-transparent" />
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_45%,rgb(0_0_0/0.25)_100%)]" />
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-radial from-transparent from-45% to-page/25" />
 
   <!-- Company.astro owns the fixed navigation above these media layers. -->
   <Container class="relative z-10 pb-28 pt-32 sm:pb-32 lg:pb-36 lg:pt-40">
@@ -26,21 +28,21 @@ const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } =
         <span class="h-px w-8 bg-gold-300" aria-hidden="true" />
         <p class="text-[0.6875rem] font-bold tracking-[0.2em] text-gold-300 sm:text-xs">AX &amp; MARKETING PARTNER</p>
       </div>
-      <h1 id="homepage-heading" class="mt-6 text-[clamp(2.25rem,6vw,3rem)] font-bold leading-[1.05] tracking-[-0.045em] text-foreground lg:text-[clamp(3.5rem,4.4vw,5.5rem)]" data-hero-reveal>
+      <h1 id="homepage-heading" class="mt-6 text-[clamp(2.25rem,6vw,3rem)] font-extrabold leading-[1.02] tracking-[-0.045em] text-foreground lg:text-[clamp(3.5rem,4.5vw,5.5rem)]" data-hero-reveal>
         <span class="block">AIホームページ<span class="inline-block">制作と</span></span>
         <span class="block">AX支援を、</span>
         <span class="block">現場に合う<span class="inline-block">かたちへ。</span></span>
       </h1>
-      <p class="mt-7 max-w-xl text-sm font-medium leading-7 text-foreground/85 sm:text-base sm:leading-8 lg:mt-8" data-hero-reveal>
+      <p class="mt-8 max-w-xl text-sm font-normal leading-7 text-foreground/85 sm:text-base sm:leading-8 lg:mt-9" data-hero-reveal>
         大阪を拠点に、AIホームページ制作・業務効率化支援
         <br class="hidden sm:block" />
         ・AI活用の導入整理まで、現場で使い続けられる形で伴走します。
       </p>
       <div class="mt-8 flex flex-wrap items-center gap-3 sm:mt-10" data-hero-reveal>
-        <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+        <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
           相談する
         </SpecularButton>
-        <SpecularButton href={routes.service} mobileEffect class="max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+        <SpecularButton href={routes.service} mobileEffect class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
           事業内容を見る
         </SpecularButton>
       </div>

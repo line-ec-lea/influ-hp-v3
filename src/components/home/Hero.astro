@@ -56,11 +56,11 @@ const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } =
   import { animate, ease, reducedMotion } from "@shared/motion";
   const hero = document.querySelector<HTMLElement>("#hero")!;
   if (!reducedMotion.matches) {
-    // Match the existing logo intro; the image and content animate independently.
+    // Reveal the hero just after the 2.5-second logo intro.
     const animations = [...hero.querySelectorAll<HTMLElement>("[data-hero-reveal]")].map((element, index) =>
-      animate(element, { opacity: [0, 1], y: [16, 0] }, { delay: 4.05 + index * 0.1, duration: 0.7, ease }));
+      animate(element, { opacity: [0, 1], y: [16, 0] }, { delay: 2.55 + index * 0.1, duration: 0.7, ease }));
     if (hero.dataset.video !== "true") animations.push(
-      animate(hero.querySelector<HTMLElement>("[data-hero-still]")!, { scale: [1.035, 1] }, { delay: 4.05, duration: 1.8, ease }));
+      animate(hero.querySelector<HTMLElement>("[data-hero-still]")!, { scale: [1.035, 1] }, { delay: 2.55, duration: 1.8, ease }));
     reducedMotion.addEventListener("change", () => {
       if (reducedMotion.matches) animations.forEach((animation) => animation.complete());
     });

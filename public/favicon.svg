@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-labelledby="favicon-title">
+  <title id="favicon-title">株式会社INFLU</title>
+  <rect width="800" height="800" fill="#FFFFFF" />
+  <g transform="translate(-255.5 178.5)">
+    <path fill="#000000" d="M317 0 363 26.5V417L317 443Z" />
+    <path fill="#000000" d="M430 65 768 260V130L903 52V105L814 156.5V207.5L881 169V222L814 260.5V288L948 365V27L994 0V443L476 145V351.5L430 378Z" />
+    <path fill="#B18147" d="M520 273.5 723 156V209.5L520 326.5Z" />
+  </g>
+</svg>

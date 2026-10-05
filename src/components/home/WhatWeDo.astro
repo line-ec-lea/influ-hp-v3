@@ -65,14 +65,14 @@ const initial = 2;
     <div class="relative mt-10 md:mt-14" data-focus>
       <div class="relative grid gap-10 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center md:gap-8 lg:gap-16">
         <div class="relative z-10 min-w-0">
-          <p class="text-xs font-bold tracking-[0.16em] text-gold-300">OUR FOCUS / 01—07</p>
-          <p aria-label="AI × WORK" class="mt-6 text-[clamp(5rem,17vw,6.5rem)] font-bold leading-[0.9] tracking-[-0.065em] text-foreground md:text-[clamp(5rem,9.5vw,8.5rem)]">
+          <p class="text-xs font-bold tracking-[0.16em] text-gold-300" data-focus-label>OUR FOCUS / 01—07</p>
+          <p aria-label="AI × WORK" data-focus-words class="mt-6 text-[clamp(5rem,17vw,6.5rem)] font-bold leading-[0.9] tracking-[-0.065em] text-foreground md:text-[clamp(5rem,9.5vw,8.5rem)]">
             <span class="block">AI</span>
             <span class="block">×</span>
             <span class="block">WORK</span>
           </p>
 
-          <div class="mt-10 max-w-[27rem] border-l border-gold-300/50 pl-5 lg:mt-12 lg:pl-6">
+          <div class="mt-10 max-w-[27rem] border-l border-gold-300/50 pl-5 lg:mt-12 lg:pl-6" data-focus-detail>
             <p class="text-xs font-bold tracking-[0.16em] text-gold-300">
               <span data-count>03</span> / 07
             </p>
@@ -90,11 +90,13 @@ const initial = 2;
         <div class="relative z-10 flex min-w-0 flex-wrap gap-3 md:flex-col md:justify-center md:gap-6 lg:gap-7" aria-label="対応領域">
           {areas.map((area, index) => (
             <div data-pill class={`max-w-full ${area.position}`}>
-              <button type="button" aria-pressed={index === initial} aria-controls="capability-detail" data-label={area.label} data-description={area.description} data-area
-                class="group relative flex min-h-12 max-w-full cursor-pointer items-center gap-3 rounded-full border border-foreground/20 bg-elevated px-4 py-3 text-left text-base font-normal leading-tight tracking-[-0.01em] text-foreground/80 transition-[color,background-color,border-color,box-shadow,scale,translate] duration-300 hover:-translate-y-0.5 hover:border-foreground/40 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 aria-pressed:scale-[1.025] aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:text-page aria-pressed:shadow-sm aria-pressed:shadow-page/20 motion-reduce:aria-pressed:scale-100 motion-reduce:hover:translate-none motion-reduce:transition-none md:min-h-14 md:px-5 md:text-xl lg:px-7 lg:text-2xl">
-                <span class="text-xs font-normal tracking-[0.12em] text-gold-300 group-aria-pressed:text-page/70">{String(index + 1).padStart(2, "0")}</span>
-                <span class="whitespace-nowrap">{area.label}</span>
-              </button>
+              <div data-pill-reveal>
+                <button type="button" aria-pressed={index === initial} aria-controls="capability-detail" data-label={area.label} data-description={area.description} data-area
+                  class="group relative flex min-h-12 max-w-full cursor-pointer items-center gap-3 rounded-full border border-foreground/20 bg-elevated px-4 py-3 text-left text-base font-normal leading-tight tracking-[-0.01em] text-foreground/80 transition-[color,background-color,border-color,box-shadow,scale,translate] duration-300 hover:-translate-y-0.5 hover:border-foreground/40 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 aria-pressed:scale-[1.025] aria-pressed:border-foreground aria-pressed:bg-foreground aria-pressed:text-page aria-pressed:shadow-sm aria-pressed:shadow-page/20 motion-reduce:aria-pressed:scale-100 motion-reduce:hover:translate-none motion-reduce:transition-none md:min-h-14 md:px-5 md:text-xl lg:px-7 lg:text-2xl">
+                  <span class="text-xs font-normal tracking-[0.12em] text-gold-300 group-aria-pressed:text-page/70">{String(index + 1).padStart(2, "0")}</span>
+                  <span class="whitespace-nowrap">{area.label}</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -103,10 +105,52 @@ const initial = 2;
   </Container>
 </section>
 <script>
-  import { animate, ease, reducedMotion, reveal } from "@shared/motion";
+  import { animate, ease, reducedMotion } from "@shared/motion";
   const section = document.querySelector("#what-we-do")!;
-  reveal(section.querySelector("[data-intro]")!, { opacity: [0, 1], y: [16, 0] }, { duration: 0.55 });
-  reveal(section.querySelector("[data-focus]")!, { opacity: [0, 1], y: [20, 0] }, { duration: 0.65 });
+  if (!reducedMotion.matches) {
+    const targets = [...section.querySelectorAll<HTMLElement>("[data-intro] > *, [data-focus-label], [data-focus-words] > span, [data-focus-detail], [data-pill-reveal]")];
+    const pending = new Set<Element>(targets);
+    const entrances = new Map<Element, ReturnType<typeof animate>>();
+    const distance = window.matchMedia("(min-width: 768px)").matches ? 20 : 12;
+    // Only elements entering together share a stagger; a later scroll starts immediately.
+    const observer = new IntersectionObserver(entries => {
+      entries.filter(entry => entry.isIntersecting && pending.has(entry.target)).forEach(({ target }, index) => {
+        pending.delete(target);
+        observer.unobserve(target);
+        entrances.set(target, animate(target, { opacity: [0, 1], y: [distance, 0] }, {
+          duration: 0.6, delay: Math.min(index * 0.07, 0.21), ease,
+        }));
+      });
+    }, { rootMargin: "0px 0px -48px 0px" });
+    targets.forEach(target => {
+      target.style.opacity = "0";
+      observer.observe(target);
+    });
+    // Focus reveals just that control, without skipping the rest of the scroll sequence.
+    const onFocus = (event: Event) => {
+      const target = targets.find(target => target.contains(event.target as Node));
+      if (!target) return;
+      pending.delete(target);
+      observer.unobserve(target);
+      entrances.get(target)?.complete();
+      animate(target, { opacity: 1, y: 0 }, { duration: 0 });
+    };
+    const finishEntrances = () => {
+      observer.disconnect();
+      pending.clear();
+      entrances.forEach(animation => animation.complete());
+      animate(targets, { opacity: 1, y: 0 }, { duration: 0 });
+    };
+    section.addEventListener("focusin", onFocus);
+    reducedMotion.addEventListener("change", finishEntrances, { once: true });
+    window.addEventListener("pagehide", event => {
+      if (event.persisted) return;
+      observer.disconnect();
+      entrances.forEach(animation => animation.stop());
+      section.removeEventListener("focusin", onFocus);
+      reducedMotion.removeEventListener("change", finishEntrances);
+    });
+  }
   const buttons = [...section.querySelectorAll<HTMLButtonElement>("[data-area]")];
   const pills = [...section.querySelectorAll<HTMLElement>("[data-pill]")];
   const description = section.querySelector<HTMLElement>("[data-detail]")!;

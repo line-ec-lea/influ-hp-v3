@@ -29,6 +29,10 @@ export default defineConfig({
 	image: {
 		layout: "constrained",
 		responsiveStyles: true,
+		remotePatterns: [
+			{ protocol: "https", hostname: "influ-hp-v3.influ.workers.dev", pathname: "/_emdash/api/media/file/**" },
+			{ protocol: "https", hostname: "influhp.com", pathname: "/_emdash/api/media/file/**" },
+		],
 	},
 	integrations: [
 		react(),

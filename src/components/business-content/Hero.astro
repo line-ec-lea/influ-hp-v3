@@ -1,61 +1,45 @@
 ---
-import CinematicSection from "@shared/CinematicSection.astro";
 import Container from "@shared/Container.astro";
-import SunlitHeading from "@shared/SunlitHeading.astro";
 import SpecularButton from "@shared/SpecularButton.astro";
-import AsanohaHeroPattern from "@shared/AsanohaHeroPattern.astro";
-import CinematicReveal from "@shared/CinematicReveal.astro";
+import HeroArtwork from "./HeroArtwork.astro";
 import { CONTACT_FORM_HREF } from "@shared/features/contact";
-const eyebrowClass =
-  "text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase"
 ---
-<CinematicSection first>
-<section class="relative isolate overflow-hidden border-b border-[rgba(200,164,93,0.25)] bg-[#090909] pt-14">
-        <div
-          class="pointer-events-none absolute inset-0 -z-20 opacity-45 [background-image:linear-gradient(rgba(224,197,132,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(224,197,132,0.07)_1px,transparent_1px)] [background-size:clamp(4rem,8vw,8rem)_clamp(4rem,8vw,8rem)] [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_72%,transparent)]"
-          aria-hidden="true"
-        />
-        <div
-          class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_76%_42%,rgba(255,241,199,0.08),transparent_24%),radial-gradient(circle_at_20%_70%,rgba(200,164,93,0.08),transparent_26%),linear-gradient(180deg,transparent_58%,rgba(200,164,93,0.04))]"
-          aria-hidden="true"
-        />
-        <AsanohaHeroPattern class="opacity-25" />
-        <Container class="relative flex min-h-[calc(min(48rem,100svh)-3.5rem)] items-center py-24 sm:py-28 lg:py-32">
-          <CinematicReveal delay={0.08} class="max-w-5xl">
-            <div class="flex items-center gap-4">
-              <span class="h-px w-10 bg-[linear-gradient(90deg,#E0C584,transparent)]" />
-              <p class={eyebrowClass}>BUSINESS ARCHITECTURE</p>
-            </div>
+  <section class="relative isolate overflow-hidden bg-[#0B0B0B] font-sans text-[#F5F1E8]" aria-labelledby="business-heading">
+    <HeroArtwork />
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-b from-[#0B0B0B] via-[#0B0B0B]/75 to-transparent lg:bg-linear-to-r lg:from-[#0B0B0B] lg:via-[#0B0B0B]/70 lg:to-transparent" />
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-page to-transparent" />
+    <Container class="relative flex min-h-[960px] items-start pb-[28rem] pt-32 sm:min-h-[1080px] sm:pb-[32rem] sm:pt-36 lg:min-h-[max(100svh,780px)] lg:items-center lg:pb-24 lg:pt-36">
+      <div class="relative z-10 min-w-0 lg:max-w-[55%]">
+        <p class="text-xs font-bold tracking-[0.16em] text-gold-300 uppercase">BUSINESS ARCHITECTURE</p>
 
-            <SunlitHeading
-              as="h1"
-              delay={0.25}
-              class="mt-7 text-[clamp(2.8rem,9vw,5.8rem)] font-bold leading-[1.08] tracking-[-0.055em]"
-            >
-              <span class="block">企業の仕組みを、</span>
-              <span class="mt-2 block sm:mt-3">次の時代へ。</span>
-            </SunlitHeading>
+        <h1
+          id="business-heading"
+          class="mt-5 text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] sm:mt-6 lg:text-[clamp(3rem,5vw,4.75rem)]"
+        >
+          <span class="block">企業の仕組みを、</span>
+          <span class="block">次の時代へ。</span>
+        </h1>
 
-            <div class="mt-10 grid max-w-5xl gap-7 border-t border-[rgba(224,197,132,0.48)] pt-7 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-              <div class="max-w-3xl">
-                <p class="text-base font-bold leading-8 tracking-[-0.015em] text-[#FFF1C7] sm:text-lg sm:leading-9">
-                  ホームページ、業務、マーケティング。
-                  <br class="hidden sm:block" />
-                  それぞれを分断せず、AIと人がともに動ける仕組みへ整えます。
-                </p>
-                <p class="mt-3 hidden max-w-3xl text-sm leading-7 text-[#D8D1C5] sm:block">
-                  「HPのAI化」と「AX・業務効率化支援」を中心に、企業が自社で運用・改善できる状態への移行を支援します。
-                </p>
-              </div>
-              <SpecularButton
-                href={CONTACT_FORM_HREF}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                事業について相談する
-              </SpecularButton>
-            </div>
-          </CinematicReveal>
-        </Container>
-      </section>
-</CinematicSection>
+        <div class="mt-6 max-w-[36rem] sm:mt-8">
+          <p class="text-pretty text-base font-normal leading-[1.9] text-[#F5F1E8]/90">
+            ホームページ、業務、マーケティング。
+            <br class="hidden sm:block" />
+            それぞれを分断せず、AIと人がともに動ける仕組みへ整えます。
+          </p>
+          <p class="mt-4 hidden text-pretty text-base leading-[1.9] text-[#B8B1A3] sm:block">
+            「HPのAI化」と「AX・業務効率化支援」を中心に、企業が自社で運用・改善できる状態への移行を支援します。
+          </p>
+        </div>
+
+        <div class="mt-8">
+          <SpecularButton
+            href={CONTACT_FORM_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            事業について相談する
+          </SpecularButton>
+        </div>
+      </div>
+    </Container>
+  </section>

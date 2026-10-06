@@ -1,0 +1,266 @@
+<div data-hero-artwork aria-hidden="true" class="group pointer-events-none absolute inset-0 overflow-hidden">
+  <picture class="group-data-[state=ready]:invisible">
+    <source media="(max-width: 1023px)" srcset="/business-hero-artwork-mobile.jpg" />
+    <img src="/business-hero-artwork.jpg" width="1280" height="780" alt="" decoding="async" class="h-full w-full object-contain lg:object-cover" />
+  </picture>
+  <canvas class="absolute inset-0 h-full w-full" tabindex="-1"></canvas>
+</div>
+
+<script>
+  async function mountArtwork(host: HTMLElement) {
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    // The matching still is sufficient when motion is unwanted.
+    if (reduced.matches) return;
+    const controller = new AbortController();
+    const { signal } = controller;
+    let dispose = () => {};
+    window.addEventListener("pagehide", (event) => {
+      if (!event.persisted) { controller.abort(); dispose(); }
+    }, { signal });
+    try {
+      const [THREE, { gsap }, { MarchingCubes }] = await Promise.all([
+        import("three"),
+        import("gsap"),
+        import("three/addons/objects/MarchingCubes.js"),
+      ]);
+      if (signal.aborted) return;
+      const canvas = host.querySelector("canvas")!;
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "low-power" });
+      dispose = () => renderer.dispose();
+      renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 1024 ? 1 : 1.5));
+      renderer.setClearColor(0x0b0b0b, 0);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1;
+      renderer.shadowMap.enabled = false;
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 40);
+      // Large studio softboxes produce continuous reflections around the machined edges.
+      const studio = new THREE.Scene();
+      studio.background = new THREE.Color(0x141414);
+      const softboxes = [
+        { position: [-4, 4, 3], size: [2, 6], strength: 10 },
+        { position: [4, 2, -2], size: [1, 5], strength: 7 },
+        { position: [0, 6, 1], size: [5, 2], strength: 5 },
+      ].map(({ position, size, strength }) => {
+        const panel = new THREE.Mesh(new THREE.PlaneGeometry(size[0], size[1]), new THREE.MeshBasicMaterial({ color: new THREE.Color(strength, strength, strength), side: THREE.DoubleSide }));
+        panel.position.set(position[0], position[1], position[2]);
+        panel.lookAt(0, 0, 0);
+        studio.add(panel);
+        return panel;
+      });
+      const pmrem = new THREE.PMREMGenerator(renderer);
+      const environment = pmrem.fromScene(studio, 0.04);
+      scene.environment = environment.texture;
+      scene.environmentIntensity = 1.1;
+      softboxes.forEach(panel => { panel.geometry.dispose(); panel.material.dispose(); });
+      pmrem.dispose();
+
+      // Subtle roughness variation: shared, generated locally, no external textures.
+      const grain = new Uint8Array(128 * 128 * 4);
+      let seed = 17;
+      for (let i = 0; i < grain.length; i += 4) {
+        seed = (1664525 * seed + 1013904223) >>> 0;
+        grain[i] = grain[i + 1] = grain[i + 2] = 222 + (seed % 34);
+        grain[i + 3] = 255;
+      }
+      const texture = new THREE.DataTexture(grain, 128, 128);
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(3, 3);
+      texture.magFilter = texture.minFilter = THREE.LinearFilter;
+      texture.needsUpdate = true;
+      const materials = [
+        new THREE.MeshStandardMaterial({ color: 0x454950, metalness: 0.25, roughness: 0.32, roughnessMap: texture, bumpMap: texture, bumpScale: 0.004 }),
+        new THREE.MeshStandardMaterial({ color: 0xe5dccb, metalness: 0.05, roughness: 0.32, roughnessMap: texture, bumpMap: texture, bumpScale: 0.005 }),
+        new THREE.MeshStandardMaterial({ color: 0xc4a471, metalness: 1, roughness: 0.22, roughnessMap: texture, bumpMap: texture, bumpScale: 0.004 }),
+      ];
+      // Smoothly join three rounded cylinders, then drill the three bores.
+      // Generate once; all connectors share this continuous sculpted surface.
+      const resolution = 64;
+      const surface = new MarchingCubes(resolution, materials[0], true, false, 40000);
+      surface.isolation = 0;
+      const smoothUnion = (a: number, b: number) => {
+        const h = Math.max(0, 0.22 - Math.abs(a - b)) / 0.22;
+        return Math.min(a, b) - h * h * 0.055;
+      };
+      const cylinder = (axis: number, radial: number) => {
+        const a = radial - 0.28, b = Math.abs(axis) - 0.78;
+        return Math.min(Math.max(a, b), 0) + Math.hypot(Math.max(a, 0), Math.max(b, 0)) - 0.035;
+      };
+      for (let z = 0; z < resolution; z++) for (let y = 0; y < resolution; y++) for (let x = 0; x < resolution; x++) {
+        const px = (x / resolution * 2 - 1), py = (y / resolution * 2 - 1), pz = (z / resolution * 2 - 1);
+        const xy = Math.hypot(px, py), yz = Math.hypot(py, pz), xz = Math.hypot(px, pz);
+        const solid = smoothUnion(smoothUnion(cylinder(px, yz), cylinder(py, xz)), cylinder(pz, xy));
+        const bore = Math.min(xy, yz, xz) - 0.105;
+        surface.field[x + y * resolution + z * resolution * resolution] = -Math.max(solid, -bore);
+      }
+      surface.update();
+      const connectorGeometry = surface.geometry;
+      const sculpture = new THREE.Group();
+      scene.add(sculpture);
+      const connectors = Array.from({ length: 28 }, (_, index) => {
+        const column = index % 7, row = Math.floor(index / 7);
+        const mesh = new THREE.Mesh(connectorGeometry, materials[index % 10 < 6 ? 0 : index % 10 < 9 ? 1 : 2]);
+        const phase = index * 2.39996;
+        const x = (column - 3) * 1.65 + Math.sin(phase) * 0.4;
+        const y = (row - 1.5) * 1.55 + Math.cos(phase) * 0.35;
+        mesh.position.set(x, y, Math.sin(phase * 1.7) * 0.75);
+        mesh.rotation.set(phase * 0.7, phase * 0.4, phase * 0.3);
+        mesh.scale.setScalar(0.96 + (index % 4) * 0.065);
+        sculpture.add(mesh);
+        return { mesh, x, y, phase, offsetX: 0, offsetY: 0 };
+      });
+      const key = new THREE.DirectionalLight(0xfff4e3, 2.2);
+      key.position.set(-3.5, 7, 5);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xe3eaf1, 4);
+      fill.position.set(3, 3, -4);
+      scene.add(fill);
+      let visible = false, ready = false, started = false, frame = 0;
+      let pointerX = 0, pointerY = 0, currentX = 0, currentY = 0, previousTime = 0;
+      let pointerActive = false;
+      const pointer = new THREE.Vector2();
+      const raycaster = new THREE.Raycaster();
+      const pointerPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+      const pointerWorld = new THREE.Vector3();
+      let scrollAmount = 0;
+      let cameraDistance = 8.6;
+      let motionTime = 0;
+      const view = { angle: 0.18 };
+      const entrance = gsap.timeline({ paused: true, onUpdate: requestRender });
+      entrance.to(view, { angle: 0, duration: 2.7, ease: "power2.inOut" }, 0);
+      entrance.from(sculpture.position, { z: -1.5, duration: 2.7, ease: "power2.out" }, 0);
+      function requestRender() {
+        if (!frame && ready && visible && !document.hidden && !signal.aborted) frame = requestAnimationFrame(render);
+      }
+      function render(time: number) {
+        frame = 0;
+        if (!reduced.matches && previousTime && time - previousTime < 1000 / 30) { requestRender(); return; }
+        const elapsed = Math.min(time - previousTime || 16, 64);
+        const blend = 1 - Math.exp(-elapsed / 160);
+        if (!reduced.matches) motionTime += elapsed / 1000;
+        previousTime = time;
+        currentX += (pointerX - currentX) * blend;
+        currentY += (pointerY - currentY) * blend;
+        const angle = view.angle + currentX * 0.10 + scrollAmount * 0.12;
+        const elevation = -currentY * 0.08;
+        camera.position.set(Math.sin(angle) * cameraDistance, Math.sin(elevation) * cameraDistance, Math.cos(angle) * cameraDistance);
+        camera.lookAt(0, 0, 0);
+        camera.updateMatrixWorld();
+        pointer.set(pointerX, -pointerY);
+        raycaster.setFromCamera(pointer, camera);
+        const hovering = pointerActive && !reduced.matches && raycaster.ray.intersectPlane(pointerPlane, pointerWorld);
+        for (const connector of connectors) {
+          const { mesh, x, y, phase } = connector;
+          const dx = x - pointerWorld.x, dy = y - pointerWorld.y;
+          const distance = Math.hypot(dx, dy);
+          const influence = hovering ? Math.max(0, 1 - distance / 2.25) ** 2 : 0;
+          const pushX = (distance < 0.01 ? 1 : dx / distance) * influence * 0.95;
+          const pushY = (distance < 0.01 ? 0 : dy / distance) * influence * 0.95;
+          connector.offsetX += (pushX - connector.offsetX) * blend;
+          connector.offsetY += (pushY - connector.offsetY) * blend;
+          if (reduced.matches) connector.offsetX = connector.offsetY = 0;
+          mesh.position.x = x + Math.sin(motionTime * 0.25 + phase) * 0.12 + connector.offsetX;
+          mesh.position.y = y + Math.cos(motionTime * 0.3 + phase) * 0.16 + connector.offsetY;
+          mesh.rotation.x = phase * 0.7 + motionTime * 0.055 - connector.offsetY * 0.65;
+          mesh.rotation.y = phase * 0.4 + motionTime * 0.075 + connector.offsetX * 0.65;
+        }
+        renderer.render(scene, camera);
+        host.dataset.state = "ready";
+        if (!reduced.matches || entrance.isActive()) requestRender();
+      }
+      function syncActivity() {
+        if (visible && !document.hidden && ready) {
+          if (reduced.matches) entrance.progress(1).pause();
+          else if (!started) { entrance.play(0); started = true; }
+          else if (entrance.progress() < 1) entrance.resume();
+          requestRender();
+        } else {
+          entrance.pause();
+          cancelAnimationFrame(frame);
+          frame = 0;
+        }
+      }
+      function resize() {
+        const { width, height } = host.getBoundingClientRect();
+        if (!width || !height) return;
+        renderer.setSize(width, height, false);
+        camera.aspect = width / height;
+        const desktop = width >= 1024;
+        cameraDistance = desktop ? 8.6 : 10.5;
+        camera.setViewOffset(width, height, 0, desktop ? 0 : -height * 0.20, width, height);
+        camera.updateProjectionMatrix();
+        requestRender();
+      }
+      const resizeObserver = new ResizeObserver(resize);
+      resizeObserver.observe(host);
+      const intersection = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; syncActivity(); });
+      intersection.observe(host);
+      const hero = host.closest("section")!;
+      window.addEventListener("scroll", () => {
+        if (!visible || reduced.matches) return;
+        const rect = hero.getBoundingClientRect();
+        scrollAmount = Math.max(0, Math.min(1, -rect.top / rect.height));
+        requestRender();
+      }, { signal, passive: true });
+      hero.addEventListener("pointermove", (event: PointerEvent) => {
+        if (event.pointerType !== "mouse" || reduced.matches) return;
+        const rect = host.getBoundingClientRect();
+        pointerActive = true;
+        pointerX = Math.max(-1, Math.min(1, (event.clientX - rect.left) / rect.width * 2 - 1));
+        pointerY = Math.max(-1, Math.min(1, (event.clientY - rect.top) / rect.height * 2 - 1));
+        requestRender();
+      }, { signal, passive: true });
+      const resetPointer = () => { pointerActive = false; pointerX = pointerY = 0; requestRender(); };
+      hero.addEventListener("pointerleave", resetPointer, { signal });
+      window.addEventListener("blur", resetPointer, { signal });
+      document.addEventListener("visibilitychange", syncActivity, { signal });
+      window.addEventListener("pageshow", syncActivity, { signal });
+      window.addEventListener("pagehide", () => { entrance.pause(); cancelAnimationFrame(frame); frame = 0; }, { signal });
+      reduced.addEventListener("change", () => {
+        if (reduced.matches) currentX = currentY = scrollAmount = 0;
+        resetPointer();
+        syncActivity();
+      }, { signal });
+      canvas.addEventListener("webglcontextlost", (event) => {
+        event.preventDefault();
+        host.dataset.state = "fallback";
+        canvas.style.opacity = "0";
+        controller.abort();
+        dispose();
+      }, { signal });
+      dispose = () => {
+        entrance.kill();
+        cancelAnimationFrame(frame);
+        resizeObserver.disconnect();
+        intersection.disconnect();
+        connectorGeometry.dispose();
+        materials.forEach(material => material.dispose());
+        key.shadow.dispose();
+        texture.dispose();
+        environment.dispose();
+        renderer.dispose();
+      };
+      resize();
+      camera.position.set(0, 0, cameraDistance);
+      camera.lookAt(0, 0, 0);
+      await renderer.compileAsync(scene, camera);
+      if (signal.aborted) return;
+      ready = true;
+      syncActivity();
+    } catch (error) {
+      dispose();
+      controller.abort();
+      host.dataset.state = "fallback";
+      console.warn("Business hero artwork unavailable; keeping the still image.", error);
+    }
+  }
+  const host = document.querySelector<HTMLElement>("[data-hero-artwork]");
+  if (host) {
+    const loader = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      loader.disconnect();
+      void mountArtwork(host);
+    }, { rootMargin: "200px" });
+    loader.observe(host);
+  }
+</script>

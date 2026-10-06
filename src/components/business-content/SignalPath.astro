@@ -1,8 +1,7 @@
 ---
 interface Props { d: string; delay: number }
-const { d, delay } = Astro.props;
+const { d } = Astro.props;
 ---
-<g data-signal-path data-delay={delay}>
+<g data-signal-path>
   <path d={d} fill="none" stroke="#E0C584" stroke-opacity="0.42" stroke-width="1.5" stroke-linecap="round" />
-  <path data-signal-glow d={d} fill="none" stroke="url(#signal-gold)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 72" filter="url(#signal-glow)" opacity="0" />
 </g>

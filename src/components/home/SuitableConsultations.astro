@@ -55,10 +55,3 @@ const consultations = [
         </div>
       </Container>
     </section>
-<script>
-  import { reveal, revealStaggered } from "@shared/motion";
-  const section = document.querySelector("#suitable-consultations")!;
-  revealStaggered(section, "[data-intro] > div > p, [data-intro] h2, [data-intro] > p, [data-row], [data-cta]");
-  section.querySelectorAll("[data-number-rule]").forEach(rule =>
-    reveal(rule, { scaleX: [0, 1] }, { duration: 0.65, delay: 0.18 }, "0px 0px -48px 0px"));
-</script>

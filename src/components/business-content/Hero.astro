@@ -8,7 +8,7 @@ import { CONTACT_FORM_HREF } from "@shared/features/contact";
     <ParticleBackground />
     <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-b from-[#0B0B0B] via-[#0B0B0B]/45 to-transparent lg:bg-linear-to-r lg:from-[#0B0B0B] lg:via-[#0B0B0B]/45 lg:to-transparent" />
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-page to-transparent" />
-    <Container class="relative flex min-h-[960px] items-start pb-[28rem] pt-32 sm:min-h-[1080px] sm:pb-[32rem] sm:pt-36 lg:min-h-[max(100svh,780px)] lg:items-center lg:pb-24 lg:pt-36">
+    <Container class="relative flex items-start pb-16 pt-32 sm:pt-36 lg:min-h-[680px] lg:items-center lg:pb-16 lg:pt-36">
       <div class="relative z-10 min-w-0 lg:max-w-[55%]">
         <p class="text-xs font-bold tracking-[0.16em] text-gold-300 uppercase">BUSINESS ARCHITECTURE</p>
 
@@ -33,6 +33,8 @@ import { CONTACT_FORM_HREF } from "@shared/features/contact";
 
         <div class="mt-8">
           <SpecularButton
+            mobileEffect
+            class="bg-transparent! shadow-none!"
             href={CONTACT_FORM_HREF}
             target="_blank"
             rel="noopener noreferrer"

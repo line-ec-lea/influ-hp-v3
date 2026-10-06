@@ -45,7 +45,6 @@ const outputs = [
   },
 ]
 
-const ease = [0.22, 1, 0.36, 1] as const
 ---
 <div data-business-flow class="relative mt-12 overflow-hidden bg-[#080807] md:mt-16">
       <div
@@ -54,7 +53,7 @@ const ease = [0.22, 1, 0.36, 1] as const
       />
       <div
         aria-hidden="true"
-        class="pointer-events-none absolute top-1/2 left-1/2 h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,241,199,0.12),rgba(224,197,132,0.035)_38%,transparent_70%)] blur-2xl" data-flow-animation={JSON.stringify({ animate: { opacity: [0.35, 0.72, 0.35], scale: [0.92, 1.08, 0.92] }, transition: { duration: 5.5, ease: "easeInOut", repeat: null } })}
+        class="pointer-events-none absolute top-1/2 left-1/2 h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,241,199,0.12),rgba(224,197,132,0.035)_38%,transparent_70%)] blur-2xl"
       />
 
       <div class="relative hidden md:block">
@@ -97,7 +96,7 @@ const ease = [0.22, 1, 0.36, 1] as const
           </defs>
 
           {inputs.map((input, index) => (
-            <g data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: -18 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.45 }, transition: { delay: 0.08 + index * 0.1, duration: 0.65, ease } })}
+            <g
             >
               <circle cx={input.x} cy={input.y + 16} r="3" fill="#FFF1C7" />
               <circle
@@ -125,18 +124,14 @@ const ease = [0.22, 1, 0.36, 1] as const
             </g>
           ))}
 
-          <g class="[transform-origin:600px_270px]" data-flow-animation={JSON.stringify({ initial: { opacity: 0, scale: 0.86 }, inView: { opacity: 1, scale: 1 }, viewport: { amount: 0.55 }, transition: { delay: 0.78, duration: 0.9, ease } })}
+          <g class="[transform-origin:600px_270px]"
           >
             <path
               d="M 528 164 L 672 164 L 744 270 L 672 376 L 528 376 L 456 270 Z"
               fill="none"
               stroke="#E0C584"
               stroke-opacity="0.24"
-              stroke-width="1" class="[transform-origin:600px_270px]" data-flow-animation={JSON.stringify({ animate: { opacity: [0.25, 0.58, 0.25], scale: [0.96, 1.035, 0.96] }, transition: {
-                duration: 5.5,
-                ease: "easeInOut",
-                repeat: null,
-              } })}
+              stroke-width="1" class="[transform-origin:600px_270px]"
             />
             <path
               d="M 540 182 L 660 182 L 720 270 L 660 358 L 540 358 L 480 270 Z"
@@ -187,7 +182,7 @@ const ease = [0.22, 1, 0.36, 1] as const
           </g>
 
           {outputs.map((output, index) => (
-            <g data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: 20 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.5 }, transition: { delay: 1.28 + index * 0.14, duration: 0.7, ease } })}
+            <g
             >
               <SignalPath
                 d={output.path}
@@ -228,9 +223,9 @@ const ease = [0.22, 1, 0.36, 1] as const
 
       <div class="relative px-5 py-12 md:hidden">
         <div class="space-y-3">
-          {inputs.map((input, index) => (
+          {inputs.map((input) => (
             <div
-              class="flex items-center gap-4" data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: -16 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.6 }, transition: { delay: index * 0.08, duration: 0.55, ease } })}
+              class="flex items-center gap-4"
             >
               <span class="h-2 w-2 shrink-0 rounded-full border border-[#FFF1C7] shadow-[0_0_12px_rgba(255,241,199,0.7)]" />
               <p class="text-sm font-bold tracking-[0.04em] text-[#D8D1C5]">
@@ -243,17 +238,11 @@ const ease = [0.22, 1, 0.36, 1] as const
 
         <div
           aria-hidden="true"
-          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#7B6135,#FFF1C7)] shadow-[0_0_14px_rgba(224,197,132,0.55)]" data-flow-animation={JSON.stringify({ initial: { scaleY: 0 }, inView: { scaleY: 1 }, viewport: { amount: 0.8 }, transition: { delay: 0.42, duration: 0.7, ease } })}
+          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#7B6135,#FFF1C7)] shadow-[0_0_14px_rgba(224,197,132,0.55)]"
         />
 
         <div
-          class="relative mx-auto flex h-36 w-36 rotate-45 items-center justify-center border border-[#E0C584] bg-[radial-gradient(circle_at_35%_25%,#292317,#11100C_70%)] shadow-[0_0_42px_rgba(224,197,132,0.2)]" data-flow-animation={JSON.stringify({ initial: { opacity: 0, scale: 0.82 }, inView: { opacity: 1, scale: 1 }, viewport: { amount: 0.75 }, animate: {
-                  boxShadow: [
-                    "0 0 30px rgba(224,197,132,0.12)",
-                    "0 0 52px rgba(224,197,132,0.28)",
-                    "0 0 30px rgba(224,197,132,0.12)",
-                  ],
-                }, transition: { duration: 4.8, ease: "easeInOut", repeat: null } })}
+          class="relative mx-auto flex h-36 w-36 rotate-45 items-center justify-center border border-[#E0C584] bg-[radial-gradient(circle_at_35%_25%,#292317,#11100C_70%)] shadow-[0_0_42px_rgba(224,197,132,0.2)]"
         >
           <div class="-rotate-45 text-center">
             <p class="text-xl font-extrabold tracking-[0.1em] text-[#F5F1E8]">
@@ -267,13 +256,13 @@ const ease = [0.22, 1, 0.36, 1] as const
 
         <div
           aria-hidden="true"
-          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#FFF1C7,#7B6135)] shadow-[0_0_14px_rgba(224,197,132,0.55)]" data-flow-animation={JSON.stringify({ initial: { scaleY: 0 }, inView: { scaleY: 1 }, viewport: { amount: 0.8 }, transition: { delay: 0.74, duration: 0.7, ease } })}
+          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#FFF1C7,#7B6135)] shadow-[0_0_14px_rgba(224,197,132,0.55)]"
         />
 
         <div class="space-y-5">
-          {outputs.map((output, index) => (
+          {outputs.map((output) => (
             <div
-              class="border-l border-[#E0C584] py-2 pl-5" data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: 18 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.7 }, transition: { delay: 0.92 + index * 0.14, duration: 0.6, ease } })}
+              class="border-l border-[#E0C584] py-2 pl-5"
             >
               <p class="text-[0.62rem] font-bold tracking-[0.1em] text-[#E0C584]">
                 {output.number} / {output.eyebrow}
@@ -286,34 +275,3 @@ const ease = [0.22, 1, 0.36, 1] as const
         </div>
       </div>
     </div>
-<script>
-  import { animate, inView, ease, reducedMotion } from "@shared/motion";
-  import type { DOMKeyframesDefinition, AnimationOptions } from "framer-motion/dom";
-  if (!reducedMotion.matches) {
-    document.querySelectorAll<HTMLElement | SVGElement>("[data-business-flow] [data-flow-animation]").forEach((element) => {
-      const settings = JSON.parse(element.dataset.flowAnimation!);
-      const options: AnimationOptions = { ...settings.transition, repeat: settings.transition.repeat === null ? Infinity : settings.transition.repeat };
-      if (settings.inView) inView(element, () => {
-        const frames: DOMKeyframesDefinition = Object.fromEntries(Object.entries(settings.inView).map(([key, value]) => [key, [settings.initial[key], value]]));
-        animate(element, frames, settings.animate ? { duration: 0.7 } : options);
-      }, { amount: settings.viewport.amount });
-      if (settings.animate) animate(element, settings.animate, options);
-    });
-
-    document.querySelectorAll<SVGElement>("[data-signal-path]").forEach((group) => {
-      const line = group.children[0] as SVGPathElement;
-      const glow = group.children[1];
-      const delay = Number(group.dataset.delay);
-      inView(line, () => {
-        const length = line.getTotalLength();
-        line.style.strokeDasharray = `${length}`;
-        animate(line, { strokeDashoffset: [length, 0], opacity: [0, 1] }, { delay, duration: 1.15, ease });
-      }, { amount: 0.5 });
-      inView(glow, () => {
-        const animation = animate(glow, { opacity: [0, 1, 1, 0.65], strokeDashoffset: [74, -222] }, { delay: delay + 0.65, duration: 3.8, ease: "linear", repeat: Infinity, repeatDelay: 1.2 });
-        return () => animation.stop();
-      }, { amount: 0.5 });
-    });
-  }
-
-</script>

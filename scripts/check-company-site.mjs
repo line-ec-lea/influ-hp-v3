@@ -130,7 +130,7 @@ for (const path of paths) {
   assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, `${path}: native Astro, no React hydration`);
   if (path === "/ai-homepage") {
     assert.equal((html.match(/data-fit-item(?:\s|>)/g) ?? []).length, 5, "five server-rendered fit statements");
-    assert.equal((html.match(/data-freefall(?:\s|>)/g) ?? []).length, 4, "four animated issue cards");
+    assert.equal((html.match(/data-issue-card(?:\s|>)/g) ?? []).length, 4, "four server-rendered issue cards");
   }
   if (path === "/business-content") {
     assert.equal((html.match(/data-signal-path(?:\s|>)/g) ?? []).length, 7, "five input and two output signal paths");

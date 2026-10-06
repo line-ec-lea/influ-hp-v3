@@ -71,9 +71,8 @@ const serviceSequence = [
       </Container>
     </section>
 <script>
-  import { animate, inView, ease, reducedMotion, revealStaggered } from "@shared/motion";
+  import { animate, inView, ease, reducedMotion } from "@shared/motion";
   const section = document.querySelector("#services")!;
-  revealStaggered(section, "[data-intro] > *, [data-service-display], [data-links], [data-service-note]");
   const sequence = section.querySelector<HTMLElement>("[data-sequence]")!;
   const items: string[] = JSON.parse(sequence.dataset.items!);
   const text = section.querySelector<HTMLElement>("[data-service]")!;

@@ -63,9 +63,3 @@ const showDividers = !isHome;
         </div>
       </Container>
     </footer>
-
-<script>
-  import { revealStaggered } from "./motion";
-  const footer = document.querySelector<HTMLElement>("[data-site-footer]")!;
-  if (footer.dataset.home === "true") revealStaggered(footer, "[data-footer-group]");
-</script>

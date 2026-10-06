@@ -58,21 +58,4 @@ import { routes } from "@shared/features/routes";
       </CinematicReveal>
     </Container>
   </div>
-  <div data-contact-shine aria-hidden="true" class="pointer-events-none absolute inset-y-0 left-0 z-[4] w-[22vw] bg-[linear-gradient(90deg,transparent,rgb(201_165_109_/_0.16),transparent)] mix-blend-screen opacity-0"></div>
 </section>
-<script>
-  import { animate, inView, scroll, ease, reducedMotion } from "./motion";
-  if (!reducedMotion.matches) {
-    document.querySelectorAll<HTMLElement>("[data-general-contact]").forEach((section) => {
-      const ambient = section.querySelector("[data-contact-ambient]")!;
-      scroll(animate(ambient, { y: [80, -80] }, { ease: "linear" }), { target: section, offset: ["start end", "end start"] });
-      inView(section.querySelector("[data-contact-line]")!, (line) => { animate(line, { scaleX: [0, 1] }, { duration: 1.1, ease }); }, { amount: 0.08 });
-      inView(section.querySelector("[data-contact-content]")!, (content) => {
-        animate(content, { clipPath: ["inset(0 0 20% 0)", "inset(0 0 0% 0)"], filter: ["blur(9px)", "blur(0px)"], opacity: [0.18, 1], scale: [0.988, 1], y: [68, 0] }, { duration: 1, ease });
-      }, { amount: 0.07 });
-      inView(section.querySelector("[data-contact-shine]")!, (shine) => {
-        animate(shine, { x: ["-120%", "560%"], opacity: [0, 1, 0] }, { duration: 1.45, ease });
-      }, { amount: 0.07 });
-    });
-  }
-</script>

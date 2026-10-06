@@ -1,19 +1,7 @@
 ---
 interface Props { as?: "h1" | "h2" | "h3" | "p"; id?: string; class?: string; delay?: number }
-const { as: Tag = "h2", id, class: className = "", delay = 0 } = Astro.props;
+const { as: Tag = "h2", id, class: className = "" } = Astro.props;
 ---
 <Tag id={id} class={`relative ${className}`}>
   <span class="relative z-10 block text-[#F5F1E8] [text-shadow:0_1px_18px_rgba(255,241,199,0.08)]"><slot /></span>
-  <span aria-hidden="true" data-sunlit-heading data-delay={delay} class="pointer-events-none absolute inset-0 z-20 block overflow-hidden opacity-0 motion-reduce:hidden">
-    <span class="absolute inset-y-[-18%] left-[-18%] w-[18%] rotate-6 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.68),rgba(255,241,199,0.48),transparent)] blur-xl"></span>
-  </span>
 </Tag>
-<script>
-  import { animate, inView, ease, reducedMotion } from "./motion";
-  if (!reducedMotion.matches) {
-    inView("[data-sunlit-heading]", (element) => {
-      animate(element, { opacity: [0, 0.92, 0.92, 0] },
-        { duration: 1.25, delay: Number((element as HTMLElement).dataset.delay), ease, times: [0, 0.2, 0.78, 1] });
-    }, { amount: 0.45 });
-  }
-</script>

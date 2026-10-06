@@ -4,7 +4,7 @@ import { Font } from "astro:assets";
 
 <Font cssVariable="--font-shalimar" preload={false} />
 <div data-hero-artwork aria-hidden="true" class="group pointer-events-none absolute inset-0 overflow-hidden">
-  <div class="absolute inset-x-[5%] top-[54%] flex h-[40%] items-center justify-center group-data-[state=ready]:invisible lg:inset-x-[4%] lg:top-[11%] lg:h-[82%]">
+  <div class="absolute inset-x-[5%] top-[28%] flex h-[40%] items-center justify-center group-data-[state=ready]:invisible lg:inset-x-[4%] lg:top-[11%] lg:h-[82%]">
     <span data-particle-wordmark class="absolute bottom-0 text-[clamp(5rem,20vw,20rem)] leading-none text-[#F5F1E8]/25 font-[family-name:var(--font-shalimar)]">INFLU</span>
     <img src="/business-hero-particle-logo.svg" width="1311" height="873" alt="" class="h-full w-full object-contain opacity-25" />
   </div>
@@ -89,7 +89,7 @@ import { Font } from "astro:assets";
       const desktop = width >= 1024;
       const scale = Math.min(width * (desktop ? 0.92 : 0.90) / logo.naturalWidth, height * (desktop ? 0.82 : 0.40) / logo.naturalHeight);
       const logoWidth = logo.naturalWidth * scale, logoHeight = logo.naturalHeight * scale;
-      const logoY = height * (desktop ? 0.52 : 0.74) - logoHeight / 2;
+      const logoY = height * (desktop ? 0.52 : 0.48) - logoHeight / 2;
       maskContext!.drawImage(logo, (width - logoWidth) / 2, logoY, logoWidth, logoHeight);
       maskContext!.textAlign = "center";
       maskContext!.fillStyle = "#F5F1E8";

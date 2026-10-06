@@ -76,10 +76,3 @@ const formatDate = (date: Date) => date.toLocaleDateString("ja-JP", {
     </div>
   </Container>
 </section>
-
-<script>
-  import { revealStaggered } from "@shared/motion";
-  document.querySelectorAll("[data-editorial-highlights]").forEach(section => {
-    revealStaggered(section, "[data-stories-intro] > p, [data-stories-intro] > h2, [data-story], [data-stories-empty], [data-stories-cta]");
-  });
-</script>

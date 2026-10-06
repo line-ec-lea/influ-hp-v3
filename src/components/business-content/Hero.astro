@@ -1,12 +1,12 @@
 ---
 import Container from "@shared/Container.astro";
 import SpecularButton from "@shared/SpecularButton.astro";
-import HeroArtwork from "./HeroArtwork.astro";
+import ParticleBackground from "./ParticleBackground.astro";
 import { CONTACT_FORM_HREF } from "@shared/features/contact";
 ---
   <section class="relative isolate overflow-hidden bg-[#0B0B0B] font-sans text-[#F5F1E8]" aria-labelledby="business-heading">
-    <HeroArtwork />
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-b from-[#0B0B0B] via-[#0B0B0B]/75 to-transparent lg:bg-linear-to-r lg:from-[#0B0B0B] lg:via-[#0B0B0B]/70 lg:to-transparent" />
+    <ParticleBackground />
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-b from-[#0B0B0B] via-[#0B0B0B]/45 to-transparent lg:bg-linear-to-r lg:from-[#0B0B0B] lg:via-[#0B0B0B]/45 lg:to-transparent" />
     <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-page to-transparent" />
     <Container class="relative flex min-h-[960px] items-start pb-[28rem] pt-32 sm:min-h-[1080px] sm:pb-[32rem] sm:pt-36 lg:min-h-[max(100svh,780px)] lg:items-center lg:pb-24 lg:pt-36">
       <div class="relative z-10 min-w-0 lg:max-w-[55%]">

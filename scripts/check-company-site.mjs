@@ -1,5 +1,24 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
+import { flowFrame } from "../src/components/business-content/business-flow-motion.mjs";
+
+// All input signals enter, the core responds, then all output signals exit and rest.
+assert.equal(flowFrame(0).entrance, 0);
+assert.equal(flowFrame(0.7).entrance, 1);
+assert.equal(flowFrame(1.825).leg, "input");
+assert.ok(Math.abs(flowFrame(1.825).progress - 0.5) < 1e-9);
+assert.ok(flowFrame(3.1).pulse > 0.99);
+assert.equal(flowFrame(4.225).leg, "output");
+assert.ok(Math.abs(flowFrame(4.225).progress - 0.5) < 1e-9);
+assert.equal(flowFrame(6).leg, null);
+assert.equal(flowFrame(6).pulse, 0);
+for (const time of [1.825, 3.1, 4.225, 6]) {
+  const next = flowFrame(time + 8);
+  const current = flowFrame(time);
+  assert.equal(next.leg, current.leg);
+  assert.ok(Math.abs(next.progress - current.progress) < 1e-9);
+}
+console.log("PASS business diagram signal timing");
 
 // Tailwind handles styling; original motion components retain their runtime styles.
 // The retired starter blog must not be restored.
@@ -134,6 +153,11 @@ for (const path of paths) {
   }
   if (path === "/business-content") {
     assert.equal((html.match(/data-signal-path(?:\s|>)/g) ?? []).length, 7, "five input and two output signal paths");
+    const diagram = html.match(/<svg\b[^>]*aria-labelledby="business-flow-title business-flow-description"[\s\S]*?<\/svg>/)?.[0];
+    assert.ok(diagram, "business diagram: accessible SVG fallback without WebGL or JavaScript");
+    for (const label of ["発信", "集客", "サイト運用", "社内業務", "継続改善", "INFLU", "伴走設計", "自社で動かす", "改善を続ける"]) {
+      assert.ok(diagram.includes(label), `business diagram: readable fallback label ${label}`);
+    }
     assert.doesNotMatch(html, /<path[^>]+data-signal-glow[^>]+class="[^"]*opacity-0/, "SVG opacity animation must not be overridden by a CSS utility");
     assert.doesNotMatch(html, /\b(?:strokeWidth|strokeLinecap|stopColor|fontSize)=/, "native SVG attribute names");
     for (const [svg] of html.matchAll(/<svg\b[\s\S]*?<\/svg>/g))

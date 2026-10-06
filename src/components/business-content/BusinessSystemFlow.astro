@@ -5,26 +5,26 @@ const inputs = [
     label: "発信",
     x: 70,
     y: 78,
-    path: "M 83 94 H 315 Q 380 94 408 142 L 486 215",
+    path: "M 83 94 H 315 Q 380 94 408 142 L 493 215",
   },
   {
     label: "集客",
-    x: 38,
+    x: 70,
     y: 166,
-    path: "M 51 182 H 328 Q 392 182 426 215 L 474 244",
+    path: "M 83 182 H 328 Q 392 182 426 215 L 474 244",
   },
-  { label: "サイト運用", x: 92, y: 254, path: "M 105 270 H 448" },
+  { label: "サイト運用", x: 70, y: 254, path: "M 83 270 H 456" },
   {
     label: "社内業務",
-    x: 46,
+    x: 70,
     y: 342,
-    path: "M 59 358 H 328 Q 392 358 426 325 L 474 296",
+    path: "M 83 358 H 328 Q 392 358 426 325 L 474 296",
   },
   {
     label: "継続改善",
-    x: 78,
+    x: 70,
     y: 430,
-    path: "M 91 446 H 315 Q 380 446 408 398 L 486 325",
+    path: "M 83 446 H 315 Q 380 446 408 398 L 493 325",
   },
 ]
 
@@ -34,25 +34,26 @@ const outputs = [
     eyebrow: "OWNED OPERATION",
     label: "自社で動かす",
     y: 174,
-    path: "M 714 236 H 794 Q 836 236 856 210 L 888 174 H 1124",
+    path: "M 721 236 H 794 Q 836 236 856 210 L 888 174 H 1124",
   },
   {
     number: "02",
     eyebrow: "CONTINUOUS GROWTH",
     label: "改善を続ける",
     y: 366,
-    path: "M 714 304 H 794 Q 836 304 856 330 L 888 366 H 1124",
+    path: "M 721 304 H 794 Q 836 304 856 330 L 888 366 H 1124",
   },
 ]
 
 ---
-<div data-business-flow class="relative mt-12 overflow-hidden md:mt-16">
-      <div class="relative hidden md:block">
+<div data-business-flow class="relative mt-10 overflow-hidden lg:mt-12">
+      <div data-flow-view="desktop" class="group/flow relative hidden lg:block">
+        <canvas aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full opacity-0 group-data-[state=ready]/flow:opacity-100"></canvas>
         <svg
           role="img"
           aria-labelledby="business-flow-title business-flow-description"
-          viewBox="0 0 1200 540"
-          class="h-auto w-full"
+          viewBox="0 40 1200 460"
+          class="relative h-auto w-full"
         >
           <title id="business-flow-title">INFLUが伴走する事業改善</title>
           <desc id="business-flow-description">
@@ -60,68 +61,38 @@ const outputs = [
           </desc>
 
           <defs>
-            <filter
-              id="signal-glow"
-              x="-100%"
-              y="-100%"
-              width="300%"
-              height="300%"
-            >
-              <feGaussianBlur stdDeviation="5" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <linearGradient id="signal-gold" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stop-color="#8A6935" stop-opacity="0" />
-              <stop offset="0.48" stop-color="#E0C584" />
-              <stop offset="0.58" stop-color="#FFF8E6" />
-              <stop offset="1" stop-color="#E0C584" stop-opacity="0" />
-            </linearGradient>
             <radialGradient id="core-fill" cx="50%" cy="38%" r="72%">
-              <stop offset="0" stop-color="#292317" />
-              <stop offset="0.52" stop-color="#17140E" />
+              <stop offset="0" stop-color="#1B1812" />
+              <stop offset="0.52" stop-color="#12110D" />
               <stop offset="1" stop-color="#0C0B08" />
             </radialGradient>
           </defs>
 
-          {inputs.map((input, index) => (
-            <g
-            >
-              <circle cx={input.x} cy={input.y + 16} r="3" fill="#FFF1C7" />
-              <circle
-                cx={input.x}
-                cy={input.y + 16}
-                r="9"
-                fill="none"
-                stroke="#E0C584"
-                stroke-opacity="0.34"
-              />
+          {inputs.map((input) => (
+            <g>
+              <g data-flow-geometry class="group-data-[state=ready]/flow:opacity-0">
+                <circle cx={input.x} cy={input.y + 16} r="3.5" fill="#FFF1C7" />
+                <SignalPath d={input.path} />
+              </g>
               <text
                 x={input.x + 22}
-                y={input.y + 21}
+                y={input.y + 2}
                 fill="#F5F1E8"
-                font-size="15"
+                font-size="21"
                 font-weight="700"
                 letter-spacing="0.04em"
               >
                 {input.label}
               </text>
-              <SignalPath
-                d={input.path}
-                delay={0.24 + index * 0.11}
-              />
             </g>
           ))}
 
-          <g class="[transform-origin:600px_270px]"
-          >
+          <g data-flow-geometry class="group-data-[state=ready]/flow:opacity-0">
             <path
               d="M 528 164 L 672 164 L 744 270 L 672 376 L 528 376 L 456 270 Z"
               fill="none"
               stroke="#E0C584"
-              stroke-opacity="0.24"
+              stroke-opacity="0.4"
               stroke-width="1" class="[transform-origin:600px_270px]"
             />
             <path
@@ -129,70 +100,41 @@ const outputs = [
               fill="url(#core-fill)"
               stroke="#E0C584"
               stroke-width="2"
-              filter="url(#signal-glow)"
             />
-            <circle
-              cx="600"
-              cy="270"
-              r="58"
-              fill="none"
-              stroke="#E0C584"
-              stroke-opacity="0.16"
-            />
-            <circle
-              cx="600"
-              cy="270"
-              r="46"
-              fill="none"
-              stroke="#FFF1C7"
-              stroke-opacity="0.1"
-              stroke-dasharray="3 8"
-            />
+          </g>
             <text
               x="600"
               y="260"
               text-anchor="middle"
               fill="#F5F1E8"
-              font-size="25"
-              font-weight="800"
+              font-size="30"
+              font-weight="700"
               letter-spacing="0.1em"
             >
               INFLU
             </text>
             <text
               x="600"
-              y="292"
+              y="294"
               text-anchor="middle"
               fill="#E0C584"
-              font-size="12"
+              font-size="15"
               font-weight="700"
               letter-spacing="0.16em"
             >
               伴走設計
             </text>
-          </g>
-
-          {outputs.map((output, index) => (
-            <g
-            >
-              <SignalPath
-                d={output.path}
-                delay={1.05 + index * 0.16}
-              />
-              <circle cx="918" cy={output.y} r="3" fill="#FFF1C7" />
-              <circle
-                cx="918"
-                cy={output.y}
-                r="10"
-                fill="none"
-                stroke="#E0C584"
-                stroke-opacity="0.34"
-              />
+          {outputs.map((output) => (
+            <g>
+              <g data-flow-geometry class="group-data-[state=ready]/flow:opacity-0">
+                <SignalPath d={output.path} />
+                <circle cx="918" cy={output.y} r="3.5" fill="#FFF1C7" />
+              </g>
               <text
                 x="942"
-                y={output.y - 10}
+                y={output.y - 16}
                 fill="#E0C584"
-                font-size="10"
+                font-size="12"
                 font-weight="700"
                 letter-spacing="0.08em"
               >
@@ -200,10 +142,10 @@ const outputs = [
               </text>
               <text
                 x="942"
-                y={output.y + 22}
+                y={output.y + 34}
                 fill="#F5F1E8"
-                font-size="23"
-                font-weight="800"
+                font-size="28"
+                font-weight="700"
               >
                 {output.label}
               </text>
@@ -212,53 +154,50 @@ const outputs = [
         </svg>
       </div>
 
-      <div class="relative px-5 py-12 md:hidden">
-        <div class="space-y-3">
+      <div class="relative mx-auto max-w-xl py-6 lg:hidden">
+        <div class="grid grid-cols-2 gap-x-6 gap-y-4">
           {inputs.map((input) => (
             <div
-              class="flex items-center gap-4"
+              class="flex items-center gap-3"
             >
-              <span class="h-2 w-2 shrink-0 rounded-full border border-[#FFF1C7] shadow-[0_0_12px_rgba(255,241,199,0.7)]" />
-              <p class="text-sm font-bold tracking-[0.04em] text-[#D8D1C5]">
+              <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rounded-[50%] bg-gold-300" />
+              <p class="text-base font-bold tracking-[0.02em] text-foreground">
                 {input.label}
               </p>
-              <span class="h-px flex-1 bg-[linear-gradient(90deg,rgba(224,197,132,0.68),transparent)]" />
+              <span aria-hidden="true" class="h-px flex-1 bg-gold-300/30" />
             </div>
           ))}
         </div>
 
         <div
-          aria-hidden="true"
-          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#7B6135,#FFF1C7)] shadow-[0_0_14px_rgba(224,197,132,0.55)]"
-        />
-
-        <div
-          class="relative mx-auto flex h-36 w-36 rotate-45 items-center justify-center border border-[#E0C584] bg-[radial-gradient(circle_at_35%_25%,#292317,#11100C_70%)] shadow-[0_0_42px_rgba(224,197,132,0.2)]"
+          data-flow-view="mobile"
+          class="group/flow relative mx-auto my-6 h-60 w-52"
         >
-          <div class="-rotate-45 text-center">
-            <p class="text-xl font-extrabold tracking-[0.1em] text-[#F5F1E8]">
+          <span aria-hidden="true" class="absolute left-1/2 top-0 h-10 w-px bg-gold-300/60 group-data-[state=ready]/flow:opacity-0" />
+          <span aria-hidden="true" class="absolute bottom-0 left-1/2 h-10 w-px bg-gold-300/60 group-data-[state=ready]/flow:opacity-0" />
+          <div aria-hidden="true" class="absolute inset-x-0 inset-y-10 grid place-items-center bg-gold-300/70 [clip-path:polygon(25%_0,75%_0,100%_50%,75%_100%,25%_100%,0_50%)] group-data-[state=ready]/flow:opacity-0">
+            <div class="h-[calc(100%-2px)] w-[calc(100%-2px)] bg-page [clip-path:polygon(25%_0,75%_0,100%_50%,75%_100%,25%_100%,0_50%)]"></div>
+          </div>
+          <canvas aria-hidden="true" class="pointer-events-none absolute inset-0 h-full w-full opacity-0 group-data-[state=ready]/flow:opacity-100"></canvas>
+          <div class="relative grid h-full place-content-center text-center">
+            <span class="block text-3xl font-bold tracking-[0.1em] text-foreground">
               INFLU
-            </p>
-            <p class="mt-2 text-[0.62rem] font-bold tracking-[0.16em] text-[#E0C584]">
+            </span>
+            <span class="mt-2 block text-xs font-bold tracking-[0.16em] text-gold-300">
               伴走設計
-            </p>
+            </span>
           </div>
         </div>
 
-        <div
-          aria-hidden="true"
-          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#FFF1C7,#7B6135)] shadow-[0_0_14px_rgba(224,197,132,0.55)]"
-        />
-
-        <div class="space-y-5">
+        <div class="grid gap-5 sm:grid-cols-2">
           {outputs.map((output) => (
             <div
-              class="border-l border-[#E0C584] py-2 pl-5"
+              class="border-l border-gold-300/50 py-1 pl-4"
             >
-              <p class="text-[0.62rem] font-bold tracking-[0.1em] text-[#E0C584]">
+              <span class="block text-xs font-bold tracking-[0.08em] text-gold-300">
                 {output.number} / {output.eyebrow}
-              </p>
-              <p class="mt-2 text-xl font-bold text-[#F5F1E8]">
+              </span>
+              <p class="mt-2 text-2xl font-bold text-foreground">
                 {output.label}
               </p>
             </div>
@@ -266,3 +205,209 @@ const outputs = [
         </div>
       </div>
     </div>
+
+<script>
+  import { flowFrame } from "./business-flow-motion.mjs";
+
+  function mountFlow(stage: HTMLElement) {
+    const canvas = stage.querySelector("canvas")!;
+    const desktop = stage.dataset.flowView === "desktop";
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    const controller = new AbortController();
+    const { signal } = controller;
+    let visible = false, loading = false, failed = false, frame = 0;
+    let renderer: import("three").WebGLRenderer | undefined;
+    let scene: import("three").Scene;
+    let camera: import("three").OrthographicCamera;
+    let core: import("three").Group;
+    let edgeMaterial: import("three").LineBasicMaterial;
+    let edgeHighlight: import("three").Color;
+    const curves: import("three").Curve<import("three").Vector3>[] = [];
+    const movingSignals: {
+      curve: import("three").Curve<import("three").Vector3>;
+      highlight: import("three").Mesh;
+      trail: import("three").Line;
+      leg: "input" | "output";
+    }[] = [];
+    let elapsed = 0, lastTick = 0;
+    let disposeScene = () => {};
+    const resting = { x: 0.22, y: -0.12 };
+    const target = { ...resting };
+
+    function requestRender() {
+      if (renderer && visible && !document.hidden && !failed && !signal.aborted && !frame) {
+        frame = requestAnimationFrame(render);
+      }
+    }
+    function render(time: number) {
+      frame = 0;
+      if (!renderer || !visible || document.hidden || failed || signal.aborted) return;
+      if (!reduced.matches && lastTick) elapsed += Math.min((time - lastTick) / 1000, 0.1);
+      lastTick = time;
+      const motion = flowFrame(elapsed);
+      const entrance = reduced.matches ? 1 : motion.entrance;
+      core.scale.setScalar(0.96 + entrance * 0.04);
+      core.position.y = -4 * (1 - entrance);
+      core.rotation.x += (target.x - core.rotation.x) * 0.18;
+      core.rotation.y += (target.y - core.rotation.y) * 0.18;
+      edgeMaterial.opacity = 0.8 + (reduced.matches ? 0 : motion.pulse * 0.2);
+      edgeMaterial.color.setHex(0xb08a55).lerp(edgeHighlight, reduced.matches ? 0 : motion.pulse);
+      for (const { curve, highlight, trail, leg } of movingSignals) {
+        highlight.visible = trail.visible = !reduced.matches && motion.leg === leg;
+        if (!highlight.visible) continue;
+        highlight.position.copy(curve.getPointAt(motion.progress));
+        highlight.position.z = 3;
+        const positions = trail.geometry.getAttribute("position");
+        for (let i = 0; i < positions.count; i++) {
+          const point = curve.getPointAt(Math.max(0, motion.progress - (1 - i / (positions.count - 1)) * 0.055));
+          positions.setXYZ(i, point.x, point.y, 3);
+        }
+        positions.needsUpdate = true;
+      }
+      renderer.render(scene, camera);
+      stage.dataset.state = "ready";
+      if (!reduced.matches) requestRender();
+    }
+    function resize() {
+      if (!renderer) return;
+      const { width, height } = stage.getBoundingClientRect();
+      if (!width || !height) return;
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+      renderer.setSize(width, height, false);
+      requestRender();
+    }
+    async function initialize() {
+      if (renderer || loading || failed || signal.aborted) return;
+      loading = true;
+      try {
+        // Import only when the visible diagram needs a renderer.
+        const THREE = await import("three");
+        if (signal.aborted || !stage.getBoundingClientRect().width) return;
+        renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "low-power" });
+        renderer.setClearColor(0x000000, 0);
+        scene = new THREE.Scene();
+        disposeScene = () => {
+          const resources = new Set<import("three").BufferGeometry | import("three").Material>();
+          scene.traverse((object) => {
+            if (object instanceof THREE.Mesh || object instanceof THREE.Line) {
+              resources.add(object.geometry);
+              for (const material of Array.isArray(object.material) ? object.material : [object.material]) resources.add(material);
+            }
+          });
+          resources.forEach((resource) => resource.dispose());
+          renderer?.dispose();
+        };
+        camera = new THREE.OrthographicCamera(desktop ? -600 : -156, desktop ? 600 : 156, desktop ? 230 : 180, desktop ? -230 : -180, 1, 2000);
+        camera.position.z = 800;
+        scene.add(new THREE.HemisphereLight(0xf1ede4, 0x101513, 1.8));
+        const key = new THREE.DirectionalLight(0xf5eddb, 2.4);
+        key.position.set(-300, 400, 600);
+        scene.add(key);
+        const fill = new THREE.DirectionalLight(0xb4bdb9, 0.8);
+        fill.position.set(300, -150, 400);
+        scene.add(fill);
+
+        const vertices = [[-72, 106], [72, 106], [144, 0], [72, -106], [-72, -106], [-144, 0]];
+        const shape = new THREE.Shape(vertices.map(([x, y]) => new THREE.Vector2(x, y)));
+        const geometry = new THREE.ExtrudeGeometry(shape, { depth: 22, bevelEnabled: true, bevelSize: 2, bevelThickness: 2, bevelSegments: 2, steps: 1 });
+        geometry.translate(0, 0, -11);
+        core = new THREE.Group();
+        core.rotation.set(resting.x, resting.y, 0);
+        core.add(new THREE.Mesh(geometry, [
+          new THREE.MeshStandardMaterial({ color: 0x181b19, roughness: 0.86, metalness: 0.08 }),
+          new THREE.MeshStandardMaterial({ color: 0x0e1110, roughness: 0.9, metalness: 0.05 }),
+        ]));
+        const outline = new THREE.BufferGeometry().setFromPoints(vertices.map(([x, y]) => new THREE.Vector3(x, y, 13.1)));
+        edgeMaterial = new THREE.LineBasicMaterial({ color: 0xb08a55, transparent: true, opacity: 0.8 });
+        edgeHighlight = new THREE.Color(0xe0c584);
+        core.add(new THREE.LineLoop(outline, edgeMaterial));
+        scene.add(core);
+
+        const lineMaterial = new THREE.MeshBasicMaterial({ color: 0x9e8051 });
+        if (desktop) {
+          for (const path of stage.querySelectorAll<SVGPathElement>("[data-signal-path] path")) {
+            const length = path.getTotalLength();
+            const points = Array.from({ length: 49 }, (_, i) => {
+              const point = path.getPointAtLength(length * i / 48);
+              return new THREE.Vector3(point.x - 600, 270 - point.y, 0);
+            });
+            const curve = new THREE.CatmullRomCurve3(points);
+            curves.push(curve);
+          }
+          const dotGeometry = new THREE.SphereGeometry(3.5, 12, 8);
+          const dotMaterial = new THREE.MeshStandardMaterial({ color: 0xc9a56d, roughness: 0.8, metalness: 0.1 });
+          for (const circle of stage.querySelectorAll<SVGCircleElement>('circle[fill="#FFF1C7"]')) {
+            const dot = new THREE.Mesh(dotGeometry, dotMaterial);
+            dot.position.set(circle.cx.baseVal.value - 600, 270 - circle.cy.baseVal.value, 0);
+            scene.add(dot);
+          }
+        } else {
+          curves.push(
+            new THREE.LineCurve3(new THREE.Vector3(0, 180, 0), new THREE.Vector3(0, 110, 0)),
+            new THREE.LineCurve3(new THREE.Vector3(0, -110, 0), new THREE.Vector3(0, -180, 0)),
+          );
+        }
+        const highlightGeometry = new THREE.SphereGeometry(3.8, 12, 8);
+        const highlightMaterial = new THREE.MeshBasicMaterial({ color: 0xe0c584 });
+        const trailMaterial = new THREE.LineBasicMaterial({ color: 0xe0c584, transparent: true, opacity: 0.65 });
+        for (const [index, curve] of curves.entries()) {
+          scene.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 64, 0.85, 6, false), lineMaterial));
+          const highlight = new THREE.Mesh(highlightGeometry, highlightMaterial);
+          const trailGeometry = new THREE.BufferGeometry();
+          trailGeometry.setAttribute("position", new THREE.BufferAttribute(new Float32Array(27), 3));
+          const trail = new THREE.Line(trailGeometry, trailMaterial);
+          trail.frustumCulled = false;
+          movingSignals.push({ curve, highlight, trail, leg: index < (desktop ? 5 : 1) ? "input" : "output" });
+          scene.add(highlight, trail);
+        }
+        resize();
+      } catch {
+        failed = true;
+        stage.dataset.state = "fallback";
+        disposeScene();
+      } finally {
+        loading = false;
+      }
+    }
+
+    function resetPointer() {
+      Object.assign(target, resting);
+      if (reduced.matches && core) core.rotation.set(resting.x, resting.y, 0);
+      requestRender();
+    }
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(stage);
+    const intersection = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) { void initialize(); requestRender(); }
+      else { cancelAnimationFrame(frame); frame = 0; lastTick = 0; resetPointer(); }
+    });
+    intersection.observe(stage);
+    stage.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse" || reduced.matches || !renderer) return;
+      const rect = stage.getBoundingClientRect();
+      target.x = resting.x + (event.clientY - rect.top - rect.height / 2) / rect.height * 0.08;
+      target.y = resting.y + (event.clientX - rect.left - rect.width / 2) / rect.width * 0.08;
+      requestRender();
+    }, { signal, passive: true });
+    stage.addEventListener("pointerleave", resetPointer, { signal });
+    window.addEventListener("blur", resetPointer, { signal });
+    window.addEventListener("scroll", resetPointer, { signal, passive: true });
+    reduced.addEventListener("change", resetPointer, { signal });
+    document.addEventListener("visibilitychange", () => {
+      cancelAnimationFrame(frame); frame = 0; lastTick = 0; resetPointer();
+    }, { signal });
+    canvas.addEventListener("webglcontextlost", (event) => {
+      event.preventDefault(); failed = true;
+      cancelAnimationFrame(frame); frame = 0; lastTick = 0;
+      stage.dataset.state = "fallback";
+    }, { signal });
+    canvas.addEventListener("webglcontextrestored", () => { failed = false; resize(); }, { signal });
+    window.addEventListener("pageshow", resize, { signal });
+    window.addEventListener("pagehide", (event) => {
+      cancelAnimationFrame(frame); frame = 0; lastTick = 0;
+      if (!event.persisted) { controller.abort(); resizeObserver.disconnect(); intersection.disconnect(); disposeScene(); }
+    }, { signal });
+  }
+  document.querySelectorAll<HTMLElement>("[data-flow-view]").forEach(mountFlow);
+</script>

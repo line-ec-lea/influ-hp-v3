@@ -43,21 +43,6 @@ export default defineConfig({
 	],
 	fonts: [
 		{
-			provider: fontProviders.local(),
-			name: "LINE Seed Sans",
-			cssVariable: "--font-line-seed-en",
-			fallbacks: [],
-			options: {
-				variants: [
-					{ src: ["./src/assets/fonts/line-seed-sans/LINESeedSans_Th.woff2"], weight: 250, style: "normal" },
-					{ src: ["./src/assets/fonts/line-seed-sans/LINESeedSans_Rg.woff2"], weight: 400, style: "normal" },
-					{ src: ["./src/assets/fonts/line-seed-sans/LINESeedSans_Bd.woff2"], weight: 700, style: "normal" },
-					{ src: ["./src/assets/fonts/line-seed-sans/LINESeedSans_XBd.woff2"], weight: 800, style: "normal" },
-					{ src: ["./src/assets/fonts/line-seed-sans/LINESeedSans_He.woff2"], weight: 900, style: "normal" },
-				],
-			},
-		},
-		{
 			provider: fontProviders.google(),
 			name: "LINE Seed JP",
 			cssVariable: "--font-line-seed-jp",

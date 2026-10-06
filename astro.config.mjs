@@ -44,9 +44,9 @@ export default defineConfig({
 	fonts: [
 		{
 			provider: fontProviders.google(),
-			name: "Noto Sans JP",
-			cssVariable: "--font-noto-sans-jp",
-			weights: ["100 900"],
+			name: "LINE Seed JP",
+			cssVariable: "--font-line-seed-jp",
+			weights: [100, 400, 700, 800],
 			fallbacks: ["sans-serif"],
 		},
 	],

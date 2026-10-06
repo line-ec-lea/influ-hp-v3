@@ -97,7 +97,7 @@ const ease = [0.22, 1, 0.36, 1] as const
           </defs>
 
           {inputs.map((input, index) => (
-            <g data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: -18 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.45, once: true }, transition: { delay: 0.08 + index * 0.1, duration: 0.65, ease } })}
+            <g data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: -18 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.45 }, transition: { delay: 0.08 + index * 0.1, duration: 0.65, ease } })}
             >
               <circle cx={input.x} cy={input.y + 16} r="3" fill="#FFF1C7" />
               <circle
@@ -125,7 +125,7 @@ const ease = [0.22, 1, 0.36, 1] as const
             </g>
           ))}
 
-          <g class="[transform-origin:600px_270px]" data-flow-animation={JSON.stringify({ initial: { opacity: 0, scale: 0.86 }, inView: { opacity: 1, scale: 1 }, viewport: { amount: 0.55, once: true }, transition: { delay: 0.78, duration: 0.9, ease } })}
+          <g class="[transform-origin:600px_270px]" data-flow-animation={JSON.stringify({ initial: { opacity: 0, scale: 0.86 }, inView: { opacity: 1, scale: 1 }, viewport: { amount: 0.55 }, transition: { delay: 0.78, duration: 0.9, ease } })}
           >
             <path
               d="M 528 164 L 672 164 L 744 270 L 672 376 L 528 376 L 456 270 Z"
@@ -187,7 +187,7 @@ const ease = [0.22, 1, 0.36, 1] as const
           </g>
 
           {outputs.map((output, index) => (
-            <g data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: 20 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.5, once: true }, transition: { delay: 1.28 + index * 0.14, duration: 0.7, ease } })}
+            <g data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: 20 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.5 }, transition: { delay: 1.28 + index * 0.14, duration: 0.7, ease } })}
             >
               <SignalPath
                 d={output.path}
@@ -230,7 +230,7 @@ const ease = [0.22, 1, 0.36, 1] as const
         <div class="space-y-3">
           {inputs.map((input, index) => (
             <div
-              class="flex items-center gap-4" data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: -16 }, inView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.6 }, transition: { delay: index * 0.08, duration: 0.55, ease } })}
+              class="flex items-center gap-4" data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: -16 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.6 }, transition: { delay: index * 0.08, duration: 0.55, ease } })}
             >
               <span class="h-2 w-2 shrink-0 rounded-full border border-[#FFF1C7] shadow-[0_0_12px_rgba(255,241,199,0.7)]" />
               <p class="text-sm font-bold tracking-[0.04em] text-[#D8D1C5]">
@@ -243,11 +243,11 @@ const ease = [0.22, 1, 0.36, 1] as const
 
         <div
           aria-hidden="true"
-          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#7B6135,#FFF1C7)] shadow-[0_0_14px_rgba(224,197,132,0.55)]" data-flow-animation={JSON.stringify({ initial: { scaleY: 0 }, inView: { scaleY: 1 }, viewport: { once: true, amount: 0.8 }, transition: { delay: 0.42, duration: 0.7, ease } })}
+          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#7B6135,#FFF1C7)] shadow-[0_0_14px_rgba(224,197,132,0.55)]" data-flow-animation={JSON.stringify({ initial: { scaleY: 0 }, inView: { scaleY: 1 }, viewport: { amount: 0.8 }, transition: { delay: 0.42, duration: 0.7, ease } })}
         />
 
         <div
-          class="relative mx-auto flex h-36 w-36 rotate-45 items-center justify-center border border-[#E0C584] bg-[radial-gradient(circle_at_35%_25%,#292317,#11100C_70%)] shadow-[0_0_42px_rgba(224,197,132,0.2)]" data-flow-animation={JSON.stringify({ initial: { opacity: 0, scale: 0.82 }, inView: { opacity: 1, scale: 1 }, viewport: { once: true, amount: 0.75 }, animate: {
+          class="relative mx-auto flex h-36 w-36 rotate-45 items-center justify-center border border-[#E0C584] bg-[radial-gradient(circle_at_35%_25%,#292317,#11100C_70%)] shadow-[0_0_42px_rgba(224,197,132,0.2)]" data-flow-animation={JSON.stringify({ initial: { opacity: 0, scale: 0.82 }, inView: { opacity: 1, scale: 1 }, viewport: { amount: 0.75 }, animate: {
                   boxShadow: [
                     "0 0 30px rgba(224,197,132,0.12)",
                     "0 0 52px rgba(224,197,132,0.28)",
@@ -267,13 +267,13 @@ const ease = [0.22, 1, 0.36, 1] as const
 
         <div
           aria-hidden="true"
-          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#FFF1C7,#7B6135)] shadow-[0_0_14px_rgba(224,197,132,0.55)]" data-flow-animation={JSON.stringify({ initial: { scaleY: 0 }, inView: { scaleY: 1 }, viewport: { once: true, amount: 0.8 }, transition: { delay: 0.74, duration: 0.7, ease } })}
+          class="origin-top mx-auto h-14 w-px bg-[linear-gradient(180deg,#FFF1C7,#7B6135)] shadow-[0_0_14px_rgba(224,197,132,0.55)]" data-flow-animation={JSON.stringify({ initial: { scaleY: 0 }, inView: { scaleY: 1 }, viewport: { amount: 0.8 }, transition: { delay: 0.74, duration: 0.7, ease } })}
         />
 
         <div class="space-y-5">
           {outputs.map((output, index) => (
             <div
-              class="border-l border-[#E0C584] py-2 pl-5" data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: 18 }, inView: { opacity: 1, x: 0 }, viewport: { once: true, amount: 0.7 }, transition: { delay: 0.92 + index * 0.14, duration: 0.6, ease } })}
+              class="border-l border-[#E0C584] py-2 pl-5" data-flow-animation={JSON.stringify({ initial: { opacity: 0, x: 18 }, inView: { opacity: 1, x: 0 }, viewport: { amount: 0.7 }, transition: { delay: 0.92 + index * 0.14, duration: 0.6, ease } })}
             >
               <p class="text-[0.62rem] font-bold tracking-[0.1em] text-[#E0C584]">
                 {output.number} / {output.eyebrow}
@@ -299,9 +299,7 @@ const ease = [0.22, 1, 0.36, 1] as const
       }, { amount: settings.viewport.amount });
       if (settings.animate) animate(element, settings.animate, options);
     });
-  }
 
-  if (!reducedMotion.matches) {
     document.querySelectorAll<SVGElement>("[data-signal-path]").forEach((group) => {
       const line = group.children[0] as SVGPathElement;
       const glow = group.children[1];

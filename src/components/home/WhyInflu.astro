@@ -19,58 +19,54 @@ const strengths = [
   },
 ]
 ---
-<section id="why-influ" class="relative overflow-hidden border-t border-[rgba(200,164,93,0.25)] bg-[#0B0B0B]">
-      <Container class="relative py-16 md:py-24 lg:py-28">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.48fr)] lg:items-end" data-intro>
+<section id="why-influ" class="relative overflow-hidden bg-[#0B0B0B]">
+      <Container class="relative py-18 md:py-24 lg:py-28">
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] lg:items-end lg:gap-16" data-intro>
           <div>
             <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
               WHY INFLU?
             </p>
-            <SunlitHeading class="mt-4 text-4xl font-bold leading-tight tracking-[-0.03em] md:text-5xl lg:text-6xl">
-              技術だけでなく、事業と現場を理解する。
+            <SunlitHeading class="mt-4 text-balance text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">
+              <span class="block">技術だけでなく、</span>
+              <span class="block">事業と現場を理解する。</span>
             </SunlitHeading>
           </div>
-          <p class="text-base leading-8 text-[#D8D1C5]">
+          <p class="max-w-[40rem] text-pretty text-base leading-[1.9] text-foreground/80">
             AI、マーケティング、事業課題を切り離さず、現場で使い続けられる形まで落とし込みます。
           </p>
         </div>
 
-        <div class="group/list mt-12 md:mt-16" data-list>
+        <div class="group/list mt-10 md:mt-14" data-list>
           {strengths.map((strength, index) => (
-            <article class="group/row relative grid gap-x-10 gap-y-5 py-9 transition-opacity duration-500 group-hover/list:opacity-70 hover:!opacity-100 md:grid-cols-[7rem_minmax(0,0.9fr)_minmax(0,1fr)] md:items-start md:py-12" data-row>
-              <span aria-hidden="true" class="absolute inset-x-0 top-0 h-px origin-left bg-[linear-gradient(90deg,#F4E8CB,rgba(216,194,139,0.42)_48%,rgba(216,194,139,0.08))]" data-rule />
+            <article class="group/row py-8 first:pt-0 last:pb-0 md:py-10" data-row>
+              <div class="relative grid gap-x-8 gap-y-4 transition-opacity duration-500 group-hover/list:opacity-70 hover:opacity-100 md:grid-cols-[4rem_minmax(0,0.9fr)_minmax(0,1fr)] md:items-start">
 
               <div class="flex items-center gap-4 pt-1">
-                <span class="text-xs font-bold tracking-[0.18em] text-[#E0C584]">
+                <span class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span aria-hidden="true" class="h-px flex-1 origin-left bg-[linear-gradient(90deg,#E0C584,transparent)]" data-number-rule />
+                <span aria-hidden="true" class="h-px w-8 origin-left bg-[linear-gradient(90deg,#E0C584,transparent)]" data-number-rule />
               </div>
 
-              <h3 class="relative overflow-hidden text-2xl font-bold leading-tight tracking-tight text-[#F5F1E8] md:text-[1.65rem]">
+              <h3 class="relative overflow-hidden text-xl font-bold leading-[1.5] tracking-[-0.01em] text-foreground sm:text-2xl lg:text-[1.75rem]">
                 <span class="relative z-10">{strength.title}</span>
                 <span aria-hidden="true" class="opacity-0 motion-reduce:hidden absolute inset-y-[-35%] left-0 z-20 w-1/3 -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,253,247,0.24),transparent)] blur-sm" data-shine />
               </h3>
-              <p class="relative max-w-2xl text-[0.95rem] leading-8 text-[#DDD6CB] transition-colors duration-300 group-hover/row:text-[#F0EAE0]">
+              <p class="relative max-w-[40rem] text-pretty text-base leading-[1.9] text-foreground/80 transition-colors duration-300 group-hover/row:text-[#F0EAE0]">
                 {strength.description}
               </p>
+              </div>
             </article>
           ))}
-          <span aria-hidden="true" class="block h-px origin-left bg-[linear-gradient(90deg,#F4E8CB,rgba(216,194,139,0.42)_48%,rgba(216,194,139,0.08))]" data-end-rule />
         </div>
       </Container>
     </section>
 <script>
-  import { animate, inView, stagger, ease, reducedMotion, reveal } from "@shared/motion";
+  import { reveal, revealStaggered } from "@shared/motion";
   const section = document.querySelector("#why-influ")!;
-  reveal(section.querySelector("[data-intro]")!, { opacity: [0, 1], y: [20, 0] }, { duration: 0.5 }, "-80px");
-  if (!reducedMotion.matches) {
-    inView(section.querySelector("[data-list]")!, () => {
-      animate(section.querySelectorAll("[data-row]"), { opacity: [0, 1], y: [26, 0] }, { duration: 0.52, delay: stagger(0.11), ease });
-      animate(section.querySelectorAll("[data-rule], [data-end-rule]"), { scaleX: [0, 1], opacity: [0.35, 1] }, { duration: 0.8, ease });
-      animate(section.querySelectorAll("[data-number-rule]"), { scaleX: [0, 1] }, { duration: 0.65, delay: 0.18, ease });
-    }, { margin: "-40px" });
-  }
-  section.querySelectorAll("[data-shine]").forEach((shine, index) =>
-    reveal(shine, { x: ["-140%", "440%"], opacity: [0, 0.9, 0] }, { duration: 1.25, delay: 0.32 + index * 0.12 }, "-80px"));
+  revealStaggered(section, "[data-intro] > div > p, [data-intro] h2, [data-intro] > p, [data-row]");
+  section.querySelectorAll("[data-number-rule]").forEach(rule =>
+    reveal(rule, { scaleX: [0, 1] }, { duration: 0.65, delay: 0.18 }, "0px 0px -48px 0px"));
+  section.querySelectorAll("[data-shine]").forEach(shine =>
+    reveal(shine, { x: ["-140%", "440%"], opacity: [0, 0.9, 0] }, { duration: 1.25, delay: 0.32 }, "0px 0px -48px 0px"));
 </script>

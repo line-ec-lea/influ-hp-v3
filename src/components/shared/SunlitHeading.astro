@@ -12,7 +12,7 @@ const { as: Tag = "h2", id, class: className = "", delay = 0 } = Astro.props;
   import { animate, inView, ease, reducedMotion } from "./motion";
   if (!reducedMotion.matches) {
     inView("[data-sunlit-heading]", (element) => {
-      animate(element, { backgroundPosition: ["135% 50%", "-85% 50%"], opacity: [0, 0.92, 0.92, 0] },
+      animate(element, { opacity: [0, 0.92, 0.92, 0] },
         { duration: 1.25, delay: Number((element as HTMLElement).dataset.delay), ease, times: [0, 0.2, 0.78, 1] });
     }, { amount: 0.45 });
   }

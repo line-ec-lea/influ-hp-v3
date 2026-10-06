@@ -121,7 +121,7 @@ for (const path of paths) {
     assert.ok(html.includes(`href="${href}"`), `${path}: editorial navigation ${href}`);
   if (path === "/") {
     assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, "homepage: native Astro, no React hydration");
-    for (const id of ["hero", "what-we-do", "services", "why-influ", "suitable-consultations", "contact"])
+    for (const id of ["hero", "what-we-do", "services", "why-influ", "achievements", "suitable-consultations", "columns", "contact"])
       assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `homepage: ${id} section`);
     assert.match(html, /<img[^>]+src="\/p1.jpg"[^>]+data-hero-still/, "homepage: current hero poster server-rendered");
     assert.doesNotMatch(html, /<video\b/, "homepage: no video loaded until the real asset is configured");

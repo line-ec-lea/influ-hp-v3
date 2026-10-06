@@ -3,6 +3,26 @@ import { readFile } from "node:fs/promises";
 import ts from "typescript";
 
 const source = await readFile(new URL("../src/components/shared/Navbar.astro", import.meta.url), "utf8");
+const routesSource = await readFile(new URL("../src/components/shared/features/routes.ts", import.meta.url), "utf8");
+const routes = new Function(ts.transpile(routesSource.replace("export const routes =", "return")))();
+const navigationSource = await readFile(new URL("../src/components/shared/features/navigation.ts", import.meta.url), "utf8");
+const siteNavItems = new Function("routes", ts.transpile(navigationSource.replace(/^import .*$/m, "").replace("export const siteNavItems =", "return")))(routes);
+const navigation = new Function("Astro", "siteNavItems", "routes", ts.transpile(source.split("---")[1].replace(/^import .*$/gm, "") + "\nreturn navItems;"));
+for (const [pathname, current, serviceActive] of [
+  ["/", routes.home, false],
+  ["/business-content/", routes.service, true],
+  ["/ai-homepage", undefined, true],
+  ["/ax-support", undefined, true],
+  ["/staff-blog/example", routes.staffBlog, false],
+  ["/staff-blog/page/2", routes.staffBlog, false],
+  ["/staff-blog-other", undefined, false],
+]) {
+  const items = navigation({ url: { pathname } }, siteNavItems, routes);
+  assert.deepEqual(items.map(item => item.href), [routes.home, routes.service, routes.company, routes.companyAchievements, routes.usefulMaterials, routes.staffBlog]);
+  assert.deepEqual(items.filter(item => item.active).map(item => item.href), current ? [current] : [], pathname);
+  assert.equal(items.find(item => item.href === routes.service).serviceActive, serviceActive, pathname);
+}
+console.log("PASS shared navbar items, nested routes, trailing slash and service highlighting");
 const logic = source.slice(source.indexOf("  let lastScroll"), source.indexOf("  async function setMobile"));
 for (const reduced of [false, true]) {
   const window = { scrollY: 0, addEventListener() {} };

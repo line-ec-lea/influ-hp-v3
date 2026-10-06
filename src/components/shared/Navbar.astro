@@ -34,6 +34,12 @@ const isActive = (item: { href: string }) => {
   return pathname === item.href || pathname === basePath || pathname.startsWith(basePath + "/");
 };
 const isServiceMenuActive = serviceMenuItems.some(isActive);
+const navItems = siteNavItems
+  .filter((item) => item.href !== routes.aiHomepage && item.href !== routes.axSupport)
+  .map((item) => {
+    const active = isActive(item);
+    return { ...item, active, serviceActive: item.href === routes.service ? active || isServiceMenuActive : active };
+  });
 const navItemClass = (active: boolean) =>
   `relative rounded-sm px-1 py-2 text-[0.8125rem] transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-[#C8A45D] after:transition-[width] after:duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] ${active ? "text-[#F5F1E8] after:w-8" : "text-[#B8B1A3] after:w-0 hover:text-[#F5F1E8] hover:after:w-5"}`;
 ---
@@ -53,20 +59,7 @@ const navItemClass = (active: boolean) =>
         </button>
 
         <nav class="hidden items-center gap-4 font-bold tracking-normal lg:flex">
-          {siteNavItems.map((item) => {
-            if (
-              item.href === routes.aiHomepage ||
-              item.href === routes.axSupport
-            ) {
-              return null
-            }
-
-            const active = isActive(item)
-            const serviceActive =
-              item.href === routes.service
-                ? active || isServiceMenuActive
-                : active
-
+          {navItems.map(({ active, serviceActive, ...item }) => {
             if (item.href === routes.service) {
               return (
                 <div class="relative">
@@ -125,20 +118,7 @@ const navItemClass = (active: boolean) =>
 
       <div id="mobile-nav" class="max-h-[calc(100dvh-3.5rem-env(safe-area-inset-top,0px))] overflow-y-auto overscroll-contain border-t border-white/10 bg-[#0B0B0B]/80 backdrop-blur-md lg:hidden" data-mobile-menu hidden>
             <nav class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 text-[15px] font-bold tracking-normal sm:px-6" data-mobile-links>
-              {siteNavItems.map((item) => {
-                if (
-                  item.href === routes.aiHomepage ||
-                  item.href === routes.axSupport
-                ) {
-                  return null
-                }
-
-                const active = isActive(item)
-                const serviceActive =
-                  item.href === routes.service
-                    ? active || isServiceMenuActive
-                    : active
-
+              {navItems.map(({ active, serviceActive, ...item }) => {
                 return (
                   <div  data-mobile-item>
                     <a href={item.href} class={`block rounded-md px-3 py-2.5 transition-colors duration-200 ${

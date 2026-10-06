@@ -24,39 +24,36 @@ const serviceSequence = [
   "AIツール導入・活用支援",
 ]
 ---
-<section id="services" class="relative overflow-hidden border-t border-[rgba(200,164,93,0.25)] bg-[#15130F]">
-      <Container class="relative py-16 md:py-24 lg:py-28">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,0.48fr)] lg:items-end" data-intro>
-          <div>
-            <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-              OUR SERVICES
-            </p>
-            <SunlitHeading class="mt-4 text-4xl font-bold leading-tight tracking-[-0.03em] md:text-5xl lg:text-6xl">
-              事業内容
-            </SunlitHeading>
-          </div>
+<section id="services" class="relative overflow-hidden bg-[#0B0B0B]">
+      <Container class="relative py-18 md:py-24 lg:py-28">
+        <div data-intro>
+          <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
+            OUR SERVICES
+          </p>
+          <SunlitHeading class="mt-4 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">
+            事業内容
+          </SunlitHeading>
         </div>
 
-        <div class="mt-12 border-y border-[rgba(216,194,139,0.24)] py-8 sm:py-10 md:mt-14 lg:py-12" aria-label={`提供領域: ${serviceSequence.join("、")}`} data-sequence data-items={JSON.stringify(serviceSequence)}>
-          <div aria-hidden="true" class="grid items-center gap-4 lg:grid-cols-[minmax(14rem,0.46fr)_minmax(0,1fr)] lg:gap-10">
+        <div class="mt-10 py-8 sm:py-10 md:mt-14 lg:py-12" aria-label={`提供領域: ${serviceSequence.join("、")}`} data-sequence data-items={JSON.stringify(serviceSequence)}>
+          <div data-service-display aria-hidden="true" class="grid items-center gap-y-6 lg:grid-cols-[minmax(14rem,0.46fr)_minmax(0,1fr)] lg:gap-x-10">
             <div class="flex items-center gap-4">
-              <p class="whitespace-nowrap text-[clamp(2.8rem,7vw,6.75rem)] font-bold leading-none tracking-[-0.075em] text-[#F5F1E8]">
+              <p class="whitespace-nowrap text-[clamp(2.8rem,7vw,6rem)] font-bold leading-none tracking-[-0.03em] text-[#F5F1E8] [word-spacing:0.08em]">
                 WE DO
               </p>
               <span class="h-[clamp(2.6rem,6vw,5.6rem)] w-px shrink-0 bg-[linear-gradient(180deg,transparent,#F4E8CB_18%,#FFFDF7_50%,#D8C28B_82%,transparent)]" data-divider />
             </div>
 
-            <div class="relative flex min-h-[4.25rem] items-center overflow-hidden sm:min-h-[5.2rem] lg:min-h-[6.5rem]">
-              <p class="whitespace-nowrap bg-[linear-gradient(105deg,#FFFDF7_0%,#F4E8CB_55%,#D8C28B_100%)] bg-clip-text text-[clamp(1.15rem,4.2vw,3rem)] font-bold leading-none tracking-[-0.045em] text-transparent" data-service>
-                  {serviceSequence[0]}
-                </p>
+            <div class="relative flex min-w-0 min-h-[4.25rem] items-center overflow-hidden sm:min-h-[5.2rem] lg:min-h-[6.5rem]">
+              <p class="whitespace-nowrap bg-[linear-gradient(105deg,#FFFDF7_0%,#F4E8CB_55%,#D8C28B_100%)] bg-clip-text text-xl font-bold leading-[1.4] tracking-[-0.02em] text-transparent sm:text-[1.75rem] md:text-[2rem] xl:text-[2.5rem]" data-service>
+                {serviceSequence[0]}
+              </p>
             </div>
-          </div>
-
-          <div aria-hidden="true" class="mt-6 flex items-center gap-2 lg:ml-[calc(31.5%+2.5rem)]">
-            {serviceSequence.map((_, index) => (
-              <span class="h-px bg-[#D8C28B]" data-indicator class:list={[index === 0 ? "w-[34px] opacity-100" : "w-3 opacity-[0.24]"]} />
-            ))}
+            <div class="flex items-center gap-2 lg:col-start-2">
+              {serviceSequence.map((_, index) => (
+                <span class="h-px bg-[#D8C28B]" data-indicator class:list={[index === 0 ? "w-[34px] opacity-100" : "w-3 opacity-[0.24]"]} />
+              ))}
+            </div>
           </div>
 
           <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap" data-links>
@@ -67,19 +64,17 @@ const serviceSequence = [
             ))}
           </div>
 
-          <p class="mt-8 border-l border-[rgba(200,164,93,0.45)] pl-4 text-sm leading-7 text-[#CFC8BC]">
+          <p data-service-note class="mt-8 max-w-[40rem] border-l border-[rgba(200,164,93,0.3)] pl-4 text-base leading-[1.9] text-[#CFC8BC]">
             LINEや既存のマーケティング支援は、企業ごとの課題に応じて補足的にご案内します。
           </p>
         </div>
       </Container>
     </section>
 <script>
-  import { animate, inView, ease, reducedMotion, reveal } from "@shared/motion";
+  import { animate, inView, ease, reducedMotion, revealStaggered } from "@shared/motion";
   const section = document.querySelector("#services")!;
-  reveal(section.querySelector("[data-intro]")!, { opacity: [0, 1], y: [20, 0] }, { duration: 0.5 });
+  revealStaggered(section, "[data-intro] > *, [data-service-display], [data-links], [data-service-note]");
   const sequence = section.querySelector<HTMLElement>("[data-sequence]")!;
-  reveal(sequence, { opacity: [0, 1], y: [18, 0] }, { duration: 0.55 });
-  reveal(section.querySelector("[data-links]")!, { opacity: [0, 1], y: [14, 0] }, { duration: 0.5 });
   const items: string[] = JSON.parse(sequence.dataset.items!);
   const text = section.querySelector<HTMLElement>("[data-service]")!;
   const indicators = [...section.querySelectorAll<HTMLElement>("[data-indicator]")];
@@ -98,6 +93,6 @@ const serviceSequence = [
     await animate(text, { opacity: 0, y: "-95%", filter: "blur(9px)" }, { duration: 0.48, ease });
     text.textContent = items[current];
     animate(text, { opacity: [0, 1], y: ["95%", "0%"], filter: ["blur(9px)", "blur(0px)"] }, { duration: 0.48, ease });
-  }, 1850);
+  }, 3200);
   window.addEventListener("pagehide", (event) => { if (!event.persisted) clearInterval(timer); });
 </script>

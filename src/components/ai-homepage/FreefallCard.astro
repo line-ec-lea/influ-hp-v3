@@ -5,14 +5,9 @@ const { class: className, delay } = Astro.props;
 <div class={className} data-freefall data-delay={delay}><slot /></div>
 <script>
   import { animate, inView, ease, reducedMotion } from "@shared/motion";
-  import { hover } from "framer-motion/dom";
   if (!reducedMotion.matches) {
     inView("[data-freefall]", (element) => {
       animate(element, { opacity: [0, 1], y: [20, 0] }, { delay: Number((element as HTMLElement).dataset.delay), duration: 0.52, ease });
     }, { amount: 0.2 });
-    hover("[data-freefall]", (element) => {
-      animate(element, { y: -4 }, { duration: 0.52, ease });
-      return () => { animate(element, { y: 0 }, { duration: 0.52, ease }); };
-    });
   }
 </script>

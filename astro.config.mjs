@@ -47,6 +47,7 @@ export default defineConfig({
 			name: "LINE Seed JP",
 			cssVariable: "--font-line-seed-jp",
 			weights: [100, 400, 700, 800],
+			fallbacks: ["sans-serif"],
 		},
 	],
 	devToolbar: { enabled: false },

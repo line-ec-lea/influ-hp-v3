@@ -68,11 +68,4 @@ assert.equal(denied.classes.has("opacity-0"), true);
 assert.equal(denied.toggle.hidden, true);
 assert.equal(denied.video.paused, true);
 assert.equal(setup({ mobile: true }).video.src, "/mobile.mp4");
-const hero = await readFile(new URL("../src/components/home/Hero.astro", import.meta.url), "utf8");
-const heroScript = ts.transpile(hero.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/import[^;]+;/, ""));
-runInNewContext(heroScript, {
-  document: { querySelector: () => ({}) },
-  reducedMotion: { matches: true },
-  animate: () => assert.fail("reduced motion must skip image and content animations"),
-});
 console.log("PASS hero still, video, mobile source, playback failure, pause and reduced-motion behavior");

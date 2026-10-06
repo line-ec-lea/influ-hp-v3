@@ -51,16 +51,6 @@ const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } =
   </a>
 </section>
 <script>
-  import { animate, ease, reducedMotion } from "@shared/motion";
-  const hero = document.querySelector<HTMLElement>("#hero")!;
-  if (!reducedMotion.matches) {
-    // Reveal the hero just after the 2.5-second logo intro.
-    const animations = [...hero.querySelectorAll<HTMLElement>("[data-hero-reveal]")].map((element, index) =>
-      animate(element, { opacity: [0, 1], y: [16, 0] }, { delay: 2.55 + index * 0.1, duration: 0.7, ease }));
-    if (hero.dataset.video !== "true") animations.push(
-      animate(hero.querySelector<HTMLElement>("[data-hero-still]")!, { scale: [1.035, 1] }, { delay: 2.55, duration: 1.8, ease }));
-    reducedMotion.addEventListener("change", () => {
-      if (reducedMotion.matches) animations.forEach((animation) => animation.complete());
-    });
-  }
+  import { playHeroEntrance } from "../../scripts/motion/hero";
+  playHeroEntrance(document.querySelector<HTMLElement>("#hero")!, document.querySelector<HTMLElement>("[data-logo-intro]"));
 </script>

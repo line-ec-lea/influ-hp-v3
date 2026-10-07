@@ -9,8 +9,12 @@ const relatedBusinesses = [
     title: "気軽にEC『Lea = レア』",
     description:
       "LINE公式アカウントと連動し、注文・決済・お客様とのやり取りをLINEでつなぐEC構築サービスです。",
-    image: "/images/businesses/lea-line-ec.png",
-    imageAlt: "Leaの管理画面とLINE上の商品画面",
+    // Official logo: https://lea-market.com/assets/logo.png
+    image: "/images/businesses/lea-logo.png",
+    imageAlt: "気軽にEC『Lea = レア』の公式ロゴ",
+    imageWidth: 411,
+    imageHeight: 100,
+    imageBackground: "bg-[#F4F2ED]",
     href: "https://lea-market.com/",
     cta: "Lea公式サイトへ",
   },
@@ -19,8 +23,12 @@ const relatedBusinesses = [
     title: "焼肉処 味来",
     description:
       "大阪・心斎橋で、厳選した黒毛和牛と落ち着いた個室空間を提供する飲食事業です。",
-    image: "/images/businesses/mirai-yakiniku.jpg",
-    imageAlt: "焼肉処 味来で提供する黒毛和牛を焼いている様子",
+    // Official logo: https://yakinikudokoro-mirai.com/wp/wp-content/uploads/logo-min.png
+    image: "/images/businesses/mirai-logo.png",
+    imageAlt: "焼肉処 味来の公式ロゴ",
+    imageWidth: 600,
+    imageHeight: 412,
+    imageBackground: "bg-page",
     href: "https://yakinikudokoro-mirai.com/",
     cta: "焼肉処 味来公式サイトへ",
   },
@@ -58,19 +66,16 @@ const bodyClass = "text-sm leading-8 text-[#CFC8BC] sm:text-base"
               >
                 <CinematicImageReveal
                   delay={businessIndex * 0.08}
-                  class={`aspect-[16/10] overflow-hidden bg-[#15130F] lg:aspect-auto lg:min-h-[25rem] ${
+                  class={`aspect-[16/10] overflow-hidden ${business.imageBackground} lg:aspect-auto lg:min-h-[25rem] ${
                     businessIndex === 0 ? "lg:order-2" : "lg:order-1"
                   }`}
                 >
                   <img
                     src={business.image}
                     alt={business.imageAlt}
-                    sizes="(min-width: 1024px) 50vw, 100vw"
-                    class="absolute inset-0 h-full w-full object-cover brightness-[0.76] saturate-[0.78] transition duration-[1200ms] ease-out group-hover:scale-[1.035] group-hover:brightness-[0.88] group-hover:saturate-100" loading="lazy" decoding="async" />
-                  <div
-                    aria-hidden="true"
-                    class="absolute inset-0 bg-[linear-gradient(135deg,rgba(7,7,7,0.34),transparent_48%,rgba(224,197,132,0.08))]"
-                  />
+                    width={business.imageWidth}
+                    height={business.imageHeight}
+                    class="absolute inset-0 m-auto h-auto w-[72%] max-w-[24rem] object-contain" loading="lazy" decoding="async" />
                 </CinematicImageReveal>
 
                 <CinematicReveal
@@ -84,7 +89,7 @@ const bodyClass = "text-sm leading-8 text-[#CFC8BC] sm:text-base"
                     <h3
                       class={`mt-5 font-bold tracking-[-0.03em] text-[#F5F1E8] ${
                         business.href === "https://lea-market.com/"
-                          ? "whitespace-nowrap text-2xl sm:text-3xl lg:text-3xl xl:text-4xl"
+                          ? "text-2xl sm:text-3xl lg:text-3xl xl:text-4xl"
                           : "text-3xl sm:text-4xl lg:text-5xl"
                       }`}
                     >

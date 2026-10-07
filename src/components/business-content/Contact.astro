@@ -1,87 +1,51 @@
 ---
 import CinematicSection from "@shared/CinematicSection.astro";
 import Container from "@shared/Container.astro";
-import SunlitHeading from "@shared/SunlitHeading.astro";
 import SpecularButton from "@shared/SpecularButton.astro";
-import CinematicReveal from "@shared/CinematicReveal.astro";
 import { CONTACT_FORM_HREF } from "@shared/features/contact";
-
 ---
 <CinematicSection>
-<section
-        class="relative isolate overflow-hidden bg-[radial-gradient(circle_at_78%_42%,rgba(224,197,132,0.14),transparent_28%),radial-gradient(circle_at_18%_82%,rgba(176,138,85,0.08),transparent_30%),#090909] text-[#F5F1E8]"
-        aria-labelledby="cta-title"
-      >
-        <div
-          aria-hidden="true"
-          class="pointer-events-none absolute top-1/2 right-[-4vw] -z-10 -translate-y-1/2 text-[clamp(9rem,23vw,22rem)] font-bold leading-none tracking-[-0.1em] text-[#E0C584]/[0.035]"
-        >
-          TALK
+  <section class="bg-page text-foreground" aria-labelledby="cta-title">
+    <Container class="py-14 md:py-20 lg:py-24">
+      <div class="grid gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-end lg:gap-12 xl:gap-16">
+        <div data-business-enter class="min-w-0">
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">
+            START A CONVERSATION
+          </p>
+          <h2 id="cta-title" class="mt-4 text-[clamp(1.375rem,6.8vw,2rem)] font-bold leading-[1.45] tracking-[-0.025em] text-foreground sm:text-4xl sm:leading-[1.35] lg:text-[clamp(2rem,3.2vw,2.75rem)]">
+            <span class="block">まだ、言葉にできなくても。</span>
+            <span class="mt-1 block">相談から始められます。</span>
+          </h2>
+          <p class="mt-5 max-w-[36rem] text-pretty text-base leading-[1.8] text-muted sm:mt-6 sm:text-lg">
+            今のお悩みをお聞きし、何から始めるべきか一緒に整理します。サービスを決めてからご相談いただく必要はありません。
+          </p>
         </div>
-        <Container class="py-20 md:py-28 lg:py-32">
-          <div class="grid gap-12 lg:grid-cols-[minmax(0,1.3fr)_minmax(21rem,0.7fr)] lg:items-end lg:gap-12">
-            <CinematicReveal direction="left" class="max-w-4xl">
-              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
-                START A CONVERSATION
-              </p>
-              <SunlitHeading
-                id="cta-title"
-                class="mt-5 text-[clamp(1.75rem,5.6vw,3.5rem)] font-bold leading-[1.2] tracking-[-0.045em]"
-              >
-                <span class="block whitespace-nowrap">
-                  まだ、言葉にできなくても。
-                </span>
-                <span class="mt-2 block whitespace-nowrap">
-                  相談から始められます。
-                </span>
-              </SunlitHeading>
-              <p class="mt-7 max-w-2xl text-base leading-8 text-[#D8D1C5] sm:text-lg sm:leading-9">
-                今のお悩みをお聞きし、何から始めるべきか一緒に整理します。サービスを決めてからご相談いただく必要はありません。
-              </p>
-            </CinematicReveal>
 
-            <CinematicReveal delay={0.12} class="lg:pb-2">
-              <div
-                class="grid grid-cols-3 gap-3"
-                role="list"
-                aria-label="ご相談の流れ"
-              >
-                {["話す", "整理する", "次を決める"].map((step, index) => (
-                  <div class="relative" role="listitem">
-                    <div class="flex items-center gap-2">
-                      <span class="h-2 w-2 shrink-0 rotate-45 border border-[#FFF1C7] shadow-[0_0_12px_rgba(255,241,199,0.38)]" />
-                      <span class="text-[0.62rem] font-bold tracking-[0.1em] text-[#E0C584]">
-                        0{index + 1}
-                      </span>
-                      {index < 2 && (
-                        <span
-                          aria-hidden="true"
-                          class="h-px flex-1 bg-[linear-gradient(90deg,rgba(224,197,132,0.5),transparent)]"
-                        />
-                      )}
-                    </div>
-                    <p class="mt-3 text-sm font-bold text-[#F5F1E8] sm:text-base">
-                      {step}
-                    </p>
-                  </div>
-                ))}
+        <div data-business-enter="after" class="w-full min-w-0 max-w-[24rem] lg:justify-self-end">
+          <div class="grid grid-cols-3 gap-3 sm:gap-4" role="list" aria-label="ご相談の流れ">
+            {["話す", "整理する", "次を決める"].map((step, index) => (
+              <div class="min-w-0" role="listitem">
+                <div class="flex items-center gap-2">
+                  <span aria-hidden="true" class="h-1.5 w-1.5 shrink-0 rotate-45 border border-gold-300" />
+                  <span class="text-xs font-bold tracking-[0.08em] text-gold-300 tabular-nums">
+                    0{index + 1}
+                  </span>
+                </div>
+                <p class="mt-2 text-sm font-bold leading-[1.6] text-foreground sm:text-base">{step}</p>
               </div>
-
-              <div class="mt-10">
-                <SpecularButton
-                  href={CONTACT_FORM_HREF}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="w-full md:w-auto"
-                >
-                  まずは相談してみる
-                </SpecularButton>
-                <p class="mt-4 text-xs leading-6 text-[#AAA9A4]">
-                  ご相談内容が整理されていない段階でも、お気軽にお聞かせください。
-                </p>
-              </div>
-            </CinematicReveal>
+            ))}
           </div>
-        </Container>
-      </section>
+
+          <div class="mt-5 sm:mt-6">
+            <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto">
+              まずは相談してみる
+            </SpecularButton>
+            <p class="mt-3 text-pretty text-sm leading-[1.8] text-muted">
+              気になることから、お聞かせください。
+            </p>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
 </CinematicSection>

@@ -58,101 +58,102 @@ const primaryServices = [
 ]
 
 const eyebrowClass =
-  "text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase"
+  "text-xs font-bold tracking-[0.14em] text-[#E0C584] uppercase"
 
-const bodyClass = "text-sm leading-8 text-[#CFC8BC] sm:text-base"
+const bodyClass = "text-base leading-[1.8] text-[#CFC8BC] lg:leading-[1.9]"
 ---
 <CinematicSection>
 <section
-        class="border-b border-[rgba(200,164,93,0.25)] bg-[#15130F]"
+        class="bg-[#15130F]"
         aria-labelledby="primary-services-title"
       >
-        <Container class="py-20 md:py-28">
-          <div class="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(26rem,1.18fr)] lg:items-end">
+        <Container class="py-14 md:py-20">
+          <div data-business-enter class="grid gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-16">
             <CinematicReveal direction="left">
               <p class={eyebrowClass}>PRIMARY SERVICES</p>
               <SunlitHeading
                 id="primary-services-title"
-                class="mt-4 text-4xl font-bold leading-[1.15] tracking-[-0.04em] sm:text-5xl lg:text-6xl"
+                class="mt-4 text-[2rem] font-bold leading-[1.25] tracking-[-0.02em] sm:text-4xl lg:mt-5 lg:text-[clamp(2.5rem,3.6vw,3rem)] lg:leading-[1.25] lg:tracking-[-0.02em]"
               >
                 <span class="block">INFLUがつくる、</span>
-                <span class="mt-2 block">2つの事業基盤。</span>
+                <span class="mt-1 block">2つの事業基盤。</span>
               </SunlitHeading>
             </CinematicReveal>
             <CinematicReveal delay={0.1}>
-              <p class="max-w-2xl text-base font-bold leading-8 text-[#FFF1C7] sm:text-lg sm:leading-9">
+              <p class="max-w-2xl text-base font-medium leading-[1.8] text-[#F5F1E8] sm:text-lg lg:max-w-[34rem] lg:font-medium lg:leading-[1.8] lg:text-foreground!">
                 ホームページの運用改善と、企業全体のAX。
                 <br class="hidden sm:block" />
                 入口は異なっても、目指すのは「自社で動かし、改善を続けられる状態」です。
               </p>
-              <p class={`mt-5 max-w-2xl ${bodyClass}`}>
+              <p class={`mt-4 max-w-2xl lg:max-w-[34rem] ${bodyClass}`}>
                 サイト、コンテンツ、SEO、計測、業務フローを分断せず、企業ごとの課題に合わせて必要な仕組みを設計します。
               </p>
             </CinematicReveal>
           </div>
 
-          <BusinessSystemFlow />
+          <div class="lg:mx-auto lg:max-w-[64rem]">
+            <BusinessSystemFlow />
+          </div>
 
-          <div class="mt-8 border-t border-[rgba(224,197,132,0.3)]">
+          <div class="mt-10 space-y-12 lg:mt-12 lg:space-y-14">
             {primaryServices.map((service, serviceIndex) => (
               <CinematicReveal
                 delay={serviceIndex * 0.08}
-                class="border-b border-[rgba(224,197,132,0.3)] py-14 md:py-18 lg:py-20"
               >
-                <div class="grid gap-9 lg:grid-cols-[13rem_minmax(0,1fr)] lg:gap-14">
-                  <div>
-                    <p class="text-[clamp(4.5rem,9vw,8.5rem)] font-bold leading-none tracking-[-0.08em] text-[#E0C584]/22">
-                      {service.number}
+                <div
+                  data-primary-service={service.number}
+                  data-business-enter
+                  class:list={[
+                    "grid gap-5 lg:grid-cols-[7.5rem_minmax(0,1fr)] lg:gap-12",
+                    serviceIndex === 0 && "[&_[data-service-detail]]:bg-transparent!",
+                  ]}
+                >
+                  <div class="flex items-center gap-4 lg:block">
+                    <p class="text-[3.5rem] font-bold leading-none tracking-[-0.08em] text-[#E0C584]/22 lg:text-[5rem] lg:tracking-[-0.04em]">
+                      <span class="text-subtle">{service.number}</span>
                     </p>
-                    <p class={`${eyebrowClass} mt-5`}>{service.eyebrow}</p>
+                    <p class={`${eyebrowClass} lg:mt-3 lg:text-[0.625rem] lg:leading-[1.6]`}>{service.eyebrow}</p>
                   </div>
 
                   <div>
-                    <h3 class="text-3xl font-bold leading-tight tracking-[-0.03em] text-[#F5F1E8] sm:text-4xl lg:text-5xl">
+                    <h3 class="text-[1.75rem] font-bold leading-[1.3] tracking-[-0.02em] text-[#F5F1E8] sm:text-3xl lg:text-4xl lg:leading-[1.3] lg:tracking-[-0.02em]">
                       {service.title}
                     </h3>
-                    <p class="mt-5 max-w-3xl text-xl font-bold leading-9 tracking-[-0.02em] text-[#FFF1C7] sm:text-2xl sm:leading-10">
-                      {service.lead}
+                    <p class:list={[
+                      "mt-3 max-w-3xl text-lg font-medium leading-[1.7] text-[#F5F1E8] lg:mt-4 lg:text-xl lg:font-medium lg:leading-[1.7] lg:tracking-normal lg:text-foreground!",
+                      serviceIndex === 0 && "max-sm:text-balance",
+                    ]}>
+                      {serviceIndex === 0 ? <span class="text-foreground">{service.lead}</span> : service.lead}
                     </p>
-                    <p class={`mt-5 max-w-3xl ${bodyClass}`}>
+                    <p class:list={[
+                      `mt-3 max-w-3xl lg:max-w-[42rem] ${bodyClass}`,
+                      serviceIndex === 0 && "text-balance",
+                    ]}>
                       {service.description}
                     </p>
 
-                    <dl class="mt-10 grid gap-2 md:grid-cols-3 md:gap-0">
-                      {service.details.map((detail, detailIndex) => (
+                    <dl class="mt-6 grid gap-5 md:grid-cols-3 md:gap-6 lg:mt-8">
+                      {service.details.map((detail) => (
                         <div
-                          class="relative py-3 md:px-9 md:py-0 md:first:pl-0 md:last:pr-0"
+                          data-service-detail={serviceIndex === 0 ? "" : undefined}
+                          class:list={[
+                            "relative bg-transparent!",
+                            serviceIndex === 0 && "border-t border-line pt-4 md:pt-5",
+                          ]}
                         >
-                          <dt class="flex items-center gap-3 text-xs font-bold tracking-[0.14em] text-[#E0C584]">
-                            <span class="h-2 w-2 shrink-0 rounded-full border border-[#FFF1C7] shadow-[0_0_12px_rgba(255,241,199,0.65)]" />
+                          <dt class="flex items-center gap-3 text-xs font-bold tracking-[0.08em] text-[#E0C584]">
+                            <span class:list={["h-1.5 w-1.5 shrink-0 bg-gold-300", serviceIndex === 0 ? "rounded-[2px]" : "rounded-full"]} />
                             <span>{detail.label}</span>
-                            {detailIndex < service.details.length - 1 && (
-                              <span
-                                aria-hidden="true"
-                                class="absolute top-0 right-0 hidden translate-x-1/2 items-center md:flex"
-                              >
-                                <span class="h-px w-8 bg-[linear-gradient(90deg,rgba(224,197,132,0.2),#FFF1C7)]" />
-                                <span class="ml-1 text-base leading-none text-[#FFF1C7]">
-                                  →
-                                </span>
-                              </span>
-                            )}
                           </dt>
-                          <dd class="mt-4 text-lg font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8]">
+                          <dd class="mt-2 text-base font-medium leading-[1.8] text-[#F5F1E8] lg:mt-3">
                             <span>{detail.text}</span>
-                            {detailIndex < service.details.length - 1 && (
-                              <span
-                                aria-hidden="true"
-                                class="ml-[0.2rem] mt-5 block h-8 w-px bg-[linear-gradient(180deg,#FFF1C7,rgba(224,197,132,0.16))] md:hidden"
-                              />
-                            )}
                           </dd>
                         </div>
                       ))}
                     </dl>
 
-                    <div class="mt-9 flex justify-start lg:justify-end">
-                      <SpecularButton href={service.href}>
+                    <div class:list={["flex justify-start", serviceIndex === 0 ? "mt-7 md:mt-8" : "mt-6"]}>
+                      <SpecularButton href={service.href} mobileEffect class="max-sm:w-full max-sm:px-4">
                         {service.cta}
                       </SpecularButton>
                     </div>

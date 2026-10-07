@@ -85,17 +85,3 @@ const homepageDestinations = [
     </div>
   </Container>
 </section>
-<script>
-  import { animate, inView, ease, reducedMotion, revealStaggered } from "./motion";
-  const section = document.querySelector<HTMLElement>("#contact")!;
-  if (section.dataset.home === "true") {
-    revealStaggered(section, "[data-contact-intro] > p, [data-contact-intro] > h2, [data-contact-actions], [data-destination]");
-  } else if (!reducedMotion.matches) {
-    document.querySelectorAll("#contact [data-destination]").forEach((row, index) => {
-      inView(row, () => {
-        animate(row, { opacity: [0, 1], x: [-48, 0], clipPath: ["inset(0 0 34% 0)", "inset(0 0 0% 0)"], filter: ["blur(8px)", "blur(0px)"] },
-          { duration: 0.82, delay: index * 0.08, ease });
-      }, { amount: 0.16 });
-    });
-  }
-</script>

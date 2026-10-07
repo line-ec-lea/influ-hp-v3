@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1351" height="913" viewBox="-20 -20 1351 913" role="img" aria-labelledby="title desc">
+  <title id="title">株式会社INFLU ロゴ</title>
+  <desc id="desc">黒のシンボルとINFLUのワードマーク。シンボルの斜線と小文字iの上部にゴールドのアクセント。背景は透明。</desc>
+  <g id="symbol">
+    <path fill="#F5F1E8" d="M317 0 363 26.5V417L317 443Z"/>
+    <path fill="#F5F1E8" d="M430 65 768 260V130L903 52V105L814 156.5V207.5L881 169V222L814 260.5V288L948 365V27L994 0V443L476 145V351.5L430 378Z"/>
+    <path fill="#B18147" d="M520 273.5 723 156V209.5L520 326.5Z"/>
+  </g>
+</svg>

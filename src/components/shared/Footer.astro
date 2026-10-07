@@ -6,7 +6,7 @@ import { SITE_NAME } from "@shared/features/seo";
 const isHome = Astro.url.pathname === "/";
 const showDividers = !isHome;
 ---
-<footer data-site-footer data-home={isHome} class="bg-[#0B0B0B] text-[#F5F1E8]" class:list={[showDividers && "border-t border-[rgba(200,164,93,0.25)]"]}>
+<footer data-site-footer data-home={isHome} class="bg-[#0B0B0B] text-[#F5F1E8]" class:list={[showDividers && Astro.url.pathname !== "/business-content" && "border-t border-[rgba(200,164,93,0.25)]"]}>
       <Container class={isHome ? "py-16 md:py-20" : "py-12 md:py-16"}>
         <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
           <div data-footer-group>
@@ -63,9 +63,3 @@ const showDividers = !isHome;
         </div>
       </Container>
     </footer>
-
-<script>
-  import { revealStaggered } from "./motion";
-  const footer = document.querySelector<HTMLElement>("[data-site-footer]")!;
-  if (footer.dataset.home === "true") revealStaggered(footer, "[data-footer-group]");
-</script>

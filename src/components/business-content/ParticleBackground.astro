@@ -1,0 +1,160 @@
+---
+import { Font } from "astro:assets";
+---
+
+<Font cssVariable="--font-shalimar" preload={false} />
+<div data-hero-artwork aria-hidden="true" class="group pointer-events-none absolute inset-0 overflow-hidden">
+  <div class="absolute inset-x-[5%] top-[28%] flex h-[40%] items-center justify-center group-data-[state=ready]:invisible lg:inset-x-[4%] lg:top-[11%] lg:h-[82%]">
+    <span data-particle-wordmark class="absolute bottom-0 text-[clamp(5rem,20vw,20rem)] leading-none text-[#F5F1E8]/25 font-[family-name:var(--font-shalimar)]">INFLU</span>
+    <img src="/business-hero-particle-logo.svg" width="1311" height="873" alt="" class="h-full w-full object-contain opacity-25" />
+  </div>
+  <canvas class="absolute inset-0 h-full w-full" tabindex="-1"></canvas>
+</div>
+
+<script>
+  type Grain = { x: number; y: number; homeX: number; homeY: number; vx: number; vy: number; size: number; color: number };
+
+  function moveGrain(grain: Grain, pointer: { x: number; y: number; active: boolean }, radius: number, step: number) {
+    if (pointer.active) {
+      const dx = grain.x - pointer.x, dy = grain.y - pointer.y;
+      const distance = Math.hypot(dx, dy);
+      if (distance < radius) {
+        const force = (1 - distance / radius) * 3.5 * step;
+        grain.vx += (distance < 0.01 ? 1 : dx / distance) * force;
+        grain.vy += (distance < 0.01 ? 0 : dy / distance) * force;
+      }
+    }
+    grain.vx = (grain.vx + (grain.homeX - grain.x) * 0.035 * step) * 0.83 ** step;
+    grain.vy = (grain.vy + (grain.homeY - grain.y) * 0.035 * step) * 0.83 ** step;
+    grain.x += grain.vx * step;
+    grain.y += grain.vy * step;
+    const moving = Math.abs(grain.vx) + Math.abs(grain.vy) + Math.abs(grain.x - grain.homeX) + Math.abs(grain.y - grain.homeY) > 0.03;
+    if (!moving) { grain.x = grain.homeX; grain.y = grain.homeY; grain.vx = grain.vy = 0; }
+    return moving;
+  }
+
+  async function mountArtwork(host: HTMLElement) {
+    const canvas = host.querySelector("canvas")!;
+    const context = canvas.getContext("2d");
+    if (!context) return;
+    const mask = document.createElement("canvas");
+    const maskContext = mask.getContext("2d", { willReadFrequently: true });
+    if (!maskContext) return;
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)");
+    const controller = new AbortController();
+    const { signal } = controller;
+    let grains: Grain[] = [], width = 0, height = 0, frame = 0, previousTime = 0, visible = false;
+    const pointer = { x: 0, y: 0, active: false };
+    const logo = new Image();
+    logo.src = "/business-hero-particle-logo.svg";
+    const family = getComputedStyle(host.querySelector("[data-particle-wordmark]")!).fontFamily;
+    try { await Promise.all([logo.decode(), document.fonts.load(`400 100px ${family}`, "INFLU")]); } catch { return; }
+    if (signal.aborted) return;
+
+    function requestRender() {
+      if (!frame && visible && !document.hidden && !signal.aborted) frame = requestAnimationFrame(render);
+    }
+    function render(time: number) {
+      frame = 0;
+      const step = Math.min((time - previousTime || 16.67) / 16.67, 2);
+      previousTime = time;
+      let moving = false;
+      context!.clearRect(0, 0, width, height);
+      for (const grain of grains) {
+        if (reduced.matches) { grain.x = grain.homeX; grain.y = grain.homeY; grain.vx = grain.vy = 0; }
+        else moving = moveGrain(grain, pointer, Math.min(width * 0.16, 140), step) || moving;
+      }
+      const palette = ["rgba(245,241,232,0.85)", "rgba(192,202,216,0.9)", "rgba(220,178,104,0.95)"];
+      for (let color = 0; color < palette.length; color++) {
+        context!.beginPath();
+        for (const grain of grains) {
+          if (grain.color !== color) continue;
+          context!.moveTo(grain.x + grain.size, grain.y);
+          context!.arc(grain.x, grain.y, grain.size, 0, Math.PI * 2);
+        }
+        context!.fillStyle = palette[color];
+        context!.fill();
+      }
+      host.dataset.state = "ready";
+      if (!reduced.matches && (moving || pointer.active)) requestRender();
+    }
+    function resize() {
+      const rect = host.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      width = Math.round(rect.width); height = Math.round(rect.height);
+      const ratio = Math.min(devicePixelRatio, 2);
+      canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+      context!.setTransform(ratio, 0, 0, ratio, 0, 0);
+      mask.width = width; mask.height = height;
+      const desktop = width >= 1024;
+      const scale = Math.min(width * (desktop ? 0.92 : 0.90) / logo.naturalWidth, height * (desktop ? 0.82 : 0.40) / logo.naturalHeight);
+      const logoWidth = logo.naturalWidth * scale, logoHeight = logo.naturalHeight * scale;
+      const logoY = height * (desktop ? 0.52 : 0.48) - logoHeight / 2;
+      maskContext!.drawImage(logo, (width - logoWidth) / 2, logoY, logoWidth, logoHeight);
+      maskContext!.textAlign = "center";
+      maskContext!.fillStyle = "#F5F1E8";
+      maskContext!.font = `400 100px ${family}`;
+      const textSize = Math.min(logoWidth / maskContext!.measureText("INFLU").width * 100, logoHeight * 0.55);
+      maskContext!.font = `400 ${textSize}px ${family}`;
+      maskContext!.strokeStyle = "#F5F1E8";
+      maskContext!.lineWidth = textSize * 0.035;
+      maskContext!.lineJoin = "round";
+      maskContext!.strokeText("INFLU", width / 2, logoY + logoHeight * 0.97);
+      maskContext!.fillText("INFLU", width / 2, logoY + logoHeight * 0.97);
+      const pixels = maskContext!.getImageData(0, 0, width, height).data;
+      const spacing = Math.max(3, Math.ceil(Math.sqrt(width * height / 30000)));
+      grains = [];
+      let seed = 17;
+      const random = () => { seed = (1664525 * seed + 1013904223) >>> 0; return seed / 4294967296; };
+      for (let y = spacing; y < height; y += spacing) for (let x = spacing; x < width; x += spacing) {
+        const offset = (y * width + x) * 4;
+        if (pixels[offset + 3] < 160) continue;
+        const gold = pixels[offset] > pixels[offset + 1] * 1.12 && pixels[offset + 1] > pixels[offset + 2] * 1.1;
+        const homeX = x + (random() - 0.5) * spacing * 0.45;
+        const homeY = y + (random() - 0.5) * spacing * 0.45;
+        grains.push({ x: homeX, y: homeY, homeX, homeY, vx: 0, vy: 0, size: 0.8 + random() * 0.8, color: gold ? 2 : 0 });
+      }
+      // Keep the original gold stripe, then distribute the remaining palette across the logo.
+      const neutral = grains.filter((grain) => grain.color === 0);
+      for (let i = neutral.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [neutral[i], neutral[j]] = [neutral[j], neutral[i]];
+      }
+      const goldCount = Math.max(0, Math.round(grains.length * 0.35) - (grains.length - neutral.length));
+      const silverCount = Math.round(grains.length * 0.3);
+      neutral.forEach((grain, index) => { grain.color = index < goldCount ? 2 : index < goldCount + silverCount ? 1 : 0; });
+      pointer.active = false;
+      requestRender();
+    }
+    function syncActivity() {
+      previousTime = 0;
+      if (visible && !document.hidden) requestRender();
+      else { pointer.active = false; cancelAnimationFrame(frame); frame = 0; }
+    }
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(host);
+    const intersection = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; syncActivity(); });
+    intersection.observe(host);
+    const hero = host.closest("section")!;
+    const resetPointer = () => { pointer.active = false; requestRender(); };
+    hero.addEventListener("pointermove", (event: PointerEvent) => {
+      if (event.pointerType !== "mouse" || reduced.matches) return;
+      const rect = host.getBoundingClientRect();
+      pointer.x = event.clientX - rect.left; pointer.y = event.clientY - rect.top; pointer.active = true;
+      requestRender();
+    }, { signal, passive: true });
+    hero.addEventListener("pointerleave", resetPointer, { signal });
+    window.addEventListener("blur", resetPointer, { signal });
+    window.addEventListener("scroll", resetPointer, { signal, passive: true });
+    document.addEventListener("visibilitychange", syncActivity, { signal });
+    reduced.addEventListener("change", () => { resetPointer(); syncActivity(); }, { signal });
+    window.addEventListener("pageshow", syncActivity, { signal });
+    window.addEventListener("pagehide", (event) => {
+      cancelAnimationFrame(frame); frame = 0;
+      if (!event.persisted) { controller.abort(); resizeObserver.disconnect(); intersection.disconnect(); }
+    }, { signal });
+    resize();
+  }
+  const host = document.querySelector<HTMLElement>("[data-hero-artwork]");
+  if (host) void mountArtwork(host);
+</script>

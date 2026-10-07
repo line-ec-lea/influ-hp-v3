@@ -105,9 +105,8 @@ const initial = 2;
   </Container>
 </section>
 <script>
-  import { animate, ease, reducedMotion, revealStaggered } from "@shared/motion";
+  import { animate, ease, reducedMotion } from "@shared/motion";
   const section = document.querySelector("#what-we-do")!;
-  revealStaggered(section, "[data-intro] > *, [data-focus-label], [data-focus-words] > span, [data-focus-detail], [data-pill-reveal]");
   const buttons = [...section.querySelectorAll<HTMLButtonElement>("[data-area]")];
   const pills = [...section.querySelectorAll<HTMLElement>("[data-pill]")];
   const description = section.querySelector<HTMLElement>("[data-detail]")!;

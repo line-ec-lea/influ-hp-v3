@@ -3,19 +3,6 @@ interface Props { editorial?: boolean; }
 const { editorial = false } = Astro.props;
 ---
 <div data-cinematic-frame class:list={["relative isolate overflow-x-clip bg-page font-sans text-foreground", !editorial && "[&_a.inline-flex]:!border-gold-300 [&_a.inline-flex]:!bg-accent [&_a.inline-flex]:!text-page [&_a.inline-flex]:shadow-[0_14px_38px_rgb(176_138_85_/_0.16)] [&_a.inline-flex]:hover:!bg-gold-300 [&_article]:!border-line-gold [&_article]:!bg-surface [&_div.rounded-full]:!border-line-gold [&_div.rounded-full]:!bg-gold-400/10 [&_div.rounded-full]:!text-gold-300 [&_div.rounded-lg]:!border-line-gold [&_div.rounded-lg]:!bg-surface [&_dl>div]:!bg-surface [&_dt]:!text-gold-300 [&_h1]:!text-foreground [&_h2]:!text-foreground [&_h3]:!text-foreground [&_li]:!border-line-gold [&_ol>li]:!bg-surface [&_p]:!text-muted [&_p.font-bold]:!text-foreground [&_p.uppercase]:!text-gold-300 [&_section]:!border-line-gold [&_section]:!bg-page [&_section:nth-of-type(even)]:!bg-section [&_span.font-bold]:!text-gold-300 [&_span.rounded-full]:!border-line-gold [&_span.rounded-full]:!bg-gold-400/10 [&_span.rounded-full]:!text-gold-300 [&_table]:!bg-surface [&_td]:!border-line [&_td]:!text-muted [&_th]:!border-line [&_th]:!bg-elevated [&_th]:!text-gold-300 [&_ul.rounded-lg]:!border-line-gold [&_ul.rounded-lg]:!bg-elevated"]}>
-  <div data-page-progress aria-hidden="true" class="pointer-events-none fixed bottom-0 right-0 top-0 z-[160] w-px origin-top bg-[linear-gradient(180deg,transparent,var(--color-gold-300),transparent)] shadow-[0_0_20px_rgb(201_165_109_/_0.5)] sm:right-2"></div>
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_86%_10%,rgb(201_165_109_/_0.08),transparent_24%),radial-gradient(circle_at_12%_52%,rgb(176_138_85_/_0.05),transparent_28%)]"></div>
   <slot />
 </div>
-<script>
-  import { scroll, reducedMotion } from "./motion";
-  import { springValue } from "framer-motion/dom";
-  if (!reducedMotion.matches) {
-    document.querySelectorAll<HTMLElement>("[data-cinematic-frame]").forEach((frame) => {
-      const line = frame.querySelector<HTMLElement>("[data-page-progress]")!;
-      const progress = springValue<number>(0, { damping: 28, mass: 0.32, stiffness: 120 });
-      progress.on("change", (value) => { line.style.transform = `scaleY(${value})`; });
-      scroll((value: number) => progress.set(value), { target: frame, offset: ["start start", "end end"] });
-    });
-  }
-</script>

@@ -1,13 +1,5 @@
 ---
 interface Props { class: string; delay: number }
-const { class: className, delay } = Astro.props;
+const { class: className } = Astro.props;
 ---
-<div class={className} data-freefall data-delay={delay}><slot /></div>
-<script>
-  import { animate, inView, ease, reducedMotion } from "@shared/motion";
-  if (!reducedMotion.matches) {
-    inView("[data-freefall]", (element) => {
-      animate(element, { opacity: [0, 1], y: [20, 0] }, { delay: Number((element as HTMLElement).dataset.delay), duration: 0.52, ease });
-    }, { amount: 0.2 });
-  }
-</script>
+<div class={className} data-issue-card><slot /></div>

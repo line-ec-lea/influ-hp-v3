@@ -44,6 +44,13 @@ export default defineConfig({
 	fonts: [
 		{
 			provider: fontProviders.google(),
+			name: "Shalimar",
+			cssVariable: "--font-shalimar",
+			weights: [400],
+			fallbacks: ["cursive"],
+		},
+		{
+			provider: fontProviders.google(),
 			name: "LINE Seed JP",
 			cssVariable: "--font-line-seed-jp",
 			weights: [100, 400, 700, 800],

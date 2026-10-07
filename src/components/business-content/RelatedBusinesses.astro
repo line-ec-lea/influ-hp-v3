@@ -1,8 +1,6 @@
 ---
 import CinematicSection from "@shared/CinematicSection.astro";
 import Container from "@shared/Container.astro";
-import CinematicReveal from "@shared/CinematicReveal.astro";
-import CinematicImageReveal from "@shared/CinematicImageReveal.astro";
 const relatedBusinesses = [
   {
     eyebrow: "LINE × EC",
@@ -34,91 +32,66 @@ const relatedBusinesses = [
   },
 ]
 
-const eyebrowClass =
-  "text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase"
-
-const headingClass =
-  "mt-4 text-3xl font-bold leading-tight tracking-[-0.03em] text-[#F5F1E8] sm:text-4xl lg:text-5xl"
-
-const bodyClass = "text-sm leading-8 text-[#CFC8BC] sm:text-base"
 ---
 <CinematicSection>
-<section
-        class="border-b border-[rgba(200,164,93,0.25)] bg-[#0B0B0B]"
-        aria-labelledby="related-businesses-title"
-      >
-        <Container class="py-16 md:py-24">
-          <div class="max-w-3xl">
-            <p class={eyebrowClass}>RELATED BUSINESSES</p>
-            <h2 id="related-businesses-title" class={headingClass}>
-              関連事業
-            </h2>
-            <p class="mt-6 max-w-3xl text-base font-bold leading-8 text-[#FFF1C7] sm:text-lg sm:leading-9">
-              INFLUは、デジタル支援だけでなく、
-              <br class="hidden sm:block" />
-              自ら事業を運営しながら、現場で得た知見を蓄積しています。
-            </p>
-          </div>
-          <div class="mt-12 border-t border-[rgba(224,197,132,0.28)] lg:mt-16">
-            {relatedBusinesses.map((business, businessIndex) => (
-              <article
-                class="group grid border-b border-[rgba(224,197,132,0.28)] lg:grid-cols-2"
-              >
-                <CinematicImageReveal
-                  delay={businessIndex * 0.08}
-                  class={`aspect-[16/10] overflow-hidden ${business.imageBackground} lg:aspect-auto lg:min-h-[25rem] ${
-                    businessIndex === 0 ? "lg:order-2" : "lg:order-1"
-                  }`}
-                >
-                  <img
-                    src={business.image}
-                    alt={business.imageAlt}
-                    width={business.imageWidth}
-                    height={business.imageHeight}
-                    class="absolute inset-0 m-auto h-auto w-[72%] max-w-[24rem] object-contain" loading="lazy" decoding="async" />
-                </CinematicImageReveal>
+  <section class="bg-page" aria-labelledby="related-businesses-title">
+    <Container class="py-14 md:py-20">
+      <div class="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-end lg:gap-16">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">RELATED BUSINESSES</p>
+          <h2 id="related-businesses-title" class="mt-4 text-3xl font-bold leading-[1.25] tracking-[-0.02em] text-foreground sm:text-4xl lg:text-[2.75rem]">
+            関連事業
+          </h2>
+        </div>
+        <p class="max-w-[34rem] text-balance text-base font-medium leading-[1.8] sm:text-lg">
+          <span class="text-foreground">INFLUは、デジタル支援だけでなく、自ら事業を運営しながら、現場で得た知見を蓄積しています。</span>
+        </p>
+      </div>
 
-                <CinematicReveal
-                  delay={0.08 + businessIndex * 0.08}
-                  direction={businessIndex === 0 ? "left" : "right"}
-                  class={`relative flex flex-col justify-center px-1 py-10 sm:px-8 sm:py-14 lg:min-h-[25rem] lg:px-12 ${
-                    businessIndex === 0 ? "lg:order-1" : "lg:order-2"
-                  }`}
-                >
-                  <div>
-                    <h3
-                      class={`mt-5 font-bold tracking-[-0.03em] text-[#F5F1E8] ${
-                        business.href === "https://lea-market.com/"
-                          ? "text-2xl sm:text-3xl lg:text-3xl xl:text-4xl"
-                          : "text-3xl sm:text-4xl lg:text-5xl"
-                      }`}
-                    >
-                      {business.title}
-                    </h3>
-                    <p class={`mt-6 max-w-xl ${bodyClass}`}>
-                      {business.description}
-                    </p>
-                  </div>
-                  <div class="relative z-10 mt-9">
-                    <a
-                      href={business.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="group/link flex w-fit items-center gap-5 border-b border-[rgba(224,197,132,0.42)] pb-2 text-sm font-bold text-[#F5F1E8] transition duration-300 hover:border-[#FFF1C7] hover:text-[#FFF1C7] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#FFF1C7]"
-                    >
-                      {business.cta}
-                      <span
-                        aria-hidden="true"
-                        class="text-[#E0C584] transition-transform duration-300 group-hover/link:translate-x-1"
-                      >
-                        →
-                      </span>
-                    </a>
-                  </div>
-                </CinematicReveal>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
+      <div class="mt-10 grid gap-10 md:mt-12 md:grid-cols-2 md:gap-0 [&_[data-related-business]]:bg-transparent!">
+        {relatedBusinesses.map((business, businessIndex) => (
+          <article
+            data-related-business
+            aria-labelledby={`related-business-${businessIndex}`}
+            class={`flex min-w-0 flex-col ${businessIndex === 0
+              ? "md:pr-10 lg:pr-12"
+              : "border-t border-line-gold pt-10 md:border-t-0 md:pl-10 md:pt-0 lg:pl-12"}`}
+          >
+            <div class="flex h-52 items-center justify-center sm:h-64">
+              <div class={`w-full max-w-[24rem] ${business.imageBackground} ${businessIndex === 0 ? "p-6 sm:p-8" : ""}`}>
+                <img
+                  src={business.image}
+                  alt={business.imageAlt}
+                  width={business.imageWidth}
+                  height={business.imageHeight}
+                  class="block h-auto max-h-52 w-full object-contain sm:max-h-64"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+            <span aria-hidden="true" class="mt-6 h-px w-12 bg-gold-300/60" />
+            <p class="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-gold-300">{business.eyebrow}</p>
+            <h3 id={`related-business-${businessIndex}`} class="mt-3 text-2xl font-bold leading-[1.4] tracking-[-0.01em] text-foreground sm:text-[1.625rem] lg:text-[2rem]">
+              {business.title}
+            </h3>
+            <p class="mt-4 max-w-[32rem] text-balance text-base leading-[1.8] text-muted sm:text-[1.0625rem] lg:text-lg">
+              {business.description}
+            </p>
+            <div class="mt-6 md:mt-auto md:pt-6">
+              <a
+                href={business.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group/link flex min-h-11 w-fit items-center gap-4 border-b border-line-gold py-2 text-sm font-bold leading-[1.6] text-foreground transition-colors hover:border-gold-300 hover:text-gold-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 sm:text-base"
+              >
+                {business.cta}
+                <span aria-hidden="true" class="text-gold-300 transition-transform group-hover/link:translate-x-1 motion-reduce:transition-none">→</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </Container>
+  </section>
 </CinematicSection>

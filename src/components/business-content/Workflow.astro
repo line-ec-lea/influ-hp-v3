@@ -2,7 +2,6 @@
 import CinematicSection from "@shared/CinematicSection.astro";
 import Container from "@shared/Container.astro";
 import SunlitHeading from "@shared/SunlitHeading.astro";
-import CinematicReveal from "@shared/CinematicReveal.astro";
 const workflowSteps = [
   {
     number: "01",
@@ -29,74 +28,54 @@ const workflowSteps = [
   },
 ]
 
-const eyebrowClass =
-  "text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase"
 ---
 <CinematicSection>
-<section
-        class="border-b border-[rgba(200,164,93,0.25)] bg-[#090909]"
-        aria-labelledby="workflow-title"
-      >
-        <Container class="py-20 md:py-28">
-          <div class="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(25rem,0.92fr)] lg:items-end">
-            <CinematicReveal direction="left">
-              <p class={eyebrowClass}>WORKFLOW</p>
-              <SunlitHeading
-                id="workflow-title"
-                class="mt-4 text-[clamp(1.75rem,7vw,3.25rem)] font-bold leading-[1.15] tracking-[-0.045em]"
-              >
-                <span class="block whitespace-nowrap">
-                  現場を理解しながら、
-                </span>
-                <span class="mt-2 block whitespace-nowrap">
-                  使い続けられる形へ。
-                </span>
-              </SunlitHeading>
-            </CinematicReveal>
-            <CinematicReveal delay={0.1}>
-              <p class="max-w-2xl text-base leading-8 text-[#D8D1C5] sm:text-lg sm:leading-9">
-                専門知識がなくても進められるように、課題整理から導入、社内での運用までINFLUが伴走します。
-              </p>
-            </CinematicReveal>
-          </div>
+  <section class="bg-page" aria-labelledby="workflow-title">
+    <Container class="py-14 md:py-20 lg:py-24">
+      <div class="grid gap-10 sm:gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-12 xl:gap-16">
+        <div>
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">WORKFLOW</p>
+          <SunlitHeading
+            id="workflow-title"
+            class="mt-4 text-[clamp(1.625rem,6.6vw,2rem)] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl lg:mt-5 lg:text-[clamp(2rem,3vw,2.75rem)]"
+          >
+            <span class="block">現場を理解しながら、</span>
+            <span class="mt-1 block">使い続けられる<span class="lg:block">形へ。</span></span>
+          </SunlitHeading>
+          <p class="mt-6 max-w-[30rem] text-balance text-base leading-[1.9] sm:mt-8 sm:text-lg">
+            専門知識がなくても進められるように、課題整理から導入、社内での運用までINFLUが伴走します。
+          </p>
+        </div>
 
-          <div class="relative mt-14 grid lg:mt-18 lg:grid-cols-4">
-            <div
-              aria-hidden="true"
-              class="absolute top-2 bottom-10 left-[0.34rem] w-px bg-[linear-gradient(180deg,#FFF1C7,#7B6135_82%,transparent)] lg:hidden"
-            />
-            {workflowSteps.map((step, index) => (
-              <CinematicReveal
-                delay={index * 0.06}
-                class="relative pb-10 pl-9 lg:px-7 lg:pb-0 lg:first:pl-0 lg:last:pr-0"
-              >
-                <div class="relative z-10 flex items-center gap-3">
-                  <span class="absolute top-0 -left-9 h-3 w-3 rotate-45 border border-[#FFF1C7] bg-[#090909] shadow-[0_0_18px_rgba(255,241,199,0.45)] lg:static lg:shrink-0" />
-                  <span class="text-xs font-bold tracking-[0.12em] text-[#E0C584]">
-                    STEP {step.number}
-                  </span>
-                </div>
-                <h3 class="mt-5 text-xl font-bold leading-8 text-[#F5F1E8] lg:mt-7">
-                  {step.title}
-                </h3>
-                <p class="mt-3 text-sm leading-7 text-[#CFC8BC]">
-                  {step.description}
-                </p>
-              </CinematicReveal>
-            ))}
-          </div>
-
-          <CinematicReveal delay={0.15}>
-            <div class="mt-12 flex max-w-4xl items-start gap-4 lg:mt-16">
-              <span
-                aria-hidden="true"
-                class="mt-3 h-px w-12 shrink-0 bg-[linear-gradient(90deg,#FFF1C7,transparent)]"
-              />
-              <p class="text-sm font-medium leading-7 text-[#D8D1C5] sm:text-base sm:leading-8">
-                公開前の確認と専門家のサポートを組み込み、安心して運用と改善を続けられる体制を整えます。
+        <ol aria-label="INFLUの支援ステップ" class="[&_[data-workflow-step]]:bg-transparent!">
+          {workflowSteps.map((step, index) => (
+            <li data-workflow-step class="relative grid grid-cols-[2.25rem_minmax(0,1fr)] gap-x-4 gap-y-2 pb-10 pl-5 last:pb-0 sm:grid-cols-[3rem_minmax(0,1fr)] sm:gap-x-6 sm:pb-12 sm:pl-8">
+              <span aria-hidden="true" class="absolute left-0 top-3.5 h-1.5 w-1.5 rounded-[2px] bg-gold-300 sm:top-4" />
+              {index < workflowSteps.length - 1 && (
+                <>
+                  <span aria-hidden="true" class="absolute -bottom-4 left-[3px] top-4 w-px bg-gold-300/30" />
+                  <span aria-hidden="true" class="absolute bottom-5 left-5 right-0 h-px bg-gold-300/15 sm:bottom-6 sm:left-8" />
+                </>
+              )}
+              <span class="text-[2rem] font-normal leading-none tracking-[-0.04em] text-gold-300 tabular-nums sm:text-[2.5rem]">
+                <span class="sr-only">STEP </span>{step.number}
+              </span>
+              <h3 class="min-w-0 text-xl font-bold leading-[1.5] tracking-[-0.01em] text-foreground sm:text-2xl">
+                {step.title}
+              </h3>
+              <p class="col-span-2 max-w-[27rem] text-balance text-base leading-[1.8] text-muted sm:col-span-1 sm:col-start-2 sm:text-[1.0625rem]">
+                {step.description}
               </p>
-            </div>
-          </CinematicReveal>
-        </Container>
-      </section>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="mt-10 border-t border-line pt-6 sm:mt-12 sm:pt-7 lg:mt-14">
+        <p class="max-w-5xl text-pretty text-sm leading-[1.9] text-muted sm:text-base">
+          <strong class="font-medium text-foreground">公開前の確認</strong>と<strong class="font-medium text-foreground">専門家のサポート</strong>を組み込み、安心して運用と改善を続けられる体制を整えます。
+        </p>
+      </div>
+    </Container>
+  </section>
 </CinematicSection>

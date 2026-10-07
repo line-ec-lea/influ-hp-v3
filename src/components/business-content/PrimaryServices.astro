@@ -68,7 +68,7 @@ const bodyClass = "text-base leading-[1.8] text-[#CFC8BC] lg:leading-[1.9]"
         aria-labelledby="primary-services-title"
       >
         <Container class="py-14 md:py-20">
-          <div class="grid gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-16">
+          <div data-business-enter class="grid gap-6 sm:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-16">
             <CinematicReveal direction="left">
               <p class={eyebrowClass}>PRIMARY SERVICES</p>
               <SunlitHeading
@@ -102,6 +102,7 @@ const bodyClass = "text-base leading-[1.8] text-[#CFC8BC] lg:leading-[1.9]"
               >
                 <div
                   data-primary-service={service.number}
+                  data-business-enter
                   class:list={[
                     "grid gap-5 lg:grid-cols-[7.5rem_minmax(0,1fr)] lg:gap-12",
                     serviceIndex === 0 && "[&_[data-service-detail]]:bg-transparent!",

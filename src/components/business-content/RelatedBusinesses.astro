@@ -36,7 +36,7 @@ const relatedBusinesses = [
 <CinematicSection>
   <section class="bg-page" aria-labelledby="related-businesses-title">
     <Container class="py-14 md:py-20">
-      <div class="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-end lg:gap-16">
+      <div data-business-enter class="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-end lg:gap-16">
         <div>
           <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">RELATED BUSINESSES</p>
           <h2 id="related-businesses-title" class="mt-4 text-3xl font-bold leading-[1.25] tracking-[-0.02em] text-foreground sm:text-4xl lg:text-[2.75rem]">
@@ -86,7 +86,7 @@ const relatedBusinesses = [
                 class="group/link flex min-h-11 w-fit items-center gap-4 border-b border-line-gold py-2 text-sm font-bold leading-[1.6] text-foreground transition-colors hover:border-gold-300 hover:text-gold-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 sm:text-base"
               >
                 {business.cta}
-                <span aria-hidden="true" class="text-gold-300 transition-transform group-hover/link:translate-x-1 motion-reduce:transition-none">→</span>
+                <span aria-hidden="true" class="text-gold-300 transition-transform motion-safe:group-hover/link:translate-x-1 motion-safe:group-focus-visible/link:translate-x-1 motion-reduce:transition-none">→</span>
               </a>
             </div>
           </article>

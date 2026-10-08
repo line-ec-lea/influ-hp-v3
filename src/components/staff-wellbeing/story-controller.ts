@@ -16,7 +16,7 @@ export function mountStoryVideo(story: HTMLElement) {
   const progress = story.querySelector<HTMLElement>("[data-life-progress]")!;
   const chapterNumber = progress.querySelector<HTMLElement>("[data-life-progress-number]")!;
   const chapterName = progress.querySelector<HTMLElement>("[data-life-progress-name]")!;
-  const chapters = [["01", "身体を動かす", "move"], ["02", "食卓を囲む", "eat"], ["03", "日々の暮らし", "st"]] as const;
+  const chapters = [["01", "Vitality", "move"], ["02", "食卓から、つながる。", "eat"], ["03", "健やかさが、暮らしに続く。", "st"]] as const;
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   const events = new AbortController();
   const layers: Layer[] = Array.from(stage.querySelectorAll<HTMLElement>("[data-life-scene-layer]"), element => {

@@ -274,12 +274,12 @@ console.log("PASS composition: source scene directions, rapid reversal/cleanup, 
 // Source progress uses viewport centre, spans all three chapters and excludes closing.
 const ui = setup();
 for (const [y, number, name, visible] of [
-  [0,"01","身体を動かす",false], [449,"01","身体を動かす",false], [450,"01","身体を動かす",true],
-  [5023,"01","身体を動かす",true], [5024,"02","食卓を囲む",true],
-  [8978,"02","食卓を囲む",true], [8979,"03","日々の暮らし",true],
-  [13139,"03","日々の暮らし",true], [13140,"03","日々の暮らし",false],
-  [14000,"03","日々の暮らし",false], [8979,"03","日々の暮らし",true],
-  [5024,"02","食卓を囲む",true], [450,"01","身体を動かす",true],
+  [0,"01","Vitality",false], [449,"01","Vitality",false], [450,"01","Vitality",true],
+  [5023,"01","Vitality",true], [5024,"02","食卓から、つながる。",true],
+  [8978,"02","食卓から、つながる。",true], [8979,"03","健やかさが、暮らしに続く。",true],
+  [13139,"03","健やかさが、暮らしに続く。",true], [13140,"03","健やかさが、暮らしに続く。",false],
+  [14000,"03","健やかさが、暮らしに続く。",false], [8979,"03","健やかさが、暮らしに続く。",true],
+  [5024,"02","食卓から、つながる。",true], [450,"01","Vitality",true],
 ]) {
   ui.scroll(y);
   assert.equal(ui.progress.hasAttribute("data-visible"), visible);
@@ -291,12 +291,12 @@ for (const [y, number, name, visible] of [
 }
 ui.scroll(5024); ui.reduced(true);
 assert.equal(ui.progress.hasAttribute("data-visible"), true, "Reduced motion retains reading progress");
-assert.equal(ui.chapterName.textContent, "食卓を囲む");
+assert.equal(ui.chapterName.textContent, "食卓から、つながる。");
 assert.deepEqual(playing(ui), []);
 ui.reduced(false); await microtasks(); assert.deepEqual(playing(ui), ["eat"]);
 ui.scroll(5024); ui.resize(700);
-assert.equal(ui.chapterName.textContent, "身体を動かす", "Progress remeasures viewport-centre thresholds");
-ui.bounds["#eat"][0] -= 200; ui.layout(); assert.equal(ui.chapterName.textContent, "食卓を囲む");
+assert.equal(ui.chapterName.textContent, "Vitality", "Progress remeasures viewport-centre thresholds");
+ui.bounds["#eat"][0] -= 200; ui.layout(); assert.equal(ui.chapterName.textContent, "食卓から、つながる。");
 ui.dispose(); assert.equal(ui.progress.hasAttribute("data-visible"), false); assert.equal(ui.progress.attrs.has("--pp"), false);
 console.log("PASS story UI: exactly three chapters, source visibility/continuous progress, reverse navigation, resize/layout, reduced motion and cleanup");
 

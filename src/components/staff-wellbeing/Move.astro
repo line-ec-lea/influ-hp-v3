@@ -50,10 +50,10 @@ const horizontalStyles = [
 
 <section id="move" aria-labelledby="move-t" class="relative z-1 overflow-x-clip pt-10 [--life-gutter:40px] [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:[--life-gutter:18px]" data-life-move>
   <div class="relative mx-auto max-w-life px-[var(--life-gutter)]">
-    <span class="pointer-events-none absolute -top-[0.30em] -left-[0.06em] z-0 text-[clamp(200px,21vw,320px)] font-thin leading-[0.78] tracking-[-0.06em] text-life-gold/30 select-none [@media(max-width:720px)]:relative [@media(max-width:720px)]:top-auto [@media(max-width:720px)]:left-auto [@media(max-width:720px)]:-mb-[0.32em] [@media(max-width:720px)]:block [@media(max-width:720px)]:text-[42vw]" aria-hidden="true" data-life-numeral>01</span>
-    <div class="relative z-2 flex flex-wrap items-end gap-8 pl-[24%] [@media(max-width:1100px)]:pl-0 [@media(max-width:720px)]:gap-2.5" data-life-move-heading>
-      <h2 id="move-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Move</h2>
-      <p class="m-0 mb-[0.55em] text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em] [@media(max-width:720px)]:m-0 [@media(max-width:720px)]:w-full">身体を動かして、気分も軽やかに。</p>
+    <div class="relative z-2 grid gap-3 pl-8 [@media(max-width:720px)]:pl-3" data-life-move-heading>
+      <p class="m-0 text-xs font-bold leading-[1.6] tracking-[0.12em] text-life-gold">01 — 身体の健康</p>
+      <h2 id="move-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Vitality</h2>
+      <p class="m-0 text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em]">からだが弾む。</p>
     </div>
 
     <div class:list={["relative mt-16", horizontalStyles]} data-life-hseq>

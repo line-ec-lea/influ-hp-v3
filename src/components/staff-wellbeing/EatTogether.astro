@@ -10,11 +10,6 @@ const images = {
     src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG2Y0V0Y55W998ZRP6B4DD.png&w=1646&h=1226&f=webp&q=92",
     alt: "屋上テラスでランチを囲むINFLUのメンバー",
   },
-  lunchJuly: {
-    id: "01M3TG50316HCHP6QE6HA587QX",
-    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG50316HCHP6QE6HA587QX.png&w=939&h=739&f=webp&q=92",
-    alt: "イタリアンのランチ会に集まったメンバー",
-  },
   seiro: {
     id: "01M3TGHX41SH7VQZ4ZF7EKMFB2",
     src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGHX41SH7VQZ4ZF7EKMFB2.png&w=861&h=646&f=webp&q=92",
@@ -31,15 +26,6 @@ const images = {
     alt: "鰹の藁焼き",
   },
 } satisfies Record<string, MediaValue>;
-
-const lunches = [
-  { date: "2026.05.14", number: "08", unit: "名", href: "https://influhp.com/staff-blog/staffreport-6414", text: "初のランチ会。8名で、タイ料理のビュッフェへ。" },
-  { date: "2026.06.05", number: "06", unit: "名", href: "https://influhp.com/staff-blog/staffreport-6484", text: "屋上テラスでBBQ。ネパールの料理の話で盛り上がる。" },
-  { date: "2026.06.24", number: "11", unit: "名", href: "https://influhp.com/staff-blog/staffreport-6548", text: "味来のメンバーも参加。ピザが一時的に空に。" },
-  { date: "2026.07.20", number: "09", unit: "名", href: "https://influhp.com/staff-blog/staffreport-6563", text: "9名でイタリアン。サプライズも成功。" },
-  { date: "2026.08.14", number: "—", unit: "", href: "https://influhp.com/staff-blog/staffreport-6573", text: "ハンバーグにパイナップルは、アリかナシか。" },
-  { date: "2026.09.02", number: "—", unit: "", href: "https://influhp.com/staff-blog/staffreport-6582", text: "せいろ蒸しか、タコスか。僅差の投票で決定。" },
-] as const;
 
 const grid = "grid grid-cols-12 gap-x-[var(--life-gutter)]";
 const meta = "text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase";
@@ -80,26 +66,6 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
         </div>
         <figcaption class={`${meta} flex justify-between pt-[14px] pr-[var(--life-gutter)] [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-1 [@media(max-width:720px)]:px-[var(--life-gutter)] [@media(max-width:720px)]:pt-3`}><span>話題は、ネパールの料理とバランスボール。</span><a class={link} href="https://influhp.com/staff-blog/staffreport-6484">都会の中でBBQランチ✨🍖 <span class={arrow}>↗</span></a></figcaption>
       </figure>
-    </div>
-
-    <div class="relative z-2 mt-[150px] [@media(max-width:720px)]:mt-24" data-life-lunchlog>
-      <div class={`${grid} mb-12 items-end`}>
-        <div class="col-start-1 col-end-7 [@media(max-width:1100px)]:col-span-12"><span class={meta}><b class="font-bold text-life-ink">ランチ会の記録</b> — 2026</span><p class="m-0 mt-[14px] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.45] tracking-[0.06em]">4月から、<br />毎月続いています。</p></div>
-        <figure class="col-start-9 col-end-13 m-0 [@media(max-width:1100px)]:col-start-1 [@media(max-width:1100px)]:col-end-9 [@media(max-width:1100px)]:mt-8 [@media(max-width:720px)]:col-span-12" data-life-lunchlog-photo>
-          <div class={`${photo} aspect-[3/2]`}><Image image={images.lunchJuly} class="h-full! w-full! object-cover object-[45%_40%]" /></div>
-          <figcaption class={`${meta} mt-2.5`}>サプライズ成功⁈🍰✨ — 2026.07.20</figcaption>
-        </figure>
-      </div>
-      <ol class="m-0 grid list-none grid-cols-6 gap-x-6 border-t border-life-line-strong p-0 [@media(max-width:1100px)]:grid-cols-3 [@media(max-width:1100px)]:gap-y-3 [@media(max-width:720px)]:grid-cols-1 [@media(max-width:720px)]:gap-x-0" data-life-lunchlog-list>
-        {lunches.map(lunch => (
-          <li><a href={lunch.href} class={`group grid gap-2.5 pt-[18px] pb-1 transition-colors ease-[ease] duration-300 ${focus} [@media(max-width:720px)]:grid-cols-[auto_1fr] [@media(max-width:720px)]:[grid-template-areas:'d_d'_'n_t'] [@media(max-width:720px)]:gap-x-4 [@media(max-width:720px)]:border-b [@media(max-width:720px)]:border-life-line-strong [@media(max-width:720px)]:py-4`}>
-            <span class={`${meta} [@media(max-width:720px)]:[grid-area:d]`}>{lunch.date}</span>
-            <span class="text-[clamp(52px,5vw,84px)] font-thin leading-[0.85] tracking-[-0.05em] [@media(max-width:720px)]:text-[48px] [@media(max-width:720px)]:[grid-area:n]">{lunch.number}{lunch.unit && <small class="ml-1 text-[13px] font-normal tracking-[0.06em] text-life-muted">{lunch.unit}</small>}</span>
-            <span class="text-[13.5px] font-bold leading-[1.7] tracking-[0.04em] transition-colors ease-[ease] duration-300 group-hover:text-life-gold [@media(max-width:720px)]:self-center [@media(max-width:720px)]:[grid-area:t]">{lunch.text}</span>
-          </a></li>
-        ))}
-      </ol>
-      <p class={`${meta} m-0 mt-7 mb-[1em]`}>「毎月開催が定着しつつある」— お野菜たっぷりせいろ蒸しランチ🥬🍠🥕</p>
     </div>
 
     <div class={`${grid} relative z-3 mt-[150px] items-start [@media(max-width:720px)]:mt-[72px]`} data-life-eat-row>

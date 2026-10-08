@@ -9,7 +9,7 @@ const lines = moveToEat
   : ["会社での小さなきっかけが、", "ふだんの暮らしにも続いていく。"];
 ---
 
-<section id={`bridge-${transition}`} aria-label={moveToEat ? "MOVEからEAT TOGETHERへ" : "EAT TOGETHERからLIFE AT INFLUへ"} class="relative z-1 flex min-h-[86vh] items-center [@media(max-width:720px)]:min-h-[70vh]" data-life-bridge={transition}>
+<section id={`bridge-${transition}`} aria-label={moveToEat ? "運動から食事へ" : "食事から日々の暮らしへ"} class="relative z-1 flex min-h-[86vh] items-center [@media(max-width:720px)]:min-h-[70vh]" data-life-bridge={transition}>
   <div class:list={["relative mx-auto w-full max-w-life px-[var(--life-gutter)]", moveToEat && "flex justify-end [@media(max-width:720px)]:justify-start"]}>
     <p class="m-0 text-[clamp(28px,3.6vw,58px)] font-bold leading-[1.5] tracking-[0.04em] [@media(max-width:720px)]:text-[6.6vw]">
       {lines.map(line => <span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">{line}</span></span>)}

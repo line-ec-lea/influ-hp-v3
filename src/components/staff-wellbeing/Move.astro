@@ -53,13 +53,13 @@ const horizontalStyles = [
     <span class="pointer-events-none absolute -top-[0.30em] -left-[0.06em] z-0 text-[clamp(200px,21vw,320px)] font-thin leading-[0.78] tracking-[-0.06em] text-life-gold/30 select-none [@media(max-width:720px)]:relative [@media(max-width:720px)]:top-auto [@media(max-width:720px)]:left-auto [@media(max-width:720px)]:-mb-[0.32em] [@media(max-width:720px)]:block [@media(max-width:720px)]:text-[42vw]" aria-hidden="true" data-life-numeral>01</span>
     <div class="relative z-2 flex flex-wrap items-end gap-8 pl-[24%] [@media(max-width:1100px)]:pl-0 [@media(max-width:720px)]:gap-2.5" data-life-move-heading>
       <h2 id="move-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Move</h2>
-      <p class="m-0 mb-[0.55em] text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em] [@media(max-width:720px)]:m-0 [@media(max-width:720px)]:w-full">水曜日は、運動3連発。</p>
+      <p class="m-0 mb-[0.55em] text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em] [@media(max-width:720px)]:m-0 [@media(max-width:720px)]:w-full">身体を動かして、気分も軽やかに。</p>
     </div>
 
     <div class:list={["relative mt-16", horizontalStyles]} data-life-hseq>
       <div data-life-hseq-pin>
         <div class="grid grid-cols-[repeat(12,1fr)] items-end gap-6 [@media(max-width:720px)]:gap-4" data-life-hseq-track>
-          <p class="order-9 col-span-12 m-0 text-[clamp(18px,1.6vw,22px)] font-bold leading-[1.55] tracking-[0.06em]" data-life-hseq-lead>毎週、オフィスでキックボクシング。<br /><span class={`mt-2 inline-block ${meta}`}>INFLUキックボクシング会 — film stills</span></p>
+          <p class="order-9 col-span-12 m-0 text-[clamp(18px,1.6vw,22px)] font-bold leading-[1.55] tracking-[0.06em]" data-life-hseq-lead>毎週水曜日、オフィスでキックボクシング。<br /><span class={`mt-2 inline-block ${meta}`}>参加無料。社員なら誰でも参加できます。</span></p>
           <figure class="col-start-1 col-end-9 m-0 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:-mx-[var(--life-gutter)]" data-life-hseq-item="wide">
             <div class={`${photo} aspect-[1920/818]`} data-life-reveal>
               <img src="/media/staff-wellbeing/boxing-wide.jpg" alt="オフィスでミットを打つメンバーたち" width="1920" height="818" loading="lazy" decoding="async" class="h-full w-full object-cover" />
@@ -79,7 +79,7 @@ const horizontalStyles = [
             <div class={`${photo} aspect-[4/3]`}>
               <img src="/media/staff-wellbeing/film-floor.jpg" alt="マットに座りこんで笑うメンバー" width="1600" height="682" loading="lazy" decoding="async" class="h-full w-full object-cover" />
             </div>
-            <figcaption class={`mt-3 ${meta}`}>From the session film</figcaption>
+            <figcaption class={`mt-3 ${meta}`}>キックボクシング会の動画より</figcaption>
           </figure>
         </div>
       </div>
@@ -94,14 +94,14 @@ const horizontalStyles = [
       </figure>
       <div class="col-start-10 col-end-13 grid gap-14 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:mt-14 [@media(max-width:1100px)]:grid-cols-2 [@media(max-width:1100px)]:gap-10 [@media(max-width:720px)]:grid-cols-1" data-life-move-side>
         <div class="grid gap-0 border-t border-life-line-strong">
-          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">Boxing</b></span><span class={factValue}>01<small class={factUnit}>/ week</small></span></div>
-          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">Balance ball</b></span><span class={factValue}>45<small class={factUnit}>min</small></span></div>
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">キックボクシング</b></span><span class={factValue}>01<small class={factUnit}>回／週</small></span></div>
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">バランスボール</b></span><span class={factValue}>45<small class={factUnit}>分</small></span></div>
         </div>
         <figure class="m-0">
           <div class={`${photo} aspect-[4/5]`}>
             <img src="/media/staff-wellbeing/boxing-gloves.jpg" alt="ブルーのグローブを構えるメンバー" width="654" height="818" loading="lazy" decoding="async" class="h-full w-full object-cover" />
           </div>
-          <figcaption class={`${meta} mt-3 flex justify-between`}><span>Boxing — every week</span><span>From the session film</span></figcaption>
+          <figcaption class={`${meta} mt-3 flex flex-wrap justify-between gap-1`}><span>毎週のキックボクシング会</span><span>動画より</span></figcaption>
         </figure>
         <div class="border-l border-life-line-strong pl-4">
           <p class="m-0 mb-[6px] text-[13px] font-bold leading-[1.7] tracking-[0.04em]">「毎週開催されている『INFLUキックボクシング会』🥊」</p>
@@ -121,11 +121,11 @@ const horizontalStyles = [
 
     <div class={`${grid} relative z-2 mt-[170px] items-start gap-y-10 [@media(max-width:720px)]:mt-24`} data-life-monthly>
       <div class="col-start-1 col-end-7 [@media(max-width:1100px)]:col-span-12">
-        <span class={meta}><b class="font-bold text-life-ink">Monthly</b> — 忍体心操術 with 豪さん</span>
-        <p class="my-[18px] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.45] tracking-[0.06em]">「社員には、<br />運動が足りていない！」</p>
-        <p class="m-0 max-w-[28em] text-[14.5px] leading-[1.9] tracking-[0.04em] text-[#c9cbc6]">社長のその思いから始まった、月1回の研修。テーマは「むずかしい・キツい・大変なことをせず、努力感なく実感できる」。</p>
+        <span class={meta}><b class="font-bold text-life-ink">月1回の研修</b> — 豪さんの忍体心操術</span>
+        <p class="my-[18px] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.45] tracking-[0.06em]">身体を整え、<br />心も健やかに。</p>
+        <p class="m-0 max-w-[28em] text-[14.5px] leading-[1.9] tracking-[0.04em] text-[#c9cbc6]">月1回、豪さんと取り組む身体づくりの研修。テーマは「むずかしい・キツい・大変なことをせず、努力感なく実感できる」。</p>
       </div>
-      <div class={`${fact} col-start-1 col-end-5 border-t border-life-line-strong [@media(max-width:1100px)]:col-span-12`}><span class={meta}><b class="font-bold text-life-ink">Body conditioning</b></span><span class={factValue}>01<small class={factUnit}>/ month</small></span></div>
+      <div class={`${fact} col-start-1 col-end-5 border-t border-life-line-strong [@media(max-width:1100px)]:col-span-12`}><span class={meta}><b class="font-bold text-life-ink">身体を整える研修</b></span><span class={factValue}>01<small class={factUnit}>回／月</small></span></div>
       <ol class="col-start-7 col-end-13 row-start-1 row-end-3 m-0 list-none self-end border-t border-life-line-strong p-0 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:row-auto" data-life-monthly-entries>
         {monthlyEntries.map(entry => (
           <li><a href={entry.href} class="grid grid-cols-[64px_1fr] items-baseline gap-4 border-b border-life-line-strong py-4 transition-colors ease-[ease] duration-300 hover:text-life-gold focus-visible:rounded-[2px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-life-gold [@media(max-width:720px)]:grid-cols-[52px_1fr]"><span class={meta}>{entry.date}</span><p class="m-0 text-[15px] font-bold leading-[1.7] tracking-[0.04em]">{entry.text}</p></a></li>

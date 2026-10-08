@@ -17,15 +17,14 @@ const scenes = [
     <div class="absolute inset-0 bg-section opacity-[var(--life-shade)]"></div>
   </div>
 </div>
-<!-- Both story controls sit above content and below Company's z-200 Navbar. -->
+<!-- Story progress sits above content and below Company's z-200 Navbar. -->
 <div class="pointer-events-none fixed inset-x-0 bottom-[calc(22px+env(safe-area-inset-bottom,0px))] z-[190] text-life-ink opacity-0 transition-[opacity,color] duration-[500ms,400ms] ease-[ease] data-[visible]:opacity-100 [@media(max-width:720px)]:bottom-[calc(14px+env(safe-area-inset-bottom,0px))] motion-reduce:transition-none" data-life-progress aria-hidden="true">
   <div class="relative m-0 grid w-max max-w-life grid-cols-[auto_1fr] justify-start gap-x-7 gap-y-[10px] px-[var(--life-gutter)]">
     <span class="text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase"><b class="font-bold" data-life-progress-number>01</b> / 03</span>
-    <span class="text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase" data-life-progress-name>MOVE</span>
+    <span class="text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase" data-life-progress-name>身体を動かす</span>
     <span class="relative col-span-2 h-px w-[220px] overflow-hidden bg-life-ink/25 [@media(max-width:720px)]:w-[160px]"><i class="absolute inset-0 origin-left scale-x-[var(--pp,0)] bg-life-gold"></i></span>
   </div>
 </div>
-<button type="button" class="fixed right-[var(--life-gutter)] bottom-[calc(18px+env(safe-area-inset-bottom,0px))] z-[191] pointer-events-none cursor-pointer rounded-full border border-life-ink/40 bg-page/35 px-[14px] py-2 font-sans text-[10.5px] font-bold tracking-[0.18em] text-life-ink uppercase opacity-0 transition-[opacity,border-color,color] duration-[400ms,300ms,300ms] ease-[ease] data-[visible]:pointer-events-auto data-[visible]:opacity-100 hover:border-life-gold hover:text-life-gold focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-life-gold! [@media(max-width:720px)]:bottom-[calc(12px+env(safe-area-inset-bottom,0px))] motion-reduce:transition-none" data-life-video-control aria-label="背景映像を一時停止" aria-hidden="true" tabindex="-1">Pause</button>
 <span class="sr-only" role="status" data-life-video-status></span>
 
 <script>

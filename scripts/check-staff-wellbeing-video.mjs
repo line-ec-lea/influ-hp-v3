@@ -7,6 +7,8 @@ import ts from "typescript";
 // Real decoding, CSS crossfades and responsive geometry are checked in the browser.
 const source = await readFile(new URL("../src/components/staff-wellbeing/story-controller.ts", import.meta.url), "utf8");
 assert.doesNotMatch(source, /currentTime\s*=/, "Scroll must never seek the videos");
+const stageMarkup = await readFile(new URL("../src/components/staff-wellbeing/VideoStage.astro", import.meta.url), "utf8");
+assert.doesNotMatch(stageMarkup, /data-life-video-control/, "The removed playback button must not be rendered");
 const code = ts.transpile(source.replaceAll("export function", "function"), { target: ts.ScriptTarget.ES2022 });
 class Element {
   textWrites = 0; text = "";
@@ -32,7 +34,7 @@ class Video extends Element {
   }
 }
 function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 900 } = {}) {
-  const stage = new Element(), control = new Element(), status = new Element(), story = new Element();
+  const stage = new Element(), status = new Element(), story = new Element();
   const progress = new Element(), chapterNumber = new Element(), chapterName = new Element();
   progress.querySelector = s => s === "[data-life-progress-number]" ? chapterNumber : chapterName;
   const layers = ["box", "eat", "toast"].map(key => {
@@ -58,7 +60,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   }));
   const pin = new Element(), track = new Element(); pin.clientWidth = width; track.scrollWidth = 3400;
   anchors["[data-life-hseq]"].querySelector = s => s === "[data-life-hseq-pin]" ? pin : track;
-  story.querySelector = s => ({ "[data-life-progress]": progress, "[data-life-stage]": stage, "[data-life-video-control]": control, "[data-life-video-status]": status }[s] || anchors[s]);
+  story.querySelector = s => ({ "[data-life-progress]": progress, "[data-life-stage]": stage, "[data-life-video-status]": status }[s] || anchors[s]);
   const numerals = ["#move", "#eat", "#stories"].map(key => { const n = new Element(); n.parentElement = anchors[key]; return n; });
   const cropPositions = ["42% 62%", "42% 96%", "42% 62%", "50% 22%"];
   const cropBounds = [[3000,600],[4000,450],[6440,600],[11000,700]];
@@ -85,7 +87,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   vm.runInContext(code, context);
   const dispose = context.mountStoryVideo(story);
   const flush = () => { const queue = [...frames.values()]; frames.clear(); queue.forEach(fn => fn()); };
-  return { progress, chapterNumber, chapterName, stage, control, status, layers, preference, document, window, context, bounds, timers, dispose, flush, story, pin, track, numerals, crops, bbq: anchors["[data-life-eat-lead]"],
+  return { progress, chapterNumber, chapterName, stage, status, layers, preference, document, window, context, bounds, timers, dispose, flush, story, pin, track, numerals, crops, bbq: anchors["[data-life-eat-lead]"],
     layout() { resize(); flush(); },
     scroll(y) { context.scrollY = y; window.emit("scroll"); flush(); },
     resize(height) { context.innerHeight = height; window.emit("resize"); resize(); flush(); },
@@ -120,12 +122,7 @@ for (const [y, shade] of [[0,.176],[180,.2],[765,.34],[1360,.6],[1740,.6],[3650,
 }
 s.scroll(14000); await microtasks();
 assert.deepEqual(playing(s), ["toast"]);
-assert.ok(s.control.hasAttribute("data-visible"), "Toast retains the pause control");
-s.control.emit("click"); assert.deepEqual(playing(s), []);
-s.scroll(4700); await microtasks(); assert.deepEqual(playing(s), [], "User pause persists across scenes");
-s.hidden(true); s.hidden(false); await microtasks(); assert.deepEqual(playing(s), []);
-s.reduced(true); s.reduced(false); await microtasks(); assert.deepEqual(playing(s), []);
-s.control.emit("click"); await microtasks(); assert.deepEqual(playing(s), ["eat"]);
+s.scroll(4700); await microtasks(); assert.deepEqual(playing(s), ["eat"], "Scenes autoplay without user interaction");
 s.hidden(true); assert.deepEqual(playing(s), []);
 s.hidden(false); await microtasks(); assert.deepEqual(playing(s), ["eat"]);
 s.window.emit("pagehide"); assert.deepEqual(playing(s), []);
@@ -134,7 +131,7 @@ s.reduced(true); assert.deepEqual(playing(s), []);
 assert.ok(s.layers.every(l => !l.video.hasAttribute("data-ready")), "Reduced motion displays posters");
 s.scroll(14000); assert.equal(active(s), "toast"); assert.deepEqual(playing(s), []);
 s.reduced(false); await microtasks(); assert.deepEqual(playing(s), ["toast"]);
-s.scroll(15000); assert.deepEqual(playing(s), []); assert.equal(s.control.tabIndex, -1);
+s.scroll(15000); assert.deepEqual(playing(s), []);
 
 // Recalculate after viewport/orientation and delayed layout changes.
 s.scroll(4400); assert.equal(active(s), "eat");
@@ -146,30 +143,63 @@ s.scroll(0); s.reduced(false); s.hidden(false); await microtasks(); assert.deepE
 
 const quiet = setup({ reduced: true }); await microtasks();
 assert.deepEqual(quiet.layers.map(l => l.video.loads), [0,0,0]);
-assert.equal(quiet.control.tabIndex, -1); quiet.dispose();
+quiet.dispose();
 const deep = setup({ initialY: 14000 }); await microtasks(); assert.deepEqual(playing(deep), ["toast"]); deep.dispose();
 
-// Rejected autoplay, actual media error, poster fallback and deliberate retry.
+// Rejected autoplay and actual media errors retain the poster without retry loops.
 const failure = setup({ initialMode: "reject" }); await microtasks();
-assert.equal(failure.control.textContent, "Play"); assert.ok(failure.status.textContent);
+assert.ok(failure.status.textContent);
 assert.equal(failure.layers[0].video.hasAttribute("data-ready"), false);
-failure.layers[0].video.mode = "normal"; failure.control.emit("click"); await microtasks();
-assert.deepEqual(playing(failure), ["box"]); assert.equal(failure.status.textContent, "");
-failure.layers[0].video.emit("error"); assert.deepEqual(playing(failure), []);
-assert.equal(failure.layers[0].video.hasAttribute("data-ready"), false);
-failure.control.emit("click"); await microtasks(); assert.deepEqual(playing(failure), ["box"]); failure.dispose();
+failure.scroll(100); await microtasks();
+assert.equal(failure.layers[0].video.plays, 1, "Blocked autoplay must not retry on every scroll");
+assert.deepEqual(playing(failure), []); failure.dispose();
+const mediaError = setup(); await microtasks();
+mediaError.layers[0].video.emit("error"); assert.deepEqual(playing(mediaError), []);
+assert.equal(mediaError.layers[0].video.hasAttribute("data-ready"), false);
+assert.ok(mediaError.status.textContent); mediaError.dispose();
 
 // A stale play promise must not resurrect an inactive film or poison the new request.
 const race = setup({ initialMode: "pending" });
 const box = race.layers[0].video;
 race.scroll(4700); race.scroll(0);
 box.requests[0].reject(new Error("Interrupted by pause")); await microtasks();
-assert.equal(race.control.textContent, "Pause");
+assert.equal(race.status.textContent, "");
 box.paused = false; box.emit("playing"); box.requests[1].resolve(); await microtasks();
 assert.deepEqual(playing(race), ["box"]);
 race.scroll(14000); box.paused = false; box.emit("playing"); assert.equal(box.paused, true);
 race.dispose();
-console.log("PASS staff wellbeing videos: three active scenes, 18 reference shade points, forward/reverse/rapid scroll, resize, pause, visibility, reduced motion, errors/posters, request races and cleanup");
+console.log("PASS staff wellbeing videos: three active scenes, 18 reference shade points, forward/reverse/rapid scroll, resize, autoplay, visibility, reduced motion, errors/posters, request races and cleanup");
+
+// The overview extends the opening-to-MOVE gap without changing the film scene.
+const overview = setup();
+for (const [selector, bounds] of Object.entries(overview.bounds)) {
+  if (selector !== "[data-life-opening]") { bounds[0] += 900; bounds[1] += 900; }
+}
+overview.layout();
+for (const [y, fullyShaded] of [[450,false],[900,true],[1170,false],[1350,false],[900,true]]) {
+  overview.scroll(y); await microtasks();
+  const shade = Number(overview.stage.attrs.get("--life-shade"));
+  if (fullyShaded) assert.equal(shade, .78, "The overview darkens the film for reading");
+  else assert.ok(shade < .78, "The shade eases in and out at the overview boundaries");
+  assert.equal(active(overview), "box");
+  assert.deepEqual(playing(overview), ["box"], "The same film keeps playing behind the overview");
+}
+assert.equal(overview.progress.hasAttribute("data-visible"), false);
+overview.reduced(true);
+assert.deepEqual(playing(overview), []);
+assert.equal(Number(overview.stage.attrs.get("--life-shade")), .78, "The poster remains readable with reduced motion");
+overview.resize(700);
+assert.equal(Number(overview.stage.attrs.get("--life-shade")), .78);
+for (const [selector, bounds] of Object.entries(overview.bounds)) {
+  if (selector !== "[data-life-opening]") { bounds[0] += 400; bounds[1] += 400; }
+}
+overview.layout(); overview.scroll(1550);
+assert.equal(Number(overview.stage.attrs.get("--life-shade")), .78, "Reading shade follows a taller responsive overview");
+overview.scroll(1850);
+assert.ok(Number(overview.stage.attrs.get("--life-shade")) < .78);
+assert.equal(overview.progress.hasAttribute("data-visible"), true, "Chapter progress starts at MOVE");
+overview.dispose();
+console.log("PASS wellbeing overview: continuous film, reading shade, forward/reverse edges, resized content and reduced-motion poster");
 
 // Same coordinated RAF drives the horizontal sequence; no wheel or scroll owner.
 for (const width of [1440,1280,1100,1024,901,900]) {
@@ -244,12 +274,12 @@ console.log("PASS composition: source scene directions, rapid reversal/cleanup, 
 // Source progress uses viewport centre, spans all three chapters and excludes closing.
 const ui = setup();
 for (const [y, number, name, visible] of [
-  [0,"01","MOVE",false], [449,"01","MOVE",false], [450,"01","MOVE",true],
-  [5023,"01","MOVE",true], [5024,"02","EAT TOGETHER",true],
-  [8978,"02","EAT TOGETHER",true], [8979,"03","LIFE AT INFLU",true],
-  [13139,"03","LIFE AT INFLU",true], [13140,"03","LIFE AT INFLU",false],
-  [14000,"03","LIFE AT INFLU",false], [8979,"03","LIFE AT INFLU",true],
-  [5024,"02","EAT TOGETHER",true], [450,"01","MOVE",true],
+  [0,"01","身体を動かす",false], [449,"01","身体を動かす",false], [450,"01","身体を動かす",true],
+  [5023,"01","身体を動かす",true], [5024,"02","食卓を囲む",true],
+  [8978,"02","食卓を囲む",true], [8979,"03","日々の暮らし",true],
+  [13139,"03","日々の暮らし",true], [13140,"03","日々の暮らし",false],
+  [14000,"03","日々の暮らし",false], [8979,"03","日々の暮らし",true],
+  [5024,"02","食卓を囲む",true], [450,"01","身体を動かす",true],
 ]) {
   ui.scroll(y);
   assert.equal(ui.progress.hasAttribute("data-visible"), visible);
@@ -261,26 +291,18 @@ for (const [y, number, name, visible] of [
 }
 ui.scroll(5024); ui.reduced(true);
 assert.equal(ui.progress.hasAttribute("data-visible"), true, "Reduced motion retains reading progress");
-assert.equal(ui.chapterName.textContent, "EAT TOGETHER");
-assert.equal(ui.control.attrs.get("aria-hidden"), "true"); assert.equal(ui.control.tabIndex, -1);
-ui.reduced(false); await microtasks();
-assert.equal(ui.control.attrs.get("aria-label"), "背景映像を一時停止");
-ui.control.emit("click");
-assert.equal(ui.control.attrs.get("aria-label"), "背景映像を再生");
-assert.equal(ui.control.hasAttribute("aria-pressed"), false, "Changing action name is not a fixed-name toggle");
-ui.control.emit("click"); await microtasks();
-ui.document.activeElement = ui.control; ui.scroll(9429);
-assert.equal(ui.control.tabIndex, 0, "Keep the focused control available through a dark shade band");
-ui.document.activeElement = null; ui.scroll(9429); assert.equal(ui.control.tabIndex, -1);
+assert.equal(ui.chapterName.textContent, "食卓を囲む");
+assert.deepEqual(playing(ui), []);
+ui.reduced(false); await microtasks(); assert.deepEqual(playing(ui), ["eat"]);
 ui.scroll(5024); ui.resize(700);
-assert.equal(ui.chapterName.textContent, "MOVE", "Progress remeasures viewport-centre thresholds");
-ui.bounds["#eat"][0] -= 200; ui.layout(); assert.equal(ui.chapterName.textContent, "EAT TOGETHER");
+assert.equal(ui.chapterName.textContent, "身体を動かす", "Progress remeasures viewport-centre thresholds");
+ui.bounds["#eat"][0] -= 200; ui.layout(); assert.equal(ui.chapterName.textContent, "食卓を囲む");
 ui.dispose(); assert.equal(ui.progress.hasAttribute("data-visible"), false); assert.equal(ui.progress.attrs.has("--pp"), false);
-console.log("PASS story UI: exactly three chapters, source visibility/continuous progress, reverse navigation, resize/layout, reduced motion, playback action names, focus retention and cleanup");
+console.log("PASS story UI: exactly three chapters, source visibility/continuous progress, reverse navigation, resize/layout, reduced motion and cleanup");
 
 const idleLabels = setup(); await microtasks(); idleLabels.scroll(1000); await microtasks();
-const writes = [idleLabels.control, idleLabels.chapterNumber, idleLabels.chapterName].map(e => e.textWrites);
+const writes = [idleLabels.chapterNumber, idleLabels.chapterName].map(e => e.textWrites);
 for (let y = 1001; y < 1100; y++) idleLabels.scroll(y);
-assert.deepEqual([idleLabels.control, idleLabels.chapterNumber, idleLabels.chapterName].map(e => e.textWrites), writes, "Scrolling within a chapter must not recreate unchanged label text nodes");
+assert.deepEqual([idleLabels.chapterNumber, idleLabels.chapterName].map(e => e.textWrites), writes, "Scrolling within a chapter must not recreate unchanged label text nodes");
 idleLabels.dispose();
 console.log("PASS scroll UI avoids unchanged text-node writes");

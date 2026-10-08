@@ -23,7 +23,7 @@ const timeline = [
 
 const stories = [
   {
-    id: "st1", image: "interns", category: "Team", date: "2026.02.25",
+    id: "st1", image: "interns", category: "仲間", date: "2026.02.25",
     href: "https://influhp.com/staff-blog/staffreport-6171", title: "インターン生と共に",
     description: "挨拶しか交わしたことのなかった社長と、焼肉を囲んだ週末。",
     layout: "block col-start-1 col-end-9 -ml-[var(--life-gutter)] [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:-mr-[var(--life-gutter)]",
@@ -32,14 +32,14 @@ const stories = [
     titleSize: "text-[clamp(24px,2.3vw,34px)]",
   },
   {
-    id: "st2", image: "peppers", category: "Food", date: "2026.09.28",
+    id: "st2", image: "peppers", category: "食", date: "2026.09.28",
     href: "https://influhp.com/staff-blog/staffreport-6591", title: "甘長とうがらしの罠🌶️🫑",
     description: "生では辛くなかった。焼いたら、辛かった。",
     layout: "block col-start-10 col-end-13 mt-[260px] [@media(max-width:1100px)]:col-start-7 [@media(max-width:1100px)]:mt-20 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-[72px] [@media(max-width:720px)]:w-[72%] [@media(max-width:720px)]:justify-self-end",
     frame: "aspect-[3/4.4]", crop: "object-[58%_40%]", text: "mt-4", titleSize: "text-xl",
   },
   {
-    id: "st3", image: "thai", category: "Food", date: "2026.05.14",
+    id: "st3", image: "thai", category: "食", date: "2026.05.14",
     href: "https://influhp.com/staff-blog/staffreport-6414", title: "INFLUランチ会開催🍽️",
     description: "4月中旬、記念すべき第1回。8名でタイ料理のビュッフェへ。",
     layout: "col-span-12 mt-40 grid grid-cols-12 items-end gap-x-[var(--life-gutter)] [@media(max-width:720px)]:mt-[72px]",
@@ -49,7 +49,7 @@ const stories = [
     titleSize: "text-xl",
   },
   {
-    id: "st5", image: "mirai-lunch", category: "Team", date: "2026.06.24",
+    id: "st5", image: "mirai-lunch", category: "仲間", date: "2026.06.24",
     href: "https://influhp.com/staff-blog/staffreport-6548", title: "初✨味来メンバーも参加したランチ会🍽️",
     description: "味来のメンバーも参加して、総勢11名。ピザが一時的に空に。",
     layout: "block col-start-2 col-end-8 mt-[170px] [@media(max-width:1100px)]:col-start-1 [@media(max-width:1100px)]:col-end-9 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-[72px]",
@@ -57,7 +57,7 @@ const stories = [
     text: "mt-[18px] pl-[22%] [@media(max-width:720px)]:pl-0", titleSize: "text-xl",
   },
   {
-    id: "st6", image: "desk", category: "Office", date: "2026.09.21",
+    id: "st6", image: "desk", category: "オフィス", date: "2026.09.21",
     href: "https://influhp.com/staff-blog/staffreport-6588", title: "中野さんの机🖥️🪑",
     description: "ヨギボーを転々として数ヶ月。社長に相談して、念願のデスクが届いた。",
     layout: "block col-start-10 col-end-13 mt-[330px] [@media(max-width:1100px)]:col-start-9 [@media(max-width:1100px)]:mt-[200px] [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-[72px] [@media(max-width:720px)]:w-[62%]",
@@ -77,8 +77,8 @@ const cardArrow = "font-normal text-life-muted transition-[transform,color] dura
   <div class="relative mx-auto max-w-life px-[var(--life-gutter)]">
     <span class="pointer-events-none absolute -top-[0.5em] -left-[0.05em] z-0 text-[clamp(200px,21vw,320px)] font-thin leading-[0.78] tracking-[-0.06em] text-life-gold/30 select-none [@media(max-width:720px)]:relative [@media(max-width:720px)]:top-auto [@media(max-width:720px)]:left-auto [@media(max-width:720px)]:-mb-[0.32em] [@media(max-width:720px)]:block [@media(max-width:720px)]:text-[42vw]" aria-hidden="true" data-life-numeral>03</span>
     <div class="relative z-2 flex flex-wrap items-end gap-8 pl-[19%] [@media(max-width:1100px)]:pl-0 [@media(max-width:720px)]:gap-2.5" data-life-stories-heading>
-      <h2 id="st-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Life at INFLU</h2>
-      <p class="m-0 mb-[0.55em] text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em] [@media(max-width:720px)]:m-0 [@media(max-width:720px)]:w-full">スタッフBLOGに書かれた、ふだんの出来事。</p>
+      <h2 id="st-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">More than work</h2>
+      <p class="m-0 mb-[0.55em] text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em] [@media(max-width:720px)]:m-0 [@media(max-width:720px)]:w-full">スタッフがつづる、INFLUの日常。</p>
     </div>
 
     <article class={`${grid} mt-[110px] items-start [@media(max-width:720px)]:mt-16`} data-life-feature>
@@ -87,7 +87,7 @@ const cardArrow = "font-normal text-life-muted transition-[transform,color] dura
         <figcaption class={`${meta} mt-3 pl-[var(--life-gutter)] [@media(max-width:720px)]:pr-[var(--life-gutter)]`}>やました農園さんの夏野菜 — 2026.07.24</figcaption>
       </figure>
       <div class="col-start-8 col-end-13 pt-10 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:pt-12" data-life-feature-text>
-        <span class={meta}><b class="font-bold text-life-ink">Story</b> — Vegetables × Engineer</span>
+        <span class={meta}><b class="font-bold text-life-ink">暮らしの変化</b> — 野菜とエンジニア</span>
         <h3 class="mt-[22px] mb-10 text-[clamp(30px,3.1vw,48px)] font-bold leading-[1.45] tracking-[0.06em]">届いた野菜で、<br />自炊を始めた<br />エンジニア。</h3>
         <ol class="m-0 list-none border-t border-life-line-strong p-0" data-life-timeline>
           {timeline.map(entry => <li><a href={entry.href} class={`grid grid-cols-[64px_1fr] items-baseline gap-4 border-b border-life-line-strong py-4 transition-colors ease-[ease] duration-300 hover:text-life-gold ${focus} [@media(max-width:720px)]:grid-cols-[52px_1fr]`}><span class={meta}>{entry.date}</span><p class="m-0 text-[15px] font-bold leading-[1.7] tracking-[0.04em]">{entry.text}</p></a></li>)}
@@ -118,8 +118,8 @@ const cardArrow = "font-normal text-life-muted transition-[transform,color] dura
       ))}
     </div>
     <div class="mt-[150px] flex items-baseline justify-between border-t border-life-line-strong pt-[30px] [@media(max-width:720px)]:mt-24 [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-3" data-life-archive>
-      <span class={meta}>More on the Staff Blog</span>
-      <a class={`group inline-flex items-center gap-2.5 text-[clamp(30px,3.4vw,52px)] font-bold tracking-[-0.035em] transition-colors ease-[ease] duration-[350ms] hover:text-life-gold ${focus}`} href="https://influhp.com/staff-blog/page/1">View all stories <span class="inline-block transition-transform duration-[450ms] ease-life group-hover:translate-x-[5px] motion-reduce:transition-none">→</span></a>
+      <span class={meta}>日々の出来事を、スタッフブログで</span>
+      <a class={`group inline-flex items-center gap-2.5 text-[clamp(30px,3.4vw,52px)] font-bold tracking-[-0.035em] transition-colors ease-[ease] duration-[350ms] hover:text-life-gold ${focus}`} href="https://influhp.com/staff-blog/page/1">記事一覧を見る <span class="inline-block transition-transform duration-[450ms] ease-life group-hover:translate-x-[5px] motion-reduce:transition-none">→</span></a>
     </div>
   </div>
 </section>

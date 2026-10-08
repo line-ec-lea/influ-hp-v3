@@ -70,10 +70,10 @@ keyboard.dispose(); assert.equal(keyboard.line.hasAttribute("data-life-pending")
 const html = await (await fetch("http://localhost:4321/staff-wellbeing")).text();
 const starts = [...html.matchAll(/<[^!\/][^>]*>/g)].map(m => m[0]);
 const attr = name => starts.filter(tag => new RegExp(`\\s${name}(?:[\\s=>])`).test(tag));
-assert.equal(attr("data-life-line").length, 11);
+assert.equal(attr("data-life-line").length, 13);
 assert.equal(attr("data-life-reveal").length, 7);
 assert.equal(attr("data-life-reveal-scale").length, 2);
 assert.equal(attr("data-life-pending").length, 0, "No-JS HTML is fully visible");
 assert.equal(attr("data-life-image-drift").length, 4, "Only the four active source images receive crop drift");
 assert.equal(attr("data-life-scene-layer").length, 3, "Video-stage ownership is preserved");
-console.log("PASS staff wellbeing reveals: exact 11 lines / 7 masks / 2 scales, unclipped proxies, one-shot forward/reverse entry, deep entry, reduced motion, keyboard access, no-JS fallback and cleanup");
+console.log("PASS staff wellbeing reveals: exact 13 lines / 7 masks / 2 scales, unclipped proxies, one-shot forward/reverse entry, deep entry, reduced motion, keyboard access, no-JS fallback and cleanup");

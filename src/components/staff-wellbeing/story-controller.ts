@@ -12,12 +12,11 @@ type Layer = {
 
 export function mountStoryVideo(story: HTMLElement) {
   const stage = story.querySelector<HTMLElement>("[data-life-stage]")!;
-  const control = story.querySelector<HTMLButtonElement>("[data-life-video-control]")!;
   const status = story.querySelector<HTMLElement>("[data-life-video-status]")!;
   const progress = story.querySelector<HTMLElement>("[data-life-progress]")!;
   const chapterNumber = progress.querySelector<HTMLElement>("[data-life-progress-number]")!;
   const chapterName = progress.querySelector<HTMLElement>("[data-life-progress-name]")!;
-  const chapters = [["01", "MOVE", "move"], ["02", "EAT TOGETHER", "eat"], ["03", "LIFE AT INFLU", "st"]] as const;
+  const chapters = [["01", "身体を動かす", "move"], ["02", "食卓を囲む", "eat"], ["03", "日々の暮らし", "st"]] as const;
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   const events = new AbortController();
   const layers: Layer[] = Array.from(stage.querySelectorAll<HTMLElement>("[data-life-scene-layer]"), element => {
@@ -45,11 +44,11 @@ export function mountStoryVideo(story: HTMLElement) {
   let ranges: Record<string, [number, number]> = {};
   let shades: [number, number][] = [];
   let scenes: [number, Scene][] = [];
-  let current: Scene = "box", shade = 0.86, inStory = false, userPaused = false;
+  let current: Scene = "box", shade = 0.86, inStory = false;
   let frame = 0, needsMeasure = true, suspended = false, disposed = false;
   const fades = new Map<Scene, ReturnType<typeof setTimeout>>();
   const active = () => layers.find(layer => layer.key === current)!;
-  const wantsPlayback = (layer: Layer) => layer.key === current && !userPaused && !preference.matches && !document.hidden && !suspended && !disposed && inStory && shade < 0.86 && !layer.failed && !layer.blocked;
+  const wantsPlayback = (layer: Layer) => layer.key === current && !preference.matches && !document.hidden && !suspended && !disposed && inStory && shade < 0.86 && !layer.failed && !layer.blocked;
 
   function sync() {
     for (const layer of layers) {
@@ -78,25 +77,15 @@ export function mountStoryVideo(story: HTMLElement) {
         video.removeAttribute("data-ready");
       }).finally(() => {
         if (request === layer.request) layer.pending = false;
-        if (!disposed) renderControl();
+        if (!disposed) renderStatus();
       });
     }
-    renderControl();
+    renderStatus();
   }
 
-  function renderControl() {
+  function renderStatus() {
     const layer = active();
-    // Unlike the reference, Toast and the .72–.86 shade band retain a pause control.
-    const visible = inStory && !preference.matches && (shade < 0.86 || userPaused || layer.blocked || layer.failed || document.activeElement === control);
-    const stopped = userPaused || layer.blocked || layer.failed;
-    control.toggleAttribute("data-visible", visible);
-    control.tabIndex = visible ? 0 : -1;
-    control.setAttribute("aria-hidden", String(!visible));
-    // Action button: its name changes between Play and Pause, rather than a toggle with a fixed name.
-    control.setAttribute("aria-label", stopped ? "背景映像を再生" : "背景映像を一時停止");
-    const action = stopped ? "Play" : "Pause";
-    if (control.textContent !== action) control.textContent = action;
-    const message = layer.failed || layer.blocked ? "映像を再生できないため、静止画を表示しています。再生ボタンで再試行できます。" : "";
+    const message = layer.failed || layer.blocked ? "映像を再生できないため、静止画を表示しています。" : "";
     if (status.textContent !== message) status.textContent = message;
   }
 
@@ -234,7 +223,12 @@ export function mountStoryVideo(story: HTMLElement) {
       if (chapterName.textContent !== chapter[1]) chapterName.textContent = chapter[1];
       progress.style.setProperty("--pp", Math.min(1, Math.max(0, (y - ranges.move[0]) / (ranges.st[1] - ranges.move[0]))).toFixed(4));
     }
-    shade = shadeAt(y);
+    // Fade the shared film darker across the overview between the opening and MOVE.
+    const overview = Math.max(0, Math.min(1,
+      (y - ranges.title[1]) / (innerHeight * .3),
+      (ranges.move[0] - y) / (innerHeight * .3),
+    ));
+    shade = Math.max(shadeAt(y), .78 * overview * overview * (3 - 2 * overview));
     stage.style.setProperty("--life-shade", shade.toFixed(3));
     inStory = scrollY < ranges.end[1] - innerHeight * .2;
     setScene(scenes.find(([boundary]) => y < boundary)![1]);
@@ -247,15 +241,6 @@ export function mountStoryVideo(story: HTMLElement) {
     if (!frame) frame = requestAnimationFrame(update);
   }
 
-  control.addEventListener("click", () => {
-    const layer = active();
-    if (layer.failed || layer.blocked) {
-      layer.failed = layer.blocked = false;
-      layer.loaded = false;
-      userPaused = false;
-    } else userPaused = !userPaused;
-    sync();
-  }, { signal: events.signal });
   layers.forEach(layer => {
     layer.video.addEventListener("playing", () => {
       if (wantsPlayback(layer)) layer.video.setAttribute("data-ready", "");

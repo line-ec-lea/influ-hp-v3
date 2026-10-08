@@ -10,7 +10,7 @@ import StoryBridge from "../components/staff-wellbeing/StoryBridge.astro";
 import Closing from "../components/staff-wellbeing/Closing.astro";
 
 // Progressive enhancement: the server-rendered page stays visible without JavaScript.
-// Only marked lines, masks and two featured scales are animated.
+// Only marked lines, photo masks and featured scales are animated.
 const revealStyles = [
   "motion-safe:[&_[data-life-line][data-life-pending]>span]:translate-y-[106%]",
   "motion-safe:data-[life-reveals]:[&_[data-life-line]>span]:transition-transform motion-safe:data-[life-reveals]:[&_[data-life-line]>span]:duration-[1300ms] motion-safe:data-[life-reveals]:[&_[data-life-line]>span]:ease-life",

@@ -20,7 +20,7 @@ const pillars = [
 
 <section id="wellbeing" aria-labelledby="wellbeing-title" class="relative z-1 py-[120px] [@media(max-width:720px)]:py-20" data-life-wellbeing>
   <div class="mx-auto max-w-life px-[var(--life-gutter)]">
-    <p class="m-0 border-t border-life-ink/20 pt-6 text-xs font-bold tracking-[0.12em] text-life-gold">INFLUのウェルビーイング</p>
+    <p class="m-0 pt-6 text-xs font-bold tracking-[0.12em] text-life-gold">INFLUのウェルビーイング</p>
     <div class="mt-10 grid grid-cols-12 items-end gap-x-[var(--life-gutter)] gap-y-8 [@media(max-width:900px)]:mt-8">
       <h2 id="wellbeing-title" class="col-span-7 m-0 text-[clamp(30px,3.8vw,56px)] font-bold leading-[1.5] tracking-[0.04em] [@media(max-width:900px)]:col-span-12">
         <span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">健やかに働く。</span></span>
@@ -30,7 +30,7 @@ const pillars = [
     </div>
     <div class="mt-14 grid grid-cols-3 gap-x-[var(--life-gutter)] gap-y-8 [@media(max-width:900px)]:grid-cols-1">
       {pillars.map(pillar => (
-        <div class="border-t border-life-ink/20 pt-6">
+        <div class="pt-6">
           <h3 class="m-0 text-lg font-bold tracking-[0.06em] text-life-gold">{pillar.title}</h3>
           <p class="m-0 mt-5 text-[17px] font-bold leading-[1.8] tracking-[0.03em]">{pillar.heading}</p>
           <p class="m-0 mt-3 text-sm leading-[2] tracking-[0.04em] text-life-ink/90">{pillar.description}</p>

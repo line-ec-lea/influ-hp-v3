@@ -1,0 +1,21 @@
+---
+import Company from "../layouts/Company.astro";
+import Container from "@shared/Container.astro";
+---
+
+<Company
+  title="スタッフのウェルビーイング"
+  description="株式会社INFLUのスタッフウェルビーイング。"
+  noindex
+>
+  <section class="bg-page text-foreground" aria-labelledby="staff-wellbeing-title">
+    <Container class="flex min-h-[70svh] flex-col justify-center pb-20 pt-32 sm:pb-24 sm:pt-36">
+      <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">STAFF WELLBEING</p>
+      <h1 id="staff-wellbeing-title" class="mt-5 text-[clamp(1.75rem,7.5vw,3rem)] font-bold leading-[1.35] tracking-[-0.02em] sm:text-5xl lg:text-7xl">
+        <span class="block">スタッフの</span>
+        <span class="mt-1 block">ウェルビーイング</span>
+      </h1>
+    </Container>
+  </section>
+  <!-- Add the wellbeing sections here once their content and direction are ready. -->
+</Company>

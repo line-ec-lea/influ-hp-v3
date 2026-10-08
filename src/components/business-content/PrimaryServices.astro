@@ -103,10 +103,7 @@ const bodyClass = "text-base leading-[1.8] text-[#CFC8BC] lg:leading-[1.9]"
                 <div
                   data-primary-service={service.number}
                   data-business-enter
-                  class:list={[
-                    "grid gap-5 lg:grid-cols-[7.5rem_minmax(0,1fr)] lg:gap-12",
-                    serviceIndex === 0 && "[&_[data-service-detail]]:bg-transparent!",
-                  ]}
+                  class="grid gap-5 lg:grid-cols-[7.5rem_minmax(0,1fr)] lg:gap-12 [&_[data-service-detail]]:bg-transparent!"
                 >
                   <div class="flex items-center gap-4 lg:block">
                     <p class="text-[3.5rem] font-bold leading-none tracking-[-0.08em] text-[#E0C584]/22 lg:text-[5rem] lg:tracking-[-0.04em]">
@@ -120,29 +117,23 @@ const bodyClass = "text-base leading-[1.8] text-[#CFC8BC] lg:leading-[1.9]"
                       {service.title}
                     </h3>
                     <p class:list={[
-                      "mt-3 max-w-3xl text-lg font-medium leading-[1.7] text-[#F5F1E8] lg:mt-4 lg:text-xl lg:font-medium lg:leading-[1.7] lg:tracking-normal lg:text-foreground!",
-                      serviceIndex === 0 && "max-sm:text-balance",
+                      "mt-3 max-w-3xl text-lg font-medium leading-[1.7] text-[#F5F1E8] max-sm:text-balance lg:mt-4 lg:text-xl lg:font-medium lg:leading-[1.7] lg:tracking-normal lg:text-foreground!",
+                      serviceIndex === 1 && "[line-break:strict]",
                     ]}>
-                      {serviceIndex === 0 ? <span class="text-foreground">{service.lead}</span> : service.lead}
+                      <span class="text-foreground">{service.lead}</span>
                     </p>
-                    <p class:list={[
-                      `mt-3 max-w-3xl lg:max-w-[42rem] ${bodyClass}`,
-                      serviceIndex === 0 && "text-balance",
-                    ]}>
+                    <p class={`mt-3 max-w-3xl text-balance lg:max-w-[42rem] ${bodyClass}`}>
                       {service.description}
                     </p>
 
                     <dl class="mt-6 grid gap-5 md:grid-cols-3 md:gap-6 lg:mt-8">
                       {service.details.map((detail) => (
                         <div
-                          data-service-detail={serviceIndex === 0 ? "" : undefined}
-                          class:list={[
-                            "relative bg-transparent!",
-                            serviceIndex === 0 && "border-t border-line pt-4 md:pt-5",
-                          ]}
+                          data-service-detail
+                          class="relative border-t border-line bg-transparent! pt-4 md:pt-5"
                         >
                           <dt class="flex items-center gap-3 text-xs font-bold tracking-[0.08em] text-[#E0C584]">
-                            <span class:list={["h-1.5 w-1.5 shrink-0 bg-gold-300", serviceIndex === 0 ? "rounded-[2px]" : "rounded-full"]} />
+                            <span class="h-1.5 w-1.5 shrink-0 rounded-[2px] bg-gold-300" />
                             <span>{detail.label}</span>
                           </dt>
                           <dd class="mt-2 text-base font-medium leading-[1.8] text-[#F5F1E8] lg:mt-3">
@@ -152,8 +143,8 @@ const bodyClass = "text-base leading-[1.8] text-[#CFC8BC] lg:leading-[1.9]"
                       ))}
                     </dl>
 
-                    <div class:list={["flex justify-start", serviceIndex === 0 ? "mt-7 md:mt-8" : "mt-6"]}>
-                      <SpecularButton href={service.href} mobileEffect class="max-sm:w-full max-sm:px-4">
+                    <div class="mt-7 flex justify-start md:mt-8">
+                      <SpecularButton href={service.href} mobileEffect class={`max-sm:w-full max-sm:px-4 ${serviceIndex === 1 ? "max-[360px]:text-sm" : ""}`}>
                         {service.cta}
                       </SpecularButton>
                     </div>

@@ -26,6 +26,9 @@ Agent skills are in `.agents/skills/`. Load them when working on specific tasks:
 - **building-emdash-site** -- Querying content, rendering Portable Text, schema design, seed files, site features (menus, widgets, search, SEO, comments, bylines). Start here.
 - **creating-plugins** -- Building EmDash plugins with hooks, storage, admin UI, API routes, and Portable Text block types.
 - **emdash-cli** -- CLI commands for content management, seeding, type generation, and visual editing flow.
+- **upgrading-emdash** -- Upgrading EmDash packages, project code, skills, and core migrations.
+- **wordpress-theme-to-emdash** -- Porting WordPress theme layouts and behavior to an EmDash-powered Astro site.
+- **wordpress-plugin-to-emdash** -- Porting WordPress plugin behavior, admin workflows, and stored data to EmDash.
 
 ## Documentation
 

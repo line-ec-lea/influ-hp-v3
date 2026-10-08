@@ -1,21 +1,46 @@
 ---
 import Company from "../layouts/Company.astro";
-import Container from "@shared/Container.astro";
+import VideoStage from "../components/staff-wellbeing/VideoStage.astro";
+import Opening from "../components/staff-wellbeing/Opening.astro";
+import Move from "../components/staff-wellbeing/Move.astro";
+import EatTogether from "../components/staff-wellbeing/EatTogether.astro";
+import LifeAtInflu from "../components/staff-wellbeing/LifeAtInflu.astro";
+import StoryBridge from "../components/staff-wellbeing/StoryBridge.astro";
+import Closing from "../components/staff-wellbeing/Closing.astro";
+import Contact from "../components/staff-wellbeing/Contact.astro";
+
+// Progressive enhancement: the server-rendered page stays visible without JavaScript.
+// Only the reference's marked lines, masks and two featured scales are animated.
+const revealStyles = [
+  "motion-safe:[&_[data-life-line][data-life-pending]>span]:translate-y-[106%]",
+  "motion-safe:data-[life-reveals]:[&_[data-life-line]>span]:transition-transform motion-safe:data-[life-reveals]:[&_[data-life-line]>span]:duration-[1300ms] motion-safe:data-[life-reveals]:[&_[data-life-line]>span]:ease-life",
+  "motion-safe:data-[life-reveals]:[&_[data-life-line]+[data-life-line]>span]:delay-100 motion-safe:data-[life-reveals]:[&_[data-life-line]+[data-life-line]+[data-life-line]>span]:delay-200",
+  "motion-safe:[&_[data-life-reveal]]:[clip-path:inset(0)] motion-safe:[&_[data-life-reveal][data-life-pending]]:[clip-path:inset(100%_0_0_0)]",
+  "motion-safe:data-[life-reveals]:[&_[data-life-reveal]]:transition-[clip-path] motion-safe:data-[life-reveals]:[&_[data-life-reveal]]:duration-[1300ms] motion-safe:data-[life-reveals]:[&_[data-life-reveal]]:ease-[cubic-bezier(0.65,0,0.35,1)]",
+  "motion-safe:[&_[data-life-reveal][data-life-pending]_[data-life-reveal-scale]]:scale-[1.06]",
+  "motion-safe:data-[life-reveals]:[&_[data-life-reveal-scale]]:transition-transform motion-safe:data-[life-reveals]:[&_[data-life-reveal-scale]]:duration-[2000ms] motion-safe:data-[life-reveals]:[&_[data-life-reveal-scale]]:ease-life",
+  "[&_[data-life-instant]]:transition-none! [&_[data-life-instant]_*]:transition-none!",
+];
+
 ---
 
 <Company
-  title="スタッフのウェルビーイング"
-  description="株式会社INFLUのスタッフウェルビーイング。"
+  title="Life at INFLU"
+  description="Life at INFLU — 株式会社INFLUの福利厚生と社内の日常。キックボクシング、バランスボール、チームランチ。スタッフBLOGに残るINFLUの日常。"
   noindex
 >
-  <section class="bg-page text-foreground" aria-labelledby="staff-wellbeing-title">
-    <Container class="flex min-h-[70svh] flex-col justify-center pb-20 pt-32 sm:pb-24 sm:pt-36">
-      <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">STAFF WELLBEING</p>
-      <h1 id="staff-wellbeing-title" class="mt-5 text-[clamp(1.75rem,7.5vw,3rem)] font-bold leading-[1.35] tracking-[-0.02em] sm:text-5xl lg:text-7xl">
-        <span class="block">スタッフの</span>
-        <span class="mt-1 block">ウェルビーイング</span>
-      </h1>
-    </Container>
-  </section>
-  <!-- Add the wellbeing sections here once their content and direction are ready. -->
+  <div id="top" class="bg-page font-sans text-[15px] font-normal leading-[1.9] tracking-[0.02em] text-life-ink [--life-gutter:40px] [&_a:focus-visible]:outline-offset-4! [&_a:focus-visible]:outline-life-gold! [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:[--life-gutter:18px]" data-life-page>
+    <div id="story" class:list={["relative", revealStyles]} data-life-story>
+      <VideoStage />
+      <Opening />
+      <Move />
+      <StoryBridge transition="move-eat" />
+      <EatTogether />
+      <StoryBridge transition="eat-life" />
+      <LifeAtInflu />
+      <Closing />
+      <div class="relative z-1 h-[44vh] [@media(max-width:720px)]:h-[36vh]" aria-hidden="true" data-life-story-end></div>
+    </div>
+    <Contact />
+  </div>
 </Company>

@@ -1,0 +1,142 @@
+---
+import type { MediaValue } from "emdash";
+import { Image } from "emdash/ui";
+
+// Reuse the reference's existing EmDash renditions, without a second local transform.
+// The photo frames below reserve layout space and own the editorial crops.
+const images = {
+  balanceBall: {
+    id: "01M3TGHTW73K9X8AJ7DWQQXB3F",
+    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGHTW73K9X8AJ7DWQQXB3F.png&w=1012&h=718&f=webp&q=92",
+    alt: "バランスボールに座って笑うスタッフ",
+  },
+  desk: {
+    id: "01M3TGJ90DN0P9CV7VSQ6978QM",
+    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGJ90DN0P9CV7VSQ6978QM.jpeg&w=2000&h=2667&f=webp&q=92",
+    alt: "デスクの下に置かれたバランスボール",
+  },
+  room: {
+    id: "01M3TGHSB4BYT18JMXWBR1MS5J",
+    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGHSB4BYT18JMXWBR1MS5J.png&w=855&h=623&f=webp&q=92",
+    alt: "研修が行われるミーティングルーム",
+  },
+} satisfies Record<string, MediaValue>;
+
+const monthlyEntries = [
+  { date: "07.15", href: "https://influhp.com/staff-blog/staffreport-6562", text: "第1回。6名がミーティングルームに集合。まずは自己紹介から。" },
+  { date: "08.21", href: "https://influhp.com/staff-blog/staffreport-6577", text: "「痛さの向こう側を感じろ！」ガチガチの身体が、心地よさに変わった。" },
+  { date: "09.11", href: "https://influhp.com/staff-blog/staffreport-6585", text: "バランスボール、忍体心操術、そしてキックボクシング。運動3連発の水曜日。" },
+] as const;
+
+const grid = "grid grid-cols-12 gap-x-[var(--life-gutter)]";
+const meta = "text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase";
+const photo = "relative overflow-hidden bg-elevated";
+const link = "group inline-flex items-center gap-2.5 transition-colors ease-[ease] duration-[350ms] hover:text-life-gold focus-visible:rounded-[2px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-life-gold";
+const arrow = "inline-block transition-transform duration-[450ms] ease-life motion-safe:group-hover:translate-x-[5px]";
+const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-strong pt-[22px] pb-5";
+const factValue = "text-right text-[clamp(44px,4.2vw,68px)] font-bold leading-[0.9] tracking-[-0.04em]";
+const factUnit = "ml-[6px] text-xs font-normal leading-[0.9] tracking-[0.18em] text-life-muted";
+
+// Exact source enhancement; the base grid remains usable without JS or with reduced motion.
+const horizontalStyles = [
+  "motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:h-[200vh] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:mt-10 motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:mx-[calc(50%_-_50vw)]",
+  "motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-pin]]:sticky motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-pin]]:top-0 motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-pin]]:h-screen motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-pin]]:flex motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-pin]]:items-center motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-pin]]:overflow-hidden",
+  "motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-track]]:flex motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-track]]:gap-[3vw] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-track]]:px-[var(--life-gutter)] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-track]]:[transform:translate3d(var(--hx,0px),0,0)] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-track]]:will-change-transform",
+  "motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-lead]]:order-none motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-lead]]:flex-none motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-lead]]:w-[min(24vw,360px)] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-lead]]:self-center",
+  "motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item]]:flex-none motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item=wide]>div]:h-[54vh] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item=tall]>div]:h-[62vh] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item=small]>div]:h-[46vh]",
+];
+
+---
+
+<section id="move" aria-labelledby="move-t" class="relative z-1 overflow-x-clip pt-10 [--life-gutter:40px] [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:[--life-gutter:18px]" data-life-move>
+  <div class="relative mx-auto max-w-life px-[var(--life-gutter)]">
+    <span class="pointer-events-none absolute -top-[0.30em] -left-[0.06em] z-0 text-[clamp(200px,21vw,320px)] font-thin leading-[0.78] tracking-[-0.06em] text-life-gold/30 select-none [@media(max-width:720px)]:relative [@media(max-width:720px)]:top-auto [@media(max-width:720px)]:left-auto [@media(max-width:720px)]:-mb-[0.32em] [@media(max-width:720px)]:block [@media(max-width:720px)]:text-[42vw]" aria-hidden="true" data-life-numeral>01</span>
+    <div class="relative z-2 flex flex-wrap items-end gap-8 pl-[24%] [@media(max-width:1100px)]:pl-0 [@media(max-width:720px)]:gap-2.5" data-life-move-heading>
+      <h2 id="move-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Move</h2>
+      <p class="m-0 mb-[0.55em] text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em] [@media(max-width:720px)]:m-0 [@media(max-width:720px)]:w-full">水曜日は、運動3連発。</p>
+    </div>
+
+    <div class:list={["relative mt-16", horizontalStyles]} data-life-hseq>
+      <div data-life-hseq-pin>
+        <div class="grid grid-cols-[repeat(12,1fr)] items-end gap-6 [@media(max-width:720px)]:gap-4" data-life-hseq-track>
+          <p class="order-9 col-span-12 m-0 text-[clamp(18px,1.6vw,22px)] font-bold leading-[1.55] tracking-[0.06em]" data-life-hseq-lead>毎週、オフィスでキックボクシング。<br /><span class={`mt-2 inline-block ${meta}`}>INFLUキックボクシング会 — film stills</span></p>
+          <figure class="col-start-1 col-end-9 m-0 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:-mx-[var(--life-gutter)]" data-life-hseq-item="wide">
+            <div class={`${photo} aspect-[1920/818]`} data-life-reveal>
+              <img src="/media/staff-wellbeing/boxing-wide.jpg" alt="オフィスでミットを打つメンバーたち" width="1920" height="818" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+            </div>
+          </figure>
+          <figure class="col-start-9 col-end-13 m-0 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[62%] [@media(max-width:720px)]:justify-self-end" data-life-hseq-item="tall">
+            <div class={`${photo} aspect-[4/5]`}>
+              <img src="/media/staff-wellbeing/boxing-laugh.jpg" alt="ミット打ちで笑うメンバー" width="940" height="818" loading="lazy" decoding="async" class="h-full w-full object-cover object-[50%_30%]" />
+            </div>
+          </figure>
+          <figure class="col-span-6 m-0 [@media(max-width:720px)]:col-span-12" data-life-hseq-item="small">
+            <div class={`${photo} aspect-[4/3]`}>
+              <img src="/media/staff-wellbeing/film-laugh.jpg" alt="笑い合うメンバー" width="1600" height="682" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+            </div>
+          </figure>
+          <figure class="col-span-6 m-0 [@media(max-width:720px)]:col-span-12" data-life-hseq-item="small">
+            <div class={`${photo} aspect-[4/3]`}>
+              <img src="/media/staff-wellbeing/film-floor.jpg" alt="マットに座りこんで笑うメンバー" width="1600" height="682" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+            </div>
+            <figcaption class={`mt-3 ${meta}`}>From the session film</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class={`${grid} mt-16 items-start [@media(max-width:720px)]:mt-10`} data-life-move-body>
+      <figure class="relative z-1 col-start-1 col-end-9 m-0 -ml-[var(--life-gutter)] [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:-mr-[var(--life-gutter)]" data-life-move-lead>
+        <div class={`${photo} aspect-[3/2] [@media(max-width:720px)]:aspect-[4/5]`} data-life-reveal>
+          <Image image={images.balanceBall} class="h-full! w-full! object-cover object-[42%_62%]" data-life-image-drift />
+        </div>
+        <figcaption class={`${meta} flex justify-between pt-[14px] pl-[var(--life-gutter)] [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-1 [@media(max-width:720px)]:px-[var(--life-gutter)] [@media(max-width:720px)]:pt-3`}><span>初回は5人。エンジニア2名と、管理部門3名。</span><a class={link} href="https://influhp.com/staff-blog/staffreport-6584">INFLUバランスボール部🏐 <span class={arrow}>↗</span></a></figcaption>
+      </figure>
+      <div class="col-start-10 col-end-13 grid gap-14 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:mt-14 [@media(max-width:1100px)]:grid-cols-2 [@media(max-width:1100px)]:gap-10 [@media(max-width:720px)]:grid-cols-1" data-life-move-side>
+        <div class="grid gap-0 border-t border-life-line-strong">
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">Boxing</b></span><span class={factValue}>01<small class={factUnit}>/ week</small></span></div>
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">Balance ball</b></span><span class={factValue}>45<small class={factUnit}>min</small></span></div>
+        </div>
+        <figure class="m-0">
+          <div class={`${photo} aspect-[4/5]`}>
+            <img src="/media/staff-wellbeing/boxing-gloves.jpg" alt="ブルーのグローブを構えるメンバー" width="654" height="818" loading="lazy" decoding="async" class="h-full w-full object-cover" />
+          </div>
+          <figcaption class={`${meta} mt-3 flex justify-between`}><span>Boxing — every week</span><span>From the session film</span></figcaption>
+        </figure>
+        <div class="border-l border-life-line-strong pl-4">
+          <p class="m-0 mb-[6px] text-[13px] font-bold leading-[1.7] tracking-[0.04em]">「毎週開催されている『INFLUキックボクシング会』🥊」</p>
+          <a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6566">自炊率が上がってきました♪🍅 <span class={arrow}>↗</span></a>
+        </div>
+        <a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6590">第二回✨バランスボール部🏐 <span class={arrow}>→</span></a>
+      </div>
+      <figure class="relative z-1 col-start-6 col-end-10 m-0 mt-[150px] [@media(max-width:1100px)]:col-start-3 [@media(max-width:1100px)]:col-end-11 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-[72px] [@media(max-width:720px)]:w-[82%] [@media(max-width:720px)]:justify-self-end" data-life-move-desk>
+        <div class={`${photo} aspect-[5/4]`}>
+          <div class="h-full w-full origin-[42%_96%] scale-[1.15]" data-life-image-scale>
+            <Image image={images.desk} class="h-full! w-full! object-cover object-[42%_96%]" data-life-image-drift />
+          </div>
+        </div>
+        <figcaption class={`${meta} mt-[14px] flex justify-between gap-4 [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-1`}><span>デスクでも、バランスボールを使っています。</span><a class={link} href="https://influhp.com/staff-blog/staffreport-6588">中野さんの机🖥️🪑 <span class={arrow}>↗</span></a></figcaption>
+      </figure>
+    </div>
+
+    <div class={`${grid} relative z-2 mt-[170px] items-start gap-y-10 [@media(max-width:720px)]:mt-24`} data-life-monthly>
+      <div class="col-start-1 col-end-7 [@media(max-width:1100px)]:col-span-12">
+        <span class={meta}><b class="font-bold text-life-ink">Monthly</b> — 忍体心操術 with 豪さん</span>
+        <p class="my-[18px] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.45] tracking-[0.06em]">「社員には、<br />運動が足りていない！」</p>
+        <p class="m-0 max-w-[28em] text-[14.5px] leading-[1.9] tracking-[0.04em] text-[#c9cbc6]">社長のその思いから始まった、月1回の研修。テーマは「むずかしい・キツい・大変なことをせず、努力感なく実感できる」。</p>
+      </div>
+      <div class={`${fact} col-start-1 col-end-5 border-t border-life-line-strong [@media(max-width:1100px)]:col-span-12`}><span class={meta}><b class="font-bold text-life-ink">Body conditioning</b></span><span class={factValue}>01<small class={factUnit}>/ month</small></span></div>
+      <ol class="col-start-7 col-end-13 row-start-1 row-end-3 m-0 list-none self-end border-t border-life-line-strong p-0 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:row-auto" data-life-monthly-entries>
+        {monthlyEntries.map(entry => (
+          <li><a href={entry.href} class="grid grid-cols-[64px_1fr] items-baseline gap-4 border-b border-life-line-strong py-4 transition-colors ease-[ease] duration-300 hover:text-life-gold focus-visible:rounded-[2px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-life-gold [@media(max-width:720px)]:grid-cols-[52px_1fr]"><span class={meta}>{entry.date}</span><p class="m-0 text-[15px] font-bold leading-[1.7] tracking-[0.04em]">{entry.text}</p></a></li>
+        ))}
+      </ol>
+      <figure class="col-start-7 col-end-11 m-0 [@media(max-width:1100px)]:col-start-1 [@media(max-width:1100px)]:col-end-9 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[78%]" data-life-monthly-photo>
+        <div class={`${photo} aspect-[16/10]`}>
+          <Image image={images.room} class="h-full! w-full! object-cover object-[30%_70%]" />
+        </div>
+        <figcaption class={`${meta} mt-2.5`}>とてもハードな水曜日😣 — 2026.09.11</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

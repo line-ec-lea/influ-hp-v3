@@ -2,10 +2,26 @@
 import Container from "./Container.astro";
 import { siteNavItems } from "@shared/features/navigation";
 import { routes } from "@shared/features/routes";
-import { SITE_NAME } from "@shared/features/seo";
+import { SITE_NAME, SITE_URL } from "@shared/features/seo";
 const isHome = Astro.url.pathname === "/";
 const showDividers = !isHome;
+const isLife = Astro.url.pathname === "/staff-wellbeing" || Astro.url.pathname === "/staff-wellbeing/";
+const lifeFocus = "focus-visible:rounded-[2px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-life-gold";
 ---
+{isLife ? (
+  <footer data-site-footer data-home={false} data-life-footer class="relative z-2 mt-auto bg-page pt-[150px] font-sans text-[15px] font-normal leading-[1.9] tracking-[0.02em] text-life-ink [--life-gutter:40px] [&_a:focus-visible]:outline-offset-4! [&_a:focus-visible]:outline-life-gold! [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:pt-[100px] [@media(max-width:720px)]:[--life-gutter:18px]">
+    <div class="relative mx-auto flex max-w-life justify-between gap-5 border-t border-life-line px-[var(--life-gutter)] pt-[26px] pb-[30px] [@media(max-width:720px)]:flex-col">
+      <nav aria-label="サイトマップ" class="flex flex-wrap gap-x-7 gap-y-2.5 border-t border-life-line pt-10 pb-[30px] text-[13px] text-life-muted">
+        {siteNavItems.map(item => <a href={new URL(item.href, SITE_URL).href} class={`hover:text-life-ink ${lifeFocus}`}>{item.label}</a>)}
+      </nav>
+      <div class="flex flex-wrap justify-between gap-x-8 gap-y-5 border-t border-life-line pt-[22px] pb-[30px] text-[11px] leading-[1.6] tracking-[0.18em] text-life-muted uppercase [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-2.5">
+        <span class="mr-auto">Copyright© 株式会社INFLU, 2019-2026 All Rights Reserved</span>
+        <a class={`inline-flex items-center gap-2.5 transition-colors ease-[ease] duration-[350ms] hover:text-life-gold ${lifeFocus}`} href={new URL(routes.privacyPolicy, SITE_URL).href}>プライバシーポリシー</a>
+        <a class={`inline-flex items-center gap-2.5 transition-colors ease-[ease] duration-[350ms] hover:text-life-gold ${lifeFocus}`} href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+) : (
 <footer data-site-footer data-home={isHome} class="bg-[#0B0B0B] text-[#F5F1E8]" class:list={[showDividers && Astro.url.pathname !== "/business-content" && "border-t border-[rgba(200,164,93,0.25)]"]}>
       <Container class={isHome ? "py-16 md:py-20" : "py-12 md:py-16"}>
         <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)] lg:gap-12">
@@ -63,3 +79,4 @@ const showDividers = !isHome;
         </div>
       </Container>
     </footer>
+)}

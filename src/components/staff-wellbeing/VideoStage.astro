@@ -1,0 +1,41 @@
+---
+const scenes = [
+  { id: "box", file: "kickboxing" },
+  { id: "eat", file: "eat" },
+  { id: "toast", file: "toast" },
+];
+---
+
+<div class="fixed inset-x-0 top-0 z-0 h-screen overflow-hidden bg-black [--life-shade:0.86]" data-life-stage aria-hidden="true">
+  {scenes.map(({ id, file }) => (
+    <div class="absolute inset-0 z-0 opacity-0 transition-[opacity,transform] duration-[1000ms,1400ms] ease-life data-[diagonal=a]:[transform:translate3d(-6vw,-8vh,0)_scale(.94)] data-[diagonal=b]:[transform:translate3d(7vw,9vh,0)_scale(1.04)] motion-reduce:transform-none! data-[on]:opacity-100 data-[top]:z-1 motion-reduce:transition-none" data-life-scene-layer={id} data-on={id === "box" ? "" : undefined} data-top={id === "box" ? "" : undefined}>
+      <!-- A shorter mobile frame keeps the wide footage from becoming an enlarged sliver. -->
+      <div class="absolute inset-0 [@media(max-width:720px)]:inset-y-auto [@media(max-width:720px)]:top-1/2 [@media(max-width:720px)]:aspect-[4/3] [@media(max-width:720px)]:-translate-y-1/2" data-life-film-frame>
+        <img src={`/media/staff-wellbeing/${file}-poster.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover object-[50%_45%]" loading={id === "box" ? "eager" : "lazy"} fetchpriority={id === "box" ? "high" : "auto"} />
+        <video src={`/media/staff-wellbeing/${file}.mp4`} poster={`/media/staff-wellbeing/${file}-poster.jpg`} muted loop playsinline disablepictureinpicture disableRemotePlayback preload="none" tabindex="-1" class="pointer-events-none absolute inset-0 h-full w-full object-cover object-[50%_45%] opacity-0 data-[ready]:opacity-100"></video>
+      </div>
+    </div>
+  ))}
+  <div class="pointer-events-none absolute inset-0 z-2 bg-[linear-gradient(to_top,rgba(6,6,6,.6),rgba(6,6,6,0)_42%),linear-gradient(to_bottom,rgba(6,6,6,.42),rgba(6,6,6,0)_30%)]">
+    <div class="absolute inset-0 bg-section opacity-[var(--life-shade)]"></div>
+  </div>
+</div>
+<!-- Story progress sits above content and below Company's z-200 Navbar. -->
+<div class="pointer-events-none fixed inset-x-0 bottom-[calc(22px+env(safe-area-inset-bottom,0px))] z-[190] text-life-ink opacity-0 transition-[opacity,color] duration-[500ms,400ms] ease-[ease] data-[visible]:opacity-100 [@media(max-width:720px)]:bottom-0 [@media(max-width:720px)]:border-t [@media(max-width:720px)]:border-life-line-strong [@media(max-width:720px)]:bg-section/95 [@media(max-width:720px)]:pt-4 [@media(max-width:720px)]:pb-[calc(14px+env(safe-area-inset-bottom,0px))] motion-reduce:transition-none" data-life-progress aria-hidden="true">
+  <div class="relative m-0 grid w-max max-w-life grid-cols-[auto_1fr] justify-start gap-x-7 gap-y-[10px] px-[var(--life-gutter)] [@media(max-width:720px)]:gap-x-3">
+    <span class="text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase"><b class="font-bold" data-life-progress-number>01</b> / 03</span>
+    <span class="text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase" data-life-progress-name>Vitality</span>
+    <span class="relative col-span-2 h-px w-[220px] overflow-hidden bg-life-ink/25 [@media(max-width:720px)]:w-[160px]"><i class="absolute inset-0 origin-left scale-x-[var(--pp,0)] bg-life-gold"></i></span>
+  </div>
+</div>
+<span class="sr-only" role="status" data-life-video-status></span>
+
+<script>
+  import { mountStoryVideo, mountStoryReveals } from "./story-controller";
+  const story = document.querySelector<HTMLElement>("[data-life-story]");
+  if (story) {
+    const dispose = mountStoryVideo(story);
+    const disposeReveals = mountStoryReveals(story);
+    if (import.meta.hot) import.meta.hot.dispose(() => { dispose(); disposeReveals(); });
+  }
+</script>

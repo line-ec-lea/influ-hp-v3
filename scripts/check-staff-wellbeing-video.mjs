@@ -33,7 +33,7 @@ class Video extends Element {
     this.paused = false; this.emit("playing"); return Promise.resolve();
   }
 }
-function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 900 } = {}) {
+function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 900, withFooter = false } = {}) {
   const stage = new Element(), status = new Element(), story = new Element();
   const progress = new Element(), chapterNumber = new Element(), chapterName = new Element();
   progress.querySelector = s => s === "[data-life-progress-number]" ? chapterNumber : chapterName;
@@ -76,6 +76,9 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   story.querySelectorAll = selector => selector === "[data-life-numeral]" ? numerals : crops;
   const preference = new Element(); preference.matches = reduced;
   const document = new Element(); document.hidden = false; document.fonts = new Element(); document.fonts.ready = Promise.resolve(); document.documentElement = new Element();
+  const footer = new Element();
+  footer.getBoundingClientRect = () => ({ top: 14867 - context.scrollY, bottom: 16000 - context.scrollY });
+  document.querySelector = () => withFooter ? footer : null;
   const window = new Element(), frames = new Map(), timers = new Map(); let id = 0, resize;
   const context = vm.createContext({ document, window, innerHeight: 900, innerWidth: width, scrollY: initialY,
     getComputedStyle: element => ({ objectPosition: element.base, position: context.innerWidth >= 901 && !preference.matches ? "sticky" : "static" }),
@@ -151,6 +154,15 @@ const quiet = setup({ reduced: true }); await microtasks();
 assert.deepEqual(quiet.layers.map(l => l.video.loads), [0,0,0]);
 quiet.dispose();
 const deep = setup({ initialY: 14000 }); await microtasks(); assert.deepEqual(playing(deep), ["toast"]); deep.dispose();
+
+const footerFilm = setup({ withFooter: true, initialY: 14867 }); await microtasks();
+assert.equal(Number(footerFilm.stage.attrs.get("--life-shade")), .4, "The footer keeps the closing film visible");
+assert.deepEqual(playing(footerFilm), ["toast"], "The closing film continues behind the shared footer");
+footerFilm.scroll(15100); await microtasks(); assert.deepEqual(playing(footerFilm), ["toast"]);
+footerFilm.reduced(true); assert.deepEqual(playing(footerFilm), []);
+footerFilm.reduced(false); await microtasks(); assert.deepEqual(playing(footerFilm), ["toast"]);
+footerFilm.scroll(16000); assert.deepEqual(playing(footerFilm), []);
+footerFilm.dispose();
 
 // Rejected autoplay and actual media errors retain the poster without retry loops.
 const failure = setup({ initialMode: "reject" }); await microtasks();

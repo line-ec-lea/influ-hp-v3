@@ -6,7 +6,7 @@ const scenes = [
 ];
 ---
 
-<div class="sticky top-0 z-0 -mb-[100vh] h-screen overflow-hidden bg-black [--life-shade:0.86]" data-life-stage aria-hidden="true">
+<div class="fixed inset-x-0 top-0 z-0 h-screen overflow-hidden bg-black [--life-shade:0.86]" data-life-stage aria-hidden="true">
   {scenes.map(({ id, file }) => (
     <div class="absolute inset-0 z-0 opacity-0 transition-[opacity,transform] duration-[1000ms,1400ms] ease-life data-[diagonal=a]:[transform:translate3d(-6vw,-8vh,0)_scale(.94)] data-[diagonal=b]:[transform:translate3d(7vw,9vh,0)_scale(1.04)] motion-reduce:transform-none! data-[on]:opacity-100 data-[top]:z-1 motion-reduce:transition-none" data-life-scene-layer={id} data-on={id === "box" ? "" : undefined} data-top={id === "box" ? "" : undefined}>
       <img src={`/media/staff-wellbeing/${file}-poster.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover object-[50%_45%]" loading={id === "box" ? "eager" : "lazy"} fetchpriority={id === "box" ? "high" : "auto"} />

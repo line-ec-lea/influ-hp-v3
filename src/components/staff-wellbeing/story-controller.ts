@@ -12,6 +12,7 @@ type Layer = {
 
 export function mountStoryVideo(story: HTMLElement) {
   const stage = story.querySelector<HTMLElement>("[data-life-stage]")!;
+  const footer = document.querySelector<HTMLElement>("[data-life-footer]");
   const status = story.querySelector<HTMLElement>("[data-life-video-status]")!;
   const progress = story.querySelector<HTMLElement>("[data-life-progress]")!;
   const chapterNumber = progress.querySelector<HTMLElement>("[data-life-progress-number]")!;
@@ -152,7 +153,7 @@ export function mountStoryVideo(story: HTMLElement) {
     // Exact reference keyframes: viewport-centre position and film shade.
     shades = [[0,.08],[R.title[1]-H*.3,.2],[R.move[0]+H*.35,.34],[R.hseq[0]+H*.4,.6],[R.hseq[1]-H*.4,.6],[R.move[1]-H*.6,.44],
       [R.b1[0]+H*.45,.14],[R.eat[0]+H*.3,.18],[R.efilm[1]-H*.35,.26],[R.elead[0]+H*.15,.86],[R.eat[1]-H*.5,.9],
-      [R.b2[0]+H*.45,.16],[R.b2[1]-H*.1,.4],[R.st[0]+H*.5,.9],[R.st[1]-H*.5,.92],[R.cl[0]+H*.3,.44],[R.cl[1]-H*.25,.4],[R.end[1],1]];
+      [R.b2[0]+H*.45,.16],[R.b2[1]-H*.1,.4],[R.st[0]+H*.5,.9],[R.st[1]-H*.5,.92],[R.cl[0]+H*.3,.44],[R.cl[1]-H*.25,.4],[R.end[1],footer ? .4 : 1]];
     for (let i = 1; i < shades.length; i++) if (shades[i][0] <= shades[i-1][0]) shades[i][0] = shades[i-1][0] + 1;
     scenes = [[R.b1[0]+H*.15,"box"],[R.cl[0]-H*.1,"eat"],[Infinity,"toast"]];
   }
@@ -230,7 +231,7 @@ export function mountStoryVideo(story: HTMLElement) {
     ));
     shade = Math.max(shadeAt(y), .78 * overview * overview * (3 - 2 * overview));
     stage.style.setProperty("--life-shade", shade.toFixed(3));
-    inStory = scrollY < ranges.end[1] - innerHeight * .2;
+    inStory = footer ? footer.getBoundingClientRect().bottom > 0 : scrollY < ranges.end[1] - innerHeight * .2;
     setScene(scenes.find(([boundary]) => y < boundary)![1]);
     stage.dataset.lifeActiveScene = current;
     sync();

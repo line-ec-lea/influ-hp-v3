@@ -11,6 +11,7 @@ const markup = await readFile(new URL("../src/components/home/LogoIntro.astro", 
 const bootstrap = markup.match(/<script is:inline>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(bootstrap, "Intro starts with a parser-blocking inline script");
 assert.match(markup, /data-logo-intro hidden>/, "Without JavaScript, the homepage is available");
+assert.match(markup, /class="[^"]*\bopacity-0\b[^"]*" data-intro-content>/, "Logo stays hidden until its animation starts");
 function setup({ reduced = false, hash = "", scrollY = 0, navigationType = "navigate", video = false, hasIntro = true, beforeAnimation = () => {} } = {}) {
   const events = () => ({
     listeners: new Map(),
@@ -21,7 +22,7 @@ function setup({ reduced = false, hash = "", scrollY = 0, navigationType = "navi
   const content = Array.from({ length: 4 }, target), still = target();
   const parts = new Map();
   const intro = hasIntro ? { ...target(), hidden: true, dataset: {}, querySelector(selector) {
-    if (!parts.has(selector)) parts.set(selector, target());
+    if (!parts.has(selector)) parts.set(selector, { ...target(), opacity: selector === "[data-intro-content]" ? 0 : 1 });
     return parts.get(selector);
   } } : null;
   const hero = { dataset: { video: String(video) }, querySelectorAll: () => content, querySelector: () => still };
@@ -70,6 +71,11 @@ assert.equal(timeline.labels.hero, 2.5, "Existing intro duration is unchanged");
 state.timeouts[0].callback();
 assert.equal(state.intro.hidden, false);
 assert.ok(state.content.every(item => item.opacity === 0), "Hero waits behind the intro");
+assert.equal(state.intro.querySelector("[data-intro-content]").opacity, 0, "Animation starts with a hidden logo, not a second visible logo");
+timeline.seek(0.45, false);
+assert.ok(state.intro.querySelector("[data-intro-content]").opacity > 0, "Logo fades in from its initial hidden state");
+timeline.seek(1, false);
+assert.equal(state.intro.querySelector("[data-intro-content]").opacity, 1, "Logo reaches full opacity despite its initial CSS opacity");
 timeline.seek(timeline.labels.hero - 0.01, false);
 assert.equal(state.intro.hidden, false);
 timeline.seek(timeline.labels.hero, false);

@@ -120,6 +120,12 @@ for (const [y, shade] of [[0,.176],[180,.2],[765,.34],[1360,.6],[1740,.6],[3650,
   s.scroll(y);
   assert.equal(Number(s.stage.attrs.get("--life-shade")), shade, `Reference shade at scroll ${y}`);
 }
+// Reading shade must never interrupt the active background film.
+for (const y of [6125,9429,12960]) {
+  s.scroll(y); await microtasks();
+  assert.ok(Number(s.stage.attrs.get("--life-shade")) >= .86);
+  assert.deepEqual(playing(s), ["eat"], `The film keeps looping behind shaded copy at ${y}`);
+}
 s.scroll(14000); await microtasks();
 assert.deepEqual(playing(s), ["toast"]);
 s.scroll(4700); await microtasks(); assert.deepEqual(playing(s), ["eat"], "Scenes autoplay without user interaction");

@@ -71,10 +71,10 @@ const html = await (await fetch("http://localhost:4321/staff-wellbeing")).text()
 const starts = [...html.matchAll(/<[^!\/][^>]*>/g)].map(m => m[0]);
 const attr = name => starts.filter(tag => new RegExp(`\\s${name}(?:[\\s=>])`).test(tag));
 assert.equal(attr("data-life-line").length, 14);
-assert.equal(attr("data-life-reveal").length, 10);
-assert.equal(attr("data-life-reveal-scale").length, 5);
+assert.equal(attr("data-life-reveal").length, 9);
+assert.equal(attr("data-life-reveal-scale").length, 4);
 assert.equal(attr("data-life-pillar").length, 3, "All three wellbeing photos share the existing reveal behavior");
 assert.equal(attr("data-life-pending").length, 0, "No-JS HTML is fully visible");
-assert.equal(attr("data-life-image-drift").length, 4, "Only the four active source images receive crop drift");
+assert.equal(attr("data-life-image-drift").length, 3, "The three retained source images receive crop drift");
 assert.equal(attr("data-life-scene-layer").length, 3, "Video-stage ownership is preserved");
-console.log("PASS staff wellbeing reveals: exact 14 lines / 10 masks / 5 scales, unclipped proxies, one-shot forward/reverse entry, deep entry, reduced motion, keyboard access, no-JS fallback and cleanup");
+console.log("PASS staff wellbeing reveals: 14 lines / 9 masks / 4 scales, unclipped proxies, one-shot forward/reverse entry, deep entry, reduced motion, keyboard access, no-JS fallback and cleanup");

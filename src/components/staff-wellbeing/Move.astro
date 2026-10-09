@@ -22,12 +22,6 @@ const images = {
   },
 } satisfies Record<string, MediaValue>;
 
-const monthlyEntries = [
-  { date: "07.15", href: "https://influhp.com/staff-blog/staffreport-6562", text: "第1回。6名がミーティングルームに集合。まずは自己紹介から。" },
-  { date: "08.21", href: "https://influhp.com/staff-blog/staffreport-6577", text: "「痛さの向こう側を感じろ！」ガチガチの身体が、心地よさに変わった。" },
-  { date: "09.11", href: "https://influhp.com/staff-blog/staffreport-6585", text: "バランスボール、忍体心操術、そしてキックボクシング。運動3連発の水曜日。" },
-] as const;
-
 const grid = "grid grid-cols-12 gap-x-[var(--life-gutter)]";
 const meta = "text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase";
 const photo = "relative overflow-hidden bg-elevated";
@@ -46,6 +40,7 @@ const horizontalStyles = [
   "motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item]]:flex-none motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item=wide]>div]:h-[54vh] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item=tall]>div]:h-[62vh] motion-safe:[@media(min-width:901px)]:data-[life-horizontal]:[&_[data-life-hseq-item=small]>div]:h-[46vh]",
 ];
 
+
 ---
 
 <section id="move" aria-labelledby="move-t" class="relative z-1 overflow-x-clip pt-10 [--life-gutter:40px] [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:[--life-gutter:18px]" data-life-move>
@@ -54,12 +49,13 @@ const horizontalStyles = [
       <p class="m-0 text-xs font-bold leading-[1.6] tracking-[0.12em] text-life-gold">01 — 身体の健康</p>
       <h2 id="move-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Vitality</h2>
       <p class="m-0 text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em]">からだが弾む。</p>
+      <p class="m-0 mt-3 max-w-[42em] text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">毎週水曜日のキックボクシングと、バランスボールを使った運動。身体を動かす機会を、日々の職場の中につくっています。</p>
     </div>
 
     <div class:list={["relative mt-16", horizontalStyles]} data-life-hseq>
       <div data-life-hseq-pin>
         <div class="grid grid-cols-[repeat(12,1fr)] items-end gap-6 [@media(max-width:720px)]:gap-4" data-life-hseq-track>
-          <p class="order-9 col-span-12 m-0 text-[clamp(18px,1.6vw,22px)] font-bold leading-[1.55] tracking-[0.06em]" data-life-hseq-lead>毎週水曜日、オフィスでキックボクシング。<br /><span class={`mt-2 inline-block ${meta}`}>参加無料。どなたでもご参加いただけます。</span></p>
+          <p class="order-9 col-span-12 m-0 text-[clamp(18px,1.6vw,22px)] font-bold leading-[1.55] tracking-[0.06em]" data-life-hseq-lead>毎週水曜日、オフィスでキックボクシング。<br /><span class="mt-2 inline-block text-sm font-normal leading-[1.8] tracking-[0.04em] text-life-ink/90">参加無料。どなたでもご参加いただけます。</span></p>
           <figure class="col-start-1 col-end-9 m-0 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:-mx-[var(--life-gutter)]" data-life-hseq-item="wide">
             <div class={`${photo} aspect-[1920/818]`} data-life-reveal>
               <img src="/media/staff-wellbeing/boxing-wide.jpg" alt="オフィスでミットを打つメンバーたち" width="1920" height="818" loading="lazy" decoding="async" class="h-full w-full object-cover" />
@@ -93,9 +89,13 @@ const horizontalStyles = [
         <figcaption class={`${meta} flex justify-between pt-[14px] pl-[var(--life-gutter)] [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-1 [@media(max-width:720px)]:px-[var(--life-gutter)] [@media(max-width:720px)]:pt-3`}><span>初回は5人。エンジニア2名と、管理部門3名。</span><a class={link} href="https://influhp.com/staff-blog/staffreport-6584">INFLUバランスボール部🏐 <span class={arrow}>↗</span></a></figcaption>
       </figure>
       <div class="col-start-10 col-end-13 grid gap-14 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:mt-14 [@media(max-width:1100px)]:grid-cols-2 [@media(max-width:1100px)]:gap-10 [@media(max-width:720px)]:grid-cols-1" data-life-move-side>
-        <div class="grid gap-0 border-t border-life-line-strong">
+        <div>
+          <h3 class="m-0 text-xl font-bold leading-[1.6] tracking-[0.04em]">バランスボールで、身体を動かす。</h3>
+          <p class="mt-3 mb-6 text-sm leading-[2] text-life-ink/90">社員が取り組める、バランスボールを使った運動。身近な道具を使って、身体を動かすきっかけをつくっています。</p>
+          <div class="grid gap-0 border-t border-life-line-strong">
           <div class={fact}><span class={meta}><b class="font-bold text-life-ink">キックボクシング</b></span><span class={factValue}>01<small class={factUnit}>回／週</small></span></div>
-          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">バランスボール</b></span><span class={factValue}>45<small class={factUnit}>分</small></span></div>
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">バランスボール</b></span><span class={factValue}><small class="text-[22px] font-bold tracking-[0.02em]">社員向け</small></span></div>
+          </div>
         </div>
         <figure class="m-0">
           <div class={`${photo} aspect-[4/5]`}>
@@ -119,23 +119,17 @@ const horizontalStyles = [
       </figure>
     </div>
 
-    <div class={`${grid} relative z-2 mt-[170px] items-start gap-y-10 [@media(max-width:720px)]:mt-24`} data-life-monthly>
+    <div class={`${grid} relative z-2 mt-24 items-start gap-y-10 [@media(max-width:720px)]:mt-16`} data-life-mind>
       <div class="col-start-1 col-end-7 [@media(max-width:1100px)]:col-span-12">
-        <span class={meta}><b class="font-bold text-life-ink">月1回の研修</b> — 豪さんの忍体心操術</span>
-        <p class="my-[18px] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.45] tracking-[0.06em]">身体を整え、<br />心も健やかに。</p>
-        <p class="m-0 max-w-[28em] text-[14.5px] leading-[1.9] tracking-[0.04em] text-[#c9cbc6]">月1回、豪さんと取り組む身体づくりの研修。テーマは「むずかしい・キツい・大変なことをせず、努力感なく実感できる」。</p>
+        <p class={meta}><b class="font-bold text-life-ink">心の健やかさへ</b></p>
+        <h3 class="my-[18px] text-[clamp(26px,2.6vw,40px)] font-bold leading-[1.45] tracking-[0.06em]">身体を動かすことが、<br />心をほぐすきっかけになる。</h3>
+        <p class="m-0 max-w-[32em] text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">身体を動かしたり、仲間と笑い合ったり。INFLUでは、そんな時間を、日々の気分を切り替えるきっかけとしても大切にしています。</p>
       </div>
-      <div class={`${fact} col-start-1 col-end-5 border-t border-life-line-strong [@media(max-width:1100px)]:col-span-12`}><span class={meta}><b class="font-bold text-life-ink">身体を整える研修</b></span><span class={factValue}>01<small class={factUnit}>回／月</small></span></div>
-      <ol class="col-start-7 col-end-13 row-start-1 row-end-3 m-0 list-none self-end border-t border-life-line-strong p-0 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:row-auto" data-life-monthly-entries>
-        {monthlyEntries.map(entry => (
-          <li><a href={entry.href} class="grid grid-cols-[64px_1fr] items-baseline gap-4 border-b border-life-line-strong py-4 transition-colors ease-[ease] duration-300 hover:text-life-gold focus-visible:rounded-[2px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-life-gold [@media(max-width:720px)]:grid-cols-[52px_1fr]"><span class={meta}>{entry.date}</span><p class="m-0 text-[15px] font-bold leading-[1.7] tracking-[0.04em]">{entry.text}</p></a></li>
-        ))}
-      </ol>
-      <figure class="col-start-7 col-end-11 m-0 [@media(max-width:1100px)]:col-start-1 [@media(max-width:1100px)]:col-end-9 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[78%]" data-life-monthly-photo>
+      <figure class="col-start-8 col-end-12 m-0 [@media(max-width:1100px)]:col-span-8 [@media(max-width:720px)]:col-span-12" data-life-monthly-photo>
         <div class={`${photo} aspect-[16/10]`}>
           <Image image={images.room} class="h-full! w-full! object-cover object-[30%_70%]" />
         </div>
-        <figcaption class={`${meta} mt-2.5`}>とてもハードな水曜日😣 — 2026.09.11</figcaption>
+        <figcaption class={`${meta} mt-2.5`}>身体づくりの研修の様子。</figcaption>
       </figure>
     </div>
   </div>

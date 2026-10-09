@@ -36,13 +36,14 @@ const arrow = "inline-block transition-transform duration-[450ms] ease-life moti
 const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-strong pt-[22px] pb-5";
 ---
 
-<section id="eat" aria-labelledby="eat-t" class="relative z-1 overflow-x-clip pt-[220px] [--life-gutter:40px] [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:pt-[140px] [@media(max-width:720px)]:[--life-gutter:18px]" data-life-eat>
+<section id="eat" aria-labelledby="eat-t" class="relative z-1 overflow-x-clip pt-[120px] [--life-gutter:40px] [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:pt-20 [@media(max-width:720px)]:[--life-gutter:18px]" data-life-eat>
   <div class="relative mx-auto max-w-life px-[var(--life-gutter)]">
     <span class="pointer-events-none absolute top-[0.05em] -right-[0.04em] z-0 text-[clamp(200px,21vw,320px)] font-thin leading-[0.78] tracking-[-0.06em] text-life-gold/30 select-none [@media(max-width:720px)]:relative [@media(max-width:720px)]:top-auto [@media(max-width:720px)]:right-auto [@media(max-width:720px)]:-mb-[0.32em] [@media(max-width:720px)]:block [@media(max-width:720px)]:text-right [@media(max-width:720px)]:text-[42vw]" aria-hidden="true" data-life-numeral>02</span>
     <div class="relative z-2 grid gap-3" data-life-eat-heading>
       <p class="m-0 text-xs font-bold leading-[1.6] tracking-[0.12em] text-life-gold">02 — 人とのつながり</p>
       <h2 id="eat-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Eat together</h2>
       <p class="m-0 text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em]">食卓から、つながる。</p>
+      <p class="m-0 mt-3 max-w-[42em] text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">毎月届く野菜を囲むランチや、みんなで過ごす食事の時間。同じテーブルを囲んで、気軽に話せる機会をつくっています。</p>
     </div>
 
     <!-- Intentionally transparent so the persistent meal film remains visible. -->
@@ -54,8 +55,8 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
     <div class={`${grid} mt-16 items-start [@media(max-width:720px)]:mt-10`} data-life-eat-body>
       <div class="col-start-1 col-end-4 grid gap-10 pt-[6px] [@media(max-width:1100px)]:order-2 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:mt-12" data-life-eat-side>
         <div class="grid gap-0 border-t border-life-line-strong">
-          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">ランチ会</b></span><span class="text-right text-[clamp(44px,4.2vw,68px)] font-bold leading-[0.9] tracking-[-0.04em]">02<small class="ml-[6px] text-xs font-normal leading-[0.9] tracking-[0.18em] text-life-muted">回／月</small></span></div>
-          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">野菜</b></span><span class="text-right text-[22px] font-bold leading-[0.9] tracking-[0.02em]">農園から</span></div>
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">ランチ会</b></span><span class="text-right text-[clamp(44px,4.2vw,68px)] font-bold leading-[0.9] tracking-[-0.04em]"><small class="text-[22px] font-bold tracking-[0.02em]">一緒に</small></span></div>
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">野菜</b></span><span class="text-right text-[22px] font-bold leading-[0.9] tracking-[0.02em]">毎月届く</span></div>
         </div>
         <a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6582">お野菜たっぷりせいろ蒸しランチ🥬🍠🥕 <span class={arrow}>→</span></a>
       </div>
@@ -74,7 +75,7 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
         <div class={`${photo} aspect-square`}>
           <div class="h-full w-full origin-[78%_40%] scale-125" data-life-image-scale><Image image={images.seiro} class="h-full! w-full! object-cover object-[78%_40%]" /></div>
         </div>
-        <div class="mt-4"><span class={meta}>農園からのお便り</span><p class="m-0 mt-[6px] text-sm font-bold tracking-[0.04em] leading-[1.9]">「暑さのため、いつもより辛くなってます」</p><a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6591">生産者さんのメモ <span class={arrow}>→</span></a></div>
+        <div class="mt-4"><span class={meta}>野菜を囲むランチ</span><p class="m-0 mt-[6px] text-sm font-bold tracking-[0.04em] leading-[1.9]">一緒に食べる時間が、会話のきっかけに。</p><a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6582">せいろ蒸しランチの様子 <span class={arrow}>→</span></a></div>
       </div>
       <blockquote class="col-start-5 col-end-10 m-0 mt-10 [@media(max-width:1100px)]:col-start-7 [@media(max-width:1100px)]:col-end-13 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-12" data-life-eat-quote>
         <figure class="m-0 mb-7 w-full max-w-[360px]" data-life-eat-group><div class={`${photo} aspect-[4/3]`} data-life-reveal><Image image={images.lunchGroup} class="h-full! w-full! object-cover" /></div></figure>
@@ -86,6 +87,11 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
           <div class="h-full w-full origin-[76%_80%] scale-125" data-life-image-scale><Image image={images.katsuo} class="h-full! w-full! object-cover object-[76%_80%]" /></div>
         </div>
       </figure>
+    </div>
+    <div class="mt-20 max-w-[48em] [@media(max-width:720px)]:mt-14" data-life-workshop>
+      <p class={meta}><b class="font-bold text-life-ink">これまでの取り組み</b></p>
+      <h3 class="my-4 text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.5] tracking-[0.04em]">食卓を囲む時間も、<br />一緒に考える時間も。</h3>
+      <p class="m-0 text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">食事会に加えて、「Return to the Future」をテーマにしたワークショップも開催してきました。共に過ごす時間を通じて、仕事の話だけでは生まれない交流を育んでいます。</p>
     </div>
   </div>
 </section>

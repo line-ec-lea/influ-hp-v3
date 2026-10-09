@@ -48,7 +48,7 @@ export function mountStoryVideo(story: HTMLElement) {
   let frame = 0, needsMeasure = true, suspended = false, disposed = false;
   const fades = new Map<Scene, ReturnType<typeof setTimeout>>();
   const active = () => layers.find(layer => layer.key === current)!;
-  const wantsPlayback = (layer: Layer) => layer.key === current && !preference.matches && !document.hidden && !suspended && !disposed && inStory && shade < 0.86 && !layer.failed && !layer.blocked;
+  const wantsPlayback = (layer: Layer) => layer.key === current && !preference.matches && !document.hidden && !suspended && !disposed && inStory && !layer.failed && !layer.blocked;
 
   function sync() {
     for (const layer of layers) {

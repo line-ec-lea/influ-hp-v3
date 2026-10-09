@@ -24,3 +24,14 @@ Posters are taken from each exported clip at 0.5 seconds (`-frames:v 1 -q:v 2`).
 The desktop backdrop fills the screen. The mobile frame uses a 4:3 shape to
 reduce enlargement and keep more of the wide scene visible; posters and films
 use the same frame.
+
+Overview images:
+
+- `wellbeing-move.jpg`: extracted from `influ-kickboxing.mp4` at 34 seconds,
+  with the boxing picture crop above and `-frames:v 1 -q:v 2`.
+- `wellbeing-growth.webp`: the existing engineering workspace photo from
+  https://influhp.com/staff-blog/staffreport-6588, downloaded on 2026-10-09.
+  EmDash media ID: `01M3TGJ90DN0P9CV7VSQ6978QM`. The downloaded rendition is
+  https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGJ90DN0P9CV7VSQ6978QM.jpeg&w=2560&h=3413&f=webp&fit=cover&position=center
+  Only this selected site photo was acquired. It depicts a workspace, not
+  the author of the individual learning story or a guaranteed training program.

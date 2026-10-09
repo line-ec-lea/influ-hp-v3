@@ -47,8 +47,8 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   const bounds = {
     "[data-life-opening]": [0,900], "#move": [900,4700], "[data-life-hseq]": [1450,2550],
     "#bridge-move-eat": [4700,5474], "#eat": [5474,8655], "[data-life-eat-film]": [5780,6320],
-    "[data-life-eat-lead]": [6440,7260], "#bridge-eat-life": [8655,9429], "#stories": [9429,12400], "#growth": [12400,13860],
-    "[data-life-closing]": [13860,14471], "[data-life-story-end]": [14471,14867],
+    "[data-life-eat-lead]": [6440,7260], "#growth": [8655,10115],
+    "[data-life-closing]": [10115,10726], "[data-life-story-end]": [10726,11122],
   };
   const anchors = Object.fromEntries(Object.entries(bounds).map(([k, b]) => {
     const element = new Element();
@@ -76,7 +76,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   const preference = new Element(); preference.matches = reduced;
   const document = new Element(); document.hidden = false; document.fonts = new Element(); document.fonts.ready = Promise.resolve(); document.documentElement = new Element();
   const footer = new Element();
-  footer.getBoundingClientRect = () => ({ top: 14867 - context.scrollY, bottom: 16000 - context.scrollY });
+  footer.getBoundingClientRect = () => ({ top: 11122 - context.scrollY, bottom: 12255 - context.scrollY });
   document.querySelector = () => withFooter ? footer : null;
   const window = new Element(), frames = new Map(), timers = new Map(); let id = 0, resize;
   const context = vm.createContext({ document, window, innerHeight: 900, innerWidth: width, scrollY: initialY,
@@ -108,7 +108,7 @@ assert.ok(s.layers.every(l => l.video.muted && l.video.defaultMuted && l.video.p
 assert.deepEqual(s.layers.map(l => l.video.loads), [1,0,0], "Inactive films are not eagerly decoded");
 
 // Exact measured boundaries in both directions, including rapid intermediate changes.
-for (const [y, scene] of [[4384,"box"],[4385,"eat"],[8024,"eat"],[8025,"eat"],[13319,"eat"],[13320,"toast"],[9000,"eat"],[4700,"eat"],[0,"box"],[14000,"toast"],[4700,"eat"],[0,"box"]]) {
+for (const [y, scene] of [[4384,"box"],[4385,"eat"],[8024,"eat"],[8025,"eat"],[9574,"eat"],[9575,"toast"],[9000,"eat"],[4700,"eat"],[0,"box"],[10255,"toast"],[4700,"eat"],[0,"box"]]) {
   s.scroll(y); await microtasks();
   assert.equal(active(s), scene);
   assert.ok(playing(s).every(key => key === scene));
@@ -117,18 +117,18 @@ s.settle();
 assert.deepEqual(s.layers.filter(l => l.element.hasAttribute("data-on")).map(l => l.key), ["box"]);
 assert.deepEqual(s.layers.filter(l => l.element.hasAttribute("data-top")).map(l => l.key), ["box"]);
 
-// Golden shade samples calculated from the reference's 18 keyframes.
-for (const [y, shade] of [[0,.176],[180,.2],[765,.34],[1360,.6],[1740,.6],[3650,.44],[4655,.14],[5294,.18],[5555,.26],[6125,.86],[7755,.9],[8610,.16],[8889,.4],[9429,.9],[12960,.92],[13680,.44],[13796,.4],[14417,1]]) {
+// Golden shade samples calculated from the reference's 16 keyframes.
+for (const [y, shade] of [[0,.176],[180,.2],[765,.34],[1360,.6],[1740,.6],[3650,.44],[4655,.14],[5294,.18],[5555,.26],[6125,.86],[7755,.9],[8655,.9],[9215,.92],[9935,.44],[10051,.4],[10672,1]]) {
   s.scroll(y);
   assert.equal(Number(s.stage.attrs.get("--life-shade")), shade, `Reference shade at scroll ${y}`);
 }
 // Reading shade must never interrupt the active background film.
-for (const y of [6125,9429,12960]) {
+for (const y of [6125,8655,9215]) {
   s.scroll(y); await microtasks();
   assert.ok(Number(s.stage.attrs.get("--life-shade")) >= .86);
   assert.deepEqual(playing(s), ["eat"], `The film keeps looping behind shaded copy at ${y}`);
 }
-s.scroll(14000); await microtasks();
+s.scroll(10255); await microtasks();
 assert.deepEqual(playing(s), ["toast"]);
 s.scroll(4700); await microtasks(); assert.deepEqual(playing(s), ["eat"], "Scenes autoplay without user interaction");
 s.hidden(true); assert.deepEqual(playing(s), []);
@@ -137,9 +137,9 @@ s.window.emit("pagehide"); assert.deepEqual(playing(s), []);
 s.window.emit("pageshow"); s.flush(); await microtasks(); assert.deepEqual(playing(s), ["eat"]);
 s.reduced(true); assert.deepEqual(playing(s), []);
 assert.ok(s.layers.every(l => !l.video.hasAttribute("data-ready")), "Reduced motion displays posters");
-s.scroll(14000); assert.equal(active(s), "toast"); assert.deepEqual(playing(s), []);
+s.scroll(10255); assert.equal(active(s), "toast"); assert.deepEqual(playing(s), []);
 s.reduced(false); await microtasks(); assert.deepEqual(playing(s), ["toast"]);
-s.scroll(15000); assert.deepEqual(playing(s), []);
+s.scroll(11255); assert.deepEqual(playing(s), []);
 
 // Recalculate after viewport/orientation and delayed layout changes.
 s.scroll(4400); assert.equal(active(s), "eat");
@@ -152,15 +152,15 @@ s.scroll(0); s.reduced(false); s.hidden(false); await microtasks(); assert.deepE
 const quiet = setup({ reduced: true }); await microtasks();
 assert.deepEqual(quiet.layers.map(l => l.video.loads), [0,0,0]);
 quiet.dispose();
-const deep = setup({ initialY: 14000 }); await microtasks(); assert.deepEqual(playing(deep), ["toast"]); deep.dispose();
+const deep = setup({ initialY: 10255 }); await microtasks(); assert.deepEqual(playing(deep), ["toast"]); deep.dispose();
 
-const footerFilm = setup({ withFooter: true, initialY: 14867 }); await microtasks();
+const footerFilm = setup({ withFooter: true, initialY: 11122 }); await microtasks();
 assert.equal(Number(footerFilm.stage.attrs.get("--life-shade")), .4, "The footer keeps the closing film visible");
 assert.deepEqual(playing(footerFilm), ["toast"], "The closing film continues behind the shared footer");
-footerFilm.scroll(15100); await microtasks(); assert.deepEqual(playing(footerFilm), ["toast"]);
+footerFilm.scroll(11355); await microtasks(); assert.deepEqual(playing(footerFilm), ["toast"]);
 footerFilm.reduced(true); assert.deepEqual(playing(footerFilm), []);
 footerFilm.reduced(false); await microtasks(); assert.deepEqual(playing(footerFilm), ["toast"]);
-footerFilm.scroll(16000); assert.deepEqual(playing(footerFilm), []);
+footerFilm.scroll(12255); assert.deepEqual(playing(footerFilm), []);
 footerFilm.dispose();
 
 // Rejected autoplay and actual media errors retain the poster without retry loops.
@@ -183,9 +183,9 @@ box.requests[0].reject(new Error("Interrupted by pause")); await microtasks();
 assert.equal(race.status.textContent, "");
 box.paused = false; box.emit("playing"); box.requests[1].resolve(); await microtasks();
 assert.deepEqual(playing(race), ["box"]);
-race.scroll(14000); box.paused = false; box.emit("playing"); assert.equal(box.paused, true);
+race.scroll(10255); box.paused = false; box.emit("playing"); assert.equal(box.paused, true);
 race.dispose();
-console.log("PASS staff wellbeing videos: three active scenes, 18 reference shade points, forward/reverse/rapid scroll, resize, autoplay, visibility, reduced motion, errors/posters, request races and cleanup");
+console.log("PASS staff wellbeing videos: three active scenes, 16 measured shade points, forward/reverse/rapid scroll, resize, autoplay, visibility, reduced motion, errors/posters, request races and cleanup");
 
 // The overview extends the opening-to-MOVE gap without changing the film scene.
 const overview = setup();
@@ -281,22 +281,21 @@ assert.equal(diagonal.layers[1].element.attrs.get("data-diagonal"), "b", "Revers
 assert.equal(diagonal.layers[0].element.hasAttribute("data-diagonal"), false);
 diagonal.scroll(4700); diagonal.settle(); diagonal.settle();
 assert.ok(diagonal.layers.every(l => !l.element.hasAttribute("data-diagonal")), "Stale exit transforms are removed after the fade");
-diagonal.scroll(14000); assert.ok(diagonal.layers.every(l => !l.element.hasAttribute("data-diagonal")), "Toast remains a plain crossfade");
+diagonal.scroll(10255); assert.ok(diagonal.layers.every(l => !l.element.hasAttribute("data-diagonal")), "Toast remains a plain crossfade");
 diagonal.scroll(0); diagonal.scroll(4700); diagonal.reduced(true);
 assert.ok(diagonal.layers.every(l => !l.element.hasAttribute("data-diagonal")));
 diagonal.dispose();
 console.log("PASS composition: source scene directions, rapid reversal/cleanup, six widths, stable BBQ curve/re-measurement, 40% mobile approach, object-position-only crop drift and reduced-motion reset");
 
-// Source progress uses viewport centre, spans all four chapters and excludes closing.
+// Source progress uses viewport centre, spans all three chapters and excludes closing.
 const ui = setup();
 for (const [y, number, name, visible] of [
   [0,"01","Vitality",false], [449,"01","Vitality",false], [450,"01","Vitality",true],
   [5023,"01","Vitality",true], [5024,"02","食卓から、つながる。",true],
-  [8978,"02","食卓から、つながる。",true], [8979,"03","健やかさが、暮らしに続く。",true],
-  [11949,"03","健やかさが、暮らしに続く。",true], [11950,"04","学びと成長",true],
-  [13139,"04","学びと成長",true], [13140,"04","学びと成長",false],
-  [14000,"04","学びと成長",false], [11950,"04","学びと成長",true],
-  [11949,"03","健やかさが、暮らしに続く。",true], [8979,"03","健やかさが、暮らしに続く。",true],
+  [8204,"02","食卓から、つながる。",true], [8205,"03","学びと成長",true],
+  [9394,"03","学びと成長",true], [9395,"03","学びと成長",false],
+  [10255,"03","学びと成長",false], [8205,"03","学びと成長",true],
+  [8204,"02","食卓から、つながる。",true],
   [5024,"02","食卓から、つながる。",true], [450,"01","Vitality",true],
 ]) {
   ui.scroll(y);
@@ -304,11 +303,11 @@ for (const [y, number, name, visible] of [
   if (visible) {
     assert.equal(ui.chapterNumber.textContent, number);
     assert.equal(ui.chapterName.textContent, name);
-    assert.equal(ui.progress.attrs.get("--pp"), ((y + 450 - 900) / (13860 - 900)).toFixed(4));
+    assert.equal(ui.progress.attrs.get("--pp"), ((y + 450 - 900) / (10115 - 900)).toFixed(4));
   }
 }
-ui.scroll(11950); ui.reduced(true);
-assert.equal(ui.chapterNumber.textContent, "04", "Growth remains identifiable with reduced motion");
+ui.scroll(8205); ui.reduced(true);
+assert.equal(ui.chapterNumber.textContent, "03", "Growth remains identifiable with reduced motion");
 assert.equal(ui.chapterName.textContent, "学びと成長");
 assert.ok(Number(ui.stage.attrs.get("--life-shade")) >= .9, "Growth retains the dark reading shade");
 assert.deepEqual(playing(ui), []);
@@ -322,7 +321,7 @@ ui.scroll(5024); ui.resize(700);
 assert.equal(ui.chapterName.textContent, "Vitality", "Progress remeasures viewport-centre thresholds");
 ui.bounds["#eat"][0] -= 200; ui.layout(); assert.equal(ui.chapterName.textContent, "食卓から、つながる。");
 ui.dispose(); assert.equal(ui.progress.hasAttribute("data-visible"), false); assert.equal(ui.progress.attrs.has("--pp"), false);
-console.log("PASS story UI: four chapters including Growth, source visibility/continuous progress, reverse navigation, resize/layout, reduced motion, reading shade and cleanup");
+console.log("PASS story UI: three chapters including Growth, source visibility/continuous progress, reverse navigation, resize/layout, reduced motion, reading shade and cleanup");
 
 const idleLabels = setup(); await microtasks(); idleLabels.scroll(1000); await microtasks();
 const writes = [idleLabels.chapterNumber, idleLabels.chapterName].map(e => e.textWrites);

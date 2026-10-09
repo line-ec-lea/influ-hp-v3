@@ -17,7 +17,7 @@ export function mountStoryVideo(story: HTMLElement) {
   const progress = story.querySelector<HTMLElement>("[data-life-progress]")!;
   const chapterNumber = progress.querySelector<HTMLElement>("[data-life-progress-number]")!;
   const chapterName = progress.querySelector<HTMLElement>("[data-life-progress-name]")!;
-  const chapters = [["01", "Vitality", "move"], ["02", "食卓から、つながる。", "eat"], ["03", "健やかさが、暮らしに続く。", "st"], ["04", "学びと成長", "growth"]] as const;
+  const chapters = [["01", "Vitality", "move"], ["02", "食卓から、つながる。", "eat"], ["03", "学びと成長", "growth"]] as const;
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   const events = new AbortController();
   const layers: Layer[] = Array.from(stage.querySelectorAll<HTMLElement>("[data-life-scene-layer]"), element => {
@@ -28,7 +28,7 @@ export function mountStoryVideo(story: HTMLElement) {
   const anchors = {
     title: "[data-life-opening]", move: "#move", hseq: "[data-life-hseq]",
     b1: "#bridge-move-eat", eat: "#eat", efilm: "[data-life-eat-film]",
-    elead: "[data-life-eat-lead]", b2: "#bridge-eat-life", st: "#stories",
+    elead: "[data-life-eat-lead]",
     growth: "#growth", cl: "[data-life-closing]", end: "[data-life-story-end]",
   };
   const elements = Object.fromEntries(Object.entries(anchors).map(([key, selector]) => [key, story.querySelector<HTMLElement>(selector)!]));
@@ -152,7 +152,7 @@ export function mountStoryVideo(story: HTMLElement) {
     // Exact reference keyframes: viewport-centre position and film shade.
     shades = [[0,.08],[R.title[1]-H*.3,.2],[R.move[0]+H*.35,.34],[R.hseq[0]+H*.4,.6],[R.hseq[1]-H*.4,.6],[R.move[1]-H*.6,.44],
       [R.b1[0]+H*.45,.14],[R.eat[0]+H*.3,.18],[R.efilm[1]-H*.35,.26],[R.elead[0]+H*.15,.86],[R.eat[1]-H*.5,.9],
-      [R.b2[0]+H*.45,.16],[R.b2[1]-H*.1,.4],[R.st[0]+H*.5,.9],[R.growth[1]-H*.5,.92],[R.cl[0]+H*.3,.44],[R.cl[1]-H*.25,.4],[R.end[1],footer ? .4 : 1]];
+      [R.growth[0]+H*.5,.9],[R.growth[1]-H*.5,.92],[R.cl[0]+H*.3,.44],[R.cl[1]-H*.25,.4],[R.end[1],footer ? .4 : 1]];
     for (let i = 1; i < shades.length; i++) if (shades[i][0] <= shades[i-1][0]) shades[i][0] = shades[i-1][0] + 1;
     scenes = [[R.b1[0]+H*.15,"box"],[R.cl[0]-H*.1,"eat"],[Infinity,"toast"]];
   }

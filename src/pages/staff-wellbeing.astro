@@ -5,7 +5,6 @@ import Opening from "../components/staff-wellbeing/Opening.astro";
 import Wellbeing from "../components/staff-wellbeing/Wellbeing.astro";
 import Move from "../components/staff-wellbeing/Move.astro";
 import EatTogether from "../components/staff-wellbeing/EatTogether.astro";
-import LifeAtInflu from "../components/staff-wellbeing/LifeAtInflu.astro";
 import Growth from "../components/staff-wellbeing/Growth.astro";
 import StoryBridge from "../components/staff-wellbeing/StoryBridge.astro";
 import Closing from "../components/staff-wellbeing/Closing.astro";
@@ -36,10 +35,8 @@ const revealStyles = [
       <Opening />
       <Wellbeing />
       <Move />
-      <StoryBridge transition="move-eat" />
+      <StoryBridge />
       <EatTogether />
-      <StoryBridge transition="eat-life" />
-      <LifeAtInflu />
       <Growth />
       <Closing />
       <div class="relative z-1 h-[44vh] [@media(max-width:720px)]:h-[36vh]" aria-hidden="true" data-life-story-end></div>

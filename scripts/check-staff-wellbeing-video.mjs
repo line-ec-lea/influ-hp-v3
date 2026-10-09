@@ -47,7 +47,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   const bounds = {
     "[data-life-opening]": [0,900], "#move": [900,4700], "[data-life-hseq]": [1450,2550],
     "#bridge-move-eat": [4700,5474], "#eat": [5474,8655], "[data-life-eat-film]": [5780,6320],
-    "[data-life-eat-lead]": [6440,7260], "#bridge-eat-life": [8655,9429], "#stories": [9429,13860],
+    "[data-life-eat-lead]": [6440,7260], "#bridge-eat-life": [8655,9429], "#stories": [9429,12400], "#growth": [12400,13860],
     "[data-life-closing]": [13860,14471], "[data-life-story-end]": [14471,14867],
   };
   const anchors = Object.fromEntries(Object.entries(bounds).map(([k, b]) => {
@@ -61,7 +61,6 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   const pin = new Element(), track = new Element(); pin.clientWidth = width; track.scrollWidth = 3400;
   anchors["[data-life-hseq]"].querySelector = s => s === "[data-life-hseq-pin]" ? pin : track;
   story.querySelector = s => ({ "[data-life-progress]": progress, "[data-life-stage]": stage, "[data-life-video-status]": status }[s] || anchors[s]);
-  const numerals = ["#move", "#eat", "#stories"].map(key => { const n = new Element(); n.parentElement = anchors[key]; return n; });
   const cropPositions = ["42% 62%", "42% 96%", "42% 62%", "50% 22%"];
   const cropBounds = [[3000,600],[4000,450],[6440,600],[11000,700]];
   const crops = cropPositions.map((base, i) => {
@@ -73,7 +72,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
     };
     return image;
   });
-  story.querySelectorAll = selector => selector === "[data-life-numeral]" ? numerals : crops;
+  story.querySelectorAll = () => crops;
   const preference = new Element(); preference.matches = reduced;
   const document = new Element(); document.hidden = false; document.fonts = new Element(); document.fonts.ready = Promise.resolve(); document.documentElement = new Element();
   const footer = new Element();
@@ -90,7 +89,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   vm.runInContext(code, context);
   const dispose = context.mountStoryVideo(story);
   const flush = () => { const queue = [...frames.values()]; frames.clear(); queue.forEach(fn => fn()); };
-  return { progress, chapterNumber, chapterName, stage, status, layers, preference, document, window, context, bounds, timers, dispose, flush, story, pin, track, numerals, crops, bbq: anchors["[data-life-eat-lead]"],
+  return { progress, chapterNumber, chapterName, stage, status, layers, preference, document, window, context, bounds, timers, dispose, flush, story, pin, track, crops, bbq: anchors["[data-life-eat-lead]"],
     layout() { resize(); flush(); },
     scroll(y) { context.scrollY = y; window.emit("scroll"); flush(); },
     resize(height) { context.innerHeight = height; window.emit("resize"); resize(); flush(); },
@@ -262,16 +261,15 @@ for (const width of [1440,1024,768,720,719,390]) {
     c.scroll(y);
     assert.equal(c.bbq.attrs.get("transform"), slow[[5540,5600,5700,5800,5900,6000,6100,6215,6400].indexOf(y)], "Reverse travel follows the same stable curve");
   }
-  c.scroll(0); assert.equal(c.numerals[0].attrs.get("transform"), mobile ? undefined : "translate3d(0,90.0px,0)");
-  c.scroll(3000); assert.equal(c.numerals[0].attrs.get("transform"), mobile ? undefined : "translate3d(0,-90.0px,0)");
+  c.scroll(3000);
   assert.equal(c.crops[0].attrs.get("object-position"), mobile ? undefined : "42% 63.2%");
   c.scroll(6400); c.reduced(true);
   assert.equal(c.bbq.attrs.has("transform"), false);
-  assert.ok(c.numerals.every(n => !n.attrs.has("transform")) && c.crops.every(i => !i.attrs.has("object-position")));
+  assert.ok(c.crops.every(i => !i.attrs.has("object-position")));
   c.reduced(false); c.scroll(5540);
   assert.equal(c.bbq.attrs.get("transform"), mobile ? "translate3d(4.80vw,7.20vh,0)" : "translate3d(12.00vw,18.00vh,0)");
   c.context.innerWidth = 720; c.resize(900);
-  assert.ok(c.numerals.every(n => !n.attrs.has("transform")) && c.crops.every(i => !i.attrs.has("object-position")), "720px clears stale desktop parallax");
+  assert.ok(c.crops.every(i => !i.attrs.has("object-position")), "720px clears stale desktop parallax");
   c.dispose(); assert.equal(c.bbq.attrs.has("transform"), false);
 }
 const diagonal = setup({ width: 1440 });
@@ -287,16 +285,18 @@ diagonal.scroll(14000); assert.ok(diagonal.layers.every(l => !l.element.hasAttri
 diagonal.scroll(0); diagonal.scroll(4700); diagonal.reduced(true);
 assert.ok(diagonal.layers.every(l => !l.element.hasAttribute("data-diagonal")));
 diagonal.dispose();
-console.log("PASS composition: source scene directions, rapid reversal/cleanup, six widths, stable BBQ curve/re-measurement, 40% mobile approach, numeral clamps, object-position-only crop drift and reduced-motion reset");
+console.log("PASS composition: source scene directions, rapid reversal/cleanup, six widths, stable BBQ curve/re-measurement, 40% mobile approach, object-position-only crop drift and reduced-motion reset");
 
-// Source progress uses viewport centre, spans all three chapters and excludes closing.
+// Source progress uses viewport centre, spans all four chapters and excludes closing.
 const ui = setup();
 for (const [y, number, name, visible] of [
   [0,"01","Vitality",false], [449,"01","Vitality",false], [450,"01","Vitality",true],
   [5023,"01","Vitality",true], [5024,"02","食卓から、つながる。",true],
   [8978,"02","食卓から、つながる。",true], [8979,"03","健やかさが、暮らしに続く。",true],
-  [13139,"03","健やかさが、暮らしに続く。",true], [13140,"03","健やかさが、暮らしに続く。",false],
-  [14000,"03","健やかさが、暮らしに続く。",false], [8979,"03","健やかさが、暮らしに続く。",true],
+  [11949,"03","健やかさが、暮らしに続く。",true], [11950,"04","学びと成長",true],
+  [13139,"04","学びと成長",true], [13140,"04","学びと成長",false],
+  [14000,"04","学びと成長",false], [11950,"04","学びと成長",true],
+  [11949,"03","健やかさが、暮らしに続く。",true], [8979,"03","健やかさが、暮らしに続く。",true],
   [5024,"02","食卓から、つながる。",true], [450,"01","Vitality",true],
 ]) {
   ui.scroll(y);
@@ -307,6 +307,12 @@ for (const [y, number, name, visible] of [
     assert.equal(ui.progress.attrs.get("--pp"), ((y + 450 - 900) / (13860 - 900)).toFixed(4));
   }
 }
+ui.scroll(11950); ui.reduced(true);
+assert.equal(ui.chapterNumber.textContent, "04", "Growth remains identifiable with reduced motion");
+assert.equal(ui.chapterName.textContent, "学びと成長");
+assert.ok(Number(ui.stage.attrs.get("--life-shade")) >= .9, "Growth retains the dark reading shade");
+assert.deepEqual(playing(ui), []);
+ui.reduced(false);
 ui.scroll(5024); ui.reduced(true);
 assert.equal(ui.progress.hasAttribute("data-visible"), true, "Reduced motion retains reading progress");
 assert.equal(ui.chapterName.textContent, "食卓から、つながる。");
@@ -316,7 +322,7 @@ ui.scroll(5024); ui.resize(700);
 assert.equal(ui.chapterName.textContent, "Vitality", "Progress remeasures viewport-centre thresholds");
 ui.bounds["#eat"][0] -= 200; ui.layout(); assert.equal(ui.chapterName.textContent, "食卓から、つながる。");
 ui.dispose(); assert.equal(ui.progress.hasAttribute("data-visible"), false); assert.equal(ui.progress.attrs.has("--pp"), false);
-console.log("PASS story UI: exactly three chapters, source visibility/continuous progress, reverse navigation, resize/layout, reduced motion and cleanup");
+console.log("PASS story UI: four chapters including Growth, source visibility/continuous progress, reverse navigation, resize/layout, reduced motion, reading shade and cleanup");
 
 const idleLabels = setup(); await microtasks(); idleLabels.scroll(1000); await microtasks();
 const writes = [idleLabels.chapterNumber, idleLabels.chapterName].map(e => e.textWrites);

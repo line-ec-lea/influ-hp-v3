@@ -17,7 +17,7 @@ export function mountStoryVideo(story: HTMLElement) {
   const progress = story.querySelector<HTMLElement>("[data-life-progress]")!;
   const chapterNumber = progress.querySelector<HTMLElement>("[data-life-progress-number]")!;
   const chapterName = progress.querySelector<HTMLElement>("[data-life-progress-name]")!;
-  const chapters = [["01", "Vitality", "move"], ["02", "食卓から、つながる。", "eat"], ["03", "健やかさが、暮らしに続く。", "st"]] as const;
+  const chapters = [["01", "Vitality", "move"], ["02", "食卓から、つながる。", "eat"], ["03", "健やかさが、暮らしに続く。", "st"], ["04", "学びと成長", "growth"]] as const;
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   const events = new AbortController();
   const layers: Layer[] = Array.from(stage.querySelectorAll<HTMLElement>("[data-life-scene-layer]"), element => {
@@ -29,14 +29,13 @@ export function mountStoryVideo(story: HTMLElement) {
     title: "[data-life-opening]", move: "#move", hseq: "[data-life-hseq]",
     b1: "#bridge-move-eat", eat: "#eat", efilm: "[data-life-eat-film]",
     elead: "[data-life-eat-lead]", b2: "#bridge-eat-life", st: "#stories",
-    cl: "[data-life-closing]", end: "[data-life-story-end]",
+    growth: "#growth", cl: "[data-life-closing]", end: "[data-life-story-end]",
   };
   const elements = Object.fromEntries(Object.entries(anchors).map(([key, selector]) => [key, story.querySelector<HTMLElement>(selector)!]));
   const hseq = elements.hseq;
   const pin = hseq.querySelector<HTMLElement>("[data-life-hseq-pin]")!;
   const track = hseq.querySelector<HTMLElement>("[data-life-hseq-track]")!;
   hseq.setAttribute("data-life-horizontal", "");
-  const numerals = Array.from(story.querySelectorAll<HTMLElement>("[data-life-numeral]"));
   const crops = Array.from(story.querySelectorAll<HTMLImageElement>("[data-life-image-drift]"), image => {
     const [x, y] = getComputedStyle(image).objectPosition.split(" ");
     return { image, x, y: Number.parseFloat(y) };
@@ -153,7 +152,7 @@ export function mountStoryVideo(story: HTMLElement) {
     // Exact reference keyframes: viewport-centre position and film shade.
     shades = [[0,.08],[R.title[1]-H*.3,.2],[R.move[0]+H*.35,.34],[R.hseq[0]+H*.4,.6],[R.hseq[1]-H*.4,.6],[R.move[1]-H*.6,.44],
       [R.b1[0]+H*.45,.14],[R.eat[0]+H*.3,.18],[R.efilm[1]-H*.35,.26],[R.elead[0]+H*.15,.86],[R.eat[1]-H*.5,.9],
-      [R.b2[0]+H*.45,.16],[R.b2[1]-H*.1,.4],[R.st[0]+H*.5,.9],[R.st[1]-H*.5,.92],[R.cl[0]+H*.3,.44],[R.cl[1]-H*.25,.4],[R.end[1],footer ? .4 : 1]];
+      [R.b2[0]+H*.45,.16],[R.b2[1]-H*.1,.4],[R.st[0]+H*.5,.9],[R.growth[1]-H*.5,.92],[R.cl[0]+H*.3,.44],[R.cl[1]-H*.25,.4],[R.end[1],footer ? .4 : 1]];
     for (let i = 1; i < shades.length; i++) if (shades[i][0] <= shades[i-1][0]) shades[i][0] = shades[i-1][0] + 1;
     scenes = [[R.b1[0]+H*.15,"box"],[R.cl[0]-H*.1,"eat"],[Infinity,"toast"]];
   }
@@ -173,7 +172,6 @@ export function mountStoryVideo(story: HTMLElement) {
 
   function resetComposition() {
     elements.elead.style.removeProperty("transform");
-    numerals.forEach(numeral => numeral.style.removeProperty("transform"));
     crops.forEach(({ image }) => image.style.removeProperty("object-position"));
   }
 
@@ -188,14 +186,8 @@ export function mountStoryVideo(story: HTMLElement) {
     if (progress >= 1) elements.elead.style.removeProperty("transform");
     else elements.elead.style.setProperty("transform", `translate3d(${(remaining * 12 * amount).toFixed(2)}vw,${(remaining * 18 * amount).toFixed(2)}vh,0)`);
     if (mobile) {
-      numerals.forEach(numeral => numeral.style.removeProperty("transform"));
       crops.forEach(({ image }) => image.style.removeProperty("object-position"));
       return;
-    }
-    for (const numeral of numerals) {
-      const bounds = numeral.parentElement!.getBoundingClientRect();
-      if (bounds.bottom < -200 || bounds.top > H + 200) continue;
-      numeral.style.setProperty("transform", `translate3d(0,${Math.max(-90, Math.min(90, bounds.top * .1)).toFixed(1)}px,0)`);
     }
     for (const { image, x, y } of crops) {
       const bounds = image.getBoundingClientRect();
@@ -216,13 +208,13 @@ export function mountStoryVideo(story: HTMLElement) {
     } else track.style.removeProperty("--hx");
     updateComposition();
     const y = scrollY + innerHeight * .5;
-    const showProgress = y >= ranges.move[0] && y < ranges.st[1] - innerHeight * .3;
+    const showProgress = y >= ranges.move[0] && y < ranges.growth[1] - innerHeight * .3;
     progress.toggleAttribute("data-visible", showProgress);
     if (showProgress) {
       const chapter = chapters.findLast(([, , anchor]) => y >= ranges[anchor][0])!;
       if (chapterNumber.textContent !== chapter[0]) chapterNumber.textContent = chapter[0];
       if (chapterName.textContent !== chapter[1]) chapterName.textContent = chapter[1];
-      progress.style.setProperty("--pp", Math.min(1, Math.max(0, (y - ranges.move[0]) / (ranges.st[1] - ranges.move[0]))).toFixed(4));
+      progress.style.setProperty("--pp", Math.min(1, Math.max(0, (y - ranges.move[0]) / (ranges.growth[1] - ranges.move[0]))).toFixed(4));
     }
     // Fade the shared film darker across the overview between the opening and MOVE.
     const overview = Math.max(0, Math.min(1,

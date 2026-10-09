@@ -14,7 +14,6 @@ export function mountStoryVideo(story: HTMLElement) {
   const stage = story.querySelector<HTMLElement>("[data-life-stage]")!;
   const footer = document.querySelector<HTMLElement>("[data-life-footer]");
   const status = story.querySelector<HTMLElement>("[data-life-video-status]")!;
-  const videoToggle = story.querySelector<HTMLButtonElement>("[data-life-video-toggle]")!;
   const progress = story.querySelector<HTMLElement>("[data-life-progress]")!;
   const chapterNumber = progress.querySelector<HTMLElement>("[data-life-progress-number]")!;
   const chapterName = progress.querySelector<HTMLElement>("[data-life-progress-name]")!;
@@ -46,10 +45,10 @@ export function mountStoryVideo(story: HTMLElement) {
   let shades: [number, number][] = [];
   let scenes: [number, Scene][] = [];
   let current: Scene = "box", shade = 0.86, inStory = false;
-  let frame = 0, needsMeasure = true, suspended = false, disposed = false, userPaused = false;
+  let frame = 0, needsMeasure = true, suspended = false, disposed = false;
   const fades = new Map<Scene, ReturnType<typeof setTimeout>>();
   const active = () => layers.find(layer => layer.key === current)!;
-  const wantsPlayback = (layer: Layer) => layer.key === current && !userPaused && !preference.matches && !document.hidden && !suspended && !disposed && inStory && !layer.failed && !layer.blocked;
+  const wantsPlayback = (layer: Layer) => layer.key === current && !preference.matches && !document.hidden && !suspended && !disposed && inStory && !layer.failed && !layer.blocked;
 
   function sync() {
     for (const layer of layers) {
@@ -248,21 +247,12 @@ export function mountStoryVideo(story: HTMLElement) {
     layer.video.addEventListener("canplay", sync, { signal: events.signal });
   });
   preference.addEventListener("change", () => {
-    videoToggle.hidden = preference.matches;
     settleLayers();
     if (preference.matches) {
       layers.forEach(layer => layer.video.removeAttribute("data-ready"));
       resetComposition();
     }
     schedule(true);
-    sync();
-  }, { signal: events.signal });
-  videoToggle.hidden = preference.matches;
-  videoToggle.textContent = "映像を停止";
-  videoToggle.addEventListener("click", () => {
-    userPaused = !userPaused;
-    videoToggle.textContent = userPaused ? "映像を再生" : "映像を停止";
-    if (!userPaused) active().blocked = false;
     sync();
   }, { signal: events.signal });
   document.addEventListener("visibilitychange", () => { sync(); if (!document.hidden) schedule(true); }, { signal: events.signal });
@@ -285,7 +275,6 @@ export function mountStoryVideo(story: HTMLElement) {
 
   return () => {
     disposed = true;
-    videoToggle.hidden = true;
     events.abort();
     observer.disconnect();
     hseq.removeAttribute("data-life-horizontal");

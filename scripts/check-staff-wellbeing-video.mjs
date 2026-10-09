@@ -8,7 +8,7 @@ import ts from "typescript";
 const source = await readFile(new URL("../src/components/staff-wellbeing/story-controller.ts", import.meta.url), "utf8");
 assert.doesNotMatch(source, /currentTime\s*=/, "Scroll must never seek the videos");
 const stageMarkup = await readFile(new URL("../src/components/staff-wellbeing/VideoStage.astro", import.meta.url), "utf8");
-assert.match(stageMarkup, /<button[^>]*aria-controls="life-video-stage"[^>]*data-life-video-toggle[^>]*hidden>/, "Pause control is a native button, hidden until enhanced");
+assert.doesNotMatch(stageMarkup, /data-life-video-control|data-life-video-toggle|<button\b/, "Background films loop without a page playback control");
 const code = ts.transpile(source.replaceAll("export function", "function"), { target: ts.ScriptTarget.ES2022 });
 class Element {
   textWrites = 0; text = "";
@@ -34,7 +34,7 @@ class Video extends Element {
   }
 }
 function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 900, withFooter = false } = {}) {
-  const stage = new Element(), status = new Element(), story = new Element(), videoToggle = new Element();
+  const stage = new Element(), status = new Element(), story = new Element();
   const progress = new Element(), chapterNumber = new Element(), chapterName = new Element();
   progress.querySelector = s => s === "[data-life-progress-number]" ? chapterNumber : chapterName;
   const layers = ["box", "eat", "toast"].map(key => {
@@ -60,7 +60,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   }));
   const pin = new Element(), track = new Element(); pin.clientWidth = width; track.scrollWidth = 3400;
   anchors["[data-life-hseq]"].querySelector = s => s === "[data-life-hseq-pin]" ? pin : track;
-  story.querySelector = s => ({ "[data-life-progress]": progress, "[data-life-stage]": stage, "[data-life-video-status]": status, "[data-life-video-toggle]": videoToggle }[s] || anchors[s]);
+  story.querySelector = s => ({ "[data-life-progress]": progress, "[data-life-stage]": stage, "[data-life-video-status]": status }[s] || anchors[s]);
   const cropPositions = ["42% 62%", "42% 96%", "42% 62%", "50% 22%"];
   const cropBounds = [[3000,600],[4000,450],[6440,600],[11000,700]];
   const crops = cropPositions.map((base, i) => {
@@ -89,7 +89,7 @@ function setup({ reduced = false, initialY = 0, initialMode = "normal", width = 
   vm.runInContext(code, context);
   const dispose = context.mountStoryVideo(story);
   const flush = () => { const queue = [...frames.values()]; frames.clear(); queue.forEach(fn => fn()); };
-  return { progress, chapterNumber, chapterName, stage, status, videoToggle, layers, preference, document, window, context, bounds, timers, dispose, flush, story, pin, track, crops, bbq: anchors["[data-life-eat-lead]"],
+  return { progress, chapterNumber, chapterName, stage, status, layers, preference, document, window, context, bounds, timers, dispose, flush, story, pin, track, crops, bbq: anchors["[data-life-eat-lead]"],
     layout() { resize(); flush(); },
     scroll(y) { context.scrollY = y; window.emit("scroll"); flush(); },
     resize(height) { context.innerHeight = height; window.emit("resize"); resize(); flush(); },
@@ -186,31 +186,6 @@ assert.deepEqual(playing(race), ["box"]);
 race.scroll(10255); box.paused = false; box.emit("playing"); assert.equal(box.paused, true);
 race.dispose();
 console.log("PASS staff wellbeing videos: three active scenes, 16 measured shade points, forward/reverse/rapid scroll, resize, autoplay, visibility, reduced motion, errors/posters, request races and cleanup");
-
-const manual = setup(); await microtasks();
-assert.equal(manual.videoToggle.hidden, false);
-manual.videoToggle.emit("click");
-assert.equal(manual.videoToggle.textContent, "映像を再生");
-assert.deepEqual(playing(manual), []);
-manual.scroll(4700); manual.hidden(true); manual.hidden(false);
-manual.window.emit("pagehide"); manual.window.emit("pageshow"); manual.flush();
-await microtasks(); assert.deepEqual(playing(manual), [], "Manual pause survives scene and lifecycle changes");
-manual.reduced(true); assert.equal(manual.videoToggle.hidden, true);
-manual.reduced(false); assert.equal(manual.videoToggle.hidden, false);
-await microtasks(); assert.deepEqual(playing(manual), [], "Changing motion preference preserves manual pause");
-manual.videoToggle.emit("click"); await microtasks();
-assert.equal(manual.videoToggle.textContent, "映像を停止");
-assert.deepEqual(playing(manual), ["eat"], "Resume plays only the current scene");
-manual.dispose(); manual.videoToggle.emit("click"); await microtasks();
-assert.equal(manual.videoToggle.hidden, true); assert.deepEqual(playing(manual), []);
-const pausedRequest = setup({ initialMode: "pending" });
-pausedRequest.videoToggle.emit("click");
-pausedRequest.layers[0].video.paused = false; pausedRequest.layers[0].video.emit("playing");
-pausedRequest.layers[0].video.requests[0].resolve(); await microtasks();
-assert.deepEqual(playing(pausedRequest), [], "A pending play request cannot undo manual pause");
-pausedRequest.dispose();
-const quietControl = setup({ reduced: true }); assert.equal(quietControl.videoToggle.hidden, true); quietControl.dispose();
-console.log("PASS manual video pause: scene/lifecycle persistence, current-scene resume, reduced motion, pending-play race and cleanup");
 
 // The overview extends the opening-to-MOVE gap without changing the film scene.
 const overview = setup();

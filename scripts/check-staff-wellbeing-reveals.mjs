@@ -75,6 +75,6 @@ assert.equal(attr("data-life-reveal").length, 9);
 assert.equal(attr("data-life-reveal-scale").length, 4);
 assert.equal(attr("data-life-pillar").length, 3, "All three wellbeing photos share the existing reveal behavior");
 assert.equal(attr("data-life-pending").length, 0, "No-JS HTML is fully visible");
-assert.equal(attr("data-life-image-drift").length, 3, "The three retained source images receive crop drift");
+assert.equal(attr("data-life-image-drift").length, 2, "The two retained source images receive crop drift");
 assert.equal(attr("data-life-scene-layer").length, 3, "Video-stage ownership is preserved");
 console.log("PASS staff wellbeing reveals: 14 lines / 9 masks / 4 scales, unclipped proxies, one-shot forward/reverse entry, deep entry, reduced motion, keyboard access, no-JS fallback and cleanup");

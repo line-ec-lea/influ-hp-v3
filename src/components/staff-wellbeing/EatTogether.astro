@@ -25,14 +25,13 @@ const images = {
     src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG1D0NRFG9XXHW9JGRQWA2.png&w=1436&h=1022&f=webp&q=92",
     alt: "鰹の藁焼き",
   },
+  vegetables: { id: "01M3TG537J88Y0YTXJTY4CW4PW", src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG537J88Y0YTXJTY4CW4PW.jpeg&w=1180&h=1572&f=webp&q=92", alt: "会社に届いた野菜の箱" },
+  egg: { id: "01M3TGJQEMYY6XCCBK94W8TSNB", src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGJQEMYY6XCCBK94W8TSNB.png&w=736&h=970&f=webp&q=92", alt: "調理されたゆで卵" },
 } satisfies Record<string, MediaValue>;
 
 const grid = "grid grid-cols-12 gap-x-[var(--life-gutter)]";
 const meta = "text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase";
 const photo = "relative overflow-hidden bg-elevated";
-const focus = "focus-visible:rounded-[2px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-life-gold";
-const link = `group inline-flex items-center gap-2.5 transition-colors ease-[ease] duration-[350ms] hover:text-life-gold ${focus}`;
-const arrow = "inline-block transition-transform duration-[450ms] ease-life motion-safe:group-hover:translate-x-[5px]";
 const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-strong pt-[22px] pb-5";
 ---
 
@@ -43,12 +42,12 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
       <p class="m-0 text-xs font-bold leading-[1.6] tracking-[0.12em] text-life-gold">02 — 人とのつながり</p>
       <h2 id="eat-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Eat together</h2>
       <p class="m-0 text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em]">食卓から、つながる。</p>
-      <p class="m-0 mt-3 max-w-[42em] text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">毎月届く野菜を囲むランチや、みんなで過ごす食事の時間。同じテーブルを囲んで、気軽に話せる機会をつくっています。</p>
+      <p class="m-0 mt-3 max-w-[42em] text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">野菜を囲むランチや、みんなで集まる食事会。食べながら言葉を交わす時間も、INFLUの日常にあります。</p>
     </div>
 
     <!-- Intentionally transparent so the persistent meal film remains visible. -->
     <div class="flex min-h-[72vh] flex-col justify-end pb-[12vh] [@media(max-width:720px)]:min-h-[62vh] [@media(max-width:720px)]:pb-[8vh]" data-life-eat-film>
-      <p class="m-0 mb-[18px] text-[clamp(26px,3vw,48px)] font-bold leading-[1.5] tracking-[0.04em] [@media(max-width:720px)]:text-[6.2vw]"><span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">同じテーブルを囲むと、</span></span><span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">仕事とは違う話も始まる。</span></span></p>
+      <p class="m-0 mb-[18px] text-[clamp(26px,3vw,48px)] font-bold leading-[1.5] tracking-[0.04em] [@media(max-width:720px)]:text-[6.2vw]"><span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">一緒に食べて、</span></span><span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">言葉を交わす。</span></span></p>
       <span class="text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-ink uppercase"><b class="font-bold">動画</b> — 味来</span>
     </div>
 
@@ -58,7 +57,7 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
           <div class={fact}><span class={meta}><b class="font-bold text-life-ink">ランチ会</b></span><span class="text-right text-[clamp(44px,4.2vw,68px)] font-bold leading-[0.9] tracking-[-0.04em]"><small class="text-[22px] font-bold tracking-[0.02em]">一緒に</small></span></div>
           <div class={fact}><span class={meta}><b class="font-bold text-life-ink">野菜</b></span><span class="text-right text-[22px] font-bold leading-[0.9] tracking-[0.02em]">毎月届く</span></div>
         </div>
-        <a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6582">お野菜たっぷりせいろ蒸しランチ🥬🍠🥕 <span class={arrow}>→</span></a>
+        <p class="m-0 text-sm leading-[2] tracking-[0.04em] text-life-ink/90">毎月、会社に野菜が届きます。野菜を囲むランチも、みんなで食べる時間のひとつです。</p>
       </div>
       <figure class="relative z-1 col-start-4 col-end-13 m-0 -mr-[var(--life-gutter)] [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:-ml-[var(--life-gutter)]" data-life-eat-lead>
         <div class={`${photo} aspect-[16/9.6] [@media(max-width:720px)]:aspect-[4/5]`} data-life-reveal>
@@ -66,7 +65,7 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
             <Image image={images.bbq} class="h-full! w-full! object-cover object-[42%_62%]" data-life-image-drift />
           </div>
         </div>
-        <figcaption class={`${meta} flex justify-between pt-[14px] pr-[var(--life-gutter)] [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-1 [@media(max-width:720px)]:px-[var(--life-gutter)] [@media(max-width:720px)]:pt-3`}><span>話題は、ネパールの料理とバランスボール。</span><a class={link} href="https://influhp.com/staff-blog/staffreport-6484">都会の中でBBQランチ✨🍖 <span class={arrow}>↗</span></a></figcaption>
+        <figcaption class={`${meta} flex justify-between pt-[14px] pr-[var(--life-gutter)] [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-1 [@media(max-width:720px)]:px-[var(--life-gutter)] [@media(max-width:720px)]:pt-3`}><span>みんなで食卓を囲む、ランチの時間。</span></figcaption>
       </figure>
     </div>
 
@@ -75,23 +74,28 @@ const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-stro
         <div class={`${photo} aspect-square`}>
           <div class="h-full w-full origin-[78%_40%] scale-125" data-life-image-scale><Image image={images.seiro} class="h-full! w-full! object-cover object-[78%_40%]" /></div>
         </div>
-        <div class="mt-4"><span class={meta}>野菜を囲むランチ</span><p class="m-0 mt-[6px] text-sm font-bold tracking-[0.04em] leading-[1.9]">一緒に食べる時間が、会話のきっかけに。</p><a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6582">せいろ蒸しランチの様子 <span class={arrow}>→</span></a></div>
+        <div class="mt-4"><span class={meta}>野菜を囲むランチ</span><p class="m-0 mt-[6px] text-sm font-bold tracking-[0.04em] leading-[1.9]">一緒に食べる時間が、会話のきっかけに。</p></div>
       </div>
-      <blockquote class="col-start-5 col-end-10 m-0 mt-10 [@media(max-width:1100px)]:col-start-7 [@media(max-width:1100px)]:col-end-13 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-12" data-life-eat-quote>
+      <div class="col-start-5 col-end-10 m-0 mt-10 [@media(max-width:1100px)]:col-start-7 [@media(max-width:1100px)]:col-end-13 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-12" data-life-eat-quote>
         <figure class="m-0 mb-7 w-full max-w-[360px]" data-life-eat-group><div class={`${photo} aspect-[4/3]`} data-life-reveal><Image image={images.lunchGroup} class="h-full! w-full! object-cover" /></div></figure>
-        <p class="m-0 mb-[18px] text-[clamp(20px,1.8vw,26px)] font-bold leading-[1.7] tracking-[0.05em]">仕事を離れて、<br />プライベートな話もでき、<br />楽しいひとときとなりました。</p>
-        <a class={`${link} ${meta}`} href="https://influhp.com/staff-blog/staffreport-6355">鰹の藁焼きランチへGO！🐟 — 2026.04.24 <span class={arrow}>→</span></a>
-      </blockquote>
+        <p class="m-0 mb-[18px] text-[clamp(20px,1.8vw,26px)] font-bold leading-[1.7] tracking-[0.05em]">一緒に食べる。<br />気軽に話す。<br />同じ時間を過ごす。</p>
+
+      </div>
       <figure class="col-start-10 col-end-13 m-0 [@media(max-width:1100px)]:col-start-7 [@media(max-width:1100px)]:mt-10 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[66%] [@media(max-width:720px)]:justify-self-end" data-life-eat-katsuo>
         <div class={`${photo} aspect-[3/4]`} data-life-reveal>
           <div class="h-full w-full origin-[76%_80%] scale-125" data-life-image-scale><Image image={images.katsuo} class="h-full! w-full! object-cover object-[76%_80%]" /></div>
         </div>
       </figure>
     </div>
-    <div class="mt-20 max-w-[48em] [@media(max-width:720px)]:mt-14" data-life-workshop>
-      <p class={meta}><b class="font-bold text-life-ink">これまでの取り組み</b></p>
-      <h3 class="my-4 text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.5] tracking-[0.04em]">食卓を囲む時間も、<br />一緒に考える時間も。</h3>
-      <p class="m-0 text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">食事会に加えて、「Return to the Future」をテーマにしたワークショップも開催してきました。共に過ごす時間を通じて、仕事の話だけでは生まれない交流を育んでいます。</p>
+    <div class={`${grid} mt-20 items-start gap-y-10 [@media(max-width:720px)]:mt-14`} data-life-eat-food>
+      <figure class="col-start-1 col-end-8 m-0 [@media(max-width:720px)]:col-span-12" data-life-vegetables>
+        <div class={`${photo} aspect-[4/3]`} data-life-reveal><Image image={images.vegetables} class="h-full! w-full! object-cover object-[50%_45%]" /></div>
+        <figcaption class={`${meta} mt-3`}>毎月、会社に届く野菜。</figcaption>
+      </figure>
+      <figure class="col-start-9 col-end-12 m-0 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[66%] [@media(max-width:720px)]:justify-self-end" data-life-egg>
+        <div class={`${photo} aspect-[4/5]`}><Image image={images.egg} class="h-full! w-full! object-cover object-[50%_80%]" /></div>
+        <figcaption class={`${meta} mt-2.5`}>日々の食事から。</figcaption>
+      </figure>
     </div>
   </div>
 </section>

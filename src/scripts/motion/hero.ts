@@ -3,7 +3,14 @@ import { gsap } from "gsap";
 export function playHeroEntrance(hero: HTMLElement, intro: HTMLElement | null) {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   // Deep links and restored scroll positions should take visitors straight to content.
-  if (reducedMotion.matches || (location.hash && location.hash !== "#hero") || window.scrollY > 0) return;
+  if (reducedMotion.matches || (location.hash && location.hash !== "#hero") || window.scrollY > 0 || intro?.hidden) {
+    if (intro) {
+      intro.hidden = true;
+      delete intro.dataset.introPending;
+    }
+    return;
+  }
+  if (intro) delete intro.dataset.introPending;
 
   const finish = () => {
     context.revert();
@@ -16,9 +23,8 @@ export function playHeroEntrance(hero: HTMLElement, intro: HTMLElement | null) {
   const context = gsap.context(() => {
     const timeline = gsap.timeline({ defaults: { ease: "power3.out" }, onComplete: finish });
     if (intro) {
-      intro.hidden = false;
       timeline
-        .from(intro.querySelector("[data-intro-content]"), { opacity: 0, scale: 0.96, duration: 0.9 }, 0)
+        .fromTo(intro.querySelector("[data-intro-content]"), { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.9 }, 0)
         .fromTo(intro.querySelector("[data-glow]"), { opacity: 0 }, { opacity: 1, duration: 0.55, repeat: 1, yoyo: true }, 0.3)
         .from(intro.querySelector("[data-logo-reveal]"), { clipPath: "inset(0 100% 0 0)", duration: 0.68 }, 0.22)
         .fromTo(intro.querySelector("[data-intro-line]"), { opacity: 0, scaleX: 0 }, { opacity: 0.55, scaleX: 1, duration: 0.42 }, 0.08)

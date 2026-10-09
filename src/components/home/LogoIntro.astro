@@ -17,3 +17,23 @@
         </p>
       </div>
     </div>
+<script is:inline>
+  // Run during HTML parsing so the overlay covers the page before bundled JS loads.
+  (() => {
+    const intro = document.currentScript.previousElementSibling;
+    const navigation = performance.getEntriesByType("navigation")[0];
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        (location.hash && location.hash !== "#hero") || window.scrollY > 0 ||
+        navigation?.type === "back_forward") return;
+
+    intro.hidden = false;
+    intro.dataset.introPending = "true";
+    // Keep the homepage reachable if the animation bundle fails to load.
+    window.setTimeout(() => {
+      if (intro.dataset.introPending === "true") {
+        intro.hidden = true;
+        delete intro.dataset.introPending;
+      }
+    }, 8000);
+  })();
+</script>

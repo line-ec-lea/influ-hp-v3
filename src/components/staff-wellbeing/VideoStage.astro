@@ -6,7 +6,7 @@ const scenes = [
 ];
 ---
 
-<div class="fixed inset-x-0 top-0 z-0 h-screen overflow-hidden bg-black [--life-shade:0.86]" data-life-stage aria-hidden="true">
+<div id="life-video-stage" class="fixed inset-x-0 top-0 z-0 h-screen overflow-hidden bg-black [--life-shade:0.86]" data-life-stage aria-hidden="true">
   {scenes.map(({ id, file }) => (
     <div class="absolute inset-0 z-0 opacity-0 transition-[opacity,transform] duration-[1000ms,1400ms] ease-life data-[diagonal=a]:[transform:translate3d(-6vw,-8vh,0)_scale(.94)] data-[diagonal=b]:[transform:translate3d(7vw,9vh,0)_scale(1.04)] motion-reduce:transform-none! data-[on]:opacity-100 data-[top]:z-1 motion-reduce:transition-none" data-life-scene-layer={id} data-on={id === "box" ? "" : undefined} data-top={id === "box" ? "" : undefined}>
       <img src={`/media/staff-wellbeing/${file}-poster.jpg`} alt="" class="absolute inset-0 h-full w-full object-cover object-[50%_45%]" loading={id === "box" ? "eager" : "lazy"} fetchpriority={id === "box" ? "high" : "auto"} />
@@ -25,6 +25,7 @@ const scenes = [
     <span class="relative col-span-2 h-px w-[220px] overflow-hidden bg-life-ink/25 [@media(max-width:720px)]:w-[160px]"><i class="absolute inset-0 origin-left scale-x-[var(--pp,0)] bg-life-gold"></i></span>
   </div>
 </div>
+<button type="button" class="fixed right-[var(--life-gutter)] bottom-[calc(22px+env(safe-area-inset-bottom,0px))] z-[190] min-h-11 cursor-pointer rounded-sm border border-life-line-strong bg-section/95 px-3 py-2 text-xs leading-[1.6] tracking-[0.04em] text-life-ink transition-colors hover:border-life-gold hover:text-life-gold [@media(max-width:720px)]:bottom-[calc(14px+env(safe-area-inset-bottom,0px))]" aria-controls="life-video-stage" data-life-video-toggle hidden>映像を停止</button>
 <span class="sr-only" role="status" data-life-video-status></span>
 
 <script>

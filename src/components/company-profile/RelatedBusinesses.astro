@@ -1,7 +1,6 @@
 ---
-import CinematicSection from "@shared/CinematicSection.astro";
-import Container from "@shared/Container.astro";
-import CinematicReveal from "@shared/CinematicReveal.astro";
+import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
+import CompanyProfileLink from "@shared/CompanyProfileLink.astro";
 const relatedBusinesses = [
   {
     label: "ものづくり",
@@ -31,93 +30,28 @@ const relatedBusinesses = [
   },
 ]
 ---
-<CinematicSection>
-<section
-        class="relative overflow-hidden bg-[#090909]"
-        aria-labelledby="related-title"
-      >
-        <Container class="py-20 md:py-28 lg:py-32">
-          <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(28rem,1.1fr)] lg:items-end">
-            <div>
-              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
-                RELATED BUSINESSES
-              </p>
-              <h2
-                id="related-title"
-                class="mt-4 max-w-2xl text-4xl font-bold leading-[1.18] tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
-              >
-                事業の外にも、
-                <br />
-                実践の場がある。
-              </h2>
-            </div>
-            <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
-              商品を届けること、人を育てること、地域で事業を続けること。INFLUは異なる現場で実践を重ね、その学びをお客様の支援へ還元しています。
-            </p>
-          </CinematicReveal>
-
-          <ol class="mt-16 grid gap-12 md:mt-20 lg:mt-24 lg:grid-cols-3 lg:gap-0">
-            {relatedBusinesses.map((business, index) => (
-              <li
-                class="relative lg:min-h-[29rem] lg:px-9 lg:first:pl-0 lg:last:pr-0 [&:not(:last-child)]:lg:border-r [&:not(:last-child)]:lg:border-[rgba(224,197,132,0.2)]"
-              >
-                <CinematicReveal
-                  delay={index * 0.08}
-                  class={`flex h-full flex-col ${index === 1 ? "lg:pt-16" : index === 2 ? "lg:pt-32" : ""}`}
-                >
-                  <div class="flex items-center gap-4">
-                    <span class="text-5xl font-bold leading-none tracking-[-0.08em] text-[#E0C584]/45 sm:text-6xl">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span
-                      class="h-px flex-1 bg-[linear-gradient(90deg,rgba(224,197,132,0.5),transparent)]"
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <p class="mt-9 text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                    {business.label}
-                  </p>
-                  <div class="relative mt-6 aspect-[16/10] overflow-hidden border-y border-[rgba(224,197,132,0.28)] bg-[#15130F]">
-                    <img
-                      src={business.image}
-                      alt={business.imageAlt}
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      class="absolute inset-0 h-full w-full object-cover brightness-[0.72] saturate-[0.78] transition duration-700 group-hover:scale-[1.035] group-hover:brightness-[0.88]" loading="lazy" decoding="async" />
-                    <div
-                      aria-hidden="true"
-                      class="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,9,9,0.04),rgba(9,9,9,0.36))]"
-                    />
-                  </div>
-                  <h3 class="mt-4 text-3xl font-bold tracking-[-0.04em] text-[#F5F1E8] sm:text-4xl">
-                    {business.title}
-                  </h3>
-                  <p class="mt-5 max-w-sm text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                    {business.description}
-                  </p>
-                  {business.href ? (
-                    <a
-                      href={business.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="group/link mt-10 inline-flex w-fit items-center gap-3 border-b border-[#E0C584]/70 pb-3 text-sm font-bold text-[#FFF1C7] transition-colors hover:border-[#FFF1C7] hover:text-[#FFFDF7]"
-                    >
-                      公式サイトを見る
-                      <span
-                        class="transition-transform duration-300 group-hover/link:translate-x-1"
-                        aria-hidden="true"
-                      >
-                        →
-                      </span>
-                    </a>
-                  ) : (
-                    <p class="mt-10 w-fit border-b border-[#E0C584]/35 pb-3 text-sm font-bold text-[#E0C584]/65">
-                      詳細は準備中です
-                    </p>
-                  )}
-                </CinematicReveal>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
-</CinematicSection>
+<section id="businesses" aria-labelledby="businesses-title" class="scroll-mt-24 bg-[#090a0a]" data-profile-businesses>
+  <div role="region" aria-label="関連事業" tabindex="0" class="min-[900px]:snap-x min-[900px]:snap-mandatory min-[900px]:overflow-x-auto min-[900px]:overscroll-x-contain">
+    <div class="px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)] min-[900px]:flex min-[900px]:w-max min-[900px]:items-center min-[900px]:py-[10svh] min-[900px]:pr-[8vw]" data-profile-businesses-track>
+      <div class="pb-14 min-[900px]:w-[40vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:pr-[4vw] min-[900px]:pb-0">
+        <CompanySectionLabel>RELATED BUSINESSES</CompanySectionLabel>
+        <h2 id="businesses-title" class="my-[26px] text-[clamp(30px,4.2vw,64px)] font-normal leading-[1.35]">事業の外にも、<br />実践の場がある。</h2>
+        <p class="max-w-[34em] text-[#f4f7f2]/68">商品を届けること、人を育てること、地域で事業を続けること。INFLUは異なる現場で実践を重ね、その学びをお客様の支援へ還元しています。</p>
+        <p class="sr-only min-[900px]:not-sr-only min-[900px]:mt-8 min-[900px]:text-xs min-[900px]:text-[#f4f7f2]/52">横にスクロールして関連事業を見る →</p>
+      </div>
+      {relatedBusinesses.map((business, index) => (
+        <article class="grid gap-7 border-t border-[#f4f7f2]/12 py-14 min-[900px]:min-h-[72svh] min-[900px]:w-[78vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:grid-cols-[1.35fr_1fr] min-[900px]:items-center min-[900px]:gap-[4vw] min-[900px]:border-t-0 min-[900px]:px-[4vw] min-[900px]:py-0">
+          <figure class="aspect-[4/3] overflow-hidden bg-surface min-[900px]:h-[72svh] min-[900px]:min-h-[480px] min-[900px]:aspect-auto">
+            <img src={business.image} alt={business.imageAlt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
+          </figure>
+          <div>
+            <div class="flex items-baseline gap-4"><span class="text-[clamp(44px,5vw,88px)] font-thin leading-none">{String(index + 1).padStart(2, "0")}</span><p class="text-xs tracking-[0.24em] text-[#c89a5b]">{business.label}</p></div>
+            <h3 class="my-3.5 text-[clamp(24px,2.8vw,44px)] font-normal leading-[1.4]">{business.title}</h3>
+            <p class="max-w-[26em] text-[#f4f7f2]/68">{business.description}</p>
+            {business.href ? <CompanyProfileLink href={business.href} external class="mt-6">公式サイトを見る</CompanyProfileLink> : <p class="mt-2.5 text-xs tracking-[0.14em] text-[#f4f7f2]/52">詳細は準備中です</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

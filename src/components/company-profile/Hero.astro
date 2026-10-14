@@ -1,27 +1,34 @@
 ---
+import BackgroundFilm from "./BackgroundFilm.astro";
 import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
 import CompanyProfileLink from "@shared/CompanyProfileLink.astro";
 import { CONTACT_FORM_HREF } from "@shared/features/contact";
 ---
 <section id="company" aria-labelledby="company-title" data-profile-hero class="relative isolate grid min-h-svh grid-rows-[auto_1fr_auto] overflow-hidden px-[var(--profile-gutter)] pb-16 pt-[clamp(120px,18svh,200px)]">
-  <img src="/media/company-profile/bg-hero.jpg" alt="" aria-hidden="true" width="1600" height="706" fetchpriority="high" decoding="async" class="absolute inset-0 -z-20 h-full w-full object-cover object-[60%_50%] min-[900px]:object-center" />
+  <BackgroundFilm name="hero" poster="/media/company-profile/bg-hero.jpg" src="/media/company-profile/bg-hero.mp4" class="object-[60%_50%] min-[900px]:object-center" />
   <div aria-hidden="true" class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(6,6,6,0.9),rgba(6,6,6,0.72)_45%,rgba(6,6,6,0.38)),linear-gradient(180deg,rgba(6,6,6,0.35),transparent_30%,transparent_70%,#090a0a)]"></div>
-  <div class="flex flex-wrap items-center gap-6">
+  <div data-profile-hero-top class="flex flex-wrap items-center gap-6">
     <CompanySectionLabel>COMPANY</CompanySectionLabel>
     <h1 id="company-title" class="text-[13px] font-normal tracking-[0.24em] text-[#f4f7f2]/68">会社概要</h1>
   </div>
   <div class="self-center py-[6svh]">
     <p class="text-[clamp(28px,6.2vw,104px)] font-normal leading-[1.32] tracking-[0.02em] text-[#f4f7f2] max-[899px]:text-[clamp(24px,6.6vw,59px)]" data-profile-headline>
-      <span class="block">技術とマーケティングを、</span>
-      <span class="block">現場で使い続けられる</span>
-      <span class="block">仕組みへ。</span>
+      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.0">技術とマーケティングを、</span></span>
+      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.12">現場で使い続けられる</span></span>
+      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.24">仕組みへ。</span></span>
     </p>
-    <span class="my-[clamp(28px,5svh,56px)] block h-px w-[clamp(80px,18vw,300px)] bg-[#c89a5b]" aria-hidden="true"></span>
-    <p class="max-w-[30em] text-[clamp(14px,1.1vw,16px)] text-[#f4f7f2]/68">INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。</p>
+    <span data-profile-rule class="my-[clamp(28px,5svh,56px)] block h-px w-[clamp(80px,18vw,300px)] bg-[#c89a5b]" aria-hidden="true"></span>
+    <p data-profile-lead class="max-w-[30em] text-[clamp(14px,1.1vw,16px)] text-[#f4f7f2]/68">INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。</p>
     <CompanyProfileLink href={CONTACT_FORM_HREF} external framed class="mt-9">INFLUに相談する</CompanyProfileLink>
   </div>
-  <div class="flex items-end justify-between gap-5 text-[11px] tracking-[0.28em] text-[#f4f7f2]/52">
+  <div data-profile-hero-foot class="flex flex-wrap items-end justify-between gap-5 text-[11px] tracking-[0.28em] text-[#f4f7f2]/52">
     <a href="#direction" class="inline-flex items-center gap-3.5"><span class="block h-12 w-px bg-[linear-gradient(#c89a5b,transparent)]" aria-hidden="true"></span>SCROLL<span class="sr-only">：現在の支援領域へ</span></a>
     <span class="max-[899px]:hidden">EST. 2019 — OSAKA</span>
+    <button hidden type="button" data-profile-video-toggle class="border border-[#f4f7f2]/22 px-4 py-2 text-[11px] tracking-[0.12em] text-[#f4f7f2] hover:border-[#c89a5b] disabled:opacity-50">背景映像を一時停止</button>
   </div>
 </section>
+
+<script>
+  import { heroMotion } from "./profile-motion";
+  heroMotion(document.querySelector<HTMLElement>("[data-profile-hero]"));
+</script>

@@ -39,31 +39,49 @@ const careerItems = [
   },
 ]
 const photos = ["career-1989.jpg", "career-2012.jpg", "career-2015.jpg", "career-next.jpg", "career-2019.jpg", "career-now.jpg"];
+const positions = ["[--career-x:74] [--career-y:30]", "[--career-x:144] [--career-y:40]", "[--career-x:150] [--career-y:132]", "[--career-x:216] [--career-y:206]", "[--career-x:286] [--career-y:212]", "[--career-x:294] [--career-y:300]"];
 const captions = ["光の差す廊下を歩くシルエット", "飲食店の厨房カウンター", "PCに向かって作業する様子", "人と乾杯する様子", "オフィスのINFLUロゴ", "オフィスで話し合う様子"];
 ---
-<section id="career" aria-labelledby="career-title" class="scroll-mt-24 bg-page" data-profile-career>
-  <div class="relative px-[var(--profile-gutter)] py-[clamp(80px,12svh,140px)] min-[900px]:min-h-[70svh] min-[900px]:max-w-[70vw]">
+<section id="career" aria-labelledby="career-title" class="group/career relative scroll-mt-24 bg-page data-[motion-desktop]:h-[var(--profile-scroll-height)]" data-profile-career>
+  <div data-profile-career-stage class="relative group-data-[motion-desktop]/career:sticky group-data-[motion-desktop]/career:top-0 group-data-[motion-desktop]/career:h-[var(--profile-viewport)] group-data-[motion-desktop]/career:overflow-clip">
+  <div data-profile-career-background aria-hidden="true" class="absolute inset-0 hidden overflow-hidden group-data-[motion-desktop]/career:block">
+    {photos.map((photo, index) => <div data-profile-career-background-image class="absolute inset-0 [clip-path:inset(0%_0%_0%_100%)]"><img src={`/media/company-profile/${photo}`} alt="" loading="lazy" class="h-full w-full object-cover" /></div>)}
+    <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,6,6,0.92),rgba(6,6,6,0.78)_38%,rgba(6,6,6,0.42)_75%,rgba(6,6,6,0.3)),linear-gradient(180deg,rgba(6,6,6,0.7),transparent_25%,transparent_70%,rgba(6,6,6,0.85))]"></div>
+    <p class="absolute bottom-6 right-[var(--profile-gutter)] text-[10px] tracking-[0.2em] text-[#f4f7f2]/52">INFLU紹介映像より</p>
+  </div>
+  <div data-profile-career-canvas class="relative group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:inset-0 group-data-[motion-desktop]/career:h-[420vh] group-data-[motion-desktop]/career:w-[400vw]">
+  <svg data-profile-career-path aria-hidden="true" class="pointer-events-none absolute left-0 top-0 hidden overflow-visible group-data-[motion-desktop]/career:block"><path data-profile-path-base fill="none" stroke-width="1" class="stroke-[#f4f7f2]/12" /><path data-profile-path-progress fill="none" stroke-width="1" class="stroke-[#c89a5b]" /></svg>
+  <div data-profile-career-intro class="relative px-[var(--profile-gutter)] py-[clamp(80px,12svh,140px)] min-[900px]:min-h-[70svh] min-[900px]:max-w-[70vw] group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:left-[7vw] group-data-[motion-desktop]/career:top-[24vh] group-data-[motion-desktop]/career:min-h-0! group-data-[motion-desktop]/career:w-[min(60vw,980px)] group-data-[motion-desktop]/career:max-w-none! group-data-[motion-desktop]/career:p-0!">
+    <figure data-profile-career-thumb aria-hidden="true" class="absolute -right-[4vw] -top-[10vh] hidden w-[22vw] -rotate-3 opacity-75 group-data-[motion-desktop]/career:block"><img src="/media/company-profile/poster.jpg" alt="" class="aspect-[1600/706] w-full object-cover" /></figure>
     <p aria-hidden="true" class="mb-7 text-[clamp(48px,9vw,160px)] font-thin leading-[0.95] tracking-[0.01em]">RYOTA<br />MITO</p>
     <CompanySectionLabel>CAREER</CompanySectionLabel>
     <h2 id="career-title" class="mb-3.5 mt-6 text-[clamp(24px,2.6vw,40px)] font-normal leading-[1.35]">歩んできた道</h2>
     <p class="max-w-[34em] text-[#f4f7f2]/68">現場で商いを学び、試し、改善を重ねてきた経験が、現在のINFLUの支援につながっています。</p>
+    <span data-profile-career-dot class="absolute -bottom-6 -left-[5px] hidden h-[9px] w-[9px] rounded-full bg-[#c89a5b] group-data-[motion-desktop]/career:block" aria-hidden="true"></span>
   </div>
-  <ol>
+  <ol class="group-data-[motion-desktop]/career:contents">
     {careerItems.map((item, index) => (
-      <li class="relative isolate grid min-[900px]:min-h-[80svh] min-[900px]:items-center" data-profile-career-node>
-        <div class="relative mx-[var(--profile-gutter)] border-l border-[#f4f7f2]/12 pb-9 pl-[34px] pt-9 min-[900px]:mx-0 min-[900px]:my-24 min-[900px]:ml-[16vw] min-[900px]:max-w-[40vw] min-[900px]:border-0 min-[900px]:p-0">
-          <span class="absolute -left-[5px] top-[72px] h-[9px] w-[9px] rounded-full border border-[#c89a5b] bg-[#c89a5b] min-[900px]:-left-8" aria-hidden="true"></span>
+      <li class:list={["relative isolate grid min-[900px]:min-h-[80svh] min-[900px]:items-center group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:left-[calc(var(--career-x)*1vw)] group-data-[motion-desktop]/career:top-[calc(var(--career-y)*1vh)] group-data-[motion-desktop]/career:w-[min(40vw,600px)] group-data-[motion-desktop]/career:min-h-0!", positions[index]]} data-profile-career-node>
+        <div class="relative mx-[var(--profile-gutter)] border-l border-[#f4f7f2]/12 pb-9 pl-[34px] pt-9 min-[900px]:mx-0 min-[900px]:my-24 min-[900px]:ml-[16vw] min-[900px]:max-w-[40vw] min-[900px]:border-0 min-[900px]:p-0 group-data-[motion-desktop]/career:m-0! group-data-[motion-desktop]/career:w-full group-data-[motion-desktop]/career:max-w-none!">
+          <span data-profile-career-dot class="absolute -left-[5px] top-[72px] h-[9px] w-[9px] rounded-full border border-[#c89a5b] bg-[#c89a5b] min-[900px]:-left-8 group-data-[motion-desktop]/career:top-[calc(clamp(72px,11vw,200px)*0.5)]" aria-hidden="true"></span>
           <p class="text-[clamp(72px,11vw,200px)] font-thin leading-none tracking-[-0.01em] text-[#c89a5b]">{item.period}</p>
           <p class="mt-2 text-[11px] tracking-[0.3em] text-[#f4f7f2]/52">{String(index + 1).padStart(2, "0")}</p>
           <h3 class="mb-3 mt-4 text-[clamp(18px,1.7vw,26px)] font-normal leading-[1.6]">{item.title}</h3>
           <p class="max-w-[30em] text-[#f4f7f2]/68">{item.description}</p>
         </div>
-        <figure class="min-[900px]:absolute min-[900px]:inset-0 min-[900px]:-z-20">
+        <figure class="group-data-[motion-desktop]/career:hidden min-[900px]:absolute min-[900px]:inset-0 min-[900px]:-z-20">
           <img src={`/media/company-profile/${photos[index]}`} alt={`INFLU紹介映像より：${captions[index]}`} loading="lazy" decoding="async" class="h-[62svh] min-h-80 w-full object-cover min-[900px]:h-full" />
           <figcaption class="px-[var(--profile-gutter)] py-2 text-[10px] tracking-[0.2em] text-[#f4f7f2]/52 min-[900px]:absolute min-[900px]:bottom-6 min-[900px]:right-0">INFLU紹介映像より</figcaption>
         </figure>
-        <div class="pointer-events-none absolute inset-0 -z-10 hidden bg-[linear-gradient(90deg,rgba(6,6,6,0.92),rgba(6,6,6,0.78)_38%,rgba(6,6,6,0.42)_75%,rgba(6,6,6,0.3)),linear-gradient(180deg,rgba(6,6,6,0.7),transparent_25%,transparent_70%,rgba(6,6,6,0.85))] min-[900px]:block" aria-hidden="true"></div>
+        <div class="pointer-events-none absolute inset-0 -z-10 hidden bg-[linear-gradient(90deg,rgba(6,6,6,0.92),rgba(6,6,6,0.78)_38%,rgba(6,6,6,0.42)_75%,rgba(6,6,6,0.3)),linear-gradient(180deg,rgba(6,6,6,0.7),transparent_25%,transparent_70%,rgba(6,6,6,0.85))] min-[900px]:block group-data-[motion-desktop]/career:hidden" aria-hidden="true"></div>
       </li>
     ))}
   </ol>
+  </div>
+  </div>
 </section>
+
+<script>
+  import { careerMotion } from "./profile-motion";
+  careerMotion(document.querySelector<HTMLElement>("[data-profile-career]"));
+</script>

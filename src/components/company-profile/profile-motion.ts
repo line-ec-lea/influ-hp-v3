@@ -1,5 +1,5 @@
 import { animate, scroll, ease } from "@shared/motion";
-import { clamp } from "./motion-frames.mjs";
+import { clamp, careerFrame } from "./motion-frames.mjs";
 
 type Cleanup = () => void;
 type Scope = {
@@ -189,5 +189,70 @@ export function messageMotion(root: HTMLElement | null) {
       scope.reveal([foot], 0, 30, 1);
       scope.progress(stage, progress => scope.set(cover, "transform", `translate(${-progress * 100}%, ${-progress * 60}%)`), ["start 85%", "start 15%"]);
     }
+  });
+}
+
+export function careerMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (!root) return;
+    const intro = root.querySelector<HTMLElement>("[data-profile-career-intro]")!;
+    const nodes = [...root.querySelectorAll<HTMLElement>("[data-profile-career-node]")];
+    if (!scope.desktop || innerHeight < 600) {
+      scope.reveal([intro], 0, 30, 1);
+      nodes.forEach((node, index) => scope.reveal([node], index % 2 ? -28 : 28, 0, 1));
+      scope.reveal(nodes.map(node => node.querySelector<HTMLElement>("figure")!), 0, 0, 1.3, true);
+      return;
+    }
+    const canvas = root.querySelector<HTMLElement>("[data-profile-career-canvas]")!;
+    const svg = root.querySelector<SVGSVGElement>("[data-profile-career-path]")!;
+    const base = svg.querySelector<SVGPathElement>("[data-profile-path-base]")!;
+    const path = svg.querySelector<SVGPathElement>("[data-profile-path-progress]")!;
+    const background = root.querySelector<HTMLElement>("[data-profile-career-background]")!;
+    const layers = [...background.querySelectorAll<HTMLElement>("[data-profile-career-background-image]")];
+    scope.set(root, "--profile-scroll-height", `${innerHeight * 7.5}px`);
+    scope.set(root, "--profile-viewport", `${innerHeight}px`);
+    scope.flag(root, "motion-desktop");
+    const allNodes = [intro, ...nodes];
+    const canvasRect = canvas.getBoundingClientRect();
+    const points = allNodes.map(node => {
+      const dot = node.querySelector<HTMLElement>("[data-profile-career-dot]")!.getBoundingClientRect();
+      return { x: dot.left - canvasRect.left + dot.width / 2, y: dot.top - canvasRect.top + dot.height / 2 };
+    });
+    const lengths = [0];
+    points.slice(1).forEach((point, index) => lengths.push(lengths[index] + Math.hypot(point.x - points[index].x, point.y - points[index].y)));
+    const total = lengths[lengths.length - 1];
+    const d = points.map((point, index) => `${index ? "L" : "M"}${point.x} ${point.y}`).join(" ");
+    svg.setAttribute("width", String(canvas.offsetWidth));
+    svg.setAttribute("height", String(canvas.offsetHeight));
+    base.setAttribute("d", d);
+    path.setAttribute("d", d);
+    scope.set(path, "stroke-dasharray", String(total));
+    const cameras = points.map((point, index) => index ? { x: innerWidth * 0.16 - point.x, y: innerHeight * 0.3 - point.y } : { x: 0, y: -innerHeight * 0.07 });
+    const thumb = intro.querySelector<HTMLElement>("[data-profile-career-thumb]")!;
+    scope.progress(root, progress => {
+      const frame = careerFrame(progress, nodes.length);
+      const from = cameras[frame.from], to = cameras[frame.to];
+      const x = from.x + (to.x - from.x) * frame.travel - innerWidth * 0.3 * frame.exit;
+      const y = from.y + (to.y - from.y) * frame.travel - innerHeight * 0.36 * frame.exit;
+      scope.set(canvas, "transform", `translate(${x}px, ${y}px)`);
+      scope.set(canvas, "opacity", `${1 - 0.88 * frame.exit}`);
+      scope.set(background, "opacity", `${1 - frame.exit}`);
+      scope.set(path, "stroke-dashoffset", String(total - lengths[frame.from] - (lengths[frame.to] - lengths[frame.from]) * frame.travel));
+      nodes.forEach((node, index) => {
+        const color = frame.active === index + 1 ? "#c89a5b" : "rgba(244,247,242,0.52)";
+        scope.set(node.querySelector<HTMLElement>("p")!, "color", color);
+        scope.set(node.querySelector<HTMLElement>("[data-profile-career-dot]")!, "background-color", color);
+      });
+      layers.forEach((layer, index) => {
+        const visible = index + 1 < frame.to ? 1 : index + 1 === frame.to ? frame.travel : 0;
+        const hidden = 100 * (1 - visible);
+        const inset = [2, 5].includes(index) ? `${hidden}% 0% 0% 0%` : index === 3 ? `${hidden}% 0% 0% ${hidden}%` : `0% 0% 0% ${hidden}%`;
+        scope.set(layer, "clip-path", `inset(${inset})`);
+        scope.set(layer.querySelector<HTMLImageElement>("img")!, "transform", `scale(${1.18 - visible * 0.14})`);
+      });
+      const leaving = frame.to === 0 ? 0 : frame.to === 1 ? frame.travel : 1;
+      scope.set(thumb, "transform", `translate(${-innerWidth * 0.14 * leaving}px, ${-innerHeight * 0.16 * leaving}px) rotate(${-3 - leaving * 3}deg)`);
+      scope.set(thumb, "opacity", `${0.75 * (1 - leaving)}`);
+    });
   });
 }

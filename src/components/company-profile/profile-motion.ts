@@ -246,9 +246,15 @@ export function careerMotion(root: HTMLElement | null) {
       return { x: dot.left - canvasRect.left + dot.width / 2, y: dot.top - canvasRect.top + dot.height / 2 };
     });
     const lengths = [0];
-    points.slice(1).forEach((point, index) => lengths.push(lengths[index] + Math.hypot(point.x - points[index].x, point.y - points[index].y)));
+    let d = `M${points[0].x} ${points[0].y}`;
+    points.slice(1).forEach((point, index) => {
+      const previous = points[index];
+      const bend = (point.x - previous.x) * 0.4;
+      d += ` C${previous.x + bend} ${previous.y} ${point.x - bend} ${point.y} ${point.x} ${point.y}`;
+      base.setAttribute("d", d);
+      lengths.push(base.getTotalLength());
+    });
     const total = lengths[lengths.length - 1];
-    const d = points.map((point, index) => `${index ? "L" : "M"}${point.x} ${point.y}`).join(" ");
     svg.setAttribute("width", String(canvas.offsetWidth));
     svg.setAttribute("height", String(canvas.offsetHeight));
     base.setAttribute("d", d);
@@ -268,7 +274,8 @@ export function careerMotion(root: HTMLElement | null) {
       nodes.forEach((node, index) => {
         const color = frame.active === index + 1 ? "#c89a5b" : "rgba(244,247,242,0.52)";
         scope.set(node.querySelector<HTMLElement>("p")!, "color", color);
-        scope.set(node.querySelector<HTMLElement>("[data-profile-career-dot]")!, "background-color", color);
+        const reached = index + 1 <= frame.from || (index + 1 === frame.to && frame.travel === 1);
+        scope.set(node.querySelector<HTMLElement>("[data-profile-career-dot]")!, "background-color", reached ? "#c89a5b" : "rgba(244,247,242,0.52)");
       });
       const leaving = frame.to === 0 ? 0 : frame.to === 1 ? frame.travel : 1;
       scope.set(thumb, "transform", `translate(${-innerWidth * 0.14 * leaving}px, ${-innerHeight * 0.16 * leaving}px) rotate(${-3 - leaving * 3}deg)`);

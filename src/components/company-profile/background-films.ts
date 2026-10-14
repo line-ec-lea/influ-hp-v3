@@ -22,7 +22,7 @@ export function initBackgroundFilms(page: HTMLElement | null) {
     }
     const paused = userPaused || reduced.matches;
     for (const button of buttons) {
-      button.hidden = false;
+      button.hidden = reduced.matches;
       button.setAttribute("aria-pressed", String(paused));
       button.setAttribute("aria-label", paused ? "背景映像を再生" : "背景映像を一時停止");
       button.textContent = paused ? "背景映像を再生" : "背景映像を一時停止";

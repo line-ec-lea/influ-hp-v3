@@ -15,6 +15,7 @@ export function profileMotion(root: HTMLElement | null, setup: (scope: Scope) =>
   if (!root) return;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   let cleanups: Cleanup[] = [];
+  const revealed = new WeakSet<HTMLElement>();
   let resizeFrame = 0;
   const stop = () => { cleanups.splice(0).reverse().forEach(cleanup => cleanup()); };
   const mount = () => {
@@ -45,13 +46,14 @@ export function profileMotion(root: HTMLElement | null, setup: (scope: Scope) =>
         const show = (element: HTMLElement) => {
           if (!pending.delete(element)) return;
           observer.unobserve(element);
+          revealed.add(element);
           const animation = animate(element, mask ? {
             clipPath: ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"],
           } : { opacity: [0, 1], x: [x, 0], y: [y, 0] }, { duration, ease, delay: Number(element.dataset.profileDelay || 0) });
           add(() => animation.cancel());
         };
         for (const element of elements) {
-          if (element.getBoundingClientRect().bottom < 0) continue;
+          if (revealed.has(element) || element.getBoundingClientRect().bottom < 0) continue;
           remember(element);
           pending.add(element);
           if (mask) element.style.clipPath = "inset(100% 0% 0% 0%)";
@@ -62,7 +64,7 @@ export function profileMotion(root: HTMLElement | null, setup: (scope: Scope) =>
           for (const element of pending) if (element.contains(event.target as Node)) show(element);
         };
         root.addEventListener("focusin", focus);
-        add(() => { observer.disconnect(); root.removeEventListener("focusin", focus); });
+        add(() => { observer.disconnect(); pending.clear(); root.removeEventListener("focusin", focus); });
       },
     };
     try { setup(scope); } catch (error) { stop(); console.error("Company profile motion could not initialize", error); }
@@ -299,5 +301,37 @@ export function supportMotion(root: HTMLElement | null) {
 export function mediaMotion(root: HTMLElement | null) {
   profileMotion(root, scope => {
     if (root) scope.reveal(root.querySelectorAll<HTMLElement>("li"), 0, 0, 1.2);
+  });
+}
+
+export function philosophyMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (!root) return;
+    const wrapper = root.querySelector<HTMLElement>("[data-profile-philosophy-pin]")!;
+    const words = [...root.querySelectorAll<HTMLElement>("#philosophy-title > span")];
+    const description = root.querySelector<HTMLElement>("[data-profile-philosophy-description]")!;
+    scope.reveal(root.querySelectorAll<HTMLElement>("article"));
+    if (!scope.desktop || innerHeight < 600) {
+      words.forEach((word, index) => scope.reveal([word], [40, 0, -30][index], [0, 40, 30][index], 1.4));
+      return;
+    }
+    scope.set(wrapper, "--profile-scroll-height", `${innerHeight * 2.8}px`);
+    scope.set(wrapper, "--profile-viewport", `${innerHeight}px`);
+    scope.flag(wrapper, "motion-desktop");
+    scope.progress(wrapper, progress => {
+      scope.set(words[0], "transform", `translateX(${innerWidth * 0.24 * (1 - progress)}px)`);
+      scope.set(words[0], "opacity", `${progress}`);
+    }, ["start 75%", "start start"]);
+    scope.progress(wrapper, progress => {
+      const delivering = clamp((progress - 0.1) / 0.4);
+      const growing = clamp((progress - 0.4) / 0.4);
+      const explaining = clamp((progress - 0.75) / 0.2);
+      scope.set(words[1], "transform", `translateY(${innerHeight * 0.36 * (1 - delivering)}px)`);
+      scope.set(words[1], "opacity", `${delivering}`);
+      scope.set(words[2], "transform", `translate(${-innerWidth * 0.16 * (1 - growing)}px, ${innerHeight * 0.26 * (1 - growing)}px)`);
+      scope.set(words[2], "opacity", `${growing}`);
+      scope.set(description, "transform", `translateY(${20 * (1 - explaining)}px)`);
+      scope.set(description, "opacity", `${explaining}`);
+    });
   });
 }

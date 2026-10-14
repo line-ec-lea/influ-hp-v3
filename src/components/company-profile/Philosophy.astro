@@ -26,12 +26,14 @@ const companyPhilosophy = {
 } as const
 ---
 <section id="philosophy" aria-labelledby="philosophy-title" class="scroll-mt-24 bg-page">
-  <div class="px-[var(--profile-gutter)] pb-10 pt-[clamp(110px,16svh,180px)]" data-profile-philosophy-stage>
-    <CompanySectionLabel>PHILOSOPHY</CompanySectionLabel>
-    <h2 id="philosophy-title" class="my-[30px] grid gap-[0.1em] text-[clamp(56px,11vw,210px)] font-normal leading-[1.08] tracking-[0.04em] max-[899px]:text-[clamp(48px,15vw,110px)]">
-      <span class="block">つくる。</span><span class="block pl-[14%]">届ける。</span><span class="block pl-[28%]">育てる。</span>
+  <div data-profile-philosophy-pin class="group/profile-philosophy relative data-[motion-desktop]:h-[var(--profile-scroll-height)]">
+  <div class="relative group-data-[motion-desktop]/profile-philosophy:sticky group-data-[motion-desktop]/profile-philosophy:top-0 group-data-[motion-desktop]/profile-philosophy:h-[var(--profile-viewport)] group-data-[motion-desktop]/profile-philosophy:overflow-clip group-data-[motion-desktop]/profile-philosophy:p-0! px-[var(--profile-gutter)] pb-10 pt-[clamp(110px,16svh,180px)]" data-profile-philosophy-stage>
+    <CompanySectionLabel class="group-data-[motion-desktop]/profile-philosophy:absolute group-data-[motion-desktop]/profile-philosophy:left-[var(--profile-gutter)] group-data-[motion-desktop]/profile-philosophy:top-[14vh]">PHILOSOPHY</CompanySectionLabel>
+    <h2 id="philosophy-title" class="group-data-[motion-desktop]/profile-philosophy:absolute group-data-[motion-desktop]/profile-philosophy:inset-0 group-data-[motion-desktop]/profile-philosophy:m-0! group-data-[motion-desktop]/profile-philosophy:block! group-data-[motion-desktop]/profile-philosophy:text-[clamp(80px,10vw,200px)]! my-[30px] grid gap-[0.1em] text-[clamp(56px,11vw,210px)] font-normal leading-[1.08] tracking-[0.04em] max-[899px]:text-[clamp(48px,15vw,110px)]">
+      <span class="block group-data-[motion-desktop]/profile-philosophy:absolute group-data-[motion-desktop]/profile-philosophy:left-[var(--profile-gutter)] group-data-[motion-desktop]/profile-philosophy:top-[22vh]">つくる。</span><span class="block pl-[14%] group-data-[motion-desktop]/profile-philosophy:absolute group-data-[motion-desktop]/profile-philosophy:left-[28vw] group-data-[motion-desktop]/profile-philosophy:top-[43vh] group-data-[motion-desktop]/profile-philosophy:pl-0!">届ける。</span><span class="block pl-[28%] group-data-[motion-desktop]/profile-philosophy:absolute group-data-[motion-desktop]/profile-philosophy:left-[51vw] group-data-[motion-desktop]/profile-philosophy:top-[64vh] group-data-[motion-desktop]/profile-philosophy:pl-0!">育てる。</span>
     </h2>
-    <p class="max-w-[30em] text-[#f4f7f2]/68">INFLUは、挑戦する人のアイデアを形にし、必要な人へ届け、その先で続いていく力を育てます。</p>
+    <p data-profile-philosophy-description class="group-data-[motion-desktop]/profile-philosophy:absolute group-data-[motion-desktop]/profile-philosophy:left-[var(--profile-gutter)] group-data-[motion-desktop]/profile-philosophy:bottom-[12vh] group-data-[motion-desktop]/profile-philosophy:max-w-[24em] max-w-[30em] text-[#f4f7f2]/68">INFLUは、挑戦する人のアイデアを形にし、必要な人へ届け、その先で続いていく力を育てます。</p>
+  </div>
   </div>
   <div class="grid gap-12 px-[var(--profile-gutter)] pb-[clamp(100px,16svh,200px)] pt-[clamp(60px,12svh,140px)] min-[900px]:grid-cols-3 min-[900px]:gap-[clamp(24px,4vw,64px)]">
     <article class="border-t border-[#f4f7f2]/12 pt-[26px]">
@@ -52,3 +54,8 @@ const companyPhilosophy = {
     </article>
   </div>
 </section>
+
+<script>
+  import { philosophyMotion } from "./profile-motion";
+  philosophyMotion(document.querySelector<HTMLElement>("#philosophy"));
+</script>

@@ -307,12 +307,6 @@ export function supportMotion(root: HTMLElement | null) {
   });
 }
 
-export function mediaMotion(root: HTMLElement | null) {
-  profileMotion(root, scope => {
-    if (root) scope.reveal(root.querySelectorAll<HTMLElement>("li"), 0, 0, 1.2);
-  });
-}
-
 export function philosophyMotion(root: HTMLElement | null) {
   profileMotion(root, scope => {
     if (!root) return;

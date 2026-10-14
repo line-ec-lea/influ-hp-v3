@@ -1,0 +1,27 @@
+<div hidden aria-hidden="true" data-profile-chapter-marker class="pointer-events-none fixed bottom-4 left-[var(--profile-gutter)] z-40 flex items-center gap-3.5 text-[10px] tracking-[0.28em] text-white mix-blend-difference min-[900px]:bottom-[26px] min-[900px]:text-[11px]">
+  <span data-profile-chapter-number class="opacity-60">01</span><span class="h-px w-6 bg-current opacity-50 min-[900px]:w-10"></span><span data-profile-chapter-title>COMPANY</span>
+</div>
+<script>
+  import { scroll } from "@shared/motion";
+  const page = document.querySelector<HTMLElement>("[data-company-profile]")!;
+  const marker = page.querySelector<HTMLElement>("[data-profile-chapter-marker]")!;
+  const sections = [...page.querySelectorAll<HTMLElement>("section")];
+  const header = document.querySelector<HTMLElement>("#site-header")!;
+  const update = () => {
+    const pageBounds = page.getBoundingClientRect();
+    marker.hidden = pageBounds.bottom < 0 || pageBounds.top > innerHeight;
+    const active = sections.find(section => {
+      const rect = section.getBoundingClientRect();
+      return rect.top <= innerHeight * 0.5 && rect.bottom > innerHeight * 0.5;
+    }) ?? sections[sections.length - 1];
+    marker.querySelector<HTMLElement>("[data-profile-chapter-number]")!.textContent = String(sections.indexOf(active) + 1).padStart(2, "0");
+    marker.querySelector<HTMLElement>("[data-profile-chapter-title]")!.textContent = active.querySelector("[data-company-section-label]")?.textContent?.trim() ?? "COMPANY";
+    // Keep the existing shared navigation legible over the two light chapters.
+    header.classList.toggle("bg-page/95!", !marker.hidden && ["corporate-information", "a02"].includes(active.id));
+  };
+  let stop = scroll(update);
+  document.fonts.ready.then(update);
+  window.addEventListener("pagehide", () => { stop(); marker.hidden = true; header.classList.remove("bg-page/95!"); });
+  window.addEventListener("pageshow", event => { if (event.persisted) { stop = scroll(update); update(); } });
+  update();
+</script>

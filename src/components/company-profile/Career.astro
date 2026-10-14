@@ -45,7 +45,7 @@ const captions = ["光の差す廊下を歩くシルエット", "飲食店の厨
 <section id="career" aria-labelledby="career-title" class="group/career relative scroll-mt-24 bg-page data-[motion-desktop]:h-[var(--profile-scroll-height)]" data-profile-career>
   <div data-profile-career-stage class="relative group-data-[motion-desktop]/career:sticky group-data-[motion-desktop]/career:top-0 group-data-[motion-desktop]/career:h-[var(--profile-viewport)] group-data-[motion-desktop]/career:overflow-clip">
   <div data-profile-career-background aria-hidden="true" class="absolute inset-0 hidden overflow-hidden group-data-[motion-desktop]/career:block">
-    {photos.map((photo, index) => <div data-profile-career-background-image class="absolute inset-0 [clip-path:inset(0%_0%_0%_100%)]"><img src={`/media/company-profile/${photo}`} alt="" loading="lazy" class="h-full w-full object-cover" /></div>)}
+    {photos.map((photo) => <div data-profile-career-background-image class="absolute inset-0 [clip-path:inset(0%_0%_0%_100%)]"><img src={`/media/company-profile/${photo}`} alt="" loading="lazy" class="h-full w-full object-cover" /></div>)}
     <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,6,6,0.92),rgba(6,6,6,0.78)_38%,rgba(6,6,6,0.42)_75%,rgba(6,6,6,0.3)),linear-gradient(180deg,rgba(6,6,6,0.7),transparent_25%,transparent_70%,rgba(6,6,6,0.85))]"></div>
     <p class="absolute bottom-6 right-[var(--profile-gutter)] text-[10px] tracking-[0.2em] text-[#f4f7f2]/52">INFLU紹介映像より</p>
   </div>

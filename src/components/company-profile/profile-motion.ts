@@ -341,3 +341,9 @@ export function informationMotion(root: HTMLElement | null) {
     if (root) scope.reveal(root.querySelectorAll<HTMLElement>("dl > div"), 0, 12, 0.9);
   });
 }
+
+export function accessMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (root) scope.reveal(root.querySelectorAll<HTMLElement>("iframe, figure"), 0, 12, 0.9);
+  });
+}

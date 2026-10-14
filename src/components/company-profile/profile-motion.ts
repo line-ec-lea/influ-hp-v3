@@ -295,3 +295,9 @@ export function supportMotion(root: HTMLElement | null) {
     }, ["start 60%", "end 60%"]);
   });
 }
+
+export function mediaMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (root) scope.reveal(root.querySelectorAll<HTMLElement>("li"), 0, 0, 1.2);
+  });
+}

@@ -116,13 +116,13 @@ export function galleryMotion(root: HTMLElement | null) {
     scope.set(root, "--profile-scroll-height", `${innerHeight + distance}px`);
     scope.set(root, "--profile-viewport", `${innerHeight}px`);
     scope.flag(root, "motion-desktop");
-    const bar = root.querySelector<HTMLElement>("[data-profile-gallery-progress]")!;
+    const bar = root.querySelector<HTMLElement>("[data-profile-gallery-progress]");
     let current = 0;
     scope.progress(root, progress => {
       current = progress * distance;
       region.scrollLeft = 0;
       scope.set(track, "transform", `translateX(${-current}px)`);
-      scope.set(bar, "transform", `scaleX(${progress})`);
+      if (bar) scope.set(bar, "transform", `scaleX(${progress})`);
       const counter = root.querySelector<HTMLElement>("[data-profile-gallery-current]");
       if (counter) counter.textContent = String(Math.min(panels.length, 1 + Math.floor(progress * panels.length))).padStart(2, "0");
       panels.forEach((panel, index) => {

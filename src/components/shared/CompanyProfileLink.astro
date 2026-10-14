@@ -3,6 +3,6 @@ interface Props { href: string; external?: boolean; framed?: boolean; class?: st
 const { href, external = false, framed = false, class: className = "" } = Astro.props;
 ---
 <a href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined}
-  class:list={["inline-flex w-fit items-center gap-[18px] text-sm tracking-[0.12em] text-[#f4f7f2] hover:border-[#c89a5b]", framed ? "border border-[#f4f7f2]/22 px-[30px] py-[18px]" : "border-b border-[#f4f7f2]/22 py-2.5", className]}>
+  class:list={["inline-flex w-fit items-center gap-[18px] text-sm font-semibold text-foreground hover:border-[#c89a5b]", framed ? "border border-[#f4f7f2]/22 px-[30px] py-[18px]" : "border-b border-[#f4f7f2]/22 py-2.5", className]}>
   <slot /><span class="text-[#c89a5b]" aria-hidden="true">→</span>
 </a>

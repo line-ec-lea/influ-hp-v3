@@ -3,52 +3,31 @@ import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
 import CompanyProfileLink from "@shared/CompanyProfileLink.astro";
 import { routes } from "@shared/features/routes";
 const services = [
-  { label: "AI-READY HOMEPAGE", title: "HPのAI化", body: "既存ホームページの制作・保守・更新・改善を、AI活用前提で自社主導に変える支援です。", href: routes.aiHomepage, link: "HPのAI化を見る", images: [
-    { file: "dir-hp-1.jpg", alt: "INFLU紹介映像より：画面に表示されたWebサイト", position: "object-[40%_40%]" },
-    { file: "dir-hp-2.jpg", alt: "INFLU紹介映像より：オフィスでPC作業をする様子", position: "object-[42%_50%]" },
-    { file: "dir-hp-3.jpg", alt: "INFLU紹介映像より：ノートPCを使った作業", position: "object-[88%_45%]" },
-  ] },
-  { label: "AX SUPPORT", title: "AX・業務効率化支援", body: "AIを話題やツール導入で終わらせず、企業の業務とマーケティングの実務へ接続します。", href: routes.axSupport, link: "AX・業務効率化支援を見る", images: [
-    { file: "dir-ax-1.jpg", alt: "INFLU紹介映像より：オンライン会議の様子", position: "object-[45%_45%]" },
-    { file: "dir-ax-2.jpg", alt: "INFLU紹介映像より：打ち合わせで説明する様子", position: "object-[45%_50%]" },
-    { file: "dir-ax-3.jpg", alt: "INFLU紹介映像より：代表と相談者の打ち合わせ", position: "object-[45%_40%]" },
-  ] },
-];
-const imageLayouts = [
-  "col-span-2 aspect-video min-[900px]:absolute min-[900px]:left-0 min-[900px]:top-[5svh] min-[900px]:z-10 min-[900px]:h-[44svh] min-[900px]:w-[37vw]",
-  "aspect-square min-[900px]:absolute min-[900px]:right-0 min-[900px]:top-0 min-[900px]:z-20 min-[900px]:h-[36svh] min-[900px]:w-[15vw]",
-  "aspect-square min-[900px]:absolute min-[900px]:right-[3vw] min-[900px]:bottom-0 min-[900px]:z-30 min-[900px]:h-[30svh] min-[900px]:w-[27vw] min-[900px]:ring-[10px] min-[900px]:ring-section",
+  { label: "AI-READY HOMEPAGE", title: "HPのAI化", body: "既存ホームページの制作・保守・更新・改善を、AI活用前提で自社主導に変える支援です。", href: routes.aiHomepage, link: "HPのAI化を見る" },
+  { label: "AX SUPPORT", title: "AX・業務効率化支援", body: "AIを話題やツール導入で終わらせず、企業の業務とマーケティングの実務へ接続します。", href: routes.axSupport, link: "AX・業務効率化支援を見る" },
 ];
 ---
 <section id="direction" aria-labelledby="direction-title" class="group/profile-gallery relative scroll-mt-24 bg-section data-[motion-desktop]:h-[var(--profile-scroll-height)]" data-profile-direction>
   <div role="region" aria-label="現在の支援領域" tabindex="0" class="group-data-[motion-desktop]/profile-gallery:sticky group-data-[motion-desktop]/profile-gallery:top-0 group-data-[motion-desktop]/profile-gallery:flex group-data-[motion-desktop]/profile-gallery:h-[var(--profile-viewport)] group-data-[motion-desktop]/profile-gallery:items-center group-data-[motion-desktop]/profile-gallery:overflow-hidden! group-data-[motion-desktop]/profile-gallery:snap-none! min-[900px]:overflow-x-auto min-[900px]:overscroll-x-contain min-[900px]:snap-x min-[900px]:snap-mandatory">
     <div class="relative px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)] min-[900px]:flex min-[900px]:w-max min-[900px]:items-center min-[900px]:py-[8svh] min-[900px]:pr-[12vw]" data-profile-direction-track data-profile-gallery-track>
       <div class="pb-12 min-[900px]:w-[40vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:pr-[6vw] min-[900px]:pb-0">
-        <CompanySectionLabel>CURRENT DIRECTION</CompanySectionLabel>
-        <h2 id="direction-title" class="my-7 text-[clamp(30px,4.2vw,64px)] font-normal leading-[1.35]">現在の支援領域</h2>
-        <p class="max-w-[34em] text-[#f4f7f2]/68">これまでのWEBマーケティングと事業運営の経験を、現在はHPのAI化と企業のAX支援へつなげています。</p>
-        <p class="sr-only min-[900px]:not-sr-only min-[900px]:mt-8 min-[900px]:text-xs min-[900px]:text-[#f4f7f2]/52">スクロールして支援領域を見る →</p>
+        <CompanySectionLabel class="[&>span]:hidden">CURRENT DIRECTION</CompanySectionLabel>
+        <h2 id="direction-title" class="my-7 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">現在の支援領域</h2>
+        <p class="max-w-[34em] text-foreground/80">これまでのWEBマーケティングと事業運営の経験を、現在はHPのAI化と企業のAX支援へつなげています。</p>
+        <p class="sr-only min-[900px]:not-sr-only min-[900px]:mt-8 min-[900px]:text-xs min-[900px]:text-foreground/70">スクロールして支援領域を見る →</p>
       </div>
       {services.map((service, index) => (
-        <article data-profile-panel class="border-t border-[#f4f7f2]/12 py-12 min-[900px]:grid min-[900px]:min-h-[78svh] min-[900px]:w-[100vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:grid-cols-[28vw_minmax(0,1fr)] min-[900px]:items-center min-[900px]:gap-[4vw] min-[900px]:border-t-0 min-[900px]:border-l min-[900px]:px-[5vw] min-[900px]:py-0">
+        <article data-profile-panel class="py-12 min-[900px]:grid min-[900px]:min-h-[78svh] min-[900px]:w-[40vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:items-center min-[900px]:px-[5vw] min-[900px]:py-0">
           <div class="relative z-40">
-            <span aria-hidden="true" class="mb-7 block text-[clamp(110px,16vw,280px)] font-thin leading-[0.8] text-[#f4f7f2]/22">{String(index + 1).padStart(2, "0")}</span>
-            <p class="text-[11px] tracking-[0.3em] text-[#c89a5b]">{String(index + 1).padStart(2, "0")} — {service.label}</p>
-            <h3 class="mb-6 mt-[18px] text-[clamp(30px,4.6vw,76px)] font-normal leading-[1.25]">{service.title}</h3>
-            <p class="mb-7 max-w-[26em] text-[#f4f7f2]/68">{service.body}</p>
-            <CompanyProfileLink href={service.href}>{service.link}</CompanyProfileLink>
-          </div>
-          <div class="relative mt-8 grid grid-cols-2 gap-3 min-[900px]:mt-0 min-[900px]:block min-[900px]:h-[78svh]">
-            {service.images.map((image, i) => (
-              <figure class:list={["overflow-hidden bg-surface", imageLayouts[i]]}>
-                <img src={`/media/company-profile/${image.file}`} alt={image.alt} loading="lazy" decoding="async" class:list={["h-full w-full object-cover", image.position]} />
-              </figure>
-            ))}
+            <span aria-hidden="true" class="mb-7 block text-[clamp(110px,16vw,280px)] font-bold leading-[0.8] text-[#f4f7f2]/22">{String(index + 1).padStart(2, "0")}</span>
+            <p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">{String(index + 1).padStart(2, "0")} — {service.label}</p>
+            <h3 class="mb-6 mt-[18px] text-xl font-bold leading-[1.5] tracking-[-0.01em] sm:text-2xl lg:text-[1.75rem]">{service.title}</h3>
+            <p class="mb-7 max-w-[26em] text-foreground/80">{service.body}</p>
+            <CompanyProfileLink href={service.href} class="border-0!">{service.link}</CompanyProfileLink>
           </div>
         </article>
       ))}
     </div>
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-[var(--profile-gutter)] bottom-[6svh] hidden h-px bg-[#f4f7f2]/12 group-data-[motion-desktop]/profile-gallery:block"><span data-profile-gallery-progress class="block h-full origin-left scale-x-0 bg-[#c89a5b]"></span></div>
   </div>
 </section>
 

@@ -9,21 +9,20 @@ import { CONTACT_FORM_HREF } from "@shared/features/contact";
   <div aria-hidden="true" class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(6,6,6,0.35),transparent_30%,transparent_70%,var(--color-section)),linear-gradient(90deg,rgba(6,6,6,0.9),rgba(6,6,6,0.72)_45%,rgba(6,6,6,0.38))]"></div>
   <div data-profile-hero-top class="flex flex-wrap items-center gap-6">
     <CompanySectionLabel>COMPANY</CompanySectionLabel>
-    <h1 id="company-title" class="text-[13px] font-normal tracking-[0.24em] text-[#f4f7f2]/68">会社概要</h1>
+    <p class="text-xs font-bold tracking-[0.16em] text-foreground/80">会社概要</p>
   </div>
   <div class="self-center py-[6svh]">
-    <p class="text-[clamp(28px,6.2vw,104px)] font-normal leading-[1.32] tracking-[0.02em] text-[#f4f7f2] max-[899px]:text-[clamp(24px,6.6vw,59px)]" data-profile-headline>
-      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.0">技術とマーケティングを、</span></span>
-      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.12">現場で使い続けられる</span></span>
+    <h1 id="company-title" class="text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] text-foreground lg:text-[clamp(3.5rem,4.5vw,5.5rem)]" data-profile-headline>
+      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.0"><span class="inline-block">技術と</span><span class="inline-block">マーケティングを、</span></span></span>
+      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.12"><span class="inline-block">現場で</span><span class="inline-block">使い続けられる</span></span></span>
       <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.24">仕組みへ。</span></span>
-    </p>
+    </h1>
     <span data-profile-rule class="my-[clamp(28px,5svh,56px)] block h-px w-[clamp(80px,18vw,300px)] bg-[#c89a5b]" aria-hidden="true"></span>
-    <p data-profile-lead class="max-w-[30em] text-[clamp(14px,1.1vw,16px)] text-[#f4f7f2]/68">INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。</p>
+    <p data-profile-lead class="max-w-[34rem] text-pretty text-base leading-[1.9] text-foreground/90">INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。</p>
     <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="mt-9 !text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">INFLUに相談する</SpecularButton>
   </div>
-  <div data-profile-hero-foot class="flex flex-wrap items-end justify-between gap-5 text-[11px] tracking-[0.28em] text-[#f4f7f2]/52">
+  <div data-profile-hero-foot class="flex flex-wrap items-end justify-between gap-5 text-[0.625rem] font-bold tracking-[0.2em] text-foreground/70">
     <a href="#direction" class="inline-flex items-center gap-3.5"><span class="block h-12 w-px bg-[linear-gradient(#c89a5b,transparent)]" aria-hidden="true"></span>SCROLL<span class="sr-only">：現在の支援領域へ</span></a>
-    <span class="max-[899px]:hidden">EST. 2019 — OSAKA</span>
   </div>
 </section>
 

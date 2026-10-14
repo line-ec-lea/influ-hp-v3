@@ -7,16 +7,16 @@ const coverage = [
 ---
 <section id="media" aria-labelledby="media-title" class="scroll-mt-24 bg-section px-[var(--profile-gutter)] py-[clamp(110px,18svh,200px)]">
   <div class="mb-[clamp(48px,8svh,96px)] grid items-end gap-5 min-[900px]:grid-cols-2 min-[900px]:gap-10">
-    <div><CompanySectionLabel>MEDIA</CompanySectionLabel><h2 id="media-title" class="mt-6 text-[clamp(26px,3.2vw,48px)] font-normal leading-[1.35]">INFLUを語る、<br />ふたつのインタビュー。</h2></div>
-    <p class="max-w-[34em] text-[#f4f7f2]/68">私たちの取り組みと、その背景にある考え方を、外部メディアでご紹介いただきました。</p>
+    <div><CompanySectionLabel>MEDIA</CompanySectionLabel><h2 id="media-title" class="mt-6 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">INFLUを語る、<br />ふたつのインタビュー。</h2></div>
+    <p class="max-w-[34em] text-foreground/80">私たちの取り組みと、その背景にある考え方を、外部メディアでご紹介いただきました。</p>
   </div>
   <ul class="border-b border-[#f4f7f2]/12">
     {coverage.map((item) => (
       <li><a href={item.href} target="_blank" rel="noopener noreferrer" class="grid items-baseline gap-1.5 border-t border-[#f4f7f2]/12 py-[26px] hover:bg-[#f4f7f2]/2 min-[900px]:grid-cols-[2fr_2fr_6fr_2fr] min-[900px]:gap-6 min-[900px]:py-[34px]">
-        <span class="text-[11px] tracking-[0.3em] text-[#f4f7f2]/52">{item.issue}</span>
+        <span class="text-xs font-bold tracking-[0.16em] text-foreground/70">{item.issue}</span>
         <span class="text-[13px] tracking-[0.14em] text-[#c89a5b]">{item.publisher}</span>
-        <h3 class="text-[clamp(16px,1.4vw,21px)] font-normal leading-[1.7]">{item.title}</h3>
-        <span class="mt-2 text-[13px] tracking-[0.12em] text-[#f4f7f2]/68 min-[900px]:mt-0 min-[900px]:justify-self-end">記事を読む<span class="ml-2.5 text-[#c89a5b]" aria-hidden="true">→</span></span>
+        <h3 class=" text-xl font-bold leading-[1.5] tracking-[-0.01em] sm:text-2xl lg:text-[1.75rem]">{item.title}</h3>
+        <span class="mt-2 text-[13px] tracking-[0.12em] text-foreground/80 min-[900px]:mt-0 min-[900px]:justify-self-end">記事を読む<span class="ml-2.5 text-[#c89a5b]" aria-hidden="true">→</span></span>
       </a></li>
     ))}
   </ul>

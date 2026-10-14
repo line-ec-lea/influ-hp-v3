@@ -31,16 +31,16 @@ const positions = ["min-[900px]:col-span-5", "min-[900px]:col-span-5 min-[900px]
 <section id="experience" aria-labelledby="experience-title" class="scroll-mt-24 bg-section px-[var(--profile-gutter)] pb-[clamp(100px,16svh,200px)] pt-[clamp(110px,18svh,220px)]">
   <div data-profile-experience-head>
   <CompanySectionLabel>EXPERIENCE</CompanySectionLabel>
-  <h2 id="experience-title" class="mb-[30px] mt-[26px] max-w-[14em] text-[clamp(32px,5vw,84px)] font-normal leading-[1.35]">実務経験が、<br />支援の違いになる。</h2>
-  <p class="max-w-[34em] text-[#f4f7f2]/68">INFLUの支援を支えているのは、経営、集客、制作、運用を自ら経験してきた実践知です。机上の提案ではなく、現場で使い続けられる形へつなげます。</p>
+  <h2 id="experience-title" class="mb-[30px] mt-[26px] max-w-[14em] text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">実務経験が、<br />支援の違いになる。</h2>
+  <p class="max-w-[34em] text-foreground/80">INFLUの支援を支えているのは、経営、集客、制作、運用を自ら経験してきた実践知です。机上の提案ではなく、現場で使い続けられる形へつなげます。</p>
   </div>
   <div class="mt-[clamp(60px,12svh,140px)] grid grid-cols-1 gap-x-[clamp(16px,2vw,32px)] gap-y-12 min-[900px]:grid-cols-12 min-[900px]:gap-y-0">
     {experienceStrengths.map((strength, index) => (
       <>
         <article class:list={["border-t border-[#f4f7f2]/12 pt-6", positions[index]]}>
-          <p class="text-[11px] tracking-[0.3em] text-[#c89a5b]">実践経験 {strength.number}</p>
-          <h3 class="my-3.5 text-[clamp(20px,2vw,30px)] font-normal leading-[1.5]">{strength.title}</h3>
-          <p class="text-[#f4f7f2]/68">{strength.description}</p>
+          <p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">実践経験 {strength.number}</p>
+          <h3 class="my-3.5 text-xl font-bold leading-[1.5] tracking-[-0.01em] sm:text-2xl lg:text-[1.75rem]">{strength.title}</h3>
+          <p class="text-foreground/80">{strength.description}</p>
         </article>
         {index === 0 && <figure class="aspect-[16/10] overflow-hidden bg-surface max-[899px]:ml-[12%] min-[900px]:col-span-6 min-[900px]:col-start-7 min-[900px]:-mt-[4svh]"><img src="/media/company-profile/still-55.jpg" alt="INFLU紹介映像より：店舗の様子" loading="lazy" decoding="async" class="h-full w-full object-cover" /></figure>}
         {index === 1 && <figure class="aspect-[4/5] overflow-hidden bg-surface max-[899px]:w-[72%] min-[900px]:col-span-5 min-[900px]:col-start-2 min-[900px]:row-span-2 min-[900px]:row-start-2 min-[900px]:mt-[clamp(48px,10svh,120px)]"><img src="/media/company-profile/still-25.jpg" alt="INFLU紹介映像より：オフィスでの打ち合わせ" loading="lazy" decoding="async" class="h-full w-full object-cover" /></figure>}

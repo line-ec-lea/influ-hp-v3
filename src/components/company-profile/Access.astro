@@ -45,26 +45,26 @@ const accessLines = [
 ---
 <section id="a02" aria-labelledby="access-title" class="scroll-mt-24 border-t border-[#060606]/14 bg-[#f4f7f2] px-[var(--profile-gutter)] py-[clamp(60px,10svh,120px)] text-[#060606]">
   <div class="grid gap-[clamp(24px,4vw,64px)] min-[900px]:grid-cols-[4fr_8fr]">
-    <div><CompanySectionLabel light>ACCESS</CompanySectionLabel><h2 id="access-title" class="mt-[22px] text-[clamp(28px,3.4vw,52px)] font-normal leading-[1.35]">INFLUのオフィス</h2></div>
+    <div><CompanySectionLabel light>ACCESS</CompanySectionLabel><h2 id="access-title" class="mt-[22px] text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">INFLUのオフィス</h2></div>
     <div class="min-w-0">
       <div class="grid gap-[clamp(24px,3vw,48px)] min-[900px]:grid-cols-2">
         <div>
-          <p class="mb-2.5 text-[11px] tracking-[0.3em] text-[#060606]/68">OFFICE</p>
-          <address class="text-[clamp(16px,1.3vw,19px)] not-italic leading-[1.9]">〒550-0013<br />大阪府大阪市西区新町1丁目8-3<br />林四ツ橋ビル9階901号室</address>
-          <a href="https://www.google.com/maps/search/?api=1&query=%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BEINFLU" target="_blank" rel="noopener noreferrer" class="mt-[18px] inline-block border-b border-[#060606]/14 text-[13px] tracking-[0.1em] hover:border-[#c89a5b]">Google Mapsで開く ↗</a>
+          <p class="mb-2.5 text-xs font-bold tracking-[0.16em] text-[#060606]/80">OFFICE</p>
+          <address class="text-base not-italic leading-[1.9]">〒550-0013<br />大阪府大阪市西区新町1丁目8-3<br />林四ツ橋ビル9階901号室</address>
+          <a href="https://www.google.com/maps/search/?api=1&query=%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BEINFLU" target="_blank" rel="noopener noreferrer" class="mt-[18px] inline-block border-b border-[#060606]/14 text-sm font-semibold hover:border-[#c89a5b]">Google Mapsで開く ↗</a>
         </div>
-        <div><p class="mb-2.5 text-[11px] tracking-[0.3em] text-[#060606]/68">STATION</p><ul>{accessLines.map((line) => <li class="border-b border-[#060606]/14 py-2.5 text-sm">{line}</li>)}</ul></div>
+        <div><p class="mb-2.5 text-xs font-bold tracking-[0.16em] text-[#060606]/80">STATION</p><ul>{accessLines.map((line) => <li class="border-b border-[#060606]/14 py-2.5 text-base">{line}</li>)}</ul></div>
       </div>
       <iframe title="株式会社INFLU 地図" src={MAP_EMBED_SRC} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen class="mt-[clamp(24px,4svh,48px)] h-[clamp(280px,46svh,460px)] w-full border-0 bg-[#e6e9e4] grayscale contrast-95"></iframe>
       <figure class="mt-[clamp(24px,4svh,48px)] aspect-[4/3] overflow-hidden bg-[#e6e9e4] min-[900px]:w-[calc(50%-16px)]"><img src={`${IMG}/access01.png`} alt="株式会社INFLUが入る林四ツ橋ビルの案内" loading="lazy" decoding="async" class="h-full w-full object-cover" /></figure>
       <details class="group mt-[clamp(40px,8svh,80px)] border-t border-[#060606]/14">
         <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-[26px] [&::-webkit-details-marker]:hidden">
-          <span class="grid gap-1"><span class="text-[11px] tracking-[0.3em] text-[#060606]/68">ROUTE GUIDE</span><span class="text-[clamp(16px,1.4vw,20px)]">四ツ橋駅からの来社ルート</span><span class="text-[13px] text-[#060606]/68">四ツ橋駅から徒歩でお越しの場合の目印です。必要な方のみ、順番にご確認ください。</span></span>
-          <span class="text-[28px] font-thin text-[#c89a5b] group-open:rotate-45" aria-hidden="true">+</span>
+          <span class="grid gap-1"><span class="text-xs font-bold tracking-[0.16em] text-[#060606]/80">ROUTE GUIDE</span><span class="text-xl font-bold">四ツ橋駅からの来社ルート</span><span class="text-sm text-[#060606]/80">四ツ橋駅から徒歩でお越しの場合の目印です。必要な方のみ、順番にご確認ください。</span></span>
+          <span class="text-[28px] font-bold text-[#c89a5b] group-open:rotate-45" aria-hidden="true">+</span>
         </summary>
         <ol class="grid grid-cols-1 gap-x-3.5 gap-y-[22px] pb-10 pt-2 min-[400px]:grid-cols-2 min-[900px]:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] min-[900px]:gap-x-5 min-[900px]:gap-y-7">
           {routeSlides.map((step, index) => (
-            <li><figure class="aspect-[4/3] overflow-hidden bg-[#e6e9e4]"><img src={`${IMG}/${step.file}`} alt={step.caption} loading="lazy" decoding="async" class="h-full w-full object-cover" /></figure><p class="mb-1.5 mt-3.5 text-[11px] tracking-[0.3em] text-[#060606]/68">STEP {String(index + 1).padStart(2, "0")}</p><p class="text-[13px] leading-[1.8]">{step.caption}</p></li>
+            <li><figure class="aspect-[4/3] overflow-hidden bg-[#e6e9e4]"><img src={`${IMG}/${step.file}`} alt={step.caption} loading="lazy" decoding="async" class="h-full w-full object-cover" /></figure><p class="mb-1.5 mt-3.5 text-xs font-bold tracking-[0.16em] text-[#060606]/80">STEP {String(index + 1).padStart(2, "0")}</p><p class="text-sm leading-[1.9]">{step.caption}</p></li>
           ))}
         </ol>
       </details>

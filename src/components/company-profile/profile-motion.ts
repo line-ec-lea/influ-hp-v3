@@ -347,3 +347,11 @@ export function accessMotion(root: HTMLElement | null) {
     if (root) scope.reveal(root.querySelectorAll<HTMLElement>("iframe, figure"), 0, 12, 0.9);
   });
 }
+
+export function contactMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (!root) return;
+    scope.reveal(root.querySelectorAll<HTMLElement>("p[aria-hidden]"), 0, 30, 1.4);
+    scope.reveal(root.querySelectorAll<HTMLElement>("h2, a"), 0, 20, 1.1);
+  });
+}

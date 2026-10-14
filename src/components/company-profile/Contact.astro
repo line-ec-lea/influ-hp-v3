@@ -11,3 +11,8 @@ import { CONTACT_FORM_HREF } from "@shared/features/contact";
     <CompanyProfileLink href={CONTACT_FORM_HREF} external framed class="px-10! py-6! text-[15px]!">相談してみる</CompanyProfileLink>
   </div>
 </section>
+
+<script>
+  import { contactMotion } from "./profile-motion";
+  contactMotion(document.querySelector<HTMLElement>("#contact"));
+</script>

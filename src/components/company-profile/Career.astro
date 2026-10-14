@@ -1,7 +1,5 @@
 ---
-import CinematicSection from "@shared/CinematicSection.astro";
-import Container from "@shared/Container.astro";
-import CinematicReveal from "@shared/CinematicReveal.astro";
+import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
 const careerItems = [
   {
     period: "1989",
@@ -40,56 +38,32 @@ const careerItems = [
       "Lea、オンラインスクール、焼肉処 味来で得た実践知を生かし、HPのAI化とAX・業務効率化支援を展開。企業が自ら運用し、改善を続けられる仕組みをつくる。",
   },
 ]
+const photos = ["career-1989.jpg", "career-2012.jpg", "career-2015.jpg", "career-next.jpg", "career-2019.jpg", "career-now.jpg"];
+const captions = ["光の差す廊下を歩くシルエット", "飲食店の厨房カウンター", "PCに向かって作業する様子", "人と乾杯する様子", "オフィスのINFLUロゴ", "オフィスで話し合う様子"];
 ---
-<CinematicSection>
-<section class="bg-[#090909]" aria-labelledby="career-title">
-        <Container class="py-20 md:py-28 lg:py-32">
-          <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.8fr)_minmax(28rem,1.2fr)] lg:items-end">
-            <div>
-              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
-                CAREER
-              </p>
-              <h2
-                id="career-title"
-                class="mt-4 text-4xl font-bold leading-tight tracking-[-0.04em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
-              >
-                歩んできた道
-              </h2>
-            </div>
-            <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
-              現場で商いを学び、試し、改善を重ねてきた経験が、現在のINFLUの支援につながっています。
-            </p>
-          </CinematicReveal>
-
-          <ol class="mt-14 border-t border-[rgba(224,197,132,0.34)] md:mt-16">
-            {careerItems.map((item, index) => (
-              <li
-                class="relative border-b border-[rgba(224,197,132,0.2)] px-5 py-9 sm:px-8 sm:py-11 lg:px-12 lg:py-14"
-              >
-                <CinematicReveal
-                  delay={Math.min(index * 0.04, 0.16)}
-                  class="grid gap-5 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-12 lg:grid-cols-[13rem_minmax(0,1fr)]"
-                >
-                  <div class="flex items-baseline gap-4 md:block">
-                    <span class="text-[0.65rem] font-bold tracking-[0.18em] text-[#E0C584]/70">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <p class="text-3xl font-bold tracking-[-0.04em] text-[#E0C584] sm:text-4xl md:mt-4 lg:text-5xl">
-                      {item.period}
-                    </p>
-                  </div>
-                  <div class="md:pt-1">
-                    <h3 class="text-xl font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl lg:text-3xl">
-                      {item.title}
-                    </h3>
-                    <p class="mt-4 max-w-3xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                      {item.description}
-                    </p>
-                  </div>
-                </CinematicReveal>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </section>
-</CinematicSection>
+<section id="career" aria-labelledby="career-title" class="scroll-mt-24 bg-page" data-profile-career>
+  <div class="relative px-[var(--profile-gutter)] py-[clamp(80px,12svh,140px)] min-[900px]:min-h-[70svh] min-[900px]:max-w-[70vw]">
+    <p aria-hidden="true" class="mb-7 text-[clamp(48px,9vw,160px)] font-thin leading-[0.95] tracking-[0.01em]">RYOTA<br />MITO</p>
+    <CompanySectionLabel>CAREER</CompanySectionLabel>
+    <h2 id="career-title" class="mb-3.5 mt-6 text-[clamp(24px,2.6vw,40px)] font-normal leading-[1.35]">歩んできた道</h2>
+    <p class="max-w-[34em] text-[#f4f7f2]/68">現場で商いを学び、試し、改善を重ねてきた経験が、現在のINFLUの支援につながっています。</p>
+  </div>
+  <ol>
+    {careerItems.map((item, index) => (
+      <li class="relative isolate grid min-[900px]:min-h-[80svh] min-[900px]:items-center" data-profile-career-node>
+        <div class="relative mx-[var(--profile-gutter)] border-l border-[#f4f7f2]/12 pb-9 pl-[34px] pt-9 min-[900px]:mx-0 min-[900px]:my-24 min-[900px]:ml-[16vw] min-[900px]:max-w-[40vw] min-[900px]:border-0 min-[900px]:p-0">
+          <span class="absolute -left-[5px] top-[72px] h-[9px] w-[9px] rounded-full border border-[#c89a5b] bg-[#c89a5b] min-[900px]:-left-8" aria-hidden="true"></span>
+          <p class="text-[clamp(72px,11vw,200px)] font-thin leading-none tracking-[-0.01em] text-[#c89a5b]">{item.period}</p>
+          <p class="mt-2 text-[11px] tracking-[0.3em] text-[#f4f7f2]/52">{String(index + 1).padStart(2, "0")}</p>
+          <h3 class="mb-3 mt-4 text-[clamp(18px,1.7vw,26px)] font-normal leading-[1.6]">{item.title}</h3>
+          <p class="max-w-[30em] text-[#f4f7f2]/68">{item.description}</p>
+        </div>
+        <figure class="min-[900px]:absolute min-[900px]:inset-0 min-[900px]:-z-20">
+          <img src={`/media/company-profile/${photos[index]}`} alt={`INFLU紹介映像より：${captions[index]}`} loading="lazy" decoding="async" class="h-[62svh] min-h-80 w-full object-cover min-[900px]:h-full" />
+          <figcaption class="px-[var(--profile-gutter)] py-2 text-[10px] tracking-[0.2em] text-[#f4f7f2]/52 min-[900px]:absolute min-[900px]:bottom-6 min-[900px]:right-0">INFLU紹介映像より</figcaption>
+        </figure>
+        <div class="pointer-events-none absolute inset-0 -z-10 hidden bg-[linear-gradient(90deg,rgba(6,6,6,0.92),rgba(6,6,6,0.78)_38%,rgba(6,6,6,0.42)_75%,rgba(6,6,6,0.3)),linear-gradient(180deg,rgba(6,6,6,0.7),transparent_25%,transparent_70%,rgba(6,6,6,0.85))] min-[900px]:block" aria-hidden="true"></div>
+      </li>
+    ))}
+  </ol>
+</section>

@@ -40,7 +40,7 @@ const supportPrinciples = [
       {supportPrinciples.map((principle, index) => (
         <li>
           <p class="text-[clamp(56px,6vw,104px)] font-thin leading-none text-[#f4f7f2]/52">{String(index + 1).padStart(2, "0")}</p>
-          <h3 class="mb-4 mt-[18px] text-[clamp(22px,2.3vw,34px)] font-normal leading-[1.5]">{principle.title}</h3>
+          <h3 class="mb-4 mt-[18px] text-balance text-[clamp(22px,2.3vw,34px)] font-normal leading-[1.5]">{principle.title}</h3>
           <p class="max-w-[28em] text-[#f4f7f2]/68">{principle.description}</p>
         </li>
       ))}

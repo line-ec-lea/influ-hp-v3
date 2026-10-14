@@ -1,9 +1,9 @@
 ---
-interface Props { name: string; poster: string; src: string; class?: string; }
-const { name, poster, src, class: className = "" } = Astro.props;
+interface Props { name: string; poster: string; src: string; width?: number; height?: number; class?: string; }
+const { name, poster, src, width = 1600, height = 706, class: className = "" } = Astro.props;
 ---
 <div data-profile-film={name} class:list={["pointer-events-none absolute inset-0 -z-20", className]}>
-  <img src={poster} alt="" aria-hidden="true" width="1600" height="706" loading={name === "hero" ? "eager" : "lazy"} fetchpriority={name === "hero" ? "high" : undefined} decoding="async" class="absolute inset-0 h-full w-full object-cover object-[inherit]" />
+  <img src={poster} alt="" aria-hidden="true" width={width} height={height} loading={name === "hero" ? "eager" : "lazy"} fetchpriority={name === "hero" ? "high" : undefined} decoding="async" class="absolute inset-0 h-full w-full object-cover object-[inherit]" />
   <video data-profile-background={name} data-src={src} aria-hidden="true" tabindex="-1" muted loop playsinline preload="none" poster={poster} class="absolute inset-0 h-full w-full object-cover object-[inherit] opacity-0 transition-opacity duration-700 data-[playing]:opacity-100 motion-reduce:transition-none"></video>
 </div>
 <script>

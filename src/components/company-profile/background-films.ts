@@ -4,10 +4,9 @@ export function initBackgroundFilms(page: HTMLElement | null) {
   const videos = [...page.querySelectorAll<HTMLVideoElement>("[data-profile-background]")];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   const visible = new Map<HTMLVideoElement, number>();
-  let dialogOpen = false;
   let suspended = false;
   let active: HTMLVideoElement | undefined;
-  const shouldPlay = (video: HTMLVideoElement) => video === active && !reduced.matches && !dialogOpen && !document.hidden && !suspended;
+  const shouldPlay = (video: HTMLVideoElement) => video === active && !reduced.matches && !document.hidden && !suspended;
   const sync = () => {
     active = [...visible].filter(([, ratio]) => ratio > 0).sort((a, b) => b[1] - a[1])[0]?.[0];
     for (const video of videos) {
@@ -27,21 +26,17 @@ export function initBackgroundFilms(page: HTMLElement | null) {
   };
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      const video = videos.find(video => video.closest("[data-profile-hero], [data-profile-message-stage]") === entry.target);
+      const video = videos.find(video => video.closest("[data-profile-hero], [data-profile-message-visual]") === entry.target);
       if (video) visible.set(video, entry.isIntersecting ? entry.intersectionRatio : 0);
     }
     sync();
   }, { threshold: [0, 0.1, 0.5, 1] });
   for (const video of videos) {
-    const scene = video.closest("[data-profile-hero], [data-profile-message-stage]");
+    const scene = video.closest("[data-profile-hero], [data-profile-message-visual]");
     if (scene) observer.observe(scene);
     video.addEventListener("playing", () => { if (shouldPlay(video)) video.dataset.playing = "true"; else video.pause(); });
     video.addEventListener("error", () => fallback(video));
   }
-  page.addEventListener("profile:film-dialog", event => {
-    dialogOpen = (event as CustomEvent<boolean>).detail;
-    sync();
-  });
   reduced.addEventListener("change", () => { if (reduced.matches) for (const video of videos) delete video.dataset.playing; sync(); });
   document.addEventListener("visibilitychange", sync);
   window.addEventListener("pagehide", () => { suspended = true; sync(); });

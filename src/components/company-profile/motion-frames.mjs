@@ -1,6 +1,20 @@
 export const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
 export const segment = (progress, start, end) => clamp((progress - start) / (end - start));
 export const smooth = (progress) => progress * progress * (3 - 2 * progress);
+export const dampMessageProgress = (current, target, elapsed) => current + (target - current) * (1 - Math.exp(-elapsed / 80));
+
+// Hold each paragraph, then let it leave left as the next arrives from the right.
+export function messageFrame(progress, count = 5) {
+  const time = clamp(progress) * (count - 1 + 0.35);
+  const index = Math.min(count - 1, Math.floor(time));
+  const local = time - index;
+  return {
+    index,
+    next: Math.min(count - 1, index + 1),
+    exit: index === count - 1 ? 0 : smooth(segment(local, 0.55, 0.75)),
+    entrance: index === count - 1 ? 1 : smooth(segment(local, 0.7, 1)),
+  };
+}
 
 // Match the reference's travel / reading pauses, including the final hand-off.
 export function careerFrame(progress, count = 6) {

@@ -1,6 +1,6 @@
 import { animateMini as animate } from "framer-motion/dom";
 import { scroll, ease } from "@shared/motion";
-import { clamp, careerFrame } from "./motion-frames.mjs";
+import { clamp, careerFrame, messageFrame, dampMessageProgress } from "./motion-frames.mjs";
 
 type Cleanup = () => void;
 type Scope = {
@@ -160,32 +160,56 @@ export function messageMotion(root: HTMLElement | null) {
     if (!root) return;
     const wrapper = root.querySelector<HTMLElement>("[data-profile-message-pin]")!;
     const stage = root.querySelector<HTMLElement>("[data-profile-message-stage]")!;
-    const cover = stage.querySelector<HTMLElement>("[data-profile-message-cover]")!;
     const head = stage.querySelector<HTMLElement>("[data-profile-message-head]")!;
-    const foot = stage.querySelector<HTMLElement>("[data-profile-message-foot]")!;
-    scope.flag(wrapper, "motion-active");
-    scope.reveal(root.querySelectorAll<HTMLElement>("[data-profile-message-body] > p, [data-profile-message-body] > figure:last-child"));
-    scope.reveal(root.querySelectorAll<HTMLElement>("[data-profile-message-body] > figure:first-of-type"), 0, 0, 1.6, true);
-    if (scope.desktop && stage.offsetHeight <= innerHeight) {
-      scope.set(wrapper, "--profile-scroll-height", `${innerHeight * 1.5}px`);
+    const panels = [...root.querySelectorAll<HTMLElement>("[data-profile-message-panel]")];
+    if (scope.desktop) {
       scope.set(wrapper, "--profile-viewport", `${innerHeight}px`);
       scope.flag(wrapper, "motion-desktop");
+      // Keep stacked content when the viewport cannot fit the longest paragraph.
+      const style = getComputedStyle(stage);
+      const required = head.scrollHeight + Math.max(...panels.map(panel => panel.offsetHeight))
+        + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + parseFloat(style.rowGap);
+      if (required > innerHeight) wrapper.removeAttribute("data-motion-desktop");
+    }
+    if (wrapper.hasAttribute("data-motion-desktop")) {
+      scope.set(wrapper, "--profile-scroll-height", `${innerHeight * (1 + (panels.length - 1) * 0.85 + 0.3)}px`);
+      const distance = clamp(stage.clientWidth * 0.06, 48, 80);
+      const paint = (progress: number) => {
+        const frame = messageFrame(progress, panels.length);
+        panels.forEach((panel, index) => {
+          const current = index === frame.index;
+          const next = index === frame.next && !current;
+          const opacity = current ? 1 - frame.exit : next ? frame.entrance : 0;
+          const x = current ? -frame.exit : next ? 1 - frame.entrance : 1;
+          scope.set(panel, "opacity", `${opacity}`);
+          scope.set(panel, "transform", `translateX(${x * distance}px)`);
+          scope.set(panel, "pointer-events", opacity > 0.5 ? "auto" : "none");
+        });
+      };
+      let current = 0;
+      let initialized = false;
+      let target = 0;
+      let animationFrame = 0;
+      let previousTime = 0;
+      const tick = (time: number) => {
+        current = dampMessageProgress(current, target, time - previousTime);
+        previousTime = time;
+        if (Math.abs(target - current) < 0.0001) current = target;
+        paint(current);
+        animationFrame = current === target ? 0 : requestAnimationFrame(tick);
+      };
       scope.progress(wrapper, progress => {
-        const opening = clamp(progress / 0.45);
-        scope.set(cover, "clip-path", `inset(0% ${opening * 100}% 0% 0%)`);
-        scope.set(head, "transform", `translateX(${24 * (1 - opening)}px)`);
-        scope.set(head, "opacity", `${opening}`);
-        const name = clamp((progress - 0.25) / 0.3);
-        scope.set(foot, "transform", `translateX(${24 * (1 - name)}px)`);
-        scope.set(foot, "opacity", `${name}`);
-      }, ["start end", "end end"]);
-      const focused = () => window.scrollTo({ top: scrollY + wrapper.getBoundingClientRect().top + innerHeight * 0.5, behavior: "instant" });
-      foot.addEventListener("focusin", focused);
-      scope.add(() => foot.removeEventListener("focusin", focused));
+        target = progress;
+        if (!initialized) { current = target; paint(current); initialized = true; }
+        else if (!animationFrame) {
+          previousTime = performance.now();
+          animationFrame = requestAnimationFrame(tick);
+        }
+      });
+      scope.add(() => cancelAnimationFrame(animationFrame));
     } else {
-      scope.reveal([head], 24, 0, 1);
-      scope.reveal([foot], 24, 0, 1);
-      scope.progress(stage, progress => scope.set(cover, "clip-path", `inset(0% ${progress * 100}% 0% 0%)`), ["start 85%", "start 15%"]);
+      scope.reveal([head], 0, 20, 0.8);
+      scope.reveal(panels, 0, 24, 0.8);
     }
   });
 }

@@ -10,7 +10,7 @@ The exact 2012/2015 milestone dates were not confirmed by either interview and a
 
 ## Photographs
 
-Optimized WebP copies retain the original aspect ratio, are capped at 1200 pixels wide, and are never upscaled. Publisher credits appear in the section.
+Optimized WebP files retain the original aspect ratio, are capped at 1200 pixels wide, and are never upscaled. Publisher credits appear in the section. The desktop timeline presents interview and current portraits with individual 4:5 CSS crops; historical group photos and the 味来 opening photo retain their full composition. Mobile keeps the original image presentation. Source files are unchanged.
 
 - `childhood.webp`: 幼少期、祖母と兄弟と / Focus On — [published image](https://s3-ap-northeast-1.amazonaws.com/stg-focuson-api-assets-d7c/article%2Fcontent%2F2026%2F01%2F1768379143273-inf_01.jpg)
 - `korean-restaurant.webp`: 韓国料理店を営んでいた頃、常連のお客様と / Focus On — [published image](https://s3-ap-northeast-1.amazonaws.com/stg-focuson-api-assets-d7c/article%2Fcontent%2F2026%2F01%2F1768379458338-inf_02.jpg)

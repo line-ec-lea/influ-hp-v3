@@ -26,13 +26,13 @@ export function initBackgroundFilms(page: HTMLElement | null) {
   };
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      const video = videos.find(video => video.closest("[data-profile-hero], [data-profile-message-visual]") === entry.target);
+      const video = videos.find(video => video.closest("[data-profile-hero], [data-profile-message-visual], [data-profile-career-visual]") === entry.target);
       if (video) visible.set(video, entry.isIntersecting ? entry.intersectionRatio : 0);
     }
     sync();
   }, { threshold: [0, 0.1, 0.5, 1] });
   for (const video of videos) {
-    const scene = video.closest("[data-profile-hero], [data-profile-message-visual]");
+    const scene = video.closest("[data-profile-hero], [data-profile-message-visual], [data-profile-career-visual]");
     if (scene) observer.observe(scene);
     video.addEventListener("playing", () => { if (shouldPlay(video)) video.dataset.playing = "true"; else video.pause(); });
     video.addEventListener("error", () => fallback(video));

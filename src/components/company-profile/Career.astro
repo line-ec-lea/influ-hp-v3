@@ -1,83 +1,156 @@
 ---
 import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
+import BackgroundFilm from "./BackgroundFilm.astro";
 const careerItems = [
   {
-    period: "1989",
-    title: "商いを身近に感じながら育つ",
-    description:
-      "大阪府に生まれ、事業を営む家族や親族の姿を見ながら、商いと人とのつながりに触れて育つ。高校時代にはホームページ制作も経験する。",
+    "period": "1989",
+    "era": "生い立ち",
+    "title": "商いを身近に感じながら育つ",
+    "description": "1989年、大阪府に生まれる。祖母のキムチ店をはじめ、身近に商いを営む家族や親族がいる環境で育った。店に集まる人との関わりが、商売と人のつながりに触れる原点となる。高校時代には、自宅のパソコンでホームページづくりも経験した。",
+    "photo": {
+      "src": "/media/company-profile/career/childhood.webp",
+      "alt": "幼少期、祖母と兄弟と",
+      "caption": "幼少期、祖母と兄弟と",
+      "credit": "Focus On",
+      "width": 720,
+      "height": 540
+    }
   },
   {
-    period: "2012",
-    title: "飲食店の現場で、商売の本質を学ぶ",
-    description:
-      "大学中退後、親戚が営む韓国料理店で修業し、大阪で店舗経営に挑戦。商品だけでなく、接客や集客、日々の改善が事業を支えることを学ぶ。",
+    "period": "飲食",
+    "era": "大学中退後",
+    "title": "飲食店の挑戦で、現場の厳しさを知る",
+    "description": "大学中退後、横浜で親戚が営む韓国料理店に住み込みで修業。約1年後、大阪・堺筋本町で自分の店を開いた。集客や価格設定、店を一人で回す難しさに向き合い、約2年で閉店。この経験が、現場を理解して支援する姿勢の土台になった。",
+    "photo": {
+      "src": "/media/company-profile/career/korean-restaurant.webp",
+      "alt": "韓国料理店を営んでいた頃、常連のお客様と",
+      "caption": "韓国料理店を営んでいた頃、常連のお客様と",
+      "credit": "Focus On",
+      "width": 960,
+      "height": 720
+    }
   },
   {
-    period: "2015",
-    title: "WEBを通じた事業支援へ",
-    description:
-      "個人での情報発信を起点に、メールマガジン運用、販売導線の設計、システム制作・販売へと領域を広げ、事業者の売上づくりを支援する。",
+    "period": "WEB",
+    "era": "飲食店の閉店後",
+    "title": "WEBマーケティングへ、仕事を広げる",
+    "description": "店を閉めた後、知人の紹介をきっかけにアフィリエイトなどのネットビジネスに取り組む。メールマガジンの運用やセミナー集客の設計、システムの制作・販売へと仕事を広げた。配信後の数字を確かめ、改善を重ねることに手応えを感じていた。",
+    "photo": {
+      "src": "/media/company-profile/career/interview-web.webp",
+      "alt": "取材時の水戸亮太",
+      "caption": "取材時の水戸亮太",
+      "credit": "Focus On",
+      "width": 1200,
+      "height": 902
+    }
   },
   {
-    period: "NEXT",
-    title: "顧客と長くつながる仕組みをつくる",
-    description:
-      "公式LINEを活用した集客・販売・運用支援を通じて、一度きりではなく、顧客との関係が続く仕組みづくりに取り組む。",
+    "period": "LINE",
+    "era": "集客・販売支援へ",
+    "title": "顧客とつながる仕組みを、LINEでつくる",
+    "description": "メールで培った販売シナリオづくりを、LINE公式アカウントの集客・販売支援へつなげた。アカウントの構築に加え、配信や運用の相談にも対応。仕組みを納品して終わるのではなく、お客様が日々の事業で活用できるよう支える仕事へ広がっていった。",
+    "photo": {
+      "src": "/media/company-profile/career/interview-line.webp",
+      "alt": "取材時の水戸亮太",
+      "caption": "取材時の水戸亮太",
+      "credit": "Focus On",
+      "width": 1200,
+      "height": 902
+    }
   },
   {
-    period: "2019",
-    title: "株式会社INFLUを設立",
-    description:
-      "飲食店経営とWEBマーケティングで培った経験をもとに、事業者の挑戦と成長を支える株式会社INFLUを12月に設立する。",
+    "period": "2019",
+    "era": "2019年12月",
+    "title": "株式会社INFLUを設立",
+    "description": "2019年12月、株式会社INFLUを設立。飲食店経営とWEBマーケティングの経験をもとに、個人で続けてきた支援を組織として展開する道を選んだ。LINEを使った集客・販売支援を軸に、事業者の挑戦を支える体制づくりを進めた。",
+    "photo": {
+      "src": "/media/company-profile/career/founding.webp",
+      "alt": "会社を立ち上げた頃",
+      "caption": "会社を立ち上げた頃",
+      "credit": "Focus On",
+      "width": 1200,
+      "height": 900
+    }
   },
   {
-    period: "NOW",
-    title: "AIと人が、ともに働ける現場へ",
-    description:
-      "Lea、オンラインスクール、焼肉処 味来で得た実践知を生かし、HPのAI化とAX・業務効率化支援を展開。企業が自ら運用し、改善を続けられる仕組みをつくる。",
+    "period": "2021",
+    "era": "オンラインスクール事業を開始",
+    "title": "実務で使えるマーケティングを伝える",
+    "description": "2021年、オンラインスクール事業を開始。SNSを使った集客から、コンテンツの制作・販売、オンラインスクールの立ち上げや運営まで、実務に必要なマーケティングの考え方を伝える。自ら商品やサービスを届けたい人を、学びの面から支える。",
+    "photo": {
+      "src": "/media/company-profile/career/interview-learning.webp",
+      "alt": "取材時の水戸亮太",
+      "caption": "取材時の水戸亮太",
+      "credit": "Focus On",
+      "width": 1200,
+      "height": 902
+    }
   },
-]
-const photos = ["career-1989.jpg", "career-2012.jpg", "career-2015.jpg", "career-next.jpg", "career-2019.jpg", "career-now.jpg"];
-const positions = ["[--career-x:74] [--career-y:30]", "[--career-x:144] [--career-y:40]", "[--career-x:150] [--career-y:132]", "[--career-x:216] [--career-y:206]", "[--career-x:286] [--career-y:212]", "[--career-x:294] [--career-y:300]"];
-const captions = ["光の差す廊下を歩くシルエット", "飲食店の厨房カウンター", "PCに向かって作業する様子", "人と乾杯する様子", "オフィスのINFLUロゴ", "オフィスで話し合う様子"];
+  {
+    "period": "2023",
+    "era": "2023年10月",
+    "title": "心斎橋に、焼肉処 味来を開業",
+    "description": "2023年10月、大阪・心斎橋に「焼肉処 味来」を開業。実店舗を運営しながら、集客や販売の施策を自社で試す場としても活用している。お客様の現場で感じてきた課題を、自分たちの事業でも確かめ、その経験を支援へ持ち帰る。",
+    "photo": {
+      "src": "/media/company-profile/career/mirai-opening.webp",
+      "alt": "焼肉処 味来の開業時",
+      "caption": "焼肉処 味来の開業時",
+      "credit": "社長の履歴書",
+      "width": 768,
+      "height": 1024
+    }
+  },
+  {
+    "period": "現在",
+    "era": "HPのAI化・AX支援",
+    "title": "自社で運用し、改善できる仕組みへ",
+    "description": "現在は、HPのAI化とAX・業務効率化支援を展開。LINE連動EC「Lea」、オンラインスクール、味来など、自社事業で得た経験を生かし、企業が自社で運用・改善を続けられる仕組みづくりを支援している。",
+    "photo": {
+      "src": "/images/company-profile/gochan-message.jpeg",
+      "alt": "水戸亮太",
+      "caption": "水戸亮太",
+      "credit": "",
+      "width": 5000,
+      "height": 3333
+    }
+  }
+];
+const positions = ["[--career-x:78] [--career-y:30]", "[--career-x:162] [--career-y:40]", "[--career-x:170] [--career-y:136]", "[--career-x:254] [--career-y:222]", "[--career-x:338] [--career-y:232]", "[--career-x:346] [--career-y:328]", "[--career-x:430] [--career-y:414]", "[--career-x:514] [--career-y:424]"];
 ---
 <section id="career" aria-labelledby="career-title" class="group/career relative scroll-mt-24 bg-section data-[motion-desktop]:h-[var(--profile-scroll-height)]" data-profile-career>
-  <div data-profile-career-stage class="relative group-data-[motion-desktop]/career:sticky group-data-[motion-desktop]/career:top-0 group-data-[motion-desktop]/career:h-[var(--profile-viewport)] group-data-[motion-desktop]/career:overflow-clip">
-  <div data-profile-career-background aria-hidden="true" class="absolute inset-0 hidden overflow-hidden group-data-[motion-desktop]/career:block">
-    {photos.map((photo) => <div data-profile-career-background-image class="absolute inset-0 [clip-path:inset(0%_0%_0%_100%)]"><img src={`/media/company-profile/${photo}`} alt="" loading="lazy" class="h-full w-full object-cover" /></div>)}
-    <div class="absolute inset-0 bg-[linear-gradient(180deg,var(--color-section),transparent_25%,transparent_70%,var(--color-section)),linear-gradient(90deg,rgba(6,6,6,0.92),rgba(6,6,6,0.78)_38%,rgba(6,6,6,0.42)_75%,rgba(6,6,6,0.3))]"></div>
-    <p class="absolute bottom-6 right-[var(--profile-gutter)] text-[10px] tracking-[0.2em] text-foreground/70">INFLU紹介映像より</p>
-  </div>
-  <div data-profile-career-canvas class="relative group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:inset-0 group-data-[motion-desktop]/career:h-[420vh] group-data-[motion-desktop]/career:w-[400vw]">
-  <svg data-profile-career-path aria-hidden="true" class="pointer-events-none absolute left-0 top-0 hidden overflow-visible group-data-[motion-desktop]/career:block"><path data-profile-path-base fill="none" stroke-width="1" class="stroke-[#f4f7f2]/12" /><path data-profile-path-progress fill="none" stroke-width="1" class="stroke-[#c89a5b]" /></svg>
-  <div data-profile-career-intro class="relative px-[var(--profile-gutter)] py-[clamp(80px,12svh,140px)] min-[900px]:min-h-[70svh] min-[900px]:max-w-[70vw] group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:left-[7vw] group-data-[motion-desktop]/career:top-[24vh] group-data-[motion-desktop]/career:min-h-0! group-data-[motion-desktop]/career:w-[min(60vw,980px)] group-data-[motion-desktop]/career:max-w-none! group-data-[motion-desktop]/career:p-0!">
-    <figure data-profile-career-thumb aria-hidden="true" class="absolute -right-[4vw] -top-[10vh] hidden w-[22vw] -rotate-3 opacity-75 group-data-[motion-desktop]/career:block"><img src="/media/company-profile/poster.jpg" alt="" class="aspect-[1600/706] w-full object-cover" /></figure>
-    <p aria-hidden="true" class="mb-7 text-[clamp(48px,9vw,160px)] font-bold leading-[0.95] tracking-[0.01em]">RYOTA<br />MITO</p>
-    <CompanySectionLabel>CAREER</CompanySectionLabel>
-    <h2 id="career-title" class="mb-3.5 mt-6 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">歩んできた道</h2>
-    <p class="max-w-[34em] text-foreground/80">現場で商いを学び、試し、改善を重ねてきた経験が、現在のINFLUの支援につながっています。</p>
-    <span data-profile-career-dot class="absolute -bottom-6 -left-[5px] hidden h-[9px] w-[9px] rounded-full bg-[#c89a5b] group-data-[motion-desktop]/career:block" aria-hidden="true"></span>
-  </div>
-  <ol class="group-data-[motion-desktop]/career:contents">
-    {careerItems.map((item, index) => (
-      <li class:list={["relative isolate grid min-[900px]:min-h-[80svh] min-[900px]:items-center group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:left-[calc(var(--career-x)*1vw)] group-data-[motion-desktop]/career:top-[calc(var(--career-y)*1vh)] group-data-[motion-desktop]/career:w-[min(40vw,600px)] group-data-[motion-desktop]/career:min-h-0!", positions[index]]} data-profile-career-node>
-        <div class="relative mx-[var(--profile-gutter)] border-l border-[#f4f7f2]/12 pb-9 pl-[34px] pt-9 min-[900px]:mx-0 min-[900px]:my-24 min-[900px]:ml-[16vw] min-[900px]:max-w-[40vw] min-[900px]:border-0 min-[900px]:p-0 group-data-[motion-desktop]/career:m-0! group-data-[motion-desktop]/career:w-full group-data-[motion-desktop]/career:max-w-none!">
-          <span data-profile-career-dot class="absolute -left-[5px] top-[72px] h-[9px] w-[9px] rounded-full border border-[#c89a5b] bg-[#c89a5b] min-[900px]:-left-8 group-data-[motion-desktop]/career:top-[calc(clamp(72px,11vw,200px)*0.5)]" aria-hidden="true"></span>
-          <p class="text-[clamp(72px,11vw,200px)] font-bold leading-none tracking-[-0.01em] text-[#c89a5b]">{item.period}</p>
-          <p class="mt-2 text-xs font-bold tracking-[0.16em] text-foreground/70">{String(index + 1).padStart(2, "0")}</p>
-          <h3 class="mb-3 mt-4 text-xl font-bold leading-[1.5] tracking-[-0.01em] sm:text-2xl lg:text-[1.75rem]">{item.title}</h3>
-          <p class="max-w-[30em] text-foreground/80">{item.description}</p>
-        </div>
-        <figure class="group-data-[motion-desktop]/career:hidden min-[900px]:absolute min-[900px]:inset-0 min-[900px]:-z-20">
-          <img src={`/media/company-profile/${photos[index]}`} alt={`INFLU紹介映像より：${captions[index]}`} loading="lazy" decoding="async" class="h-[62svh] min-h-80 w-full object-cover min-[900px]:h-full" />
-          <figcaption class="px-[var(--profile-gutter)] py-2 text-[10px] tracking-[0.2em] text-foreground/70 min-[900px]:absolute min-[900px]:bottom-6 min-[900px]:right-0">INFLU紹介映像より</figcaption>
-        </figure>
-        <div class="pointer-events-none absolute inset-0 -z-10 hidden bg-[linear-gradient(180deg,var(--color-section),transparent_25%,transparent_70%,var(--color-section)),linear-gradient(90deg,rgba(6,6,6,0.92),rgba(6,6,6,0.78)_38%,rgba(6,6,6,0.42)_75%,rgba(6,6,6,0.3))] min-[900px]:block group-data-[motion-desktop]/career:hidden" aria-hidden="true"></div>
-      </li>
-    ))}
-  </ol>
-  </div>
+  <div data-profile-career-stage class="relative isolate group-data-[motion-desktop]/career:sticky group-data-[motion-desktop]/career:top-0 group-data-[motion-desktop]/career:h-[var(--profile-viewport)] group-data-[motion-desktop]/career:overflow-clip">
+    <div data-profile-career-visual class="pointer-events-none sticky top-0 -z-10 -mb-[100svh] h-svh overflow-hidden group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:inset-0 group-data-[motion-desktop]/career:mb-0 group-data-[motion-desktop]/career:h-full">
+      <BackgroundFilm name="career" poster="/media/company-profile/bg-career.jpg" src="/media/company-profile/bg-career.mp4" width={1920} height={848} class="object-[50%_50%]" />
+      <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,6,0.72),rgba(6,6,6,0.62)_30%,rgba(6,6,6,0.8)),linear-gradient(90deg,rgba(6,6,6,0.45),rgba(6,6,6,0.2))]"></div>
+    </div>
+    <div data-profile-career-canvas class="relative group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:inset-0 group-data-[motion-desktop]/career:h-[520vh] group-data-[motion-desktop]/career:w-[620vw]">
+      <svg data-profile-career-path aria-hidden="true" class="pointer-events-none absolute left-0 top-0 hidden overflow-visible group-data-[motion-desktop]/career:block"><path data-profile-path-base fill="none" stroke-width="1" class="stroke-[#f4f7f2]/12" /><path data-profile-path-progress fill="none" stroke-width="1" class="stroke-[#c89a5b]" /></svg>
+      <div data-profile-career-intro class="relative px-[var(--profile-gutter)] py-[clamp(96px,14svh,144px)] min-[900px]:max-w-[70vw] group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:left-[7vw] group-data-[motion-desktop]/career:top-[24vh] group-data-[motion-desktop]/career:w-[min(60vw,980px)] group-data-[motion-desktop]/career:max-w-none! group-data-[motion-desktop]/career:p-0!">
+        <figure data-profile-career-thumb aria-hidden="true" class="absolute -right-[12vw] -top-[8vh] hidden w-[22vw] -rotate-3 opacity-85 group-data-[motion-desktop]/career:block"><img src="/media/company-profile/career/portrait.webp" alt="" width="1200" height="902" loading="lazy" decoding="async" class="aspect-[4/3] w-full object-cover" /></figure>
+        <p aria-hidden="true" class="mb-7 text-[clamp(48px,8vw,120px)] font-bold leading-[0.95] tracking-normal">RYOTA<br />MITO</p>
+        <CompanySectionLabel>CAREER</CompanySectionLabel>
+        <h2 id="career-title" class="mb-5 mt-6 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">歩んできた道</h2>
+        <p class="max-w-[32em] text-base leading-[1.95] tracking-normal text-foreground/85 sm:text-lg">飲食店での挑戦、WEBとLINEを使った事業支援、そして法人設立後の新たな取り組み。現場で試し、学び直してきた経験が、今のINFLUにつながっています。</p>
+        <span data-profile-career-dot class="absolute -bottom-6 -left-[5px] hidden h-[9px] w-[9px] rounded-full bg-[#c89a5b] group-data-[motion-desktop]/career:block" aria-hidden="true"></span>
+      </div>
+      <ol class="group-data-[motion-desktop]/career:contents">
+        {careerItems.map((item, index) => (
+          <li class:list={["relative grid items-start gap-10 px-[var(--profile-gutter)] py-14 sm:py-20 group-data-[motion-desktop]/career:absolute group-data-[motion-desktop]/career:left-[calc(var(--career-x)*1vw)] group-data-[motion-desktop]/career:top-[calc(var(--career-y)*1vh)] group-data-[motion-desktop]/career:w-[min(80vw,1120px)] group-data-[motion-desktop]/career:grid-cols-[1.2fr_0.85fr] group-data-[motion-desktop]/career:items-center group-data-[motion-desktop]/career:gap-[4vw] group-data-[motion-desktop]/career:p-0", positions[index]]} data-profile-career-node>
+            <div data-profile-career-copy class="relative border-l border-[#f4f7f2]/20 pl-7 group-data-[motion-desktop]/career:border-0 group-data-[motion-desktop]/career:pl-0">
+              <span data-profile-career-dot class="absolute -left-[5px] top-9 h-[9px] w-[9px] rounded-full border border-[#c89a5b] bg-[#c89a5b] group-data-[motion-desktop]/career:-left-7 group-data-[motion-desktop]/career:top-[calc(clamp(72px,8vw,128px)*0.5)]" aria-hidden="true"></span>
+              <p class="text-[clamp(72px,8vw,128px)] font-bold leading-none tracking-[-0.01em] text-[#c89a5b]">{item.period}</p>
+              <p class="mt-4 text-sm font-bold leading-[1.6] tracking-normal text-foreground/75">{item.era}</p>
+              <h3 class="mb-5 mt-6 text-xl font-bold leading-[1.5] tracking-[-0.01em] sm:text-2xl lg:text-[1.75rem]">{item.title}</h3>
+              <p class="max-w-[32em] text-pretty text-base leading-[1.95] tracking-normal text-foreground/90 min-[1200px]:text-lg">{item.description}</p>
+            </div>
+            <figure data-profile-career-photo class="grid min-w-0 justify-items-center gap-3">
+              <img src={item.photo.src} alt={item.photo.alt} width={item.photo.width} height={item.photo.height} loading="lazy" decoding="async" class="h-auto max-h-[min(55svh,520px)] w-full object-contain group-data-[motion-desktop]/career:max-h-[min(48svh,420px)]" />
+              <figcaption class="w-full text-xs leading-[1.8] tracking-normal text-foreground/75">{item.photo.caption}{item.photo.credit && <span class="block text-foreground/60">写真：{item.photo.credit}</span>}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ol>
+    </div>
   </div>
 </section>
 

@@ -7,20 +7,27 @@ const source = readFileSync(new URL("../src/components/company-profile/backgroun
 const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText;
 const target = () => ({ listeners: {}, addEventListener(name, callback) { this.listeners[name] = callback; } });
 const scene = {};
+const careerScene = {};
 const video = Object.assign(target(), {
   dataset: { profileBackground: "message", src: "/bg-message.mp4" },
   paused: true,
   playCalls: 0,
-  closest: () => scene,
+  closest: selector => selector.includes("[data-profile-message-visual]") ? scene : null,
   getAttribute(name) { return this[name]; },
   load() {},
   play() { this.paused = false; this.playCalls++; return Promise.resolve(); },
   pause() { this.paused = true; },
 });
+const careerVideo = Object.assign(target(), {
+  ...video,
+  listeners: {},
+  dataset: { profileBackground: "career", src: "/bg-career.mp4" },
+  closest: selector => selector.includes("[data-profile-career-visual]") ? careerScene : null,
+});
 const status = { textContent: "" };
 const page = Object.assign(target(), {
   dataset: {},
-  querySelectorAll: () => [video],
+  querySelectorAll: () => [video, careerVideo],
   querySelector: () => status,
 });
 const preference = Object.assign(target(), { matches: false });
@@ -37,6 +44,13 @@ assert.equal(video.playCalls, 0, "offscreen media is not requested");
 assert.equal(video.src, undefined);
 observe([{ target: scene, isIntersecting: true, intersectionRatio: 1 }]);
 assert.equal(video.src, "/bg-message.mp4");
+assert.equal(video.paused, false);
+observe([{ target: scene, isIntersecting: true, intersectionRatio: 0.1 }, { target: careerScene, isIntersecting: true, intersectionRatio: 1 }]);
+assert.equal(video.paused, true, "message stops as career becomes visible");
+assert.equal(careerVideo.src, "/bg-career.mp4");
+assert.equal(careerVideo.paused, false, "career film plays across its visual section");
+observe([{ target: careerScene, isIntersecting: false, intersectionRatio: 0 }, { target: scene, isIntersecting: true, intersectionRatio: 1 }]);
+assert.equal(careerVideo.paused, true, "career stops after its section");
 assert.equal(video.paused, false);
 document.hidden = true;
 document.listeners.visibilitychange();

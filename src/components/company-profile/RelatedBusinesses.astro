@@ -30,17 +30,17 @@ const relatedBusinesses = [
   },
 ]
 ---
-<section id="businesses" aria-labelledby="businesses-title" class="scroll-mt-24 bg-[#090a0a]" data-profile-businesses>
-  <div role="region" aria-label="関連事業" tabindex="0" class="min-[900px]:snap-x min-[900px]:snap-mandatory min-[900px]:overflow-x-auto min-[900px]:overscroll-x-contain">
-    <div class="px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)] min-[900px]:flex min-[900px]:w-max min-[900px]:items-center min-[900px]:py-[10svh] min-[900px]:pr-[8vw]" data-profile-businesses-track>
+<section id="businesses" aria-labelledby="businesses-title" class="group/profile-gallery relative scroll-mt-24 bg-[#090a0a] data-[motion-desktop]:h-[var(--profile-scroll-height)]" data-profile-businesses>
+  <div role="region" aria-label="関連事業" tabindex="0" class="group-data-[motion-desktop]/profile-gallery:sticky group-data-[motion-desktop]/profile-gallery:top-0 group-data-[motion-desktop]/profile-gallery:flex group-data-[motion-desktop]/profile-gallery:h-[var(--profile-viewport)] group-data-[motion-desktop]/profile-gallery:items-center group-data-[motion-desktop]/profile-gallery:overflow-hidden! group-data-[motion-desktop]/profile-gallery:snap-none! min-[900px]:snap-x min-[900px]:snap-mandatory min-[900px]:overflow-x-auto min-[900px]:overscroll-x-contain">
+    <div class="relative px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)] min-[900px]:flex min-[900px]:w-max min-[900px]:items-center min-[900px]:py-[10svh] min-[900px]:pr-[8vw]" data-profile-businesses-track data-profile-gallery-track>
       <div class="pb-14 min-[900px]:w-[40vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:pr-[4vw] min-[900px]:pb-0">
         <CompanySectionLabel>RELATED BUSINESSES</CompanySectionLabel>
         <h2 id="businesses-title" class="my-[26px] text-[clamp(30px,4.2vw,64px)] font-normal leading-[1.35]">事業の外にも、<br />実践の場がある。</h2>
         <p class="max-w-[34em] text-[#f4f7f2]/68">商品を届けること、人を育てること、地域で事業を続けること。INFLUは異なる現場で実践を重ね、その学びをお客様の支援へ還元しています。</p>
-        <p class="sr-only min-[900px]:not-sr-only min-[900px]:mt-8 min-[900px]:text-xs min-[900px]:text-[#f4f7f2]/52">横にスクロールして関連事業を見る →</p>
+        <p class="sr-only min-[900px]:not-sr-only min-[900px]:mt-8 min-[900px]:text-xs min-[900px]:text-[#f4f7f2]/52">スクロールして関連事業を見る →</p>
       </div>
       {relatedBusinesses.map((business, index) => (
-        <article class="grid gap-7 border-t border-[#f4f7f2]/12 py-14 min-[900px]:min-h-[72svh] min-[900px]:w-[78vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:grid-cols-[1.35fr_1fr] min-[900px]:items-center min-[900px]:gap-[4vw] min-[900px]:border-t-0 min-[900px]:px-[4vw] min-[900px]:py-0">
+        <article data-profile-panel class="grid gap-7 border-t border-[#f4f7f2]/12 py-14 min-[900px]:min-h-[72svh] min-[900px]:w-[78vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:grid-cols-[1.35fr_1fr] min-[900px]:items-center min-[900px]:gap-[4vw] min-[900px]:border-t-0 min-[900px]:px-[4vw] min-[900px]:py-0">
           <figure class="aspect-[4/3] overflow-hidden bg-surface min-[900px]:h-[72svh] min-[900px]:min-h-[480px] min-[900px]:aspect-auto">
             <img src={business.image} alt={business.imageAlt} loading="lazy" decoding="async" class="h-full w-full object-cover" />
           </figure>
@@ -53,5 +53,11 @@ const relatedBusinesses = [
         </article>
       ))}
     </div>
+    <div aria-hidden="true" class="pointer-events-none absolute bottom-[6svh] right-[var(--profile-gutter)] hidden items-center gap-[18px] text-[11px] tracking-[0.3em] text-[#f4f7f2]/52 group-data-[motion-desktop]/profile-gallery:flex"><span data-profile-gallery-current>01</span><span class="h-px w-[120px] bg-[#f4f7f2]/12"><span data-profile-gallery-progress class="block h-full origin-left scale-x-0 bg-[#c89a5b]"></span></span><span>03</span></div>
   </div>
 </section>
+
+<script>
+  import { galleryMotion } from "./profile-motion";
+  galleryMotion(document.querySelector<HTMLElement>("[data-profile-businesses]"));
+</script>

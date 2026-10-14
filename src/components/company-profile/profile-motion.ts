@@ -335,3 +335,9 @@ export function philosophyMotion(root: HTMLElement | null) {
     });
   });
 }
+
+export function informationMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (root) scope.reveal(root.querySelectorAll<HTMLElement>("dl > div"), 0, 12, 0.9);
+  });
+}

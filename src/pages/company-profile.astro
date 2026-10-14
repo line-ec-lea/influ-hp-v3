@@ -1,6 +1,5 @@
 ---
 import Company from "../layouts/Company.astro";
-import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
 import Hero from "../components/company-profile/Hero.astro";
 import CurrentDirection from "../components/company-profile/CurrentDirection.astro";
 import Message from "../components/company-profile/Message.astro";
@@ -21,7 +20,7 @@ const metadata = {
 }
 ---
 <Company title={metadata.title} description={metadata.description}>
-  <CinematicPageFrame>
+  <div class="relative isolate bg-page font-sans text-[15px] leading-[1.9] tracking-[0.04em] text-[#f4f7f2]/92 [--profile-gutter:clamp(20px,5vw,88px)] max-[899px]:text-sm" data-company-profile>
     <Hero />
     <CurrentDirection />
     <Message />
@@ -34,5 +33,5 @@ const metadata = {
     <CorporateInformation />
     <Access />
     <Contact />
-  </CinematicPageFrame>
+  </div>
 </Company>

@@ -29,9 +29,11 @@ const experienceStrengths = [
 const positions = ["min-[900px]:col-span-5", "min-[900px]:col-span-5 min-[900px]:col-start-8 min-[900px]:mt-[clamp(48px,10svh,120px)]", "min-[900px]:col-span-5 min-[900px]:col-start-8 min-[900px]:mt-[clamp(48px,10svh,120px)]", "min-[900px]:col-span-4 min-[900px]:col-start-8 min-[900px]:mt-[clamp(48px,8svh,100px)]"];
 ---
 <section id="experience" aria-labelledby="experience-title" class="scroll-mt-24 bg-[#090a0a] px-[var(--profile-gutter)] pb-[clamp(100px,16svh,200px)] pt-[clamp(110px,18svh,220px)]">
+  <div data-profile-experience-head>
   <CompanySectionLabel>EXPERIENCE</CompanySectionLabel>
   <h2 id="experience-title" class="mb-[30px] mt-[26px] max-w-[14em] text-[clamp(32px,5vw,84px)] font-normal leading-[1.35]">実務経験が、<br />支援の違いになる。</h2>
   <p class="max-w-[34em] text-[#f4f7f2]/68">INFLUの支援を支えているのは、経営、集客、制作、運用を自ら経験してきた実践知です。机上の提案ではなく、現場で使い続けられる形へつなげます。</p>
+  </div>
   <div class="mt-[clamp(60px,12svh,140px)] grid grid-cols-1 gap-x-[clamp(16px,2vw,32px)] gap-y-12 min-[900px]:grid-cols-12 min-[900px]:gap-y-0">
     {experienceStrengths.map((strength, index) => (
       <>
@@ -46,3 +48,8 @@ const positions = ["min-[900px]:col-span-5", "min-[900px]:col-span-5 min-[900px]
     ))}
   </div>
 </section>
+
+<script>
+  import { experienceMotion } from "./profile-motion";
+  experienceMotion(document.querySelector<HTMLElement>("#experience"));
+</script>

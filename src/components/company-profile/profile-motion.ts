@@ -171,26 +171,25 @@ export function messageMotion(root: HTMLElement | null) {
     scope.reveal(root.querySelectorAll<HTMLElement>("[data-profile-message-body] > p, [data-profile-message-body] > figure:last-child"));
     scope.reveal(root.querySelectorAll<HTMLElement>("[data-profile-message-body] > figure:first-of-type"), 0, 0, 1.6, true);
     if (scope.desktop && stage.offsetHeight <= innerHeight) {
-      scope.set(wrapper, "--profile-scroll-height", `${innerHeight * 2.5}px`);
+      scope.set(wrapper, "--profile-scroll-height", `${innerHeight * 1.5}px`);
       scope.set(wrapper, "--profile-viewport", `${innerHeight}px`);
       scope.flag(wrapper, "motion-desktop");
       scope.progress(wrapper, progress => {
-        const opening = clamp(progress / 0.5);
-        scope.set(cover, "transform", `translate(${-opening * 100}%, ${-opening * 100}%)`);
-        const heading = clamp((progress - 0.1) / 0.4);
-        scope.set(head, "transform", `translateX(${-innerWidth * (0.18 * (1 - heading) + 0.025 * progress)}px)`);
-        scope.set(head, "opacity", `${heading}`);
-        const name = clamp((progress - 0.55) / 0.3);
-        scope.set(foot, "transform", `translateY(${70 * (1 - name)}px)`);
+        const opening = clamp(progress / 0.45);
+        scope.set(cover, "clip-path", `inset(0% ${opening * 100}% 0% 0%)`);
+        scope.set(head, "transform", `translateX(${24 * (1 - opening)}px)`);
+        scope.set(head, "opacity", `${opening}`);
+        const name = clamp((progress - 0.25) / 0.3);
+        scope.set(foot, "transform", `translateX(${24 * (1 - name)}px)`);
         scope.set(foot, "opacity", `${name}`);
-      });
-      const focused = () => window.scrollTo({ top: scrollY + wrapper.getBoundingClientRect().top + innerHeight * 1.5, behavior: "instant" });
+      }, ["start end", "end end"]);
+      const focused = () => window.scrollTo({ top: scrollY + wrapper.getBoundingClientRect().top + innerHeight * 0.5, behavior: "instant" });
       foot.addEventListener("focusin", focused);
       scope.add(() => foot.removeEventListener("focusin", focused));
     } else {
-      scope.reveal([head], -30, 0, 1);
-      scope.reveal([foot], 0, 30, 1);
-      scope.progress(stage, progress => scope.set(cover, "transform", `translate(${-progress * 100}%, ${-progress * 60}%)`), ["start 85%", "start 15%"]);
+      scope.reveal([head], 24, 0, 1);
+      scope.reveal([foot], 24, 0, 1);
+      scope.progress(stage, progress => scope.set(cover, "clip-path", `inset(0% ${progress * 100}% 0% 0%)`), ["start 85%", "start 15%"]);
     }
   });
 }

@@ -1,4 +1,5 @@
-import { animate, scroll, ease } from "@shared/motion";
+import { animateMini as animate } from "framer-motion/dom";
+import { scroll, ease } from "@shared/motion";
 import { clamp, careerFrame } from "./motion-frames.mjs";
 
 type Cleanup = () => void;
@@ -49,7 +50,7 @@ export function profileMotion(root: HTMLElement | null, setup: (scope: Scope) =>
           revealed.add(element);
           const animation = animate(element, mask ? {
             clipPath: ["inset(100% 0% 0% 0%)", "inset(0% 0% 0% 0%)"],
-          } : { opacity: [0, 1], x: [x, 0], y: [y, 0] }, { duration, ease, delay: Number(element.dataset.profileDelay || 0) });
+          } : { opacity: [0, 1], transform: [`translate(${x}px, ${y}px)`, "translate(0px, 0px)"] }, { duration, ease, delay: Number(element.dataset.profileDelay || 0) });
           add(() => animation.cancel());
         };
         for (const element of elements) {

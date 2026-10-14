@@ -82,15 +82,11 @@ export function profileMotion(root: HTMLElement | null, setup: (scope: Scope) =>
 export function heroMotion(root: HTMLElement | null) {
   profileMotion(root, scope => {
     if (!root) return;
-    const headline = root.querySelector<HTMLElement>("[data-profile-headline]")!;
-    const rule = root.querySelector<HTMLElement>("[data-profile-rule]")!;
-    root.querySelectorAll<HTMLElement>("[data-profile-hero-line]").forEach(line => scope.reveal([line], 0, line.offsetHeight * 1.1, 1.4));
-    scope.reveal(root.querySelectorAll<HTMLElement>("[data-profile-hero-top], [data-profile-lead], [data-profile-hero-foot]"), 0, 16, 1.2);
+    root.querySelectorAll<HTMLElement>("[data-profile-hero-line]").forEach(line => scope.reveal([line], 0, line.offsetHeight * 0.45, 0.85));
+    scope.reveal(root.querySelectorAll<HTMLElement>("[data-profile-lead], [data-profile-cta]"), 0, 12, 0.7);
     scope.progress(root, progress => {
-      scope.set(headline, "transform", `translateX(${-progress * (scope.desktop ? innerWidth * 0.05 : 20)}px)`);
-      scope.set(rule, "transform", `translateX(${progress * (scope.desktop ? innerWidth * 0.22 : 40)}px)`);
       const film = root.querySelector<HTMLElement>("[data-profile-film]")!;
-      scope.set(film, "transform", `scale(${1.02 + progress * 0.08})`);
+      scope.set(film, "transform", `scale(${1.02 + progress * 0.04})`);
     }, ["start start", "end start"]);
   });
 }

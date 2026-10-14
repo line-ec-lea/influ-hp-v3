@@ -1,25 +1,29 @@
 ---
 import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
-import CompanyProfileLink from "@shared/CompanyProfileLink.astro";
+import BackgroundFilm from "./BackgroundFilm.astro";
+import FilmDialog from "./FilmDialog.astro";
 ---
 <section id="a01" aria-labelledby="message-title" class="scroll-mt-24 bg-page" data-profile-message>
-  <div id="message" class="relative isolate flex min-h-svh scroll-mt-24 flex-col justify-between gap-12 overflow-hidden px-[var(--profile-gutter)] pb-12 pt-[clamp(110px,14svh,150px)] min-[900px]:pb-[10svh] min-[900px]:pt-[15svh]" data-profile-message-stage>
-    <img src="/media/company-profile/bg-message.jpg" alt="" aria-hidden="true" width="1600" height="706" loading="lazy" decoding="async" class="absolute inset-0 -z-20 h-full w-full object-cover object-[65%_50%]" />
+  <div data-profile-message-pin class="group/profile-message relative data-[motion-desktop]:h-[var(--profile-scroll-height)]">
+  <div id="message" class="relative isolate flex min-h-svh group-data-[motion-desktop]/profile-message:sticky group-data-[motion-desktop]/profile-message:top-0 group-data-[motion-desktop]/profile-message:h-[var(--profile-viewport)] scroll-mt-24 flex-col justify-between gap-12 overflow-hidden px-[var(--profile-gutter)] pb-12 pt-[clamp(110px,14svh,150px)] min-[900px]:pb-[10svh] min-[900px]:pt-[15svh]" data-profile-message-stage>
+    <BackgroundFilm name="message" poster="/media/company-profile/bg-message.jpg" src="/media/company-profile/bg-message.mp4" class="object-[65%_50%]" />
     <div aria-hidden="true" class="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(6,6,6,0.82),rgba(6,6,6,0.45)_55%,rgba(6,6,6,0.2)),linear-gradient(180deg,#090a0a,transparent_22%,transparent_72%,#060606)]"></div>
-    <div class="min-[900px]:max-w-[52vw]">
+    <div data-profile-message-cover aria-hidden="true" class="pointer-events-none absolute inset-0 z-10 hidden bg-page group-data-[motion-active]/profile-message:block"></div>
+    <div data-profile-message-head class="relative z-20 min-[900px]:max-w-[52vw]">
       <CompanySectionLabel>MESSAGE</CompanySectionLabel>
       <h2 id="message-title" class="mt-6 text-[clamp(34px,5.6vw,92px)] font-normal leading-[1.28] max-[899px]:text-[clamp(28px,7.6vw,68px)]">挑戦を、<br />続けられる仕組みに。</h2>
     </div>
-    <div class="flex flex-wrap items-end justify-between gap-6">
+    <div data-profile-message-foot class="relative z-20 flex flex-wrap items-end justify-between gap-6">
       <div class="grid gap-1.5">
         <p class="text-[11px] tracking-[0.3em] text-[#f4f7f2]/52">INFLU / REPRESENTATIVE DIRECTOR</p>
         <p class="text-[clamp(22px,2.4vw,36px)] font-normal tracking-[0.08em]">HEY, I'M GOCHAN</p>
         <p class="text-[13px] tracking-[0.16em] text-[#f4f7f2]/68">代表取締役 水戸 亮太</p>
       </div>
-      <CompanyProfileLink href="/media/company-profile/influ-boss-introduction.mp4" external framed>紹介映像を見る <span class="text-xs text-[#c89a5b]">01:21</span></CompanyProfileLink>
+      <div class="flex flex-wrap items-center gap-3"><FilmDialog /><button hidden type="button" data-profile-video-toggle class="border border-[#f4f7f2]/22 px-4 py-2 text-[11px] tracking-[0.12em] hover:border-[#c89a5b] disabled:opacity-50">背景映像を一時停止</button></div>
     </div>
   </div>
-  <div class="grid grid-cols-1 gap-x-[clamp(16px,2vw,32px)] px-[var(--profile-gutter)] pb-[clamp(80px,16svh,200px)] pt-[clamp(60px,14svh,180px)] min-[900px]:grid-cols-12">
+  </div>
+  <div data-profile-message-body class="grid grid-cols-1 gap-x-[clamp(16px,2vw,32px)] px-[var(--profile-gutter)] pb-[clamp(80px,16svh,200px)] pt-[clamp(60px,14svh,180px)] min-[900px]:grid-cols-12">
     <p class="text-[clamp(20px,2.3vw,36px)] font-normal leading-[1.85] tracking-[0.03em] min-[900px]:col-span-10">これまで、お客様の商品やサービスを必要な人へ届けるために、何をすべきかを常に考えてきました。お客様の事業が成長することが、私たちの喜びでもあります。</p>
     <p class="mt-14 text-[clamp(14px,1.05vw,16px)] leading-[2.1] text-[#f4f7f2]/68 max-[899px]:ml-[12%] min-[900px]:col-span-5 min-[900px]:col-start-7 min-[900px]:mt-[clamp(56px,14svh,160px)]">飲食店の経営、WEBでの情報発信、メールや公式LINEを使った販売支援、システムづくり。異なるように見える経験のすべてに共通していたのは、現場で試し、数字や反応を確認し、次の改善へつなげることでした。</p>
     <figure class="mt-14 aspect-[4/5] overflow-hidden bg-surface max-[899px]:w-[78%] min-[900px]:col-span-5 min-[900px]:mt-[clamp(56px,12svh,140px)]">
@@ -33,3 +37,8 @@ import CompanyProfileLink from "@shared/CompanyProfileLink.astro";
     </figure>
   </div>
 </section>
+
+<script>
+  import { messageMotion } from "./profile-motion";
+  messageMotion(document.querySelector<HTMLElement>("[data-profile-message]"));
+</script>

@@ -316,32 +316,21 @@ export function mediaMotion(root: HTMLElement | null) {
 export function philosophyMotion(root: HTMLElement | null) {
   profileMotion(root, scope => {
     if (!root) return;
-    const wrapper = root.querySelector<HTMLElement>("[data-profile-philosophy-pin]")!;
-    const words = [...root.querySelectorAll<HTMLElement>("#philosophy-title > span")];
-    const description = root.querySelector<HTMLElement>("[data-profile-philosophy-description]")!;
-    scope.reveal(root.querySelectorAll<HTMLElement>("article"));
-    if (!scope.desktop || innerHeight < 600) {
-      words.forEach((word, index) => scope.reveal([word], [40, 0, -30][index], [0, 40, 30][index], 1.4));
+    const head = root.querySelector<HTMLElement>("[data-profile-philosophy-head]")!;
+    const words = [...root.querySelectorAll<HTMLElement>("[data-profile-philosophy-word]")];
+    const articles = [...root.querySelectorAll<HTMLElement>("article")];
+    scope.reveal([head], 0, 20, 0.8);
+    scope.reveal(articles, 0, 24, 0.85);
+    if (!scope.desktop || innerHeight < 600) return;
+    scope.flag(root, "motion-desktop");
+    if (head.scrollHeight + parseFloat(getComputedStyle(head).top) + 24 > innerHeight) {
+      root.removeAttribute("data-motion-desktop");
       return;
     }
-    scope.set(wrapper, "--profile-scroll-height", `${innerHeight * 2.8}px`);
-    scope.set(wrapper, "--profile-viewport", `${innerHeight}px`);
-    scope.flag(wrapper, "motion-desktop");
-    scope.progress(wrapper, progress => {
-      scope.set(words[0], "transform", `translateX(${innerWidth * 0.24 * (1 - progress)}px)`);
-      scope.set(words[0], "opacity", `${progress}`);
-    }, ["start 75%", "start start"]);
-    scope.progress(wrapper, progress => {
-      const delivering = clamp((progress - 0.1) / 0.4);
-      const growing = clamp((progress - 0.4) / 0.4);
-      const explaining = clamp((progress - 0.75) / 0.2);
-      scope.set(words[1], "transform", `translateY(${innerHeight * 0.36 * (1 - delivering)}px)`);
-      scope.set(words[1], "opacity", `${delivering}`);
-      scope.set(words[2], "transform", `translate(${-innerWidth * 0.16 * (1 - growing)}px, ${innerHeight * 0.26 * (1 - growing)}px)`);
-      scope.set(words[2], "opacity", `${growing}`);
-      scope.set(description, "transform", `translateY(${20 * (1 - explaining)}px)`);
-      scope.set(description, "opacity", `${explaining}`);
-    });
+    scope.progress(root, () => {
+      const active = articles.reduce((current, article, index) => article.getBoundingClientRect().top <= innerHeight * 0.5 ? index : current, 0);
+      words.forEach((word, index) => scope.set(word, "color", index === active ? "#c89a5b" : "rgba(244,247,242,0.7)"));
+    }, ["start end", "end start"]);
   });
 }
 

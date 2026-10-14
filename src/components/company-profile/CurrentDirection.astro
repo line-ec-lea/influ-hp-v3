@@ -20,17 +20,17 @@ const imageLayouts = [
   "aspect-square min-[900px]:absolute min-[900px]:right-[3vw] min-[900px]:bottom-0 min-[900px]:z-30 min-[900px]:h-[30svh] min-[900px]:w-[27vw] min-[900px]:ring-[10px] min-[900px]:ring-[#090a0a]",
 ];
 ---
-<section id="direction" aria-labelledby="direction-title" class="scroll-mt-24 bg-[#090a0a]" data-profile-direction>
-  <div role="region" aria-label="現在の支援領域" tabindex="0" class="min-[900px]:overflow-x-auto min-[900px]:overscroll-x-contain min-[900px]:snap-x min-[900px]:snap-mandatory">
-    <div class="px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)] min-[900px]:flex min-[900px]:w-max min-[900px]:items-center min-[900px]:py-[8svh] min-[900px]:pr-[12vw]" data-profile-direction-track>
+<section id="direction" aria-labelledby="direction-title" class="group/profile-gallery relative scroll-mt-24 bg-[#090a0a] data-[motion-desktop]:h-[var(--profile-scroll-height)]" data-profile-direction>
+  <div role="region" aria-label="現在の支援領域" tabindex="0" class="group-data-[motion-desktop]/profile-gallery:sticky group-data-[motion-desktop]/profile-gallery:top-0 group-data-[motion-desktop]/profile-gallery:flex group-data-[motion-desktop]/profile-gallery:h-[var(--profile-viewport)] group-data-[motion-desktop]/profile-gallery:items-center group-data-[motion-desktop]/profile-gallery:overflow-hidden! group-data-[motion-desktop]/profile-gallery:snap-none! min-[900px]:overflow-x-auto min-[900px]:overscroll-x-contain min-[900px]:snap-x min-[900px]:snap-mandatory">
+    <div class="relative px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)] min-[900px]:flex min-[900px]:w-max min-[900px]:items-center min-[900px]:py-[8svh] min-[900px]:pr-[12vw]" data-profile-direction-track data-profile-gallery-track>
       <div class="pb-12 min-[900px]:w-[40vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:pr-[6vw] min-[900px]:pb-0">
         <CompanySectionLabel>CURRENT DIRECTION</CompanySectionLabel>
         <h2 id="direction-title" class="my-7 text-[clamp(30px,4.2vw,64px)] font-normal leading-[1.35]">現在の支援領域</h2>
         <p class="max-w-[34em] text-[#f4f7f2]/68">これまでのWEBマーケティングと事業運営の経験を、現在はHPのAI化と企業のAX支援へつなげています。</p>
-        <p class="sr-only min-[900px]:not-sr-only min-[900px]:mt-8 min-[900px]:text-xs min-[900px]:text-[#f4f7f2]/52">横にスクロールして支援領域を見る →</p>
+        <p class="sr-only min-[900px]:not-sr-only min-[900px]:mt-8 min-[900px]:text-xs min-[900px]:text-[#f4f7f2]/52">スクロールして支援領域を見る →</p>
       </div>
       {services.map((service, index) => (
-        <article class="border-t border-[#f4f7f2]/12 py-12 min-[900px]:grid min-[900px]:min-h-[78svh] min-[900px]:w-[100vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:grid-cols-[28vw_minmax(0,1fr)] min-[900px]:items-center min-[900px]:gap-[4vw] min-[900px]:border-t-0 min-[900px]:border-l min-[900px]:px-[5vw] min-[900px]:py-0">
+        <article data-profile-panel class="border-t border-[#f4f7f2]/12 py-12 min-[900px]:grid min-[900px]:min-h-[78svh] min-[900px]:w-[100vw] min-[900px]:shrink-0 min-[900px]:snap-start min-[900px]:grid-cols-[28vw_minmax(0,1fr)] min-[900px]:items-center min-[900px]:gap-[4vw] min-[900px]:border-t-0 min-[900px]:border-l min-[900px]:px-[5vw] min-[900px]:py-0">
           <div class="relative z-40">
             <span aria-hidden="true" class="mb-7 block text-[clamp(110px,16vw,280px)] font-thin leading-[0.8] text-[#f4f7f2]/22">{String(index + 1).padStart(2, "0")}</span>
             <p class="text-[11px] tracking-[0.3em] text-[#c89a5b]">{String(index + 1).padStart(2, "0")} — {service.label}</p>
@@ -48,5 +48,11 @@ const imageLayouts = [
         </article>
       ))}
     </div>
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-[var(--profile-gutter)] bottom-[6svh] hidden h-px bg-[#f4f7f2]/12 group-data-[motion-desktop]/profile-gallery:block"><span data-profile-gallery-progress class="block h-full origin-left scale-x-0 bg-[#c89a5b]"></span></div>
   </div>
 </section>
+
+<script>
+  import { galleryMotion } from "./profile-motion";
+  galleryMotion(document.querySelector<HTMLElement>("[data-profile-direction]"));
+</script>

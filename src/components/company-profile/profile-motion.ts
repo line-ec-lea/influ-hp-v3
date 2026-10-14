@@ -91,3 +91,67 @@ export function heroMotion(root: HTMLElement | null) {
     }, ["start start", "end start"]);
   });
 }
+
+export function galleryMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (!root) return;
+    const region = root.querySelector<HTMLElement>("[role=region]")!;
+    const track = root.querySelector<HTMLElement>("[data-profile-gallery-track]")!;
+    const panels = [...track.querySelectorAll<HTMLElement>("[data-profile-panel]")];
+    const direction = root.matches("[data-profile-direction]");
+    if (!scope.desktop || track.offsetHeight > innerHeight) {
+      panels.forEach((panel, index) => scope.reveal([panel.querySelector<HTMLElement>("h3")!], index % 2 ? -36 : 36, 0, 1));
+      scope.reveal(track.querySelectorAll<HTMLElement>("figure"), 0, 0, 1.3, true);
+      return;
+    }
+    const width = innerWidth;
+    const distance = Math.max(0, track.scrollWidth - region.clientWidth);
+    if (!distance) return;
+    const positions = panels.map(panel => panel.offsetLeft);
+    const oldScrollLeft = region.scrollLeft;
+    scope.add(() => { region.scrollLeft = oldScrollLeft; });
+    scope.set(root, "--profile-scroll-height", `${innerHeight + distance}px`);
+    scope.set(root, "--profile-viewport", `${innerHeight}px`);
+    scope.flag(root, "motion-desktop");
+    const bar = root.querySelector<HTMLElement>("[data-profile-gallery-progress]")!;
+    let current = 0;
+    scope.progress(root, progress => {
+      current = progress * distance;
+      region.scrollLeft = 0;
+      scope.set(track, "transform", `translateX(${-current}px)`);
+      scope.set(bar, "transform", `scaleX(${progress})`);
+      const counter = root.querySelector<HTMLElement>("[data-profile-gallery-current]");
+      if (counter) counter.textContent = String(Math.min(panels.length, 1 + Math.floor(progress * panels.length))).padStart(2, "0");
+      panels.forEach((panel, index) => {
+        const left = positions[index] - current;
+        const entering = clamp((width * 0.95 - left) / (width * 0.35));
+        const heading = panel.querySelector<HTMLElement>("h3")!;
+        scope.set(heading, "opacity", `${entering}`);
+        scope.set(heading, "transform", `translateX(${width * 0.06 * (1 - entering)}px)`);
+        panel.querySelectorAll<HTMLElement>("figure").forEach((figure, imageIndex) => {
+          const reveal = clamp((width * (direction ? [0.88, 0.62, 0.4][imageIndex] : 1) - left) / (width * (direction ? 0.26 : 0.65)));
+          const hidden = 100 * (1 - reveal) * (direction ? 1 : 0.4);
+          const inset = direction && imageIndex === 1 ? `${hidden}% 0% 0% 0%` : direction && imageIndex === 2 ? `0% ${hidden}% 0% 0%` : `0% 0% 0% ${hidden}%`;
+          scope.set(figure, "clip-path", `inset(${inset})`);
+          const drift = clamp((width - left) / (width + panel.offsetWidth));
+          const image = figure.querySelector<HTMLImageElement>("img")!;
+          scope.set(image, "transform", `scale(1.12) translateX(${7 - drift * 14}%)`);
+        });
+      });
+    });
+    const go = (distanceAlongTrack: number) => window.scrollTo({ top: window.scrollY + root.getBoundingClientRect().top + clamp(distanceAlongTrack, 0, distance), behavior: "instant" });
+    const focus = (event: FocusEvent) => {
+      const panel = (event.target as HTMLElement).closest<HTMLElement>("[data-profile-panel]");
+      if (panel) go(panel.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft));
+    };
+    const key = (event: KeyboardEvent) => {
+      if (event.target !== region || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+      event.preventDefault();
+      const stops = [0, ...positions, distance];
+      go(event.key === "ArrowRight" ? stops.find(stop => stop > current + 1) ?? distance : [...stops].reverse().find(stop => stop < current - 1) ?? 0);
+    };
+    region.addEventListener("focusin", focus);
+    region.addEventListener("keydown", key);
+    scope.add(() => { region.removeEventListener("focusin", focus); region.removeEventListener("keydown", key); });
+  });
+}

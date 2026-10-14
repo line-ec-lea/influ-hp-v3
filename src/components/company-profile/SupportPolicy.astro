@@ -23,16 +23,16 @@ const supportPrinciples = [
   },
 ]
 ---
-<section id="support" aria-labelledby="support-title" class="scroll-mt-24 bg-[#0e1010] px-[var(--profile-gutter)] py-[clamp(110px,18svh,220px)]">
+<section id="support" aria-labelledby="support-title" class="group/profile-support scroll-mt-24 bg-[#0e1010] px-[var(--profile-gutter)] py-[clamp(110px,18svh,220px)]">
   <div class="grid items-start gap-[clamp(32px,6vw,120px)] min-[900px]:grid-cols-[5fr_6fr]">
-    <div>
+    <div data-profile-support-intro class="group-data-[motion-desktop]/profile-support:sticky group-data-[motion-desktop]/profile-support:top-[14vh]">
       <CompanySectionLabel>SUPPORT POLICY</CompanySectionLabel>
       <h2 id="support-title" class="mb-6 mt-[26px] text-[clamp(30px,4.2vw,64px)] font-normal leading-[1.35]">支援の先に、<br />自走を。</h2>
       <p class="max-w-[34em] text-[#f4f7f2]/68">私たちが目指すのは、支援がなくても改善を続けられる状態です。現場と一緒に考え、試し、運用できる力を企業の中に残します。</p>
       <div class="mt-[clamp(40px,8svh,90px)] grid grid-cols-[1px_minmax(0,1fr)] gap-x-7 gap-y-3 border-t border-[#f4f7f2]/12 pt-7" data-profile-support-meter>
-        <span class="row-span-3 bg-[#c89a5b]" aria-hidden="true"></span>
+        <span class="relative row-span-3 bg-[#f4f7f2]/12" aria-hidden="true"><span data-profile-support-progress class="absolute inset-0 origin-top bg-[#c89a5b]"></span></span>
         <p class="text-[11px] tracking-[0.3em] text-[#f4f7f2]/52">INFLU SUPPORT</p>
-        <p class="text-[clamp(30px,4.6vw,72px)] font-normal leading-[1.2] tracking-[0.06em]">伴走<span class="mx-[0.2em] text-[#c89a5b]" aria-hidden="true">→</span>自走</p>
+        <p class="text-[clamp(30px,4.6vw,72px)] font-normal leading-[1.2] tracking-[0.06em]"><span data-profile-support-from>伴走</span><span class="mx-[0.2em] text-[#c89a5b]" aria-hidden="true">→</span><span data-profile-support-to>自走</span></p>
         <p class="text-[#f4f7f2]/68">一緒につくる支援から、自社で育てる力へ。</p>
       </div>
     </div>
@@ -47,3 +47,8 @@ const supportPrinciples = [
     </ol>
   </div>
 </section>
+
+<script>
+  import { supportMotion } from "./profile-motion";
+  supportMotion(document.querySelector<HTMLElement>("#support"));
+</script>

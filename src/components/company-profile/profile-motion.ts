@@ -274,3 +274,24 @@ export function experienceMotion(root: HTMLElement | null) {
     });
   });
 }
+
+export function supportMotion(root: HTMLElement | null) {
+  profileMotion(root, scope => {
+    if (!root) return;
+    const intro = root.querySelector<HTMLElement>("[data-profile-support-intro]")!;
+    const list = root.querySelector<HTMLElement>("ol")!;
+    if (scope.desktop && intro.offsetHeight + innerHeight * 0.14 <= innerHeight) scope.flag(root, "motion-desktop");
+    list.querySelectorAll<HTMLElement>("li").forEach(item => scope.progress(item, progress => {
+      scope.set(item, "transform", `translateY(${(scope.desktop ? 120 : 50) * (1 - progress)}px)`);
+      scope.set(item, "opacity", `${progress}`);
+    }, ["start 96%", "start 58%"]));
+    const bar = root.querySelector<HTMLElement>("[data-profile-support-progress]")!;
+    const from = root.querySelector<HTMLElement>("[data-profile-support-from]")!;
+    const to = root.querySelector<HTMLElement>("[data-profile-support-to]")!;
+    scope.progress(list, progress => {
+      scope.set(bar, "transform", `scaleY(${progress})`);
+      scope.set(from, "opacity", `${1 - progress * 0.65}`);
+      scope.set(to, "opacity", `${0.35 + progress * 0.65}`);
+    }, ["start 60%", "end 60%"]);
+  });
+}

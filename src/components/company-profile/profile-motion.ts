@@ -281,17 +281,8 @@ export function experienceMotion(root: HTMLElement | null) {
   profileMotion(root, scope => {
     if (!root) return;
     const head = root.querySelector<HTMLElement>("[data-profile-experience-head]")!;
-    if (scope.desktop) scope.progress(root, progress => {
-      scope.set(head, "transform", `translate(${innerWidth * 0.1 * (1 - progress)}px, ${-innerHeight * 0.14 * (1 - progress)}px)`);
-      scope.set(head, "opacity", `${progress}`);
-    }, ["start end", "start 30%"]);
-    else scope.reveal([head], 24, -24, 1.2);
-    scope.reveal(root.querySelectorAll<HTMLElement>("article"), 0, 60, 1.6);
-    root.querySelectorAll<HTMLElement>("figure").forEach(figure => {
-      scope.reveal([figure], 0, 0, 1.6, true);
-      const image = figure.querySelector<HTMLImageElement>("img")!;
-      scope.progress(figure, progress => scope.set(image, "transform", `scale(1.14) translateY(${-6 + progress * 12}%)`), ["start end", "end start"]);
-    });
+    scope.reveal([head], 0, 20, 0.75);
+    scope.reveal(root.querySelectorAll<HTMLElement>("article"), 0, 24, 0.85);
   });
 }
 

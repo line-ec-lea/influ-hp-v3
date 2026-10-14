@@ -1,0 +1,100 @@
+---
+import type { MediaValue } from "emdash";
+import { Image } from "emdash/ui";
+
+// Reuse the reference's existing EmDash renditions, without a second local transform.
+// The photo frames reserve layout space and own the editorial crops.
+const images = {
+  bbq: {
+    id: "01M3TG2Y0V0Y55W998ZRP6B4DD",
+    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG2Y0V0Y55W998ZRP6B4DD.png&w=1646&h=1226&f=webp&q=92",
+    alt: "屋上テラスでランチを囲むINFLUのメンバー",
+  },
+  seiro: {
+    id: "01M3TGHX41SH7VQZ4ZF7EKMFB2",
+    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGHX41SH7VQZ4ZF7EKMFB2.png&w=861&h=646&f=webp&q=92",
+    alt: "せいろ蒸しのクローズアップ",
+  },
+  lunchGroup: {
+    id: "01M3TG1B5WXFSVEPPW3WZYVC1Y",
+    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG1B5WXFSVEPPW3WZYVC1Y.png&w=1410&h=1040&f=webp&q=92",
+    alt: "ランチのテーブルを囲むINFLUのメンバー",
+  },
+  katsuo: {
+    id: "01M3TG1D0NRFG9XXHW9JGRQWA2",
+    src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG1D0NRFG9XXHW9JGRQWA2.png&w=1436&h=1022&f=webp&q=92",
+    alt: "鰹の藁焼き",
+  },
+  vegetables: { id: "01M3TG537J88Y0YTXJTY4CW4PW", src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TG537J88Y0YTXJTY4CW4PW.jpeg&w=1180&h=1572&f=webp&q=92", alt: "会社に届いた野菜の箱" },
+  egg: { id: "01M3TGJQEMYY6XCCBK94W8TSNB", src: "https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGJQEMYY6XCCBK94W8TSNB.png&w=736&h=970&f=webp&q=92", alt: "調理されたゆで卵" },
+} satisfies Record<string, MediaValue>;
+
+const grid = "grid grid-cols-12 gap-x-[var(--life-gutter)]";
+const meta = "text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-muted uppercase";
+const photo = "relative overflow-hidden bg-elevated";
+const fact = "grid grid-cols-[1fr_auto] items-end border-b border-life-line-strong pt-[22px] pb-5";
+---
+
+<section id="eat" aria-labelledby="eat-t" class="relative z-1 overflow-x-clip pt-[120px] [--life-gutter:40px] [@media(max-width:1100px)]:[--life-gutter:28px] [@media(max-width:720px)]:pt-20 [@media(max-width:720px)]:[--life-gutter:18px]" data-life-eat>
+  <div class="relative mx-auto max-w-life px-[var(--life-gutter)]">
+    <div class="relative z-2 grid gap-3" data-life-eat-heading>
+      <p class="m-0 text-xs font-bold leading-[1.6] tracking-[0.12em] text-life-gold">02 — 人とのつながり</p>
+      <h2 id="eat-t" class="m-0 text-[clamp(76px,9.4vw,150px)] font-bold leading-[0.9] tracking-[-0.03em] uppercase [@media(max-width:720px)]:text-[15.5vw]">Eat together</h2>
+      <p class="m-0 text-[clamp(17px,1.5vw,21px)] font-bold leading-[1.55] tracking-[0.06em]">食卓から、つながる。</p>
+      <p class="m-0 mt-3 max-w-[42em] text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90">野菜を囲むランチや、みんなで集まる食事会。食べながら言葉を交わす時間も、INFLUの日常にあります。</p>
+    </div>
+
+    <!-- Intentionally transparent so the persistent meal film remains visible. -->
+    <div class="flex min-h-[72vh] flex-col justify-end pb-[12vh] [@media(max-width:720px)]:min-h-[62vh] [@media(max-width:720px)]:pb-[calc(20vh_+_104px)]" data-life-eat-film>
+      <p class="m-0 mb-[18px] text-[clamp(26px,3vw,48px)] font-bold leading-[1.5] tracking-[0.04em] [@media(max-width:720px)]:text-[6.2vw]"><span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">一緒に食べて、</span></span><span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">言葉を交わす。</span></span></p>
+      <span class="text-[11px] font-normal leading-[1.6] tracking-[0.18em] text-life-ink uppercase"><b class="font-bold">動画</b> — 味来</span>
+    </div>
+
+    <div class={`${grid} mt-16 items-start [@media(max-width:720px)]:mt-10`} data-life-eat-body>
+      <div class="col-start-1 col-end-4 grid gap-10 pt-[6px] [@media(max-width:1100px)]:order-2 [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:mt-12" data-life-eat-side>
+        <div class="grid gap-0 border-t border-life-line-strong">
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">ランチ会</b></span><span class="text-right text-[clamp(44px,4.2vw,68px)] font-bold leading-[0.9] tracking-[-0.04em]"><small class="text-[22px] font-bold tracking-[0.02em]">月2回</small></span></div>
+          <div class={fact}><span class={meta}><b class="font-bold text-life-ink">野菜</b></span><span class="text-right text-[22px] font-bold leading-[0.9] tracking-[0.02em]">毎月届く</span></div>
+        </div>
+        <p class="m-0 text-sm leading-[2] tracking-[0.04em] text-life-ink/90">毎月、会社に野菜が届きます。ランチ会は月に2回、みんなで食卓を囲む時間です。</p>
+      </div>
+      <figure class="relative z-1 col-start-4 col-end-13 m-0 -mr-[var(--life-gutter)] [@media(max-width:1100px)]:col-span-12 [@media(max-width:1100px)]:-ml-[var(--life-gutter)]" data-life-eat-lead>
+        <div class={`${photo} aspect-[16/9.6] [@media(max-width:720px)]:aspect-[4/5]`} data-life-reveal>
+          <div class="absolute inset-0" data-life-reveal-scale>
+            <Image image={images.bbq} class="h-full! w-full! object-cover object-[42%_62%]" data-life-image-drift />
+          </div>
+        </div>
+        <figcaption class={`${meta} flex justify-between pt-[14px] pr-[var(--life-gutter)] [@media(max-width:720px)]:flex-col [@media(max-width:720px)]:gap-1 [@media(max-width:720px)]:px-[var(--life-gutter)] [@media(max-width:720px)]:pt-3`}><span>みんなで食卓を囲む、ランチの時間。</span></figcaption>
+      </figure>
+    </div>
+
+    <div class={`${grid} relative z-3 mt-[150px] items-start [@media(max-width:720px)]:mt-[72px]`} data-life-eat-row>
+      <div class="col-start-1 col-end-4 [@media(max-width:1100px)]:col-end-6 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[62%]" data-life-eat-detail>
+        <div class={`${photo} aspect-square`}>
+          <div class="h-full w-full origin-[78%_40%] scale-125" data-life-image-scale><Image image={images.seiro} class="h-full! w-full! object-cover object-[78%_40%]" /></div>
+        </div>
+        <div class="mt-4"><span class={meta}>野菜を囲むランチ</span><p class="m-0 mt-[6px] text-sm font-bold tracking-[0.04em] leading-[1.9]">一緒に食べる時間が、会話のきっかけに。</p></div>
+      </div>
+      <div class="col-start-5 col-end-10 m-0 mt-10 [@media(max-width:1100px)]:col-start-7 [@media(max-width:1100px)]:col-end-13 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:mt-12" data-life-eat-quote>
+        <figure class="m-0 mb-7 w-full max-w-[360px]" data-life-eat-group><div class={`${photo} aspect-[4/3]`} data-life-reveal><Image image={images.lunchGroup} class="h-full! w-full! object-cover" /></div></figure>
+        <p class="m-0 mb-[18px] text-[clamp(20px,1.8vw,26px)] font-bold leading-[1.7] tracking-[0.05em]">一緒に食べる。<br />気軽に話す。<br />同じ時間を過ごす。</p>
+
+      </div>
+      <figure class="col-start-10 col-end-13 m-0 [@media(max-width:1100px)]:col-start-7 [@media(max-width:1100px)]:mt-10 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[66%] [@media(max-width:720px)]:justify-self-end" data-life-eat-katsuo>
+        <div class={`${photo} aspect-[3/4]`} data-life-reveal>
+          <div class="h-full w-full origin-[76%_80%] scale-125" data-life-image-scale><Image image={images.katsuo} class="h-full! w-full! object-cover object-[76%_80%]" /></div>
+        </div>
+      </figure>
+    </div>
+    <div class={`${grid} mt-20 items-start gap-y-10 [@media(max-width:720px)]:mt-14`} data-life-eat-food>
+      <figure class="col-start-1 col-end-8 m-0 [@media(max-width:720px)]:col-span-12" data-life-vegetables>
+        <div class={`${photo} aspect-[4/3]`} data-life-reveal><Image image={images.vegetables} class="h-full! w-full! object-cover object-[50%_45%]" /></div>
+        <figcaption class={`${meta} mt-3`}>毎月、会社に届く野菜。</figcaption>
+      </figure>
+      <figure class="col-start-9 col-end-12 m-0 [@media(max-width:720px)]:col-span-12 [@media(max-width:720px)]:w-[66%] [@media(max-width:720px)]:justify-self-end" data-life-egg>
+        <div class={`${photo} aspect-[4/5]`}><Image image={images.egg} class="h-full! w-full! object-cover object-[50%_80%]" /></div>
+        <figcaption class={`${meta} mt-2.5`}>日々の食事から。</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>

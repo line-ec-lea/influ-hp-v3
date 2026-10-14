@@ -14,5 +14,12 @@
   --color-gold-400: #b08a55;
   --color-line: rgb(255 255 255 / 0.09);
   --color-line-gold: rgb(176 138 85 / 0.3);
+  --color-life-ink: #f4f7f2;
+  --color-life-muted: #8f918d;
+  --color-life-gold: #c89a5b;
+  --color-life-line: #1f2120;
+  --color-life-line-strong: #2b2e2c;
+  --ease-life: cubic-bezier(0.16, 1, 0.3, 1);
+  --container-life: 1520px;
   --font-sans: var(--font-line-seed-jp), "LINE Seed JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", YuGothic, system-ui, sans-serif;
 }

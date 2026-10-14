@@ -1,0 +1,71 @@
+---
+import { Image } from "emdash/ui";
+
+const pillars = [
+  {
+    title: "身体の健康",
+    href: "#move",
+    image: {
+      id: "wellbeing-move",
+      src: "/media/staff-wellbeing/wellbeing-move.jpg",
+      alt: "ミットを使ってキックボクシングを楽しむINFLUのスタッフ",
+      focalX: 0.25,
+      focalY: 0.5,
+    },
+    heading: "身体を動かす時間を、日々の中に。",
+    description: "毎週水曜日のキックボクシングや、バランスボールを使った運動。仲間とジムに行くこともあります。キックボクシングは参加無料で、どなたでも参加できます。",
+  },
+  {
+    title: "学びと成長",
+    href: "#growth",
+    image: {
+      id: "wellbeing-growth",
+      src: "/media/staff-wellbeing/wellbeing-growth.webp",
+      alt: "INFLUのエンジニアが使う、ノートパソコンを置いたデスク",
+      focalX: 0.5,
+      focalY: 0.88,
+    },
+    heading: "学びを支える、日々のやりとり。",
+    description: "コードの読み方や、考えの伝え方を学ぶ日々。気軽に質問できる関係を、あるスタッフの体験談からご紹介します。",
+  },
+  {
+    title: "人とのつながり",
+    href: "#eat",
+    image: {
+      id: "connection-group",
+      src: "/media/staff-wellbeing/connection-group.jpg",
+      alt: "ボクシングクラブの前で笑顔で集まるINFLUのメンバー",
+    },
+    heading: "一緒に食べて、言葉を交わす。",
+    description: "毎月、会社に届く野菜。月に2回のランチ会や、みんなで集まる食事会があります。同じ食卓で食べ、話す時間も、私たちの日常の一部です。",
+  },
+];
+---
+
+<section id="wellbeing" aria-labelledby="wellbeing-title" class="relative z-1 py-[120px] [@media(max-width:720px)]:py-20" data-life-wellbeing>
+  <div class="mx-auto max-w-life px-[var(--life-gutter)]">
+    <p class="m-0 pt-6 text-xs font-bold tracking-[0.12em] text-life-gold">INFLUのウェルビーイング</p>
+    <div class="mt-10 grid grid-cols-12 items-end gap-x-[var(--life-gutter)] gap-y-8 [@media(max-width:900px)]:mt-8">
+      <h2 id="wellbeing-title" class="col-span-7 m-0 text-[clamp(30px,3.8vw,56px)] font-bold leading-[1.5] tracking-[0.04em] [@media(max-width:900px)]:col-span-12">
+        <span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">からだが弾む。</span></span>
+        <span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">心がほどける。</span></span>
+        <span class="block -mb-[0.08em] overflow-hidden pb-[0.08em]" data-life-line><span class="block">笑顔がつながる。</span></span>
+      </h2>
+      <p class="col-span-5 m-0 max-w-[32em] text-[15px] leading-[2] tracking-[0.04em] text-life-ink/90 [@media(max-width:900px)]:col-span-12">身体を動かす。食卓を囲む。仲間に教わりながら学ぶ。INFLUのウェルビーイングを、日々の取り組みと、あるスタッフの体験談からご紹介します。仕事中の服装は、自由に選べます。</p>
+    </div>
+    <div class="mt-14 grid grid-cols-3 gap-x-[var(--life-gutter)] gap-y-8 [@media(max-width:900px)]:grid-cols-1">
+      {pillars.map(pillar => (
+        <a href={pillar.href} aria-label={pillar.title} class="block pt-6" data-life-pillar>
+          <h3 class="m-0 text-lg font-bold tracking-[0.06em] text-life-gold">{pillar.title}</h3>
+          <div class="mt-5 aspect-[4/3] overflow-hidden bg-elevated" data-life-reveal>
+            <div class="h-full w-full" data-life-reveal-scale>
+              <Image image={pillar.image} class="h-full! w-full! object-cover" />
+            </div>
+          </div>
+          <p class="m-0 mt-5 text-[17px] font-bold leading-[1.8] tracking-[0.03em]">{pillar.heading}</p>
+          <p class="m-0 mt-3 text-sm leading-[2] tracking-[0.04em] text-life-ink/90">{pillar.description}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

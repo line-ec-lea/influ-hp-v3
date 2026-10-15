@@ -25,13 +25,34 @@ The desktop backdrop fills the screen. The mobile frame uses a 4:3 shape to
 reduce enlargement and keep more of the wide scene visible; posters and films
 use the same frame.
 
-Overview images:
+## Balance-ball background film
+
+`balance-ball.mp4` uses the full supplied
+`INFUL様　　バランスボール [keqX6whV2mY].mkv` (395 frames, approximately
+16.46 seconds). It retains the original 1920×1080 framing and 24 fps, with no
+crop, upscaling, speed changes, or color changes. The source is AV1 with Opus
+audio; the browser export is silent H.264 High Level 4.1, yuv420p, with faststart.
+
+Export options: `-map 0:v:0 -an -vf setsar=1 -c:v libx264 -preset slow
+-crf 20 -profile:v high -level:v 4.1 -refs 4 -pix_fmt yuv420p -movflags +faststart`.
+`balance-ball-poster.jpg` is extracted from the export at 0.5 seconds with
+`-frames:v 1 -q:v 2`.
+
+The shared fixed video stage crossfades from kickboxing to balance ball halfway
+through the physical-health horizontal story (or when the second panel is reached
+on mobile). Balance ball continues behind the learning chapter as background atmosphere;
+it is not footage of the 忍体心操術 workshop. The meal
+film enters with a diagonal transition for the social chapter; the toast film plays
+behind its closing links and the footer. Inactive films pause. The existing hero
+keeps its original framing; after the hero, all films fill the viewport.
+
+The stage retains silent looping, lazy loading, hidden-tab/page-suspension pauses,
+reduced-motion posters, and playback-error fallback. A pause/resume control appears
+after the hero. With JavaScript disabled, the kickboxing poster remains visible and
+all three chapters remain readable in normal document flow.
+
+Photo galleries are no longer rendered. The earlier image exports remain here as
+source assets:
 
 - `wellbeing-move.jpg`: extracted from `influ-kickboxing.mp4` at 34 seconds,
   with the boxing picture crop above and `-frames:v 1 -q:v 2`.
-- `wellbeing-growth.webp`: the existing engineering workspace photo from
-  https://influhp.com/staff-blog/staffreport-6588, downloaded on 2026-10-09.
-  EmDash media ID: `01M3TGJ90DN0P9CV7VSQ6978QM`. The downloaded rendition is
-  https://influhp.com/_image?href=https%3A%2F%2Finfluhp.com%2F_emdash%2Fapi%2Fmedia%2Ffile%2F01M3TGJ90DN0P9CV7VSQ6978QM.jpeg&w=2560&h=3413&f=webp&fit=cover&position=center
-  Only this selected site photo was acquired. It depicts a workspace, not
-  the author of the individual learning story or a guaranteed training program.

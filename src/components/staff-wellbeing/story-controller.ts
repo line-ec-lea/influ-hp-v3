@@ -1,4 +1,4 @@
-type Scene = "box" | "eat" | "toast";
+type Scene = "box" | "ball" | "eat" | "toast";
 type Layer = {
   key: Scene;
   element: HTMLElement;
@@ -17,7 +17,8 @@ export function mountStoryVideo(story: HTMLElement) {
   const progress = story.querySelector<HTMLElement>("[data-life-progress]")!;
   const chapterNumber = progress.querySelector<HTMLElement>("[data-life-progress-number]")!;
   const chapterName = progress.querySelector<HTMLElement>("[data-life-progress-name]")!;
-  const chapters = [["01", "Vitality", "move"], ["02", "食卓から、つながる。", "eat"], ["03", "学びと成長", "growth"]] as const;
+  const toggle = story.querySelector<HTMLButtonElement>("[data-life-video-toggle]")!;
+  const chapters = [["01", "身体の健康", "move"], ["02", "学びと気づき", "mind"], ["03", "人とのつながり", "eat"]] as const;
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   const events = new AbortController();
   const layers: Layer[] = Array.from(stage.querySelectorAll<HTMLElement>("[data-life-scene-layer]"), element => {
@@ -26,29 +27,21 @@ export function mountStoryVideo(story: HTMLElement) {
     return { key: element.dataset.lifeSceneLayer as Scene, element, video, loaded: false, pending: false, blocked: false, failed: false, request: 0 };
   });
   const anchors = {
-    title: "[data-life-opening]", move: "#move", hseq: "[data-life-hseq]",
-    b1: "#bridge-move-eat", eat: "#eat", efilm: "[data-life-eat-film]",
-    elead: "[data-life-eat-lead]",
-    growth: "#growth", cl: "[data-life-closing]", end: "[data-life-story-end]",
+    title: "[data-life-opening]", move: "#move", ball: "[data-life-move-body]",
+    mind: "#mind", eat: "#eat", cl: "[data-life-closing]", end: "[data-life-story-end]",
   };
   const elements = Object.fromEntries(Object.entries(anchors).map(([key, selector]) => [key, story.querySelector<HTMLElement>(selector)!]));
-  const hseq = elements.hseq;
+  const hseq = elements.move;
   const pin = hseq.querySelector<HTMLElement>("[data-life-hseq-pin]")!;
   const track = hseq.querySelector<HTMLElement>("[data-life-hseq-track]")!;
   hseq.setAttribute("data-life-horizontal", "");
-  const crops = Array.from(story.querySelectorAll<HTMLImageElement>("[data-life-image-drift]"), image => {
-    const [x, y] = getComputedStyle(image).objectPosition.split(" ");
-    return { image, x, y: Number.parseFloat(y) };
-  });
   let horizontalEnabled = false, horizontalTravel = 0;
   let ranges: Record<string, [number, number]> = {};
-  let shades: [number, number][] = [];
-  let scenes: [number, Scene][] = [];
   let current: Scene = "box", shade = 0.86, inStory = false;
-  let frame = 0, needsMeasure = true, suspended = false, disposed = false;
+  let frame = 0, needsMeasure = true, suspended = false, disposed = false, paused = false;
   const fades = new Map<Scene, ReturnType<typeof setTimeout>>();
   const active = () => layers.find(layer => layer.key === current)!;
-  const wantsPlayback = (layer: Layer) => layer.key === current && !preference.matches && !document.hidden && !suspended && !disposed && inStory && !layer.failed && !layer.blocked;
+  const wantsPlayback = (layer: Layer) => layer.key === current && !paused && !preference.matches && !document.hidden && !suspended && !disposed && inStory && !layer.failed && !layer.blocked;
 
   function sync() {
     for (const layer of layers) {
@@ -102,8 +95,9 @@ export function mountStoryVideo(story: HTMLElement) {
   function setScene(key: Scene) {
     if (key === current) return;
     const outgoing = active();
-    const diagonal = (current === "box" && key === "eat") || (current === "eat" && key === "box");
-    const forward = current === "box";
+    const forward = current === "box" || current === "ball";
+    const returningToExercise = key === "box" || key === "ball";
+    const diagonal = (forward && key === "eat") || (current === "eat" && returningToExercise);
     current = key;
     if (preference.matches) { settleLayers(); return; }
     const incoming = active();
@@ -138,93 +132,53 @@ export function mountStoryVideo(story: HTMLElement) {
   }
 
   function measure() {
-    const H = innerHeight;
-    // Measure the BBQ's layout box, never its previous translated box. This also
-    // keeps the shade keyframe stable when images/fonts/viewport trigger measurement.
-    elements.elead.style.removeProperty("transform");
     ranges = Object.fromEntries(Object.entries(elements).map(([key, element]) => {
       const bounds = element.getBoundingClientRect();
       return [key, [bounds.top + scrollY, bounds.bottom + scrollY]];
     }));
     horizontalEnabled = !preference.matches && getComputedStyle(pin).position === "sticky";
     horizontalTravel = horizontalEnabled ? Math.max(0, track.scrollWidth - pin.clientWidth) : 0;
-    const R = ranges;
-    // Exact reference keyframes: viewport-centre position and film shade.
-    shades = [[0,.08],[R.title[1]-H*.3,.2],[R.move[0]+H*.35,.34],[R.hseq[0]+H*.4,.6],[R.hseq[1]-H*.4,.6],[R.move[1]-H*.6,.44],
-      [R.b1[0]+H*.45,.14],[R.eat[0]+H*.3,.18],[R.efilm[1]-H*.35,.26],[R.elead[0]+H*.15,.86],[R.eat[1]-H*.5,.9],
-      [R.growth[0]+H*.5,.9],[R.growth[1]-H*.5,.92],[R.cl[0]+H*.3,.44],[R.cl[1]-H*.25,.4],[R.end[1],footer ? .4 : 1]];
-    for (let i = 1; i < shades.length; i++) if (shades[i][0] <= shades[i-1][0]) shades[i][0] = shades[i-1][0] + 1;
-    scenes = [[R.b1[0]+H*.15,"box"],[R.cl[0]-H*.1,"eat"],[Infinity,"toast"]];
-  }
-
-  function shadeAt(y: number) {
-    if (y <= shades[0][0]) return shades[0][1];
-    for (let i = 1; i < shades.length; i++) {
-      const [x, value] = shades[i], [previousX, previousValue] = shades[i-1];
-      if (y <= x) {
-        const fraction = (y - previousX) / (x - previousX);
-        const eased = fraction * fraction * (3 - 2 * fraction);
-        return previousValue + (value - previousValue) * eased;
-      }
-    }
-    return shades[shades.length-1][1];
-  }
-
-  function resetComposition() {
-    elements.elead.style.removeProperty("transform");
-    crops.forEach(({ image }) => image.style.removeProperty("object-position"));
-  }
-
-  function updateComposition() {
-    if (preference.matches) { resetComposition(); return; }
-    const H = innerHeight;
-    const top = ranges.elead[0] - scrollY;
-    const progress = Math.min(1, Math.max(0, (H - top) / (H * .75)));
-    const remaining = Math.pow(1 - progress, 3);
-    const mobile = innerWidth <= 720;
-    const amount = mobile ? .4 : 1;
-    if (progress >= 1) elements.elead.style.removeProperty("transform");
-    else elements.elead.style.setProperty("transform", `translate3d(${(remaining * 12 * amount).toFixed(2)}vw,${(remaining * 18 * amount).toFixed(2)}vh,0)`);
-    if (mobile) {
-      crops.forEach(({ image }) => image.style.removeProperty("object-position"));
-      return;
-    }
-    for (const { image, x, y } of crops) {
-      const bounds = image.getBoundingClientRect();
-      if (bounds.bottom < 0 || bounds.top > H) continue;
-      const offset = (bounds.top + bounds.height / 2 - H / 2) / H;
-      image.style.setProperty("object-position", `${x} ${Math.max(0, Math.min(100, y - offset * 7)).toFixed(1)}%`);
-    }
   }
 
   function update() {
     frame = 0;
     if (disposed) return;
     if (needsMeasure) { measure(); needsMeasure = false; }
-    if (horizontalEnabled) {
-      const distance = ranges.hseq[1] - ranges.hseq[0] - innerHeight;
-      const progress = distance > 0 ? Math.min(1, Math.max(0, (scrollY - ranges.hseq[0]) / distance)) : 0;
-      track.style.setProperty("--hx", (-progress * horizontalTravel).toFixed(1) + "px");
-    } else track.style.removeProperty("--hx");
-    updateComposition();
-    const y = scrollY + innerHeight * .5;
-    const showProgress = y >= ranges.move[0] && y < ranges.growth[1] - innerHeight * .3;
+    const H = innerHeight;
+    const distance = ranges.move[1] - ranges.move[0] - H;
+    const horizontalProgress = distance > 0 ? Math.min(1, Math.max(0, (scrollY - ranges.move[0]) / distance)) : 0;
+    if (horizontalEnabled) track.style.setProperty("--hx", (-horizontalProgress * horizontalTravel).toFixed(1) + "px");
+    else track.style.removeProperty("--hx");
+
+    const y = scrollY + H * .5;
+    const afterHero = scrollY >= ranges.title[1] - 1;
+    stage.toggleAttribute("data-after-hero", afterHero);
+    const showProgress = afterHero && y < ranges.cl[0];
     progress.toggleAttribute("data-visible", showProgress);
     if (showProgress) {
-      const chapter = chapters.findLast(([, , anchor]) => y >= ranges[anchor][0])!;
+      const chapter = chapters.findLast(([, , anchor]) => y >= ranges[anchor][0]) ?? chapters[0];
       if (chapterNumber.textContent !== chapter[0]) chapterNumber.textContent = chapter[0];
       if (chapterName.textContent !== chapter[1]) chapterName.textContent = chapter[1];
-      progress.style.setProperty("--pp", Math.min(1, Math.max(0, (y - ranges.move[0]) / (ranges.growth[1] - ranges.move[0]))).toFixed(4));
+      progress.style.setProperty("--pp", Math.min(1, Math.max(0, (y - ranges.move[0]) / (ranges.cl[0] - ranges.move[0]))).toFixed(4));
     }
-    // Fade the shared film darker across the overview between the opening and MOVE.
-    const overview = Math.max(0, Math.min(1,
-      (y - ranges.title[1]) / (innerHeight * .3),
-      (ranges.move[0] - y) / (innerHeight * .3),
-    ));
-    shade = Math.max(shadeAt(y), .78 * overview * overview * (3 - 2 * overview));
+    // Preserve the hero's original first two shade keyframes exactly.
+    const heroEnd = Math.max(1, ranges.title[1] - H * .3);
+    const fraction = Math.min(1, Math.max(0, y / heroEnd));
+    shade = afterHero ? .08 : .08 + .12 * fraction * fraction * (3 - 2 * fraction);
     stage.style.setProperty("--life-shade", shade.toFixed(3));
-    inStory = footer ? footer.getBoundingClientRect().bottom > 0 : scrollY < ranges.end[1] - innerHeight * .2;
-    setScene(scenes.find(([boundary]) => y < boundary)![1]);
+    inStory = footer ? footer.getBoundingClientRect().bottom > 0 : scrollY < ranges.end[1];
+    toggle.hidden = !afterHero || !inStory;
+    const stopped = paused || preference.matches;
+    toggle.disabled = preference.matches;
+    toggle.setAttribute("aria-pressed", String(stopped));
+    const label = preference.matches ? "静止画を表示" : paused ? "映像を再生 ▷" : "映像を止める Ⅱ";
+    if (toggle.textContent !== label) toggle.textContent = label;
+
+    let scene: Scene = (horizontalEnabled ? horizontalProgress > .5 : y >= ranges.ball[0]) ? "ball" : "box";
+    if (y >= ranges.mind[0]) scene = "ball";
+    if (y >= ranges.eat[0]) scene = "eat";
+    if (y >= ranges.cl[0]) scene = "toast";
+    setScene(scene);
     stage.dataset.lifeActiveScene = current;
     sync();
   }
@@ -246,11 +200,15 @@ export function mountStoryVideo(story: HTMLElement) {
     }, { signal: events.signal });
     layer.video.addEventListener("canplay", sync, { signal: events.signal });
   });
+  toggle.addEventListener("click", () => {
+    paused = !paused;
+    if (!paused) active().blocked = false;
+    schedule();
+  }, { signal: events.signal });
   preference.addEventListener("change", () => {
     settleLayers();
     if (preference.matches) {
       layers.forEach(layer => layer.video.removeAttribute("data-ready"));
-      resetComposition();
     }
     schedule(true);
     sync();
@@ -279,9 +237,10 @@ export function mountStoryVideo(story: HTMLElement) {
     observer.disconnect();
     hseq.removeAttribute("data-life-horizontal");
     track.style.removeProperty("--hx");
-    resetComposition();
     progress.removeAttribute("data-visible");
     progress.style.removeProperty("--pp");
+    stage.removeAttribute("data-after-hero");
+    toggle.hidden = true;
     layers.forEach(layer => layer.element.removeAttribute("data-diagonal"));
     cancelAnimationFrame(frame);
     fades.forEach(clearTimeout);
@@ -293,9 +252,8 @@ export function mountStoryVideo(story: HTMLElement) {
 export function mountStoryReveals(story: HTMLElement) {
   const preference = matchMedia("(prefers-reduced-motion: reduce)");
   if (typeof IntersectionObserver === "undefined" || preference.matches) return () => {};
-  const targets = Array.from(story.querySelectorAll<HTMLElement>("[data-life-line], [data-life-reveal]"));
-  // Observe the unmasked parent; a fully clipped image cannot intersect on its own.
-  const pending = new Map(targets.map(target => [target.hasAttribute("data-life-reveal") ? target.parentElement! : target, target]));
+  const targets = Array.from(story.querySelectorAll<HTMLElement>("[data-life-line], [data-life-fade]"));
+  const pending = new Map(targets.map(target => [target, target]));
   const observer = new IntersectionObserver(entries => {
     for (const entry of entries) if (entry.isIntersecting) reveal(entry.target as HTMLElement);
   }, { threshold: .12 });

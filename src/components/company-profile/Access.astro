@@ -1,7 +1,5 @@
 ---
-import CinematicSection from "@shared/CinematicSection.astro";
-import Container from "@shared/Container.astro";
-import CinematicReveal from "@shared/CinematicReveal.astro";
+import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
 const IMG = "/influhp-assets/wp-content/themes/top/images"
 
 const MAP_EMBED_SRC =
@@ -45,138 +43,36 @@ const accessLines = [
   "Osaka Metro 鶴見緑地線「西大橋」駅　2番出口 徒歩6分",
 ]
 ---
-<CinematicSection>
-<section
-        id="a02"
-        class="scroll-mt-24 bg-[#15130F] md:scroll-mt-28"
-        aria-labelledby="access-title"
-      >
-        <Container class="py-20 md:py-28 lg:py-32">
-          <CinematicReveal class="grid gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(28rem,1.18fr)] lg:items-end">
-            <div>
-              <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
-                ACCESS
-              </p>
-              <h2
-                id="access-title"
-                class="mt-4 text-4xl font-bold leading-tight tracking-[-0.045em] text-[#F5F1E8] sm:text-5xl lg:text-6xl"
-              >
-                INFLUのオフィス
-              </h2>
-            </div>
-          </CinematicReveal>
+<section id="a02" aria-labelledby="access-title" class="scroll-mt-24 border-t border-[#060606]/14 bg-[#f4f7f2] px-[var(--profile-gutter)] py-[clamp(60px,10svh,120px)] text-[#060606]">
+  <div class="grid gap-[clamp(24px,4vw,64px)] min-[900px]:grid-cols-[4fr_8fr]">
+    <div><CompanySectionLabel light>ACCESS</CompanySectionLabel><h2 id="access-title" class="mt-[22px] text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">INFLUのオフィス</h2></div>
+    <div class="min-w-0">
+      <div class="grid gap-[clamp(24px,3vw,48px)] min-[900px]:grid-cols-2">
+        <div>
+          <p class="mb-2.5 text-xs font-bold tracking-[0.16em] text-[#060606]/80">OFFICE</p>
+          <address class="text-base not-italic leading-[1.9]">〒550-0013<br />大阪府大阪市西区新町1丁目8-3<br />林四ツ橋ビル9階901号室</address>
+          <a href="https://www.google.com/maps/search/?api=1&query=%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BEINFLU" target="_blank" rel="noopener noreferrer" class="mt-[18px] inline-block border-b border-[#060606]/14 text-sm font-semibold hover:border-[#c89a5b]">Google Mapsで開く ↗</a>
+        </div>
+        <div><p class="mb-2.5 text-xs font-bold tracking-[0.16em] text-[#060606]/80">STATION</p><ul>{accessLines.map((line) => <li class="border-b border-[#060606]/14 py-2.5 text-base">{line}</li>)}</ul></div>
+      </div>
+      <iframe title="株式会社INFLU 地図" src={MAP_EMBED_SRC} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen class="mt-[clamp(24px,4svh,48px)] h-[clamp(280px,46svh,460px)] w-full border-0 bg-[#e6e9e4] grayscale contrast-95"></iframe>
+      <figure class="mt-[clamp(24px,4svh,48px)] aspect-[4/3] overflow-hidden bg-[#e6e9e4] min-[900px]:w-[calc(50%-16px)]"><img src={`${IMG}/access01.png`} alt="株式会社INFLUが入る林四ツ橋ビルの案内" loading="lazy" decoding="async" class="h-full w-full object-cover" /></figure>
+      <details class="group mt-[clamp(40px,8svh,80px)] border-t border-[#060606]/14">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-[26px] [&::-webkit-details-marker]:hidden">
+          <span class="grid gap-1"><span class="text-xs font-bold tracking-[0.16em] text-[#060606]/80">ROUTE GUIDE</span><span class="text-xl font-bold">四ツ橋駅からの来社ルート</span><span class="text-sm text-[#060606]/80">四ツ橋駅から徒歩でお越しの場合の目印です。必要な方のみ、順番にご確認ください。</span></span>
+          <span class="text-[28px] font-bold text-[#c89a5b] group-open:rotate-45" aria-hidden="true">+</span>
+        </summary>
+        <ol class="grid grid-cols-1 gap-x-3.5 gap-y-[22px] pb-10 pt-2 min-[400px]:grid-cols-2 min-[900px]:grid-cols-[repeat(auto-fill,minmax(200px,1fr))] min-[900px]:gap-x-5 min-[900px]:gap-y-7">
+          {routeSlides.map((step, index) => (
+            <li><figure class="aspect-[4/3] overflow-hidden bg-[#e6e9e4]"><img src={`${IMG}/${step.file}`} alt={step.caption} loading="lazy" decoding="async" class="h-full w-full object-cover" /></figure><p class="mb-1.5 mt-3.5 text-xs font-bold tracking-[0.16em] text-[#060606]/80">STEP {String(index + 1).padStart(2, "0")}</p><p class="text-sm leading-[1.9]">{step.caption}</p></li>
+          ))}
+        </ol>
+      </details>
+    </div>
+  </div>
+</section>
 
-          <div class="mt-14 grid gap-12 lg:mt-16 lg:grid-cols-[minmax(16rem,0.48fr)_minmax(0,1.52fr)] lg:gap-14">
-            <CinematicReveal class="flex flex-col justify-between py-2">
-              <div>
-                <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
-                  OFFICE
-                </p>
-                <address class="mt-5 not-italic text-lg font-bold leading-8 tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl sm:leading-10">
-                  〒550-0013
-                  <br />
-                  大阪府大阪市西区新町1丁目8-3
-                  <br />
-                  林四ツ橋ビル9階901号室
-                </address>
-              </div>
-              <ul class="mt-10 space-y-4 border-t border-[rgba(224,197,132,0.24)] pt-6">
-                {accessLines.map((line) => (
-                  <li
-                    class="flex gap-4 text-sm font-bold leading-7 text-[#CFC8BC] sm:text-base"
-                  >
-                    <span
-                      class="mt-3 h-px w-7 shrink-0 bg-[#E0C584]"
-                      aria-hidden="true"
-                    />
-                    {line}
-                  </li>
-                ))}
-              </ul>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=%E6%A0%AA%E5%BC%8F%E4%BC%9A%E7%A4%BEINFLU"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group mt-10 inline-flex w-fit items-center gap-3 border-b border-[#E0C584]/70 pb-3 text-sm font-bold text-[#FFF1C7] transition-colors hover:border-[#FFF1C7] hover:text-[#FFFDF7]"
-              >
-                Google Mapsで開く
-                <span
-                  class="text-xl transition-transform duration-300 group-hover:translate-x-1"
-                  aria-hidden="true"
-                >
-                  ↗
-                </span>
-              </a>
-            </CinematicReveal>
-
-            <div class="grid gap-6 sm:grid-cols-2">
-              <CinematicReveal
-                delay={0.08}
-                class="relative aspect-[4/5] overflow-hidden border-y border-[rgba(224,197,132,0.3)] bg-[#090909]"
-              >
-                <img
-                  src={`${IMG}/access01.png`}
-                  alt="株式会社INFLUが入る林四ツ橋ビルの案内"
-                  class="absolute inset-0 h-full w-full object-cover object-center"
-                  sizes="(min-width: 1024px) 28vw, (min-width: 640px) 50vw, 100vw" loading="lazy" decoding="async" />
-              </CinematicReveal>
-              <CinematicReveal
-                delay={0.14}
-                class="relative aspect-[4/5] overflow-hidden border-y border-[rgba(224,197,132,0.3)]"
-              >
-                <iframe
-                  title="株式会社INFLU 地図"
-                  src={MAP_EMBED_SRC}
-                  class="absolute inset-0 h-full w-full"
-                  loading="lazy"
-                  allowfullscreen
-                />
-              </CinematicReveal>
-            </div>
-          </div>
-
-          <details class="group mt-16 border-y border-[rgba(224,197,132,0.25)] lg:mt-24">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-5 py-6 text-left outline-none transition-colors hover:text-[#FFF1C7] focus-visible:ring-2 focus-visible:ring-[#E0C584] focus-visible:ring-inset sm:py-8">
-              <span>
-                <span class="block text-xs font-bold tracking-[0.16em] text-[#E0C584] uppercase">
-                  ROUTE GUIDE
-                </span>
-                <span class="mt-2 block text-xl font-bold tracking-[-0.02em] text-[#F5F1E8] sm:text-2xl">
-                  四ツ橋駅からの来社ルートを見る
-                </span>
-              </span>
-              <span
-                class="text-3xl font-light text-[#E0C584] transition-transform duration-300 group-open:rotate-45"
-                aria-hidden="true"
-              >
-                +
-              </span>
-            </summary>
-            <div class="pb-10 sm:pb-14">
-              <p class="max-w-2xl text-sm leading-8 text-[#CFC8BC] sm:text-base">
-                四ツ橋駅から徒歩でお越しの場合の目印です。必要な方のみ、順番にご確認ください。
-              </p>
-              <ol class="mt-8 grid gap-7 md:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-                {routeSlides.map((step, index) => (
-                  <li class="group/route">
-                    <div class="relative aspect-[16/10] overflow-hidden bg-[#090909]">
-                      <img
-                        src={`${IMG}/${step.file}`}
-                        alt={step.caption}
-                        class="absolute inset-0 h-full w-full object-cover brightness-[0.8] saturate-[0.82] transition duration-500 group-hover/route:scale-[1.025]"
-                        sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw" loading="lazy" decoding="async" />
-                      <span class="absolute left-4 top-4 text-xl font-bold leading-none text-[#FFF1C7]">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                    </div>
-                    <p class="mt-4 text-sm font-bold leading-7 text-[#CFC8BC]">
-                      {step.caption}
-                    </p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </details>
-        </Container>
-      </section>
-</CinematicSection>
+<script>
+  import { accessMotion } from "./profile-motion";
+  accessMotion(document.querySelector<HTMLElement>("#a02"));
+</script>

@@ -5,6 +5,7 @@ export const routes = {
   aiHomepage: "/ai-homepage",
   axSupport: "/ax-support",
   staffBlog: "/staff-blog/page/1",
+  staffWellbeing: "/staff-wellbeing",
   companyAchievements: "/company-achievements/page/1",
   usefulMaterials: "/useful-materials/page/1",
   privacyPolicy: "/privacy-policy",

@@ -34,7 +34,7 @@ const isActive = (item: { href: string }) => {
   return pathname === item.href || pathname === basePath || pathname.startsWith(basePath + "/");
 };
 const isServiceMenuActive = serviceMenuItems.some(isActive);
-const navItems = siteNavItems
+const navItems = [...siteNavItems, { href: routes.staffWellbeing, label: "福利厚生" }]
   .filter((item) => item.href !== routes.aiHomepage && item.href !== routes.axSupport)
   .map((item) => {
     const active = isActive(item);

@@ -1,47 +1,61 @@
 ---
-import Container from "@shared/Container.astro";
-import SpecularButton from "@shared/SpecularButton.astro";
-import ParticleBackground from "./ParticleBackground.astro";
-import { CONTACT_FORM_HREF } from "@shared/features/contact";
+import Container from "@shared/Container.astro"
+import { CONTACT_FORM_HREF } from "@shared/features/contact"
+import SpecularButton from "@shared/SpecularButton.astro"
+import ParticleBackground from "./ParticleBackground.astro"
 ---
-  <section class="relative isolate overflow-hidden bg-[#0B0B0B] font-sans text-[#F5F1E8]" aria-labelledby="business-heading">
-    <ParticleBackground />
-    <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-b from-[#0B0B0B] via-[#0B0B0B]/45 to-transparent lg:bg-linear-to-r lg:from-[#0B0B0B] lg:via-[#0B0B0B]/45 lg:to-transparent" />
-    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-page to-transparent" />
-    <Container class="relative flex items-start pb-16 pt-32 sm:pt-36 lg:min-h-[680px] lg:items-center lg:pb-16 lg:pt-36">
-      <div class="relative z-10 min-w-0 lg:max-w-[55%]">
-        <p class="text-xs font-bold tracking-[0.16em] text-gold-300 uppercase">BUSINESS ARCHITECTURE</p>
 
-        <h1
-          id="business-heading"
-          class="mt-5 text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] sm:mt-6 lg:text-[clamp(3rem,5vw,4.75rem)]"
-        >
-          <span class="block">企業の仕組みを、</span>
-          <span class="block">次の時代へ。</span>
-        </h1>
+<section
+  class="relative isolate overflow-hidden bg-[#0B0B0B] font-sans text-[#F5F1E8]"
+  aria-labelledby="business-heading"
+>
+  <ParticleBackground />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-linear-to-b from-[#0B0B0B] via-[#0B0B0B]/45 to-transparent lg:bg-linear-to-r lg:from-[#0B0B0B] lg:via-[#0B0B0B]/45 lg:to-transparent"
+  />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-page to-transparent"
+  />
+  <Container
+    class="relative flex items-start pb-16 pt-32 sm:pt-36 lg:min-h-[680px] lg:items-center lg:pb-16 lg:pt-36"
+  >
+    <div class="relative z-10 min-w-0 lg:max-w-[55%]">
+      <p class="text-xs font-bold tracking-[0.16em] text-gold-300 uppercase">
+        BUSINESS ARCHITECTURE
+      </p>
 
-        <div class="mt-6 max-w-[36rem] sm:mt-8">
-          <p class="text-pretty text-base font-normal leading-[1.9] text-[#F5F1E8]/90">
-            ホームページ、業務、マーケティング。
-            <br class="hidden sm:block" />
-            それぞれを分断せず、AIと人がともに動ける仕組みへ整えます。
-          </p>
-          <p class="mt-4 hidden text-pretty text-base leading-[1.9] text-[#B8B1A3] sm:block">
-            「HPのAI化」と「AX・業務効率化支援」を中心に、企業が自社で運用・改善できる状態への移行を支援します。
-          </p>
-        </div>
+      <h1
+        id="business-heading"
+        class="mt-5 text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] sm:mt-6 lg:text-[clamp(3rem,5vw,4.75rem)]"
+      >
+        <span class="block">企業の仕組みを、</span>
+        <span class="block">次の時代へ。</span>
+      </h1>
 
-        <div class="mt-8">
-          <SpecularButton
-            mobileEffect
-            class="bg-transparent! shadow-none!"
-            href={CONTACT_FORM_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            事業について相談する
-          </SpecularButton>
-        </div>
+      <div class="mt-6 max-w-[36rem] sm:mt-8">
+        <p class="text-pretty text-base font-normal leading-[1.9] text-[#F5F1E8]/90">
+          ホームページ、業務、マーケティング。
+          <br class="hidden sm:block">
+          それぞれを分断せず、AIと人がともに動ける仕組みへ整えます。
+        </p>
+        <p class="mt-4 hidden text-pretty text-base leading-[1.9] text-[#B8B1A3] sm:block">
+          「HPのAI化」と「AX・業務効率化支援」を中心に、企業が自社で運用・改善できる状態への移行を支援します。
+        </p>
       </div>
-    </Container>
-  </section>
+
+      <div class="mt-8">
+        <SpecularButton
+          mobileEffect
+          class="bg-transparent! shadow-none!"
+          href={CONTACT_FORM_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          事業について相談する
+        </SpecularButton>
+      </div>
+    </div>
+  </Container>
+</section>

@@ -1,5 +1,6 @@
 ---
-import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
+import CompanySectionLabel from "@shared/CompanySectionLabel.astro"
+
 const supportPrinciples = [
   {
     title: "小さく始めて、確かめながら進める",
@@ -23,24 +24,57 @@ const supportPrinciples = [
   },
 ]
 ---
-<section id="support" aria-labelledby="support-title" class="group/profile-support scroll-mt-24 bg-section px-[var(--profile-gutter)] py-[clamp(110px,18svh,220px)]">
+
+<section
+  id="support"
+  aria-labelledby="support-title"
+  class="group/profile-support scroll-mt-24 bg-section px-[var(--profile-gutter)] py-[clamp(110px,18svh,220px)]"
+>
   <div class="grid items-start gap-[clamp(32px,6vw,120px)] min-[900px]:grid-cols-[5fr_6fr]">
-    <div data-profile-support-intro class="group-data-[motion-desktop]/profile-support:sticky group-data-[motion-desktop]/profile-support:top-[14vh]">
+    <div
+      data-profile-support-intro
+      class="group-data-[motion-desktop]/profile-support:sticky group-data-[motion-desktop]/profile-support:top-[14vh]"
+    >
       <CompanySectionLabel>SUPPORT POLICY</CompanySectionLabel>
-      <h2 id="support-title" class="mb-6 mt-[26px] text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">支援の先に、<br />自走を。</h2>
-      <p class="max-w-[34em] text-foreground/80">私たちが目指すのは、支援がなくても改善を続けられる状態です。現場と一緒に考え、試し、運用できる力を企業の中に残します。</p>
-      <div class="mt-[clamp(40px,8svh,90px)] grid grid-cols-[1px_minmax(0,1fr)] gap-x-7 gap-y-3 border-t border-[#f4f7f2]/12 pt-7" data-profile-support-meter>
-        <span class="relative row-span-3 bg-[#f4f7f2]/12" aria-hidden="true"><span data-profile-support-progress class="absolute inset-0 origin-top bg-[#c89a5b]"></span></span>
+      <h2
+        id="support-title"
+        class="mb-6 mt-[26px] text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]"
+      >
+        支援の先に、<br>自走を。
+      </h2>
+      <p class="max-w-[34em] text-foreground/80">
+        私たちが目指すのは、支援がなくても改善を続けられる状態です。現場と一緒に考え、試し、運用できる力を企業の中に残します。
+      </p>
+      <div
+        class="mt-[clamp(40px,8svh,90px)] grid grid-cols-[1px_minmax(0,1fr)] gap-x-7 gap-y-3 border-t border-[#f4f7f2]/12 pt-7"
+        data-profile-support-meter
+      >
+        <span class="relative row-span-3 bg-[#f4f7f2]/12" aria-hidden="true"
+          ><span
+            data-profile-support-progress
+            class="absolute inset-0 origin-top bg-[#c89a5b]"
+          ></span></span
+        >
         <p class="text-xs font-bold tracking-[0.16em] text-foreground/70">INFLU SUPPORT</p>
-        <p class="text-[clamp(30px,4.6vw,72px)] font-bold leading-[1.2] tracking-[-0.03em]"><span data-profile-support-from>伴走</span><span class="mx-[0.2em] text-[#c89a5b]" aria-hidden="true">→</span><span data-profile-support-to>自走</span></p>
+        <p class="text-[clamp(30px,4.6vw,72px)] font-bold leading-[1.2] tracking-[-0.03em]">
+          <span data-profile-support-from>伴走</span
+          ><span class="mx-[0.2em] text-[#c89a5b]" aria-hidden="true">→</span
+          ><span data-profile-support-to>自走</span>
+        </p>
         <p class="text-foreground/80">一緒につくる支援から、自社で育てる力へ。</p>
       </div>
     </div>
-    <ol class="grid gap-[72px] pb-5 pt-6 min-[900px]:gap-[clamp(64px,18svh,200px)] min-[900px]:pb-[clamp(20px,10svh,120px)] min-[900px]:pt-[clamp(20px,8svh,100px)]">
+    <ol
+      class="grid gap-[72px] pb-5 pt-6 min-[900px]:gap-[clamp(64px,18svh,200px)] min-[900px]:pb-[clamp(20px,10svh,120px)] min-[900px]:pt-[clamp(20px,8svh,100px)]"
+    >
       {supportPrinciples.map((principle, index) => (
         <li>
-          <p class="text-[clamp(56px,6vw,104px)] font-bold leading-none text-foreground/70">{String(index + 1).padStart(2, "0")}</p>
-          <h3 class="mb-4 mt-[18px] text-balance text-xl font-bold leading-[1.5] tracking-[-0.01em] sm:text-2xl lg:text-[1.75rem]">{principle.title}</h3>
+          <p class="text-[clamp(56px,6vw,104px)] font-bold leading-none text-foreground/70">
+            {String(index + 1).padStart(2, "0")}
+          </p>
+          <h3 class="mb-4 mt-[18px] text-balance text-xl font-bold leading-[1.5] tracking-[-0.01em] sm:text-2xl lg:text-[1.75rem]">
+            {principle.title}
+          </h3>
           <p class="max-w-[28em] text-foreground/80">{principle.description}</p>
         </li>
       ))}
@@ -49,6 +83,7 @@ const supportPrinciples = [
 </section>
 
 <script>
-  import { supportMotion } from "./profile-motion";
-  supportMotion(document.querySelector<HTMLElement>("#support"));
+import { supportMotion } from "./profile-motion"
+
+supportMotion(document.querySelector<HTMLElement>("#support"))
 </script>

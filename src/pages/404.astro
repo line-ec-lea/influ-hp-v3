@@ -1,10 +1,14 @@
 ---
-import Company from "../layouts/Company.astro";
-import Message from "../components/not-found/Message.astro";
-import GeneralContact from "@shared/GeneralContact.astro";
+import GeneralContact from "@shared/GeneralContact.astro"
+import Message from "../components/not-found/Message.astro"
+import Company from "../layouts/Company.astro"
 ---
 
-<Company title="ページが見つかりません" description="お探しのページは移動または削除された可能性があります。" noindex>
+<Company
+  title="ページが見つかりません"
+  description="お探しのページは移動または削除された可能性があります。"
+  noindex
+>
   <Message />
   <GeneralContact />
 </Company>

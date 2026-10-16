@@ -30,6 +30,9 @@ jobs:
           bun scripts/check-dependency-sources.mjs
           bun install --frozen-lockfile
 
+      - name: Check formatting and lint
+        run: bun run check
+
       - name: Type check
         run: bun run typecheck
 

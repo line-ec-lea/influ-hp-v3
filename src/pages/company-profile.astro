@@ -1,16 +1,16 @@
 ---
-import Company from "../layouts/Company.astro";
-import ChapterMarker from "../components/company-profile/ChapterMarker.astro";
-import Hero from "../components/company-profile/Hero.astro";
-import CurrentDirection from "../components/company-profile/CurrentDirection.astro";
-import Message from "../components/company-profile/Message.astro";
-import Career from "../components/company-profile/Career.astro";
-import Experience from "../components/company-profile/Experience.astro";
-import SupportPolicy from "../components/company-profile/SupportPolicy.astro";
-import Philosophy from "../components/company-profile/Philosophy.astro";
-import CorporateInformation from "../components/company-profile/CorporateInformation.astro";
-import Access from "../components/company-profile/Access.astro";
-import Contact from "../components/company-profile/Contact.astro";
+import Access from "../components/company-profile/Access.astro"
+import Career from "../components/company-profile/Career.astro"
+import ChapterMarker from "../components/company-profile/ChapterMarker.astro"
+import Contact from "../components/company-profile/Contact.astro"
+import CorporateInformation from "../components/company-profile/CorporateInformation.astro"
+import CurrentDirection from "../components/company-profile/CurrentDirection.astro"
+import Experience from "../components/company-profile/Experience.astro"
+import Hero from "../components/company-profile/Hero.astro"
+import Message from "../components/company-profile/Message.astro"
+import Philosophy from "../components/company-profile/Philosophy.astro"
+import SupportPolicy from "../components/company-profile/SupportPolicy.astro"
+import Company from "../layouts/Company.astro"
 
 const metadata = {
   title: "会社概要",
@@ -18,8 +18,12 @@ const metadata = {
     "株式会社INFLUの会社概要、代表取締役 水戸亮太の経歴、企業理念、企業情報、アクセスをご案内します。",
 }
 ---
+
 <Company title={metadata.title} description={metadata.description}>
-  <div class="relative isolate bg-section font-sans text-base leading-[1.9] text-foreground [--profile-gutter:clamp(20px,5vw,88px)]" data-company-profile>
+  <div
+    class="relative isolate bg-section font-sans text-base leading-[1.9] text-foreground [--profile-gutter:clamp(20px,5vw,88px)]"
+    data-company-profile
+  >
     <p class="sr-only" role="status" data-profile-film-status></p>
     <Hero />
     <CurrentDirection />

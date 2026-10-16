@@ -1,10 +1,10 @@
 ---
-import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
+import CompanySectionLabel from "@shared/CompanySectionLabel.astro"
+
 const companyPhilosophy = {
   mission: {
     label: "ミッション",
-    headline:
-      "「誰もがクリエイティブなアイディアや商品やサービスをカンタンに届ける世界を創る」",
+    headline: "「誰もがクリエイティブなアイディアや商品やサービスをカンタンに届ける世界を創る」",
     body: "誰でも、自分の新しいアイディアや商品、サービスをカンタンに届けることができる世界を目指します。",
   },
   vision: {
@@ -25,40 +25,126 @@ const companyPhilosophy = {
   },
 } as const
 ---
-<section id="philosophy" aria-labelledby="philosophy-title" class="group/profile-philosophy relative scroll-mt-24 bg-section px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)]">
-  <div class="mx-auto grid max-w-[1440px] gap-16 min-[900px]:grid-cols-[0.9fr_1.1fr] min-[900px]:gap-[clamp(48px,6vw,96px)]">
-    <div data-profile-philosophy-head class="self-start group-data-[motion-desktop]/profile-philosophy:sticky group-data-[motion-desktop]/profile-philosophy:top-[clamp(96px,12svh,128px)]">
+
+<section
+  id="philosophy"
+  aria-labelledby="philosophy-title"
+  class="group/profile-philosophy relative scroll-mt-24 bg-section px-[var(--profile-gutter)] py-[clamp(96px,14svh,160px)]"
+>
+  <div
+    class="mx-auto grid max-w-[1440px] gap-16 min-[900px]:grid-cols-[0.9fr_1.1fr] min-[900px]:gap-[clamp(48px,6vw,96px)]"
+  >
+    <div
+      data-profile-philosophy-head
+      class="self-start group-data-[motion-desktop]/profile-philosophy:sticky group-data-[motion-desktop]/profile-philosophy:top-[clamp(96px,12svh,128px)]"
+    >
       <CompanySectionLabel>PHILOSOPHY</CompanySectionLabel>
-      <h2 id="philosophy-title" class="mb-8 mt-8 grid gap-[0.16em] text-[clamp(48px,5.8vw,92px)] font-bold leading-[1.12] tracking-[-0.02em]">
-        <span data-profile-philosophy-word class="block transition-colors duration-300 motion-reduce:transition-none">つくる。</span>
-        <span data-profile-philosophy-word class="block pl-[10%] transition-colors duration-300 motion-reduce:transition-none">届ける。</span>
-        <span data-profile-philosophy-word class="block pl-[20%] transition-colors duration-300 motion-reduce:transition-none">育てる。</span>
+      <h2
+        id="philosophy-title"
+        class="mb-8 mt-8 grid gap-[0.16em] text-[clamp(48px,5.8vw,92px)] font-bold leading-[1.12] tracking-[-0.02em]"
+      >
+        <span
+          data-profile-philosophy-word
+          class="block transition-colors duration-300 motion-reduce:transition-none"
+          >つくる。</span
+        >
+        <span
+          data-profile-philosophy-word
+          class="block pl-[10%] transition-colors duration-300 motion-reduce:transition-none"
+          >届ける。</span
+        >
+        <span
+          data-profile-philosophy-word
+          class="block pl-[20%] transition-colors duration-300 motion-reduce:transition-none"
+          >育てる。</span
+        >
       </h2>
-      <p class="max-w-[24em] text-pretty text-base leading-[1.95] tracking-normal text-foreground/75 min-[1200px]:text-lg">INFLUは、挑戦する人のアイデアを形にし、必要な人へ届け、その先で続いていく力を育てます。</p>
+      <p
+        class="max-w-[24em] text-pretty text-base leading-[1.95] tracking-normal text-foreground/75 min-[1200px]:text-lg"
+      >
+        INFLUは、挑戦する人のアイデアを形にし、必要な人へ届け、その先で続いていく力を育てます。
+      </p>
     </div>
 
     <div>
-      <article aria-labelledby="philosophy-mission" class="border-t border-[#c89a5b]/50 pb-16 pt-8 min-[900px]:flex min-[900px]:min-h-[62svh] min-[900px]:flex-col min-[900px]:justify-center min-[900px]:py-[clamp(48px,7svh,88px)]">
-        <div class="flex items-baseline justify-between gap-4"><p class="text-base font-bold text-foreground/75">つくる</p><p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">MISSION</p></div>
-        <h3 id="philosophy-mission" class="mb-6 mt-7 text-balance text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.65] tracking-[-0.01em]">{companyPhilosophy.mission.headline.split(/(クリエイティブ|アイディア|商品|サービス|カンタン)/).map((part, index) => <span class:list={{ "whitespace-nowrap": index % 2 === 1 }}>{part}</span>)}</h3>
-        <p class="max-w-[32em] text-pretty text-base leading-[1.95] tracking-normal text-foreground/80 min-[1200px]:text-lg">{companyPhilosophy.mission.body}</p>
+      <article
+        aria-labelledby="philosophy-mission"
+        class="border-t border-[#c89a5b]/50 pb-16 pt-8 min-[900px]:flex min-[900px]:min-h-[62svh] min-[900px]:flex-col min-[900px]:justify-center min-[900px]:py-[clamp(48px,7svh,88px)]"
+      >
+        <div class="flex items-baseline justify-between gap-4">
+          <p class="text-base font-bold text-foreground/75">つくる</p>
+          <p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">MISSION</p>
+        </div>
+        <h3
+          id="philosophy-mission"
+          class="mb-6 mt-7 text-balance text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.65] tracking-[-0.01em]"
+        >
+          {companyPhilosophy.mission.headline
+            .split(/(クリエイティブ|アイディア|商品|サービス|カンタン)/)
+            .map((part, index) => (
+              <span class:list={{ "whitespace-nowrap": index % 2 === 1 }}>{part}</span>
+            ))}
+        </h3>
+        <p
+          class="max-w-[32em] text-pretty text-base leading-[1.95] tracking-normal text-foreground/80 min-[1200px]:text-lg"
+        >
+          {companyPhilosophy.mission.body}
+        </p>
       </article>
-      <article aria-labelledby="philosophy-vision" class="border-t border-foreground/20 pb-16 pt-8 min-[900px]:flex min-[900px]:min-h-[62svh] min-[900px]:flex-col min-[900px]:justify-center min-[900px]:py-[clamp(48px,7svh,88px)]">
-        <div class="flex items-baseline justify-between gap-4"><p class="text-base font-bold text-foreground/75">届ける</p><p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">VISION</p></div>
-        <h3 id="philosophy-vision" class="mb-6 mt-7 text-balance text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.65] tracking-[-0.01em]">モノ、ジバ、ヒトを、つなげる。</h3>
-        <p class="max-w-[32em] text-pretty text-base leading-[1.95] tracking-normal text-foreground/80 min-[1200px]:text-lg">{companyPhilosophy.vision.headline}</p>
+      <article
+        aria-labelledby="philosophy-vision"
+        class="border-t border-foreground/20 pb-16 pt-8 min-[900px]:flex min-[900px]:min-h-[62svh] min-[900px]:flex-col min-[900px]:justify-center min-[900px]:py-[clamp(48px,7svh,88px)]"
+      >
+        <div class="flex items-baseline justify-between gap-4">
+          <p class="text-base font-bold text-foreground/75">届ける</p>
+          <p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">VISION</p>
+        </div>
+        <h3
+          id="philosophy-vision"
+          class="mb-6 mt-7 text-balance text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.65] tracking-[-0.01em]"
+        >
+          モノ、ジバ、ヒトを、つなげる。
+        </h3>
+        <p
+          class="max-w-[32em] text-pretty text-base leading-[1.95] tracking-normal text-foreground/80 min-[1200px]:text-lg"
+        >
+          {companyPhilosophy.vision.headline}
+        </p>
       </article>
-      <article aria-labelledby="philosophy-values" class="border-y border-foreground/20 pb-12 pt-8 min-[900px]:py-[clamp(48px,7svh,88px)]">
-        <div class="flex items-baseline justify-between gap-4"><p class="text-base font-bold text-foreground/75">育てる</p><p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">CORE VALUE</p></div>
-        <h3 id="philosophy-values" class="mb-6 mt-7 text-balance text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.65] tracking-[-0.01em]">試し、語り、学び続ける。</h3>
-        <ul class="text-base leading-[1.95] tracking-normal text-foreground/80 min-[1200px]:text-lg">{companyPhilosophy.coreValues.items.map((value) => <li class="grid grid-cols-[12px_1fr] items-baseline gap-3 border-b border-foreground/12 py-4"><span aria-hidden="true" class="h-px w-2 bg-[#c89a5b]/75"></span><span>{value}</span></li>)}</ul>
-        <p class="mt-8 text-base font-bold leading-[1.8] text-[#c89a5b] min-[1200px]:text-lg">{companyPhilosophy.vision.tagline}</p>
+      <article
+        aria-labelledby="philosophy-values"
+        class="border-y border-foreground/20 pb-12 pt-8 min-[900px]:py-[clamp(48px,7svh,88px)]"
+      >
+        <div class="flex items-baseline justify-between gap-4">
+          <p class="text-base font-bold text-foreground/75">育てる</p>
+          <p class="text-xs font-bold tracking-[0.16em] text-[#c89a5b]">CORE VALUE</p>
+        </div>
+        <h3
+          id="philosophy-values"
+          class="mb-6 mt-7 text-balance text-[clamp(24px,2.4vw,36px)] font-bold leading-[1.65] tracking-[-0.01em]"
+        >
+          試し、語り、学び続ける。
+        </h3>
+        <ul
+          class="text-base leading-[1.95] tracking-normal text-foreground/80 min-[1200px]:text-lg"
+        >
+          {companyPhilosophy.coreValues.items.map((value) => (
+            <li class="grid grid-cols-[12px_1fr] items-baseline gap-3 border-b border-foreground/12 py-4">
+              <span aria-hidden="true" class="h-px w-2 bg-[#c89a5b]/75"></span>
+              <span>{value}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-8 text-base font-bold leading-[1.8] text-[#c89a5b] min-[1200px]:text-lg">
+          {companyPhilosophy.vision.tagline}
+        </p>
       </article>
     </div>
   </div>
 </section>
 
 <script>
-  import { philosophyMotion } from "./profile-motion";
-  philosophyMotion(document.querySelector<HTMLElement>("#philosophy"));
+import { philosophyMotion } from "./profile-motion"
+
+philosophyMotion(document.querySelector<HTMLElement>("#philosophy"))
 </script>

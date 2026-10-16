@@ -235,9 +235,7 @@ export function legacyRedirectTarget(rawPathname: string): string | null {
     return page
   }
 
-  const staff = pathname.match(
-    /^\/staffreport\/((?:post|staffreport)-\d+)$/,
-  )?.[1]
+  const staff = pathname.match(/^\/staffreport\/((?:post|staffreport)-\d+)$/)?.[1]
   if (staff) {
     return `/staff-blog/${staff}`
   }

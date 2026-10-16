@@ -1,38 +1,105 @@
 ---
-import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
+import CompanySectionLabel from "@shared/CompanySectionLabel.astro"
+
 const companyFacts = [
   { label: "会社名", value: "株式会社INFLU" },
   { label: "代表者", value: "水戸　亮太" },
   { label: "設立", value: "2019年12月" },
   { label: "資本金", value: "5,550,000円" },
-];
+]
 const rows = [
   ...companyFacts,
   { label: "住所", value: "〒550-0013\n大阪府大阪市西区新町１丁目8-3 林四ツ橋ビル9階901号室" },
-];
-const businesses = ["HPのAI化", "AX・業務効率化支援", "WEBマーケティング事業、アウトソーシング事業、コンテンツ作成事業", "WEBエンジニアの育成及びWEBシステムの開発と運営", "WEBエンジニア育成スクールの運営", "データサイエンスからの経営改善アドバイス事業"];
-const rowClass = "grid gap-1.5 border-b border-[#060606]/14 py-[22px] min-[900px]:grid-cols-[180px_minmax(0,1fr)] min-[900px]:gap-6";
-const labelClass = "text-sm font-bold tracking-normal text-[#060606]/80";
+]
+const businesses = [
+  "HPのAI化",
+  "AX・業務効率化支援",
+  "WEBマーケティング事業、アウトソーシング事業、コンテンツ作成事業",
+  "WEBエンジニアの育成及びWEBシステムの開発と運営",
+  "WEBエンジニア育成スクールの運営",
+  "データサイエンスからの経営改善アドバイス事業",
+]
+const rowClass =
+  "grid gap-1.5 border-b border-[#060606]/14 py-[22px] min-[900px]:grid-cols-[180px_minmax(0,1fr)] min-[900px]:gap-6"
+const labelClass = "text-sm font-bold tracking-normal text-[#060606]/80"
 ---
-<section id="corporate-information" aria-labelledby="corporate-title" class="scroll-mt-24 bg-[#f4f7f2] px-[var(--profile-gutter)] pb-[clamp(60px,10svh,120px)] pt-[clamp(100px,16svh,180px)] text-[#060606]">
+
+<section
+  id="corporate-information"
+  aria-labelledby="corporate-title"
+  class="scroll-mt-24 bg-[#f4f7f2] px-[var(--profile-gutter)] pb-[clamp(60px,10svh,120px)] pt-[clamp(100px,16svh,180px)] text-[#060606]"
+>
   <div class="grid gap-[clamp(24px,4vw,64px)] min-[900px]:grid-cols-[4fr_8fr]">
-    <div><CompanySectionLabel light>CORPORATE INFORMATION</CompanySectionLabel><h2 id="corporate-title" class="mt-[22px] text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">企業情報</h2><p class="mt-4 max-w-[34em] text-[#060606]/80">株式会社INFLUの基本情報と事業内容をご案内します。</p></div>
+    <div>
+      <CompanySectionLabel light>CORPORATE INFORMATION</CompanySectionLabel>
+      <h2
+        id="corporate-title"
+        class="mt-[22px] text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]"
+      >
+        企業情報
+      </h2>
+      <p class="mt-4 max-w-[34em] text-[#060606]/80">
+        株式会社INFLUの基本情報と事業内容をご案内します。
+      </p>
+    </div>
     <dl class="min-w-0 border-t border-[#060606]/14">
-      {rows.map((row) => <div class={rowClass}><dt class={labelClass}>{row.label}</dt><dd class="whitespace-pre-line text-base">{row.value}</dd></div>)}
+      {rows.map((row) => (
+        <div class={rowClass}>
+          <dt class={labelClass}>{row.label}</dt>
+          <dd class="whitespace-pre-line text-base">{row.value}</dd>
+        </div>
+      ))}
       <div class={rowClass}>
         <dt class={labelClass}>事業内容</dt>
-        <dd><ul class="grid gap-1 text-base">
-          {businesses.map((business) => <li class="flex gap-2.5"><span class="mt-[0.95em] h-px w-2 shrink-0 bg-[#c89a5b]" aria-hidden="true"></span>{business}</li>)}
-          <li class="flex gap-2.5"><span class="mt-[0.95em] h-px w-2 shrink-0 bg-[#c89a5b]" aria-hidden="true"></span><a href="https://lea-market.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-[#060606]/14 underline-offset-4 hover:decoration-[#c89a5b]">LINE連動ECサービス Lea</a></li>
-          <li class="flex gap-2.5"><span class="mt-[0.95em] h-px w-2 shrink-0 bg-[#c89a5b]" aria-hidden="true"></span><a href="https://yakinikudokoro-mirai.com/" target="_blank" rel="noopener noreferrer" class="underline decoration-[#060606]/14 underline-offset-4 hover:decoration-[#c89a5b]">飲食事業 焼肉処 味来</a></li>
-        </ul></dd>
+        <dd>
+          <ul class="grid gap-1 text-base">
+            {businesses.map((business) => (
+              <li class="flex gap-2.5">
+                <span class="mt-[0.95em] h-px w-2 shrink-0 bg-[#c89a5b]" aria-hidden="true"></span>
+                {business}
+              </li>
+            ))}
+            <li class="flex gap-2.5">
+              <span class="mt-[0.95em] h-px w-2 shrink-0 bg-[#c89a5b]" aria-hidden="true"></span
+              ><a
+                href="https://lea-market.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline decoration-[#060606]/14 underline-offset-4 hover:decoration-[#c89a5b]"
+                >LINE連動ECサービス Lea</a
+              >
+            </li>
+            <li class="flex gap-2.5">
+              <span class="mt-[0.95em] h-px w-2 shrink-0 bg-[#c89a5b]" aria-hidden="true"></span
+              ><a
+                href="https://yakinikudokoro-mirai.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="underline decoration-[#060606]/14 underline-offset-4 hover:decoration-[#c89a5b]"
+                >飲食事業 焼肉処 味来</a
+              >
+            </li>
+          </ul>
+        </dd>
       </div>
-      <div class={rowClass}><dt class={labelClass}>情報セキュリティ方針</dt><dd><a href="https://influ-inc.notion.site/info-sec-policy" target="_blank" rel="noopener noreferrer" class="text-base underline decoration-[#060606]/14 underline-offset-4 hover:decoration-[#c89a5b]">詳細についてはこちら ↗</a></dd></div>
+      <div class={rowClass}>
+        <dt class={labelClass}>情報セキュリティ方針</dt>
+        <dd>
+          <a
+            href="https://influ-inc.notion.site/info-sec-policy"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-base underline decoration-[#060606]/14 underline-offset-4 hover:decoration-[#c89a5b]"
+            >詳細についてはこちら ↗</a
+          >
+        </dd>
+      </div>
     </dl>
   </div>
 </section>
 
 <script>
-  import { informationMotion } from "./profile-motion";
-  informationMotion(document.querySelector<HTMLElement>("#corporate-information"));
+import { informationMotion } from "./profile-motion"
+
+informationMotion(document.querySelector<HTMLElement>("#corporate-information"))
 </script>

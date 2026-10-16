@@ -1,8 +1,9 @@
 ---
-import Container from "@shared/Container.astro";
-import SunlitHeading from "@shared/SunlitHeading.astro";
-import SpecularButton from "@shared/SpecularButton.astro";
-import { routes } from "@shared/features/routes";
+import Container from "@shared/Container.astro"
+import { routes } from "@shared/features/routes"
+import SpecularButton from "@shared/SpecularButton.astro"
+import SunlitHeading from "@shared/SunlitHeading.astro"
+
 const serviceLinks = [
   {
     href: routes.aiHomepage,
@@ -24,74 +25,129 @@ const serviceSequence = [
   "AIツール導入・活用支援",
 ]
 ---
+
 <section id="services" class="relative overflow-hidden bg-[#0B0B0B]">
-      <Container class="relative py-18 md:py-24 lg:py-28">
-        <div data-intro>
-          <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-            OUR SERVICES
+  <Container class="relative py-18 md:py-24 lg:py-28">
+    <div data-intro>
+      <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">OUR SERVICES</p>
+      <SunlitHeading
+        class="mt-4 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]"
+      >
+        事業内容
+      </SunlitHeading>
+    </div>
+
+    <section
+      class="mt-10 py-8 sm:py-10 md:mt-14 lg:py-12"
+      aria-label={`提供領域: ${serviceSequence.join("、")}`}
+      data-sequence
+      data-items={JSON.stringify(serviceSequence)}
+    >
+      <div
+        data-service-display
+        aria-hidden="true"
+        class="grid items-center gap-y-6 lg:grid-cols-[minmax(14rem,0.46fr)_minmax(0,1fr)] lg:gap-x-10"
+      >
+        <div class="flex items-center gap-4">
+          <p
+            class="whitespace-nowrap text-[clamp(2.8rem,7vw,6rem)] font-bold leading-none tracking-[-0.03em] text-[#F5F1E8] [word-spacing:0.08em]"
+          >
+            WE DO
           </p>
-          <SunlitHeading class="mt-4 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">
-            事業内容
-          </SunlitHeading>
+          <span
+            class="h-[clamp(2.6rem,6vw,5.6rem)] w-px shrink-0 bg-[linear-gradient(180deg,transparent,#F4E8CB_18%,#FFFDF7_50%,#D8C28B_82%,transparent)]"
+            data-divider
+          />
         </div>
 
-        <div class="mt-10 py-8 sm:py-10 md:mt-14 lg:py-12" aria-label={`提供領域: ${serviceSequence.join("、")}`} data-sequence data-items={JSON.stringify(serviceSequence)}>
-          <div data-service-display aria-hidden="true" class="grid items-center gap-y-6 lg:grid-cols-[minmax(14rem,0.46fr)_minmax(0,1fr)] lg:gap-x-10">
-            <div class="flex items-center gap-4">
-              <p class="whitespace-nowrap text-[clamp(2.8rem,7vw,6rem)] font-bold leading-none tracking-[-0.03em] text-[#F5F1E8] [word-spacing:0.08em]">
-                WE DO
-              </p>
-              <span class="h-[clamp(2.6rem,6vw,5.6rem)] w-px shrink-0 bg-[linear-gradient(180deg,transparent,#F4E8CB_18%,#FFFDF7_50%,#D8C28B_82%,transparent)]" data-divider />
-            </div>
-
-            <div class="relative flex min-w-0 min-h-[4.25rem] items-center overflow-hidden sm:min-h-[5.2rem] lg:min-h-[6.5rem]">
-              <p class="whitespace-nowrap bg-[linear-gradient(105deg,#FFFDF7_0%,#F4E8CB_55%,#D8C28B_100%)] bg-clip-text text-xl font-bold leading-[1.4] tracking-[-0.02em] text-transparent sm:text-[1.75rem] md:text-[2rem] xl:text-[2.5rem]" data-service>
-                {serviceSequence[0]}
-              </p>
-            </div>
-            <div class="flex items-center gap-2 lg:col-start-2">
-              {serviceSequence.map((_, index) => (
-                <span class="h-px bg-[#D8C28B]" data-indicator class:list={[index === 0 ? "w-[34px] opacity-100" : "w-3 opacity-[0.24]"]} />
-              ))}
-            </div>
-          </div>
-
-          <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap" data-links>
-            {serviceLinks.map((service) => (
-              <SpecularButton href={service.href}>
-                {service.cta}
-              </SpecularButton>
-            ))}
-          </div>
-
-          <p data-service-note class="mt-8 max-w-[40rem] border-l border-[rgba(200,164,93,0.3)] pl-4 text-base leading-[1.9] text-[#CFC8BC]">
-            LINEや既存のマーケティング支援は、企業ごとの課題に応じて補足的にご案内します。
+        <div
+          class="relative flex min-w-0 min-h-[4.25rem] items-center overflow-hidden sm:min-h-[5.2rem] lg:min-h-[6.5rem]"
+        >
+          <p
+            class="whitespace-nowrap bg-[linear-gradient(105deg,#FFFDF7_0%,#F4E8CB_55%,#D8C28B_100%)] bg-clip-text text-xl font-bold leading-[1.4] tracking-[-0.02em] text-transparent sm:text-[1.75rem] md:text-[2rem] xl:text-[2.5rem]"
+            data-service
+          >
+            {serviceSequence[0]}
           </p>
         </div>
-      </Container>
+        <div class="flex items-center gap-2 lg:col-start-2">
+          {serviceSequence.map((_, index) => (
+            <span
+              class="h-px bg-[#D8C28B]"
+              data-indicator
+              class:list={[index === 0 ? "w-[34px] opacity-100" : "w-3 opacity-[0.24]"]}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap" data-links>
+        {serviceLinks.map((service) => (
+          <SpecularButton href={service.href}>{service.cta}</SpecularButton>
+        ))}
+      </div>
+
+      <p
+        data-service-note
+        class="mt-8 max-w-[40rem] border-l border-[rgba(200,164,93,0.3)] pl-4 text-base leading-[1.9] text-[#CFC8BC]"
+      >
+        LINEや既存のマーケティング支援は、企業ごとの課題に応じて補足的にご案内します。
+      </p>
     </section>
+  </Container>
+</section>
 <script>
-  import { animate, inView, ease, reducedMotion } from "@shared/motion";
-  const section = document.querySelector("#services")!;
-  const sequence = section.querySelector<HTMLElement>("[data-sequence]")!;
-  const items: string[] = JSON.parse(sequence.dataset.items!);
-  const text = section.querySelector<HTMLElement>("[data-service]")!;
-  const indicators = [...section.querySelectorAll<HTMLElement>("[data-indicator]")];
-  let current = 0;
-  let visible = false;
-  inView(sequence, () => { visible = true; return () => { visible = false; }; }, { margin: "0px 0px 42% 0px" });
-  if (!reducedMotion.matches) animate(section.querySelector("[data-divider]")!, {
-    opacity: [0.38, 1, 0.38],
-    boxShadow: ["0 0 3px rgba(244,232,203,0.16)", "0 0 16px rgba(255,253,247,0.7)", "0 0 3px rgba(244,232,203,0.16)"]
-  }, { duration: 1.15, repeat: Infinity, ease: "easeInOut" });
-  const timer = window.setInterval(async () => {
-    if (!visible || reducedMotion.matches || document.hidden) return;
-    current = (current + 1) % items.length;
-    indicators.forEach((indicator, index) => animate(indicator,
-      { opacity: index === current ? 1 : 0.24, width: index === current ? 34 : 12 }, { duration: 0.32, ease }));
-    await animate(text, { opacity: 0, y: "-95%", filter: "blur(9px)" }, { duration: 0.48, ease });
-    text.textContent = items[current];
-    animate(text, { opacity: [0, 1], y: ["95%", "0%"], filter: ["blur(9px)", "blur(0px)"] }, { duration: 0.48, ease });
-  }, 3200);
-  window.addEventListener("pagehide", (event) => { if (!event.persisted) clearInterval(timer); });
+import { animate, ease, inView, reducedMotion } from "@shared/motion"
+
+const section = document.querySelector("#services")!
+const sequence = section.querySelector<HTMLElement>("[data-sequence]")!
+const items: string[] = JSON.parse(sequence.dataset.items!)
+const text = section.querySelector<HTMLElement>("[data-service]")!
+const indicators = [...section.querySelectorAll<HTMLElement>("[data-indicator]")]
+let current = 0
+let visible = false
+inView(
+  sequence,
+  () => {
+    visible = true
+    return () => {
+      visible = false
+    }
+  },
+  { margin: "0px 0px 42% 0px" },
+)
+if (!reducedMotion.matches)
+  animate(
+    section.querySelector("[data-divider]")!,
+    {
+      opacity: [0.38, 1, 0.38],
+      boxShadow: [
+        "0 0 3px rgba(244,232,203,0.16)",
+        "0 0 16px rgba(255,253,247,0.7)",
+        "0 0 3px rgba(244,232,203,0.16)",
+      ],
+    },
+    { duration: 1.15, repeat: Infinity, ease: "easeInOut" },
+  )
+const timer = window.setInterval(async () => {
+  if (!visible || reducedMotion.matches || document.hidden) return
+  current = (current + 1) % items.length
+  indicators.forEach((indicator, index) => {
+    animate(
+      indicator,
+      { opacity: index === current ? 1 : 0.24, width: index === current ? 34 : 12 },
+      { duration: 0.32, ease },
+    )
+  })
+  await animate(text, { opacity: 0, y: "-95%", filter: "blur(9px)" }, { duration: 0.48, ease })
+  text.textContent = items[current]
+  animate(
+    text,
+    { opacity: [0, 1], y: ["95%", "0%"], filter: ["blur(9px)", "blur(0px)"] },
+    { duration: 0.48, ease },
+  )
+}, 3200)
+window.addEventListener("pagehide", (event) => {
+  if (!event.persisted) clearInterval(timer)
+})
 </script>

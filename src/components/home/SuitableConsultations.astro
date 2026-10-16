@@ -1,57 +1,77 @@
 ---
-import Container from "@shared/Container.astro";
-import SunlitHeading from "@shared/SunlitHeading.astro";
-import SpecularButton from "@shared/SpecularButton.astro";
-import { CONTACT_FORM_HREF } from "@shared/features/contact";
+import Container from "@shared/Container.astro"
+import { CONTACT_FORM_HREF } from "@shared/features/contact"
+import SpecularButton from "@shared/SpecularButton.astro"
+import SunlitHeading from "@shared/SunlitHeading.astro"
+
 const consultations = [
   "企業のAI活用をどこから始めるか整理したい",
   "既存HPが更新できず、運用の足かせになっている",
 ]
 ---
+
 <section id="suitable-consultations" class="relative overflow-hidden bg-[#0B0B0B]">
-      <Container class="relative py-18 md:py-24 lg:py-28">
-        <div class="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] xl:items-end xl:gap-16" data-intro>
-          <div>
-            <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-              SUITABLE CONSULTATIONS
-            </p>
-            <SunlitHeading class="mt-4 text-balance text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]">
-              こんなお悩みから、ご相談いただけます。
-            </SunlitHeading>
+  <Container class="relative py-18 md:py-24 lg:py-28">
+    <div
+      class="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(18rem,0.65fr)] xl:items-end xl:gap-16"
+      data-intro
+    >
+      <div>
+        <p class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">SUITABLE CONSULTATIONS</p>
+        <SunlitHeading
+          class="mt-4 text-balance text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.5rem]"
+        >
+          こんなお悩みから、ご相談いただけます。
+        </SunlitHeading>
+      </div>
+      <p class="max-w-[40rem] text-pretty text-base leading-[1.9] text-foreground/80">
+        何から始めるべきか決まっていない段階でもご相談いただけます。
+        現在の課題を伺い、向き不向きも含めて優先順位を整理します。
+      </p>
+    </div>
+
+    <div class="mt-10 md:mt-14" data-list>
+      {consultations.map((consultation, index) => (
+        <article
+          class="group/row relative grid gap-x-8 gap-y-4 py-8 first:pt-0 last:pb-0 md:grid-cols-[4rem_minmax(0,1fr)] md:items-center md:py-10"
+          data-row
+        >
+          <div class="flex items-center gap-4">
+            <span class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span
+              aria-hidden="true"
+              class="h-px w-8 origin-left bg-[linear-gradient(90deg,#E0C584,transparent)]"
+              data-number-rule
+            />
           </div>
-          <p class="max-w-[40rem] text-pretty text-base leading-[1.9] text-foreground/80">
-            何から始めるべきか決まっていない段階でもご相談いただけます。
-            現在の課題を伺い、向き不向きも含めて優先順位を整理します。
-          </p>
-        </div>
 
-        <div class="mt-10 md:mt-14" data-list>
-          {consultations.map((consultation, index) => (
-            <article class="group/row relative grid gap-x-8 gap-y-4 py-8 first:pt-0 last:pb-0 md:grid-cols-[4rem_minmax(0,1fr)] md:items-center md:py-10" data-row>
+          <h3 class="relative w-fit max-w-full overflow-hidden text-xl font-bold leading-[1.5] tracking-[-0.01em] text-foreground transition-[color,transform] duration-500 group-hover/row:translate-x-2 group-hover/row:text-[#FFF7E3] sm:text-2xl lg:text-[1.75rem]">
+            <span class="relative z-10">{consultation}</span>
+            <span
+              aria-hidden="true"
+              class="motion-reduce:hidden absolute inset-y-[-30%] left-0 z-20 w-1/3 -translate-x-[150%] -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,253,247,0.26),transparent)] opacity-0 blur-sm transition-[transform,opacity] duration-1000 ease-out group-hover/row:translate-x-[430%] group-hover/row:opacity-100"
+            />
+          </h3>
+        </article>
+      ))}
+    </div>
 
-              <div class="flex items-center gap-4">
-                <span class="text-xs font-bold tracking-[0.16em] text-[#E0C584]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span aria-hidden="true" class="h-px w-8 origin-left bg-[linear-gradient(90deg,#E0C584,transparent)]" data-number-rule />
-              </div>
-
-              <h3 class="relative w-fit max-w-full overflow-hidden text-xl font-bold leading-[1.5] tracking-[-0.01em] text-foreground transition-[color,transform] duration-500 group-hover/row:translate-x-2 group-hover/row:text-[#FFF7E3] sm:text-2xl lg:text-[1.75rem]">
-                <span class="relative z-10">{consultation}</span>
-                <span aria-hidden="true" class="motion-reduce:hidden absolute inset-y-[-30%] left-0 z-20 w-1/3 -translate-x-[150%] -skew-x-12 bg-[linear-gradient(90deg,transparent,rgba(255,253,247,0.26),transparent)] opacity-0 blur-sm transition-[transform,opacity] duration-1000 ease-out group-hover/row:translate-x-[430%] group-hover/row:opacity-100" />
-              </h3>
-            </article>
-          ))}
-
-        </div>
-
-        <div class="mt-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between" data-cta>
-          <p class="max-w-xl border-l border-[rgba(224,197,132,0.5)] pl-4 text-base leading-[1.9] text-foreground/80">
-            相談内容がまとまっていなくても大丈夫です。
-          </p>
-          <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto">
-            相談する
-          </SpecularButton>
-        </div>
-      </Container>
-    </section>
+    <div class="mt-10 flex flex-col gap-6 md:flex-row md:items-center md:justify-between" data-cta>
+      <p
+        class="max-w-xl border-l border-[rgba(224,197,132,0.5)] pl-4 text-base leading-[1.9] text-foreground/80"
+      >
+        相談内容がまとまっていなくても大丈夫です。
+      </p>
+      <SpecularButton
+        href={CONTACT_FORM_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="w-full sm:w-auto"
+      >
+        相談する
+      </SpecularButton>
+    </div>
+  </Container>
+</section>

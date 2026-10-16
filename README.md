@@ -21,6 +21,9 @@ EmDash serves `/company-achievements`, `/useful-materials` (columns), and `/staf
 ```bash
 bun install
 bun run dev
+bun run lint
+bun run check
+bun run format
 bun run typecheck
 bun run build
 node scripts/check-company-site.mjs http://127.0.0.1:4321
@@ -28,6 +31,10 @@ node scripts/check-middleware.mjs
 node scripts/check-editorial-errors.mjs
 node scripts/check-original-parity.mjs /Users/blaze/react/INFLU
 ```
+
+Biome formats code with two-space indentation, a 100-character line width, double quotes, and semicolons only when needed. `bun run lint` runs lint rules, `bun run check` also checks formatting and import order, and `bun run format` rewrites supported files. Generated files and `public/` are excluded.
+
+The recommended Biome extension enables formatting, fixes, and import organization on save in VS Code and Cursor, including Astro files. Full Astro formatting uses Biome's [experimental HTML support](https://biomejs.dev/reference/configuration/#htmlexperimentalfullsupportenabled).
 
 The company check requires a running local server. It checks shared layout landmarks, native routes, assets, pagination archive entry points, retired starter routes, redirects, sitemap and preview SEO settings.
 

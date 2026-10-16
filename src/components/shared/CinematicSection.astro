@@ -1,7 +1,11 @@
 ---
-interface Props { first?: boolean; sticky?: boolean }
-const { sticky = false } = Astro.props;
+interface Props {
+  first?: boolean
+  sticky?: boolean
+}
+const { sticky = false } = Astro.props
 ---
+
 <div class={`relative ${sticky ? "overflow-clip" : "overflow-hidden"}`}>
   <slot />
 </div>

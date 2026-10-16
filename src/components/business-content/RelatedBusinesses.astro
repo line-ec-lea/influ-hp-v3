@@ -1,6 +1,7 @@
 ---
-import CinematicSection from "@shared/CinematicSection.astro";
-import Container from "@shared/Container.astro";
+import CinematicSection from "@shared/CinematicSection.astro"
+import Container from "@shared/Container.astro"
+
 const relatedBusinesses = [
   {
     eyebrow: "LINE × EC",
@@ -19,8 +20,7 @@ const relatedBusinesses = [
   {
     eyebrow: "RESTAURANT",
     title: "焼肉処 味来",
-    description:
-      "大阪・心斎橋で、厳選した黒毛和牛と落ち着いた個室空間を提供する飲食事業です。",
+    description: "大阪・心斎橋で、厳選した黒毛和牛と落ち着いた個室空間を提供する飲食事業です。",
     // Official logo: https://yakinikudokoro-mirai.com/wp/wp-content/uploads/logo-min.png
     image: "/images/businesses/mirai-logo.png",
     imageAlt: "焼肉処 味来の公式ロゴ",
@@ -31,34 +31,47 @@ const relatedBusinesses = [
     cta: "焼肉処 味来公式サイトへ",
   },
 ]
-
 ---
+
 <CinematicSection>
   <section class="bg-page" aria-labelledby="related-businesses-title">
     <Container class="py-14 md:py-20">
       <div data-business-enter class="grid gap-6 sm:gap-8 lg:grid-cols-2 lg:items-end lg:gap-16">
         <div>
-          <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">RELATED BUSINESSES</p>
-          <h2 id="related-businesses-title" class="mt-4 text-3xl font-bold leading-[1.25] tracking-[-0.02em] text-foreground sm:text-4xl lg:text-[2.75rem]">
+          <p class="text-xs font-bold uppercase tracking-[0.14em] text-gold-300">
+            RELATED BUSINESSES
+          </p>
+          <h2
+            id="related-businesses-title"
+            class="mt-4 text-3xl font-bold leading-[1.25] tracking-[-0.02em] text-foreground sm:text-4xl lg:text-[2.75rem]"
+          >
             関連事業
           </h2>
         </div>
         <p class="max-w-[34rem] text-balance text-base font-medium leading-[1.8] sm:text-lg">
-          <span class="text-foreground">INFLUは、デジタル支援だけでなく、自ら事業を運営しながら、現場で得た知見を蓄積しています。</span>
+          <span class="text-foreground"
+            >INFLUは、デジタル支援だけでなく、自ら事業を運営しながら、現場で得た知見を蓄積しています。</span
+          >
         </p>
       </div>
 
-      <div class="mt-10 grid gap-10 md:mt-12 md:grid-cols-2 md:gap-0 [&_[data-related-business]]:bg-transparent!">
+      <div
+        class="mt-10 grid gap-10 md:mt-12 md:grid-cols-2 md:gap-0 [&_[data-related-business]]:bg-transparent!"
+      >
         {relatedBusinesses.map((business, businessIndex) => (
           <article
             data-related-business
             aria-labelledby={`related-business-${businessIndex}`}
-            class={`flex min-w-0 flex-col ${businessIndex === 0
-              ? "md:pr-10 lg:pr-12"
-              : "border-t border-line-gold pt-10 md:border-t-0 md:pl-10 md:pt-0 lg:pl-12"}`}
+            class={`flex min-w-0 flex-col ${
+              businessIndex === 0
+                ? "md:pr-10 lg:pr-12"
+                : "border-t border-line-gold pt-10 md:border-t-0 md:pl-10 md:pt-0 lg:pl-12"
+            }`}
           >
             <div class="flex h-52 items-center justify-center sm:h-64">
-              <div class={`w-full max-w-[24rem] ${business.imageBackground} ${businessIndex === 0 ? "p-6 sm:p-8" : ""}`}>
+              <div
+                class={`w-full max-w-[24rem] ${business.imageBackground} ${businessIndex === 0 ? "p-6 sm:p-8" : ""}`}
+              >
                 <img
                   src={business.image}
                   alt={business.imageAlt}
@@ -71,8 +84,13 @@ const relatedBusinesses = [
               </div>
             </div>
             <span aria-hidden="true" class="mt-6 h-px w-12 bg-gold-300/60" />
-            <p class="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-gold-300">{business.eyebrow}</p>
-            <h3 id={`related-business-${businessIndex}`} class="mt-3 text-2xl font-bold leading-[1.4] tracking-[-0.01em] text-foreground sm:text-[1.625rem] lg:text-[2rem]">
+            <p class="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-gold-300">
+              {business.eyebrow}
+            </p>
+            <h3
+              id={`related-business-${businessIndex}`}
+              class="mt-3 text-2xl font-bold leading-[1.4] tracking-[-0.01em] text-foreground sm:text-[1.625rem] lg:text-[2rem]"
+            >
               {business.title}
             </h3>
             <p class="mt-4 max-w-[32rem] text-balance text-base leading-[1.8] text-muted sm:text-[1.0625rem] lg:text-lg">
@@ -86,7 +104,12 @@ const relatedBusinesses = [
                 class="group/link flex min-h-11 w-fit items-center gap-4 border-b border-line-gold py-2 text-sm font-bold leading-[1.6] text-foreground transition-colors hover:border-gold-300 hover:text-gold-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-300 sm:text-base"
               >
                 {business.cta}
-                <span aria-hidden="true" class="text-gold-300 transition-transform motion-safe:group-hover/link:translate-x-1 motion-safe:group-focus-visible/link:translate-x-1 motion-reduce:transition-none">→</span>
+                <span
+                  aria-hidden="true"
+                  class="text-gold-300 transition-transform motion-safe:group-hover/link:translate-x-1 motion-safe:group-focus-visible/link:translate-x-1 motion-reduce:transition-none"
+                >
+                  →
+                </span>
               </a>
             </div>
           </article>

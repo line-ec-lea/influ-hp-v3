@@ -1,25 +1,46 @@
 ---
-import HeroMedia from "./HeroMedia.astro";
-import Container from "@shared/Container.astro";
-import SpecularButton from "@shared/SpecularButton.astro";
-import { CONTACT_FORM_HREF } from "@shared/features/contact";
-import { routes } from "@shared/features/routes";
+import Container from "@shared/Container.astro"
+import { CONTACT_FORM_HREF } from "@shared/features/contact"
+import { routes } from "@shared/features/routes"
+import SpecularButton from "@shared/SpecularButton.astro"
+import HeroMedia from "./HeroMedia.astro"
 
 // Add the real asset here: videoSrc: "/hero.mp4", mobileVideoSrc: "/hero-mobile.mp4".
 const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } = {
   posterSrc: "/p1.jpg",
-};
+}
 ---
-<section id="hero" class="relative isolate flex min-h-svh w-full items-end overflow-hidden bg-page text-foreground lg:min-h-[max(100svh,720px)]" aria-labelledby="homepage-heading" data-video={Boolean(media.videoSrc)}>
+
+<section
+  id="hero"
+  class="relative isolate flex min-h-svh w-full items-end overflow-hidden bg-page text-foreground lg:min-h-[max(100svh,720px)]"
+  aria-labelledby="homepage-heading"
+  data-video={Boolean(media.videoSrc)}
+>
   <HeroMedia {...media} />
 
   <!-- Independent content, edge and top gradients control changing video brightness. -->
   <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-page/25" />
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-t from-page/95 via-page/65 to-transparent lg:bg-linear-to-r lg:from-page/95 lg:from-25% lg:via-page/75 lg:via-60% lg:to-page/10" />
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-linear-to-l from-page/35 via-page/10 via-25% to-transparent to-60% lg:from-page/65 lg:via-page/20" />
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-48 bg-linear-to-b from-page/75 to-transparent" />
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 bg-radial from-transparent from-45% to-page/25" />
-  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-linear-to-t from-[#0B0B0B] to-transparent sm:h-64" />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-linear-to-t from-page/95 via-page/65 to-transparent lg:bg-linear-to-r lg:from-page/95 lg:from-25% lg:via-page/75 lg:via-60% lg:to-page/10"
+  />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-linear-to-l from-page/35 via-page/10 via-25% to-transparent to-60% lg:from-page/65 lg:via-page/20"
+  />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 top-0 h-48 bg-linear-to-b from-page/75 to-transparent"
+  />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 bg-radial from-transparent from-45% to-page/25"
+  />
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-48 bg-linear-to-t from-[#0B0B0B] to-transparent sm:h-64"
+  />
 
   <!-- Company.astro owns the fixed navigation above these media layers. -->
   <Container class="relative z-10 pb-28 pt-32 sm:pb-32 lg:pb-36 lg:pt-40">
@@ -28,29 +49,54 @@ const media: { posterSrc: string; videoSrc?: string; mobileVideoSrc?: string } =
         <span class="h-px w-8 bg-gold-300" aria-hidden="true" />
         <p class="text-xs font-bold tracking-[0.16em] text-gold-300">AX &amp; MARKETING PARTNER</p>
       </div>
-      <h1 id="homepage-heading" class="mt-5 text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] text-foreground sm:mt-6 lg:text-[clamp(3.5rem,4.5vw,5.5rem)]" data-hero-reveal>
+      <h1
+        id="homepage-heading"
+        class="mt-5 text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] text-foreground sm:mt-6 lg:text-[clamp(3.5rem,4.5vw,5.5rem)]"
+        data-hero-reveal
+      >
         <span class="block">AIホームページ<span class="inline-block">制作と</span></span>
         <span class="block">AX支援を、</span>
         <span class="block">現場に合う<span class="inline-block">かたちへ。</span></span>
       </h1>
-      <p class="mt-6 max-w-[34rem] text-pretty text-base font-normal leading-[1.9] text-foreground/90 sm:mt-8" data-hero-reveal>
+      <p
+        class="mt-6 max-w-[34rem] text-pretty text-base font-normal leading-[1.9] text-foreground/90 sm:mt-8"
+        data-hero-reveal
+      >
         大阪を拠点に、AIホームページ制作・業務効率化支援・AI活用の導入整理まで、現場で使い続けられる形で伴走します。
       </p>
       <div class="mt-8 flex flex-wrap items-center gap-4" data-hero-reveal>
-        <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+        <SpecularButton
+          href={CONTACT_FORM_HREF}
+          target="_blank"
+          rel="noopener noreferrer"
+          mobileEffect
+          class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none"
+        >
           相談する
         </SpecularButton>
-        <SpecularButton href={routes.service} mobileEffect class="!text-foreground [&_[data-fx]]:opacity-45 [&_[data-fx]]:transition-opacity [&_[data-fx]]:duration-200 hover:[&_[data-fx]]:opacity-100 focus-visible:[&_[data-fx]]:opacity-100 motion-reduce:[&_[data-fx]]:transition-none max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">
+        <SpecularButton
+          href={routes.service}
+          mobileEffect
+          class="!text-foreground [&_[data-fx]]:opacity-45 [&_[data-fx]]:transition-opacity [&_[data-fx]]:duration-200 hover:[&_[data-fx]]:opacity-100 focus-visible:[&_[data-fx]]:opacity-100 motion-reduce:[&_[data-fx]]:transition-none max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none"
+        >
           事業内容を見る
         </SpecularButton>
       </div>
     </div>
   </Container>
-  <a href="#what-we-do" class="absolute bottom-6 left-5 z-20 inline-flex min-h-11 items-center gap-3 rounded-sm text-[0.625rem] font-bold tracking-[0.2em] text-foreground/70 transition-colors hover:text-gold-300 motion-reduce:transition-none sm:left-8 lg:left-[max(3rem,calc((100vw-80rem)/2+3rem))]" aria-label="次のセクションへスクロール">
+  <a
+    href="#what-we-do"
+    class="absolute bottom-6 left-5 z-20 inline-flex min-h-11 items-center gap-3 rounded-sm text-[0.625rem] font-bold tracking-[0.2em] text-foreground/70 transition-colors hover:text-gold-300 motion-reduce:transition-none sm:left-8 lg:left-[max(3rem,calc((100vw-80rem)/2+3rem))]"
+    aria-label="次のセクションへスクロール"
+  >
     <span>SCROLL</span><span class="h-8 w-px bg-gold-300/70" aria-hidden="true" />
   </a>
 </section>
 <script>
-  import { playHeroEntrance } from "../../scripts/motion/hero";
-  playHeroEntrance(document.querySelector<HTMLElement>("#hero")!, document.querySelector<HTMLElement>("[data-logo-intro]"));
+import { playHeroEntrance } from "../../scripts/motion/hero"
+
+playHeroEntrance(
+  document.querySelector<HTMLElement>("#hero")!,
+  document.querySelector<HTMLElement>("[data-logo-intro]"),
+)
 </script>

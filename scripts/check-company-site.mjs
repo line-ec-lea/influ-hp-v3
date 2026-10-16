@@ -1,31 +1,30 @@
-import assert from "node:assert/strict";
-import { readFile, readdir } from "node:fs/promises";
-import { flowFrame } from "../src/components/business-content/business-flow-motion.mjs";
+import assert from "node:assert/strict"
+import { readdir, readFile } from "node:fs/promises"
+import { flowFrame } from "../src/components/business-content/business-flow-motion.mjs"
 
 // All input signals enter, the core responds, then all output signals exit and rest.
-assert.equal(flowFrame(0).entrance, 0);
-assert.equal(flowFrame(0.7).entrance, 1);
-assert.equal(flowFrame(1.825).leg, "input");
-assert.ok(Math.abs(flowFrame(1.825).progress - 0.5) < 1e-9);
-assert.ok(flowFrame(3.1).pulse > 0.99);
-assert.equal(flowFrame(4.225).leg, "output");
-assert.ok(Math.abs(flowFrame(4.225).progress - 0.5) < 1e-9);
-assert.equal(flowFrame(6).leg, null);
-assert.equal(flowFrame(6).pulse, 0);
+assert.equal(flowFrame(0).entrance, 0)
+assert.equal(flowFrame(0.7).entrance, 1)
+assert.equal(flowFrame(1.825).leg, "input")
+assert.ok(Math.abs(flowFrame(1.825).progress - 0.5) < 1e-9)
+assert.ok(flowFrame(3.1).pulse > 0.99)
+assert.equal(flowFrame(4.225).leg, "output")
+assert.ok(Math.abs(flowFrame(4.225).progress - 0.5) < 1e-9)
+assert.equal(flowFrame(6).leg, null)
+assert.equal(flowFrame(6).pulse, 0)
 for (const time of [1.825, 3.1, 4.225, 6]) {
-  const next = flowFrame(time + 8);
-  const current = flowFrame(time);
-  assert.equal(next.leg, current.leg);
-  assert.ok(Math.abs(next.progress - current.progress) < 1e-9);
+  const next = flowFrame(time + 8)
+  const current = flowFrame(time)
+  assert.equal(next.leg, current.leg)
+  assert.ok(Math.abs(next.progress - current.progress) < 1e-9)
 }
-console.log("PASS business diagram signal timing");
+console.log("PASS business diagram signal timing")
 
 // Tailwind handles styling; original motion components retain their runtime styles.
 // The retired starter blog must not be restored.
-const source = (path) =>
-  readFile(new URL(`../${path}`, import.meta.url), "utf8");
-const css = await source("src/styles/global.css");
-assert.match(css, /@import "tailwindcss";/);
+const source = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8")
+const css = await source("src/styles/global.css")
+assert.match(css, /@import "tailwindcss";/)
 assert.equal(
   css
     .replace(/\/\*[\s\S]*?\*\//g, "")
@@ -34,14 +33,16 @@ assert.equal(
     .trim(),
   "",
   "global.css contains only Tailwind setup and theme values",
-);
-assert.match(await source("src/layouts/Company.astro"), /styles\/global\.css/);
+)
+assert.match(await source("src/layouts/Company.astro"), /styles\/global\.css/)
 assert.doesNotMatch(
   await source("src/layouts/Company.astro"),
   /styles\/(?:company|tokens|theme)\.css/,
-);
-await assert.rejects(source("src/styles/company.css"), { code: "ENOENT" });
-await assert.rejects(readdir(new URL("../src/components/company/app/", import.meta.url)), { code: "ENOENT" });
+)
+await assert.rejects(source("src/styles/company.css"), { code: "ENOENT" })
+await assert.rejects(readdir(new URL("../src/components/company/app/", import.meta.url)), {
+  code: "ENOENT",
+})
 const companyFiles = [
   "src/layouts/Company.astro",
   ...[
@@ -64,46 +65,87 @@ const companyFiles = [
   "src/pages/staff-blog/index.astro",
   "src/pages/staff-blog/[slug].astro",
   "src/pages/staff-blog/page/[pageNo].astro",
-  ...(await Promise.all(["home", "shared", "business-content", "company-profile", "ai-homepage", "ax-support", "privacy-policy", "not-found"].map(async folder =>
-    (await readdir(new URL(`../src/components/${folder}/`, import.meta.url), { recursive: true }))
-      .filter(name => /\.(astro|tsx|ts)$/.test(name))
-      .map(name => `src/components/${folder}/${name}`)
-  ))).flat(),
-];
+  ...(
+    await Promise.all(
+      [
+        "home",
+        "shared",
+        "business-content",
+        "company-profile",
+        "ai-homepage",
+        "ax-support",
+        "privacy-policy",
+        "not-found",
+      ].map(async (folder) =>
+        (
+          await readdir(new URL(`../src/components/${folder}/`, import.meta.url), {
+            recursive: true,
+          })
+        )
+          .filter((name) => /\.(astro|tsx|ts)$/.test(name))
+          .map((name) => `src/components/${folder}/${name}`),
+      ),
+    )
+  ).flat(),
+]
 for (const path of companyFiles) {
+  assert.doesNotMatch(await source(path), /<style\b|@apply\b/, `${path}: use Tailwind utilities`)
   assert.doesNotMatch(
     await source(path),
-    /<style\b|@apply\b/,
-    `${path}: use Tailwind utilities`,
-  );
-  assert.doesNotMatch(await source(path), /from ["']next(?:\/[^"']*)?["']/, `${path}: no Next runtime`);
-  assert.doesNotMatch(await source(path), /(?:@company|company|\.)\/app\//, `${path}: no removed app nesting`);
-  assert.doesNotMatch(await source(path), /client:load|@shared\/react|from ["']react["']|from ["']framer-motion["']/, `${path}: native Astro and DOM motion`);
-  assert.ok(!path.endsWith(".tsx"), `${path}: no public React components`);
+    /from ["']next(?:\/[^"']*)?["']/,
+    `${path}: no Next runtime`,
+  )
+  assert.doesNotMatch(
+    await source(path),
+    /(?:@company|company|\.)\/app\//,
+    `${path}: no removed app nesting`,
+  )
+  assert.doesNotMatch(
+    await source(path),
+    /client:load|@shared\/react|from ["']react["']|from ["']framer-motion["']/,
+    `${path}: native Astro and DOM motion`,
+  )
+  assert.ok(!path.endsWith(".tsx"), `${path}: no public React components`)
 }
-console.log("PASS Tailwind-only company styling");
+console.log("PASS Tailwind-only company styling")
 
-const home = await source("src/pages/index.astro");
+const home = await source("src/pages/index.astro")
 for (const section of ["Hero", "WhatWeDo", "Services", "WhyInflu", "SuitableConsultations"]) {
-  assert.match(home, new RegExp(`import ${section} from "../components/home/${section}\\.astro"`));
-  assert.ok(home.includes(`<${section} />`), `homepage: composes ${section}`);
+  assert.match(home, new RegExp(`import ${section} from "../components/home/${section}\\.astro"`))
+  assert.ok(home.includes(`<${section} />`), `homepage: composes ${section}`)
 }
-assert.match(home, /import Contact from "@shared\/Contact\.astro"/);
-const layout = await source("src/layouts/Company.astro");
+assert.match(home, /import Contact from "@shared\/Contact\.astro"/)
+const layout = await source("src/layouts/Company.astro")
 for (const component of ["Navbar", "Footer"]) {
-  assert.ok(layout.includes(`<${component} />`), `layout owns ${component}`);
-  assert.doesNotMatch(home, new RegExp(`<${component}\\b`), `homepage must not duplicate ${component}`);
-  await assert.rejects(source(`src/components/company/components/${component.toLowerCase()}.tsx`), { code: "ENOENT" });
+  assert.ok(layout.includes(`<${component} />`), `layout owns ${component}`)
+  assert.doesNotMatch(
+    home,
+    new RegExp(`<${component}\\b`),
+    `homepage must not duplicate ${component}`,
+  )
+  await assert.rejects(source(`src/components/company/components/${component.toLowerCase()}.tsx`), {
+    code: "ENOENT",
+  })
 }
-for (const file of ["page.tsx", "components/logo-intro.tsx", ...["hero", "what-we-do", "services", "why-influ", "suitable-consultations"].map(name => `components/sections/${name}.tsx`)]) {
-  await assert.rejects(source(`src/components/company/${file}`), { code: "ENOENT" });
+for (const file of [
+  "page.tsx",
+  "components/logo-intro.tsx",
+  ...["hero", "what-we-do", "services", "why-influ", "suitable-consultations"].map(
+    (name) => `components/sections/${name}.tsx`,
+  ),
+]) {
+  await assert.rejects(source(`src/components/company/${file}`), { code: "ENOENT" })
 }
-for (const file of companyFiles.filter(path => path.startsWith("src/components/home/"))) {
-  assert.doesNotMatch(await source(file), /client:load|from ["'](?:react|@company\/Motion)["']/, `${file}: native Astro and DOM motion`);
+for (const file of companyFiles.filter((path) => path.startsWith("src/components/home/"))) {
+  assert.doesNotMatch(
+    await source(file),
+    /client:load|from ["'](?:react|@company\/Motion)["']/,
+    `${file}: native Astro and DOM motion`,
+  )
 }
 
 // Run against the local preview: node scripts/check-company-site.mjs [base-url]
-const base = process.argv[2] ?? "http://localhost:4321";
+const base = process.argv[2] ?? "http://localhost:4321"
 const paths = [
   "/",
   "/business-content",
@@ -114,122 +156,203 @@ const paths = [
   "/company-achievements/page/1",
   "/useful-materials/page/1",
   "/staff-blog/page/1",
-];
-const assets = new Set();
+]
+const assets = new Set()
 for (const path of paths) {
-  const response = await fetch(new URL(path, base));
-  assert.equal(response.status, 200, path);
-  const html = await response.text();
-  assert.doesNotMatch(
-    html,
-    /<button\b[^>]*\bdata-theme=/,
-    `${path}: no theme toggle`,
-  );
-  assert.match(html, /<html[^>]*lang="ja"/, `${path}: Japanese document`);
-  assert.equal((html.match(/<h1\b/g) ?? []).length, 1, `${path}: one h1`);
+  const response = await fetch(new URL(path, base))
+  assert.equal(response.status, 200, path)
+  const html = await response.text()
+  assert.doesNotMatch(html, /<button\b[^>]*\bdata-theme=/, `${path}: no theme toggle`)
+  assert.match(html, /<html[^>]*lang="ja"/, `${path}: Japanese document`)
+  assert.equal((html.match(/<h1\b/g) ?? []).length, 1, `${path}: one h1`)
   assert.ok(
     html.includes(`href="https://influhp.com${path === "/" ? "/" : path}"`),
     `${path}: canonical`,
-  );
-  assert.match(
-    html,
-    /name="robots" content="noindex, nofollow"/,
-    `${path}: preview noindex`,
-  );
-  for (const href of ["/company-achievements/page/1", "/useful-materials/page/1", "/staff-blog/page/1"])
-    assert.ok(html.includes(`href="${href}"`), `${path}: editorial navigation ${href}`);
+  )
+  assert.match(html, /name="robots" content="noindex, nofollow"/, `${path}: preview noindex`)
+  for (const href of [
+    "/company-achievements/page/1",
+    "/useful-materials/page/1",
+    "/staff-blog/page/1",
+  ])
+    assert.ok(html.includes(`href="${href}"`), `${path}: editorial navigation ${href}`)
   if (path === "/") {
-    assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, "homepage: native Astro, no React hydration");
-    for (const id of ["hero", "what-we-do", "services", "why-influ", "achievements", "suitable-consultations", "columns", "contact"])
-      assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `homepage: ${id} section`);
-    assert.match(html, /<img[^>]+src="\/p1.jpg"[^>]+data-hero-still/, "homepage: current hero poster server-rendered");
-    assert.doesNotMatch(html, /<video\b/, "homepage: no video loaded until the real asset is configured");
-    assert.equal((html.match(/data-area(?:\s|>)/g) ?? []).length, 7, "homepage: seven focus controls");
+    assert.doesNotMatch(
+      html,
+      /<astro-island\b|client="load"|@astrojs\/react\/client/,
+      "homepage: native Astro, no React hydration",
+    )
+    for (const id of [
+      "hero",
+      "what-we-do",
+      "services",
+      "why-influ",
+      "achievements",
+      "suitable-consultations",
+      "columns",
+      "contact",
+    ])
+      assert.match(html, new RegExp(`<section[^>]+id="${id}"`), `homepage: ${id} section`)
+    assert.match(
+      html,
+      /<img[^>]+src="\/p1.jpg"[^>]+data-hero-still/,
+      "homepage: current hero poster server-rendered",
+    )
+    assert.doesNotMatch(
+      html,
+      /<video\b/,
+      "homepage: no video loaded until the real asset is configured",
+    )
+    assert.equal(
+      (html.match(/data-area(?:\s|>)/g) ?? []).length,
+      7,
+      "homepage: seven focus controls",
+    )
   }
-  assert.doesNotMatch(html, /<astro-island\b|client="load"|@astrojs\/react\/client/, `${path}: native Astro, no React hydration`);
+  assert.doesNotMatch(
+    html,
+    /<astro-island\b|client="load"|@astrojs\/react\/client/,
+    `${path}: native Astro, no React hydration`,
+  )
   if (path === "/ai-homepage") {
-    assert.equal((html.match(/data-fit-item(?:\s|>)/g) ?? []).length, 5, "five server-rendered fit statements");
-    assert.equal((html.match(/data-issue-card(?:\s|>)/g) ?? []).length, 4, "four server-rendered issue cards");
+    assert.equal(
+      (html.match(/data-fit-item(?:\s|>)/g) ?? []).length,
+      5,
+      "five server-rendered fit statements",
+    )
+    assert.equal(
+      (html.match(/data-issue-card(?:\s|>)/g) ?? []).length,
+      4,
+      "four server-rendered issue cards",
+    )
   }
   if (path === "/business-content") {
-    assert.equal((html.match(/data-signal-path(?:\s|>)/g) ?? []).length, 7, "five input and two output signal paths");
-    const diagram = html.match(/<svg\b[^>]*aria-labelledby="business-flow-title business-flow-description"[\s\S]*?<\/svg>/)?.[0];
-    assert.ok(diagram, "business diagram: accessible SVG fallback without WebGL or JavaScript");
-    for (const label of ["発信", "集客", "サイト運用", "社内業務", "継続改善", "INFLU", "伴走設計", "自社で動かす", "改善を続ける"]) {
-      assert.ok(diagram.includes(label), `business diagram: readable fallback label ${label}`);
+    assert.equal(
+      (html.match(/data-signal-path(?:\s|>)/g) ?? []).length,
+      7,
+      "five input and two output signal paths",
+    )
+    const diagram = html.match(
+      /<svg\b[^>]*aria-labelledby="business-flow-title business-flow-description"[\s\S]*?<\/svg>/,
+    )?.[0]
+    assert.ok(diagram, "business diagram: accessible SVG fallback without WebGL or JavaScript")
+    for (const label of [
+      "発信",
+      "集客",
+      "サイト運用",
+      "社内業務",
+      "継続改善",
+      "INFLU",
+      "伴走設計",
+      "自社で動かす",
+      "改善を続ける",
+    ]) {
+      assert.ok(diagram.includes(label), `business diagram: readable fallback label ${label}`)
     }
-    assert.doesNotMatch(html, /<path[^>]+data-signal-glow[^>]+class="[^"]*opacity-0/, "SVG opacity animation must not be overridden by a CSS utility");
-    assert.doesNotMatch(html, /\b(?:strokeWidth|strokeLinecap|stopColor|fontSize)=/, "native SVG attribute names");
+    assert.doesNotMatch(
+      html,
+      /<path[^>]+data-signal-glow[^>]+class="[^"]*opacity-0/,
+      "SVG opacity animation must not be overridden by a CSS utility",
+    )
+    assert.doesNotMatch(
+      html,
+      /\b(?:strokeWidth|strokeLinecap|stopColor|fontSize)=/,
+      "native SVG attribute names",
+    )
     for (const [svg] of html.matchAll(/<svg\b[\s\S]*?<\/svg>/g))
-      assert.doesNotMatch(svg, /<script\b/, "SVG component scripts must run from the HTML parent");
+      assert.doesNotMatch(svg, /<script\b/, "SVG component scripts must run from the HTML parent")
   }
   if (path === "/company-profile" || path === "/ax-support") {
     for (const [list] of html.matchAll(/<dl\b[\s\S]*?<\/dl>/g)) {
-      assert.doesNotMatch(list, /data-reveal[^>]*>\s*<div\b/, `${path}: definition terms belong directly to their reveal group`);
+      assert.doesNotMatch(
+        list,
+        /data-reveal[^>]*>\s*<div\b/,
+        `${path}: definition terms belong directly to their reveal group`,
+      )
     }
   }
-  if (path === "/company-profile") assert.match(html, /<details\b[^>]*>[\s\S]*?ROUTE GUIDE/, "native access-guide disclosure");
-  assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`);
-  assert.equal((html.match(/<header\b[^>]*id="site-header"/g) ?? []).length, 1, `${path}: one shared header`);
-  assert.equal((html.match(/<footer\b/g) ?? []).length, 1, `${path}: one shared footer`);
-  for (const match of html.matchAll(/<img[^>]+src="(\/[^"?]+)"/g))
-    assets.add(match[1]);
-  console.log(`PASS ${path}`);
+  if (path === "/company-profile")
+    assert.match(html, /<details\b[^>]*>[\s\S]*?ROUTE GUIDE/, "native access-guide disclosure")
+  assert.equal((html.match(/<main\b/g) ?? []).length, 1, `${path}: one main landmark`)
+  assert.equal(
+    (html.match(/<header\b[^>]*id="site-header"/g) ?? []).length,
+    1,
+    `${path}: one shared header`,
+  )
+  assert.equal((html.match(/<footer\b/g) ?? []).length, 1, `${path}: one shared footer`)
+  for (const match of html.matchAll(/<img[^>]+src="(\/[^"?]+)"/g)) assets.add(match[1])
+  console.log(`PASS ${path}`)
 }
 for (const asset of assets) {
-  assert.equal(
-    (await fetch(new URL(asset, base), { method: "HEAD" })).status,
-    200,
-    asset,
-  );
+  assert.equal((await fetch(new URL(asset, base), { method: "HEAD" })).status, 200, asset)
 }
-const redirect = await fetch(new URL("/home", base), { redirect: "manual" });
-assert.equal(redirect.status, 308);
-assert.equal(redirect.headers.get("location"), "/");
-const missing = await fetch(new URL("/not-a-real-influ-page", base));
-assert.equal(missing.status, 404);
-const missingHtml = await missing.text();
-assert.match(missingHtml, /ページが/);
-assert.doesNotMatch(missingHtml, /<astro-island\b/, "native 404");
-const sitemap = await (await fetch(new URL("/sitemap.xml", base))).text();
-assert.ok((sitemap.match(/<loc>/g) ?? []).length >= paths.length, "sitemap: all static routes");
+const redirect = await fetch(new URL("/home", base), { redirect: "manual" })
+assert.equal(redirect.status, 308)
+assert.equal(redirect.headers.get("location"), "/")
+const missing = await fetch(new URL("/not-a-real-influ-page", base))
+assert.equal(missing.status, 404)
+const missingHtml = await missing.text()
+assert.match(missingHtml, /ページが/)
+assert.doesNotMatch(missingHtml, /<astro-island\b/, "native 404")
+const sitemap = await (await fetch(new URL("/sitemap.xml", base))).text()
+assert.ok((sitemap.match(/<loc>/g) ?? []).length >= paths.length, "sitemap: all static routes")
 for (const section of ["staff-blog", "company-achievements", "useful-materials"]) {
-  const root = await fetch(new URL(`/${section}`, base), { redirect: "manual" });
-  assert.equal(root.status, 308, `${section}: archive redirect`);
-  assert.equal(root.headers.get("location"), `/${section}/page/1`);
-  assert.equal((await fetch(new URL(`/${section}/page/1`, base))).status, 200, `${section}: archive`);
-  const missingArticle = await fetch(new URL(`/${section}/example-article`, base), { redirect: "manual" });
-  assert.equal(missingArticle.status, 404, `${section}: missing article returns 404 directly`);
-  assert.match(await missingArticle.text(), /ページが見つかりません/, `${section}: branded missing article`);
-  assert.match(sitemap, new RegExp(`/${section}/page/1`), `${section}: sitemap archive`);
+  const root = await fetch(new URL(`/${section}`, base), { redirect: "manual" })
+  assert.equal(root.status, 308, `${section}: archive redirect`)
+  assert.equal(root.headers.get("location"), `/${section}/page/1`)
+  assert.equal(
+    (await fetch(new URL(`/${section}/page/1`, base))).status,
+    200,
+    `${section}: archive`,
+  )
+  const missingArticle = await fetch(new URL(`/${section}/example-article`, base), {
+    redirect: "manual",
+  })
+  assert.equal(missingArticle.status, 404, `${section}: missing article returns 404 directly`)
+  assert.match(
+    await missingArticle.text(),
+    /ページが見つかりません/,
+    `${section}: branded missing article`,
+  )
+  assert.match(sitemap, new RegExp(`/${section}/page/1`), `${section}: sitemap archive`)
   for (const page of ["0", "1.5", "invalid", "999999"]) {
-    const response = await fetch(new URL(`/${section}/page/${page}`, base), { redirect: "manual" });
-    assert.equal(response.status, 404, `${section}: invalid archive page ${page}`);
-    assert.match(await response.text(), /ページが見つかりません/, `${section}: branded 404`);
+    const response = await fetch(new URL(`/${section}/page/${page}`, base), { redirect: "manual" })
+    assert.equal(response.status, 404, `${section}: invalid archive page ${page}`)
+    assert.match(await response.text(), /ページが見つかりません/, `${section}: branded 404`)
   }
 }
-const columnHtml = await (await fetch(new URL("/useful-materials/page/1", base))).text();
-const categoryPath = columnHtml.match(/href="(\/useful-materials\/category\/[^"/]+\/page\/)1"/)?.[1];
+const columnHtml = await (await fetch(new URL("/useful-materials/page/1", base))).text()
+const categoryPath = columnHtml.match(/href="(\/useful-materials\/category\/[^"/]+\/page\/)1"/)?.[1]
 if (categoryPath) {
-  assert.equal((await fetch(new URL(`${categoryPath}1`, base))).status, 200, "category first page");
-  const response = await fetch(new URL(`${categoryPath}999999`, base), { redirect: "manual" });
-  assert.equal(response.status, 404, "category: out-of-range archive page");
+  assert.equal((await fetch(new URL(`${categoryPath}1`, base))).status, 200, "category first page")
+  const response = await fetch(new URL(`${categoryPath}999999`, base), { redirect: "manual" })
+  assert.equal(response.status, 404, "category: out-of-range archive page")
 } else {
-  console.log("SKIP category HTTP pagination: no local categories");
+  console.log("SKIP category HTTP pagination: no local categories")
 }
 assert.equal(
   await (await fetch(new URL("/robots.txt", base))).text(),
   "User-agent: *\nDisallow: /\n",
-);
-console.log(
-  `PASS ${assets.size} image assets, redirect, 404, sitemap and preview robots`,
-);
+)
+console.log(`PASS ${assets.size} image assets, redirect, 404, sitemap and preview robots`)
 
 // Retiring the starter must remove its routes and seed content together.
-for (const path of ["/posts", "/posts/example", "/pages/about", "/category/development", "/tag/webdev", "/search", "/rss.xml"]) {
-  assert.equal((await fetch(new URL(path, base))).status, 404, `${path}: retired starter route`);
+for (const path of [
+  "/posts",
+  "/posts/example",
+  "/pages/about",
+  "/category/development",
+  "/tag/webdev",
+  "/search",
+  "/rss.xml",
+]) {
+  assert.equal((await fetch(new URL(path, base))).status, 404, `${path}: retired starter route`)
 }
-const seed = JSON.parse(await source("seed/seed.json"));
-assert.deepEqual(seed.collections.map(item => item.slug).sort(), ["company_achievements", "staff_blog", "useful_materials"]);
-assert.ok(!seed.content, "no starter sample posts");
-console.log("PASS retired starter routes and clean editorial seed");
+const seed = JSON.parse(await source("seed/seed.json"))
+assert.deepEqual(seed.collections.map((item) => item.slug).sort(), [
+  "company_achievements",
+  "staff_blog",
+  "useful_materials",
+])
+assert.ok(!seed.content, "no starter sample posts")
+console.log("PASS retired starter routes and clean editorial seed")

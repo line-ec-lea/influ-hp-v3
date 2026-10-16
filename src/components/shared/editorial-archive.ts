@@ -1,4 +1,4 @@
-import { getEmDashCollection } from "emdash";
+import { getEmDashCollection } from "emdash"
 
 export function loadEditorialArchive(
   collection: "company_achievements" | "useful_materials" | "staff_blog",
@@ -12,5 +12,5 @@ export function loadEditorialArchive(
     limit: (page === 1 ? 13 : 12) + 48,
     offset: page === 1 ? 0 : 13 + (page - 2) * 12,
     where: categorySlug ? { material_category: categorySlug } : undefined,
-  });
+  })
 }

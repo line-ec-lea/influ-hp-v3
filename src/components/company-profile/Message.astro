@@ -1,34 +1,96 @@
 ---
-import CompanySectionLabel from "@shared/CompanySectionLabel.astro";
-import BackgroundFilm from "./BackgroundFilm.astro";
+import CompanySectionLabel from "@shared/CompanySectionLabel.astro"
+import BackgroundFilm from "./BackgroundFilm.astro"
+
 const paragraphs = [
   "これまで、お客様の商品やサービスを必要な人へ届けるために、何をすべきかを常に考えてきました。お客様の事業が成長することが、私たちの喜びでもあります。",
   "飲食店の経営、WEBでの情報発信、メールや公式LINEを使った販売支援、システムづくり。異なるように見える経験のすべてに共通していたのは、現場で試し、数字や反応を確認し、次の改善へつなげることでした。",
   "個人時代から一貫して、個人や小さな組織が挑戦し、成長できるよう全面的に支えることを目指してきました。これまで掲げてきた「ノーコードで起業する」という考えを、現在はAIを使いながら自社で運用・改善できる仕組みづくりへ発展させています。",
   "目先の施策だけではなく、事業の背景や成長の段階を理解し、長期的な視点で一緒に考える組織でありたいと思っています。事業の成長が、その先の社会価値につながるよう支援を続けてまいります。",
-];
-const panelClass = "group-data-[motion-desktop]/profile-message:col-start-1 group-data-[motion-desktop]/profile-message:row-start-1 group-data-[motion-desktop]/profile-message:self-center";
+]
+const panelClass =
+  "group-data-[motion-desktop]/profile-message:col-start-1 group-data-[motion-desktop]/profile-message:row-start-1 group-data-[motion-desktop]/profile-message:self-center"
 ---
-<section id="a01" aria-labelledby="message-title" class="scroll-mt-24 bg-section" data-profile-message>
-  <div data-profile-message-pin class="group/profile-message relative data-[motion-desktop]:h-[var(--profile-scroll-height)]">
-    <div id="message" class="relative isolate flex min-h-svh flex-col gap-12 overflow-hidden px-[var(--profile-gutter)] pb-20 pt-[clamp(110px,14svh,150px)] scroll-mt-24 group-data-[motion-desktop]/profile-message:sticky group-data-[motion-desktop]/profile-message:top-0 group-data-[motion-desktop]/profile-message:h-[var(--profile-viewport)] group-data-[motion-desktop]/profile-message:gap-8 group-data-[motion-desktop]/profile-message:pb-[clamp(48px,7svh,80px)] group-data-[motion-desktop]/profile-message:pt-[clamp(96px,12svh,120px)]" data-profile-message-stage>
-      <div data-profile-message-visual class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-svh group-data-[motion-desktop]/profile-message:h-full">
-        <BackgroundFilm name="message" poster="/media/company-profile/bg-message.jpg" src="/media/company-profile/bg-message.mp4" width={1920} height={848} class="object-[50%_50%]" />
-        <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,6,0.4),rgba(6,6,6,0.15)_25%,rgba(6,6,6,0.62)_68%,var(--color-section)),linear-gradient(90deg,rgba(6,6,6,0.55),rgba(6,6,6,0.18))] group-data-[motion-desktop]/profile-message:bg-[linear-gradient(180deg,rgba(6,6,6,0.42),rgba(6,6,6,0.14)_30%,rgba(6,6,6,0.66)_65%,rgba(6,6,6,0.82)),linear-gradient(90deg,rgba(6,6,6,0.6),rgba(6,6,6,0.2))]"></div>
+
+<section
+  id="a01"
+  aria-labelledby="message-title"
+  class="scroll-mt-24 bg-section"
+  data-profile-message
+>
+  <div
+    data-profile-message-pin
+    class="group/profile-message relative data-[motion-desktop]:h-[var(--profile-scroll-height)]"
+  >
+    <div
+      id="message"
+      class="relative isolate flex min-h-svh flex-col gap-12 overflow-hidden px-[var(--profile-gutter)] pb-20 pt-[clamp(110px,14svh,150px)] scroll-mt-24 group-data-[motion-desktop]/profile-message:sticky group-data-[motion-desktop]/profile-message:top-0 group-data-[motion-desktop]/profile-message:h-[var(--profile-viewport)] group-data-[motion-desktop]/profile-message:gap-8 group-data-[motion-desktop]/profile-message:pb-[clamp(48px,7svh,80px)] group-data-[motion-desktop]/profile-message:pt-[clamp(96px,12svh,120px)]"
+      data-profile-message-stage
+    >
+      <div
+        data-profile-message-visual
+        class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-svh group-data-[motion-desktop]/profile-message:h-full"
+      >
+        <BackgroundFilm
+          name="message"
+          poster="/media/company-profile/bg-message.jpg"
+          src="/media/company-profile/bg-message.mp4"
+          width={1920}
+          height={848}
+          class="object-[50%_50%]"
+        />
+        <div
+          aria-hidden="true"
+          class="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,6,6,0.4),rgba(6,6,6,0.15)_25%,rgba(6,6,6,0.62)_68%,var(--color-section)),linear-gradient(90deg,rgba(6,6,6,0.55),rgba(6,6,6,0.18))] group-data-[motion-desktop]/profile-message:bg-[linear-gradient(180deg,rgba(6,6,6,0.42),rgba(6,6,6,0.14)_30%,rgba(6,6,6,0.66)_65%,rgba(6,6,6,0.82)),linear-gradient(90deg,rgba(6,6,6,0.6),rgba(6,6,6,0.2))]"
+        ></div>
       </div>
-      <div data-profile-message-head class="relative flex min-h-[calc(100svh-180px)] flex-col justify-between gap-12 group-data-[motion-desktop]/profile-message:min-h-0">
+      <div
+        data-profile-message-head
+        class="relative flex min-h-[calc(100svh-180px)] flex-col justify-between gap-12 group-data-[motion-desktop]/profile-message:min-h-0"
+      >
         <div>
           <CompanySectionLabel>MESSAGE</CompanySectionLabel>
-          <h2 id="message-title" class="mt-6 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.25rem]">挑戦を、<br />続けられる仕組みに。</h2>
+          <h2
+            id="message-title"
+            class="mt-6 text-[2rem] font-bold leading-[1.3] tracking-[-0.02em] sm:text-4xl md:text-5xl lg:text-[3.25rem]"
+          >
+            挑戦を、<br>続けられる仕組みに。
+          </h2>
         </div>
       </div>
-      <div data-profile-message-body class="relative grid w-full max-w-[46rem] gap-14 self-center group-data-[motion-desktop]/profile-message:flex-1 group-data-[motion-desktop]/profile-message:content-center group-data-[motion-desktop]/profile-message:gap-0">
-        {paragraphs.map(paragraph => <p data-profile-message-panel class:list={[panelClass, "text-pretty text-lg leading-[1.95] tracking-normal text-foreground/95 sm:text-xl group-data-[motion-desktop]/profile-message:text-[clamp(1.375rem,1.7vw,1.75rem)]"]}>{paragraph}</p>)}
+      <div
+        data-profile-message-body
+        class="relative grid w-full max-w-[46rem] gap-14 self-center group-data-[motion-desktop]/profile-message:flex-1 group-data-[motion-desktop]/profile-message:content-center group-data-[motion-desktop]/profile-message:gap-0"
+      >
+        {paragraphs.map((paragraph) => (
+          <p
+            data-profile-message-panel
+            class:list={[
+              panelClass,
+              "text-pretty text-lg leading-[1.95] tracking-normal text-foreground/95 sm:text-xl group-data-[motion-desktop]/profile-message:text-[clamp(1.375rem,1.7vw,1.75rem)]",
+            ]}
+          >
+            {paragraph}
+          </p>
+        ))}
       </div>
-      <figure data-profile-message-panel class="w-full max-w-[46rem] self-center py-8 group-data-[motion-desktop]/profile-message:absolute group-data-[motion-desktop]/profile-message:bottom-[clamp(56px,8svh,88px)] group-data-[motion-desktop]/profile-message:right-[var(--profile-gutter)] group-data-[motion-desktop]/profile-message:w-auto group-data-[motion-desktop]/profile-message:max-w-[calc(100%-2*var(--profile-gutter))] group-data-[motion-desktop]/profile-message:py-0">
+      <figure
+        data-profile-message-panel
+        class="w-full max-w-[46rem] self-center py-8 group-data-[motion-desktop]/profile-message:absolute group-data-[motion-desktop]/profile-message:bottom-[clamp(56px,8svh,88px)] group-data-[motion-desktop]/profile-message:right-[var(--profile-gutter)] group-data-[motion-desktop]/profile-message:w-auto group-data-[motion-desktop]/profile-message:max-w-[calc(100%-2*var(--profile-gutter))] group-data-[motion-desktop]/profile-message:py-0"
+      >
         <figcaption class="grid justify-items-end gap-5 text-right">
-          <img src="/influhp-assets/wp-content/themes/top/images/name.png" alt="水戸 亮太の署名" width="208" height="30" loading="lazy" decoding="async" class="h-auto w-52 max-w-full brightness-0 invert" />
-          <p class="text-xs font-bold tracking-[0.16em] text-foreground/70">REPRESENTATIVE DIRECTOR</p>
+          <img
+            src="/influhp-assets/wp-content/themes/top/images/name.png"
+            alt="水戸 亮太の署名"
+            width="208"
+            height="30"
+            loading="lazy"
+            decoding="async"
+            class="h-auto w-52 max-w-full brightness-0 invert"
+          >
+          <p class="text-xs font-bold tracking-[0.16em] text-foreground/70">
+            REPRESENTATIVE DIRECTOR
+          </p>
         </figcaption>
       </figure>
     </div>
@@ -36,6 +98,7 @@ const panelClass = "group-data-[motion-desktop]/profile-message:col-start-1 grou
 </section>
 
 <script>
-  import { messageMotion } from "./profile-motion";
-  messageMotion(document.querySelector<HTMLElement>("[data-profile-message]"));
+import { messageMotion } from "./profile-motion"
+
+messageMotion(document.querySelector<HTMLElement>("[data-profile-message]"))
 </script>

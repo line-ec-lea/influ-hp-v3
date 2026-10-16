@@ -1,5 +1,10 @@
 ---
-interface Props { class?: string; delay?: number; direction?: "up" | "left" | "right" }
-const { class: className = "" } = Astro.props;
+interface Props {
+  class?: string
+  delay?: number
+  direction?: "up" | "left" | "right"
+}
+const { class: className = "" } = Astro.props
 ---
+
 <div class={className}><slot /></div>

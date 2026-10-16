@@ -1,7 +1,15 @@
 ---
-interface Props { as?: "h1" | "h2" | "h3" | "p"; id?: string; class?: string; delay?: number }
-const { as: Tag = "h2", id, class: className = "" } = Astro.props;
+interface Props {
+  as?: "h1" | "h2" | "h3" | "p"
+  id?: string
+  class?: string
+  delay?: number
+}
+const { as: Tag = "h2", id, class: className = "" } = Astro.props
 ---
+
 <Tag id={id} class={`relative ${className}`}>
-  <span class="relative z-10 block text-[#F5F1E8] [text-shadow:0_1px_18px_rgba(255,241,199,0.08)]"><slot /></span>
+  <span class="relative z-10 block text-[#F5F1E8] [text-shadow:0_1px_18px_rgba(255,241,199,0.08)]"
+    ><slot /></span
+  >
 </Tag>

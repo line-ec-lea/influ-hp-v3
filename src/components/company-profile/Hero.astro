@@ -1,28 +1,82 @@
 ---
-import BackgroundFilm from "./BackgroundFilm.astro";
-import SpecularButton from "@shared/SpecularButton.astro";
-import { CONTACT_FORM_HREF } from "@shared/features/contact";
+import { CONTACT_FORM_HREF } from "@shared/features/contact"
+import SpecularButton from "@shared/SpecularButton.astro"
+import BackgroundFilm from "./BackgroundFilm.astro"
 ---
-<section id="company" aria-labelledby="company-title" data-profile-hero class="relative isolate grid min-h-svh grid-rows-[1fr_auto] gap-8 overflow-hidden bg-section px-[var(--profile-gutter)] pb-14 pt-[clamp(96px,14svh,144px)] sm:gap-10 sm:pb-16">
-  <BackgroundFilm name="hero" poster="/media/company-profile/bg-hero.jpg" src="/media/company-profile/bg-hero.mp4" class="object-[25%_50%]" />
-  <div aria-hidden="true" class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(6,6,6,0.35),transparent_30%,transparent_90%,var(--color-section)),linear-gradient(90deg,rgba(6,6,6,0.8),rgba(6,6,6,0.5)_45%,rgba(6,6,6,0.12))]"></div>
+
+<section
+  id="company"
+  aria-labelledby="company-title"
+  data-profile-hero
+  class="relative isolate grid min-h-svh grid-rows-[1fr_auto] gap-8 overflow-hidden bg-section px-[var(--profile-gutter)] pb-14 pt-[clamp(96px,14svh,144px)] sm:gap-10 sm:pb-16"
+>
+  <BackgroundFilm
+    name="hero"
+    poster="/media/company-profile/bg-hero.jpg"
+    src="/media/company-profile/bg-hero.mp4"
+    class="object-[25%_50%]"
+  />
+  <div
+    aria-hidden="true"
+    class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(6,6,6,0.35),transparent_30%,transparent_90%,var(--color-section)),linear-gradient(90deg,rgba(6,6,6,0.8),rgba(6,6,6,0.5)_45%,rgba(6,6,6,0.12))]"
+  ></div>
   <div class="max-w-[56rem] self-center py-8 sm:py-12">
-    <h1 id="company-title" class="text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] text-foreground lg:text-[clamp(3rem,4.2vw,4.5rem)]">
-      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.0"><span class="inline-block">技術と</span><span class="inline-block">マーケティングを、</span></span></span>
-      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.08"><span class="inline-block">現場で</span><span class="inline-block">使い続けられる</span></span></span>
-      <span class="block overflow-hidden"><span class="inline-block" data-profile-hero-line data-profile-delay="0.16">仕組みへ。</span></span>
+    <h1
+      id="company-title"
+      class="text-[clamp(2rem,8.8vw,3rem)] font-extrabold leading-[1.18] tracking-[-0.02em] text-foreground lg:text-[clamp(3rem,4.2vw,4.5rem)]"
+    >
+      <span class="block overflow-hidden"
+        ><span class="inline-block" data-profile-hero-line data-profile-delay="0.0"
+          ><span class="inline-block">技術と</span
+          ><span class="inline-block">マーケティングを、</span></span
+        ></span
+      >
+      <span class="block overflow-hidden"
+        ><span class="inline-block" data-profile-hero-line data-profile-delay="0.08"
+          ><span class="inline-block">現場で</span
+          ><span class="inline-block">使い続けられる</span></span
+        ></span
+      >
+      <span class="block overflow-hidden"
+        ><span class="inline-block" data-profile-hero-line data-profile-delay="0.16"
+          >仕組みへ。</span
+        ></span
+      >
     </h1>
-    <p data-profile-lead data-profile-delay="0.24" class="mt-8 max-w-[32rem] text-pretty text-base leading-[1.9] text-foreground/90 sm:mt-10">INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。</p>
+    <p
+      data-profile-lead
+      data-profile-delay="0.24"
+      class="mt-8 max-w-[32rem] text-pretty text-base leading-[1.9] text-foreground/90 sm:mt-10"
+    >
+      INFLUは、AI活用・AXとマーケティングをつなぎ、企業が自ら運用・改善できる状態を目指して伴走する支援会社です。
+    </p>
     <div data-profile-cta data-profile-delay="0.36" class="mt-7 w-fit sm:mt-8">
-      <SpecularButton href={CONTACT_FORM_HREF} target="_blank" rel="noopener noreferrer" mobileEffect class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none">INFLUに相談する</SpecularButton>
+      <SpecularButton
+        href={CONTACT_FORM_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        mobileEffect
+        class="!text-foreground max-sm:min-h-12 max-sm:!rounded-lg max-sm:!px-4 max-sm:!text-sm max-sm:!shadow-none"
+        >INFLUに相談する</SpecularButton
+      >
     </div>
   </div>
-  <div data-profile-hero-foot class="flex flex-wrap items-end justify-between gap-5 text-[0.625rem] font-bold tracking-[0.2em] text-foreground/70">
-    <a href="#direction" class="inline-flex items-center gap-3.5"><span class="block h-12 w-px bg-[linear-gradient(#c89a5b,transparent)]" aria-hidden="true"></span>SCROLL<span class="sr-only">：現在の支援領域へ</span></a>
+  <div
+    data-profile-hero-foot
+    class="flex flex-wrap items-end justify-between gap-5 text-[0.625rem] font-bold tracking-[0.2em] text-foreground/70"
+  >
+    <a href="#direction" class="inline-flex items-center gap-3.5"
+      ><span
+        class="block h-12 w-px bg-[linear-gradient(#c89a5b,transparent)]"
+        aria-hidden="true"
+      ></span
+      >SCROLL<span class="sr-only">：現在の支援領域へ</span></a
+    >
   </div>
 </section>
 
 <script>
-  import { heroMotion } from "./profile-motion";
-  heroMotion(document.querySelector<HTMLElement>("[data-profile-hero]"));
+import { heroMotion } from "./profile-motion"
+
+heroMotion(document.querySelector<HTMLElement>("[data-profile-hero]"))
 </script>

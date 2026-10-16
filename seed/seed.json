@@ -16,14 +16,7 @@
       "label": "会社実績",
       "labelSingular": "会社実績記事",
       "urlPattern": "/company-achievements/{slug}",
-      "supports": [
-        "drafts",
-        "revisions",
-        "preview",
-        "scheduling",
-        "search",
-        "seo"
-      ],
+      "supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
       "fields": [
         {
           "slug": "title",
@@ -55,14 +48,7 @@
       "label": "コラム",
       "labelSingular": "コラム記事",
       "urlPattern": "/useful-materials/{slug}",
-      "supports": [
-        "drafts",
-        "revisions",
-        "preview",
-        "scheduling",
-        "search",
-        "seo"
-      ],
+      "supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
       "fields": [
         {
           "slug": "title",
@@ -94,14 +80,7 @@
       "label": "スタッフBLOG",
       "labelSingular": "スタッフBLOG記事",
       "urlPattern": "/staff-blog/{slug}",
-      "supports": [
-        "drafts",
-        "revisions",
-        "preview",
-        "scheduling",
-        "search",
-        "seo"
-      ],
+      "supports": ["drafts", "revisions", "preview", "scheduling", "search", "seo"],
       "fields": [
         {
           "slug": "title",
@@ -135,9 +114,7 @@
       "label": "コラムカテゴリー",
       "labelSingular": "コラムカテゴリー",
       "hierarchical": false,
-      "collections": [
-        "useful_materials"
-      ],
+      "collections": ["useful_materials"],
       "terms": []
     }
   ]

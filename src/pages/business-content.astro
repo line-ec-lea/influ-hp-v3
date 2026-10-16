@@ -1,11 +1,11 @@
 ---
-import Company from "../layouts/Company.astro";
-import CinematicPageFrame from "@shared/CinematicPageFrame.astro";
-import Hero from "../components/business-content/Hero.astro";
-import PrimaryServices from "../components/business-content/PrimaryServices.astro";
-import Workflow from "../components/business-content/Workflow.astro";
-import RelatedBusinesses from "../components/business-content/RelatedBusinesses.astro";
-import Contact from "../components/business-content/Contact.astro";
+import CinematicPageFrame from "@shared/CinematicPageFrame.astro"
+import Contact from "../components/business-content/Contact.astro"
+import Hero from "../components/business-content/Hero.astro"
+import PrimaryServices from "../components/business-content/PrimaryServices.astro"
+import RelatedBusinesses from "../components/business-content/RelatedBusinesses.astro"
+import Workflow from "../components/business-content/Workflow.astro"
+import Company from "../layouts/Company.astro"
 
 const metadata = {
   title: "事業内容",
@@ -13,6 +13,7 @@ const metadata = {
     "HPのAI化とAX・業務効率化支援を中心に、エンジニアリングとマーケティングの両面から企業のAI活用を支援します。",
 }
 ---
+
 <Company title={metadata.title} description={metadata.description}>
   <Hero />
   <CinematicPageFrame>
@@ -23,54 +24,73 @@ const metadata = {
   </CinematicPageFrame>
 </Company>
 <script>
-  import { animate, ease, reducedMotion } from "@shared/motion";
+import { animate, ease, reducedMotion } from "@shared/motion"
 
-  // Content stays visible without JavaScript; these entrances only run on this page.
-  if (!reducedMotion.matches) {
-    const targets = [...document.querySelectorAll<HTMLElement>("[data-business-enter]")];
-    const pending = new Set<Element>(targets);
-    const animations = new Map<Element, ReturnType<typeof animate>[]>();
-    const distance = matchMedia("(max-width: 639px)").matches ? 4 : 8;
-    const observer = new IntersectionObserver((entries) => {
-      const entering = entries.filter(({ isIntersecting, target }) => isIntersecting && pending.has(target));
+// Content stays visible without JavaScript; these entrances only run on this page.
+if (!reducedMotion.matches) {
+  const targets = [...document.querySelectorAll<HTMLElement>("[data-business-enter]")]
+  const pending = new Set<Element>(targets)
+  const animations = new Map<Element, ReturnType<typeof animate>[]>()
+  const distance = matchMedia("(max-width: 639px)").matches ? 4 : 8
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const entering = entries.filter(
+        ({ isIntersecting, target }) => isIntersecting && pending.has(target),
+      )
       entering.forEach(({ target }, index) => {
-        pending.delete(target);
-        observer.unobserve(target);
-        const element = target as HTMLElement;
-        const delay = element.dataset.businessEnter === "after" ? 0.12 : Math.min(index * 0.06, 0.18);
-        const entrance = [animate(element, { opacity: 1, y: 0 }, { duration: 0.4, delay, ease })];
-        const dot = element.querySelector<HTMLElement>("[data-step-dot]");
-        if (dot) entrance.push(animate(dot, { opacity: [0.5, 1], scale: [1, 1.35, 1] }, { duration: 0.45, delay, ease }));
-        animations.set(element, entrance);
-      });
-    }, { threshold: 0, rootMargin: "0px 0px -32px 0px" });
+        pending.delete(target)
+        observer.unobserve(target)
+        const element = target as HTMLElement
+        const delay =
+          element.dataset.businessEnter === "after" ? 0.12 : Math.min(index * 0.06, 0.18)
+        const entrance = [animate(element, { opacity: 1, y: 0 }, { duration: 0.4, delay, ease })]
+        const dot = element.querySelector<HTMLElement>("[data-step-dot]")
+        if (dot)
+          entrance.push(
+            animate(
+              dot,
+              { opacity: [0.5, 1], scale: [1, 1.35, 1] },
+              { duration: 0.45, delay, ease },
+            ),
+          )
+        animations.set(element, entrance)
+      })
+    },
+    { threshold: 0, rootMargin: "0px 0px -32px 0px" },
+  )
 
-    targets.forEach((element) => {
-      element.style.opacity = "0";
-      element.style.transform = `translateY(${distance}px)`;
-      observer.observe(element);
-    });
-    const show = (element: HTMLElement) => {
-      animations.get(element)?.forEach((animation) => animation.complete());
-      pending.delete(element);
-      observer.unobserve(element);
-      animate(element, { opacity: 1, y: 0 }, { duration: 0 });
-    };
-    const onFocus = (event: FocusEvent) => {
-      const element = (event.target as Element).closest<HTMLElement>("[data-business-enter]");
-      if (element) show(element);
-    };
-    const finish = () => {
-      observer.disconnect();
-      pending.clear();
-      targets.forEach(show);
-    };
-    document.addEventListener("focusin", onFocus);
-    reducedMotion.addEventListener("change", finish, { once: true });
-    window.addEventListener("pagehide", () => {
-      finish();
-      document.removeEventListener("focusin", onFocus);
-      reducedMotion.removeEventListener("change", finish);
-    }, { once: true });
+  targets.forEach((element) => {
+    element.style.opacity = "0"
+    element.style.transform = `translateY(${distance}px)`
+    observer.observe(element)
+  })
+  const show = (element: HTMLElement) => {
+    animations.get(element)?.forEach((animation) => {
+      animation.complete()
+    })
+    pending.delete(element)
+    observer.unobserve(element)
+    animate(element, { opacity: 1, y: 0 }, { duration: 0 })
   }
+  const onFocus = (event: FocusEvent) => {
+    const element = (event.target as Element).closest<HTMLElement>("[data-business-enter]")
+    if (element) show(element)
+  }
+  const finish = () => {
+    observer.disconnect()
+    pending.clear()
+    targets.forEach(show)
+  }
+  document.addEventListener("focusin", onFocus)
+  reducedMotion.addEventListener("change", finish, { once: true })
+  window.addEventListener(
+    "pagehide",
+    () => {
+      finish()
+      document.removeEventListener("focusin", onFocus)
+      reducedMotion.removeEventListener("change", finish)
+    },
+    { once: true },
+  )
+}
 </script>

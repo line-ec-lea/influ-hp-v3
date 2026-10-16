@@ -1,88 +1,145 @@
-import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
-import ts from "typescript";
+import assert from "node:assert/strict"
+import { readFile } from "node:fs/promises"
+import { runInNewContext } from "node:vm"
+import ts from "typescript"
 
-// Exercise the shared entrance behavior used across the homepage.
-const source = (await readFile(new URL("../src/components/shared/motion.ts", import.meta.url), "utf8"))
-  .split("export function revealStaggered")[1];
-const run = new Function("document", "window", "reducedMotion", "IntersectionObserver", "animate", "ease",
-  ts.transpile(`function revealStaggered${source}
-revealStaggered(document.querySelector("section"), "[data-reveal]");`, { target: ts.ScriptTarget.ES2022 }));
-
-function setup(reduced, desktop) {
-  const targets = Array.from({ length: 16 }, () => ({ style: {}, contains(node) { return node === this; } }));
-  const animations = [], observed = new Set();
-  const focusListeners = new Map(), motionListeners = new Map();
-  let enter, options, pagehide;
-  const events = listeners => ({
-    addEventListener: (name, callback) => listeners.set(name, callback),
-    removeEventListener: name => listeners.delete(name),
-  });
-  const animate = (elements, frames, options) => {
-    const items = Array.isArray(elements) ? elements : [elements];
-    const animation = {
-      items, frames, options, stopped: false,
-      complete() { items.forEach(item => { item.style.opacity = String(Array.isArray(frames.opacity) ? frames.opacity.at(-1) : frames.opacity); }); },
-      stop() { this.stopped = true; },
-    };
-    if (options.duration === 0) animation.complete();
-    animations.push(animation);
-    return animation;
-  };
-  run({ querySelector: () => ({ querySelectorAll: () => targets, ...events(focusListeners) }) },
-    { matchMedia: () => ({ matches: desktop }), addEventListener: (name, callback) => { pagehide = callback; } },
-    { matches: reduced, ...events(motionListeners) },
-    class {
-      constructor(callback, settings) { enter = callback; options = settings; }
-      observe(target) { observed.add(target); }
-      unobserve(target) { observed.delete(target); }
-      disconnect() { observed.clear(); }
-    }, animate, [0.22, 1, 0.36, 1]);
-  return { targets, observed, options, animations, focusListeners, motionListeners, pagehide,
-    enter: (...indices) => enter(indices.map(index => ({ target: targets[index], isIntersecting: true }))) };
+// Exercise the current focus selector, including reduced motion and interrupted selections.
+const source = await readFile(
+  new URL("../src/components/home/WhatWeDo.astro", import.meta.url),
+  "utf8",
+)
+const code = ts.transpile(
+  source
+    .match(/<script>([\s\S]*?)<\/script>/)[1]
+    .replace(/^import[\s\S]*?\sfrom\s+["'][^"']+["'];?\r?\n/gm, ""),
+  { target: ts.ScriptTarget.ES2022 },
+)
+class Target {
+  listeners = new Map()
+  attrs = new Map()
+  textContent = ""
+  addEventListener(name, callback) {
+    this.listeners.set(name, callback)
+  }
+  removeEventListener(name) {
+    this.listeners.delete(name)
+  }
+  emit(name, event = {}) {
+    return this.listeners.get(name)?.(event)
+  }
+  getAttribute(name) {
+    return this.attrs.get(name)
+  }
+  setAttribute(name, value) {
+    this.attrs.set(name, value)
+  }
 }
-
-const reduced = setup(true, false);
-assert.equal(reduced.observed.size, 0);
-assert.ok(reduced.targets.every(target => target.style.opacity === undefined), "Reduced motion keeps content visible without waiting for scroll");
-
-for (const desktop of [false, true]) {
-  const state = setup(false, desktop);
-  assert.equal(state.observed.size, 16);
-  assert.equal(state.animations.length, 0, "No entrance runs before its viewport trigger");
-  assert.equal(state.options.rootMargin, "0px 0px -48px 0px");
-  state.enter(0, 1);
-  assert.deepEqual(state.animations[0].frames.y, [desktop ? 20 : 12, 0]);
-  assert.ok(state.animations[1].options.delay > state.animations[0].options.delay, "Elements entering together are staggered");
-  assert.equal(state.targets[2].style.opacity, "0", "Unreached content keeps its own entrance pending");
-  state.enter(8);
-  assert.equal(state.animations[2].options.delay, 0, "A later element reached separately must not inherit an earlier group's delay");
-  state.enter(9, 10, 11, 12, 13, 14, 15);
-  assert.ok(state.animations.every(animation => animation.options.delay <= 0.21), "Fast scrolling never creates a long reveal backlog");
-  const entered = state.animations.length;
-  state.enter(0);
-  assert.equal(state.animations.length, entered, "An already revealed element does not restart");
-  state.pagehide({ persisted: true });
-  assert.ok(state.observed.has(state.targets[2]), "Back-forward cache retains pending observers");
-  state.focusListeners.get("focusin")({ target: state.targets[2] });
-  assert.equal(state.targets[2].style.opacity, "1", "Keyboard focus immediately reveals that control");
-  assert.equal(state.targets[3].style.opacity, "0", "Focusing one control must not reveal unrelated content");
-  assert.ok(state.observed.has(state.targets[3]));
-  const focused = state.animations.length;
-  state.enter(2);
-  assert.equal(state.animations.length, focused, "A queued intersection must not hide a focused control again");
-  state.pagehide({ persisted: false });
-  assert.equal(state.observed.size, 0);
-  assert.ok(state.animations.slice(0, entered).every(animation => animation.stopped));
-  assert.equal(state.focusListeners.size + state.motionListeners.size, 0, "Navigation cleans up listeners");
+function setup({ reduced = false, desktop = true } = {}) {
+  const buttons = Array.from({ length: 7 }, (_, index) => {
+    const button = new Target()
+    button.dataset = { label: `Area ${index}`, description: `Description ${index}` }
+    button.setAttribute("aria-pressed", String(index === 2))
+    return button
+  })
+  const pills = buttons.map(() => new Target())
+  const description = new Target(),
+    heading = new Target(),
+    paragraph = new Target(),
+    count = new Target()
+  count.textContent = "03"
+  description.querySelector = (selector) => (selector === "h3" ? heading : paragraph)
+  const section = {
+    querySelectorAll: (selector) => (selector === "[data-area]" ? buttons : pills),
+    querySelector: (selector) => (selector === "[data-detail]" ? description : count),
+  }
+  const preference = new Target(),
+    breakpoint = new Target(),
+    window = new Target()
+  preference.matches = reduced
+  breakpoint.matches = desktop
+  window.matchMedia = () => breakpoint
+  const calls = []
+  runInNewContext(code, {
+    document: { querySelector: () => section },
+    window,
+    reducedMotion: preference,
+    ease: [0.22, 1, 0.36, 1],
+    animate(target, values, options) {
+      const call = { target, values, options, stopped: false }
+      calls.push(call)
+      return Object.assign(Promise.resolve(), {
+        stop() {
+          call.stopped = true
+        },
+      })
+    },
+  })
+  return { buttons, pills, heading, paragraph, count, preference, breakpoint, window, calls }
 }
-
-const toggled = setup(false, true);
-toggled.enter(0);
-toggled.motionListeners.get("change")();
-assert.ok(toggled.targets.every(target => target.style.opacity === "1"), "Enabling reduced motion reveals pending and active content");
-assert.equal(toggled.observed.size, 0);
-const finished = toggled.animations.length;
-toggled.enter(1);
-assert.equal(toggled.animations.length, finished, "Queued intersections stay inert after reduced motion is enabled");
-console.log("PASS shared homepage entrances: viewport timing, stagger, mobile distance, keyboard access, reduced motion and cleanup");
+const settle = async () => {
+  for (let index = 0; index < 6; index++) await Promise.resolve()
+}
+const selected = (state) =>
+  state.buttons.findIndex((button) => button.getAttribute("aria-pressed") === "true")
+const state = setup()
+assert.equal(state.calls.filter((call) => call.options.repeat === Infinity).length, 6)
+assert.equal(
+  state.calls.some((call) => call.target === state.pills[2]),
+  false,
+  "The selected area does not drift",
+)
+await state.buttons[5].emit("click")
+assert.equal(selected(state), 5)
+assert.equal(state.count.textContent, "06")
+assert.equal(state.heading.textContent, "Area 5")
+assert.equal(state.paragraph.textContent, "Description 5")
+state.buttons[1].emit("pointerenter", { pointerType: "touch" })
+await settle()
+assert.equal(selected(state), 5, "Touch hover does not change the selection")
+state.buttons[1].emit("pointerenter", { pointerType: "mouse" })
+await settle()
+assert.equal(selected(state), 1)
+await state.buttons[4].emit("focus")
+assert.equal(state.count.textContent, "05", "Keyboard focus updates the detail")
+state.buttons[0].emit("click")
+state.buttons[6].emit("click")
+await settle()
+assert.equal(
+  state.heading.textContent,
+  "Area 6",
+  "A stale fade cannot overwrite the newest selection",
+)
+state.buttons[3].emit("click")
+state.preference.matches = true
+state.preference.emit("change")
+await settle()
+assert.equal(
+  state.heading.textContent,
+  "Area 3",
+  "Changing motion preferences finishes an interrupted selection",
+)
+assert.ok(
+  state.calls.filter((call) => call.options.repeat === Infinity).every((call) => call.stopped),
+)
+state.preference.matches = false
+state.preference.emit("change")
+const moving = state.calls.filter((call) => call.options.repeat === Infinity && !call.stopped)
+state.window.emit("pagehide", { persisted: true })
+assert.ok(
+  moving.every((call) => !call.stopped),
+  "Back-forward cache preserves listeners and motion",
+)
+state.window.emit("pagehide", { persisted: false })
+assert.ok(moving.every((call) => call.stopped))
+assert.equal(state.preference.listeners.size + state.breakpoint.listeners.size, 0)
+for (const reduced of [true, false]) {
+  const mobile = setup({ reduced, desktop: false })
+  assert.equal(mobile.calls.filter((call) => call.options.repeat === Infinity).length, 0)
+  await mobile.buttons[1].emit("click")
+  assert.equal(mobile.heading.textContent, "Area 1")
+  if (reduced) assert.ok(mobile.calls.every((call) => call.options.duration === 0))
+  mobile.window.emit("pagehide")
+}
+console.log(
+  "PASS current focus selector: mouse, touch, keyboard, rapid selection, reduced motion, mobile, back-forward cache and cleanup",
+)

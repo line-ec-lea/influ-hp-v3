@@ -1,7 +1,8 @@
 ---
-import Container from "./Container.astro";
-import { siteNavItems } from "@shared/features/navigation";
-import { routes } from "@shared/features/routes";
+import { siteNavItems } from "@shared/features/navigation"
+import { routes } from "@shared/features/routes"
+import Container from "./Container.astro"
+
 const serviceMenuItems = [
   {
     href: routes.aiHomepage,
@@ -26,229 +27,320 @@ const serviceMenuItems = [
     external: true,
   },
 ] as const
-const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
-const isHome = pathname === "/";
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/"
+const isHome = pathname === "/"
 const isActive = (item: { href: string }) => {
-  if (item.href === "/") return isHome;
-  const basePath = item.href.replace(/\/page\/1$/, "");
-  return pathname === item.href || pathname === basePath || pathname.startsWith(basePath + "/");
-};
-const isServiceMenuActive = serviceMenuItems.some(isActive);
+  if (item.href === "/") return isHome
+  const basePath = item.href.replace(/\/page\/1$/, "")
+  return pathname === item.href || pathname === basePath || pathname.startsWith(`${basePath}/`)
+}
+const isServiceMenuActive = serviceMenuItems.some(isActive)
 const navItems = siteNavItems
   .filter((item) => item.href !== routes.aiHomepage && item.href !== routes.axSupport)
   .map((item) => {
-    const active = isActive(item);
-    return { ...item, active, serviceActive: item.href === routes.service ? active || isServiceMenuActive : active };
-  });
+    const active = isActive(item)
+    return {
+      ...item,
+      active,
+      serviceActive: item.href === routes.service ? active || isServiceMenuActive : active,
+    }
+  })
 const navItemClass = (active: boolean) =>
-  `relative rounded-sm px-1 py-2 text-[0.8125rem] transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-[#C8A45D] after:transition-[width] after:duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] ${active ? "text-white after:w-8" : "text-[#F5F1E8]/90 after:w-0 hover:text-white hover:after:w-5"}`;
+  `relative rounded-sm px-1 py-2 text-[0.8125rem] transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-[#C8A45D] after:transition-[width] after:duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] ${active ? "text-white after:w-8" : "text-[#F5F1E8]/90 after:w-0 hover:text-white hover:after:w-5"}`
 ---
-<header class="fixed top-0 z-[200] w-full border-b border-transparent bg-transparent pt-[env(safe-area-inset-top,0px)]" data-header data-home={isHome} id="site-header">
-      <Container class="flex h-14 items-center justify-between md:h-16">
-        <a href="/" class="shrink-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0B0B0B]">
-          <span class="inline-flex px-0 py-0">
-            <img src="/influ-logo.svg" alt="株式会社INFLU" width={75} height={40} class="h-6 w-auto translate-y-px transition-opacity duration-300 md:h-7" />
-          </span>
-        </a>
 
-        <button type="button" class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md border border-white/30 bg-white/[0.08] text-white transition-colors duration-200 hover:border-white/45 hover:bg-white/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] lg:hidden" aria-expanded="false" aria-controls="mobile-nav" aria-label="メニューを開く" data-menu-toggle>
-          <span class="sr-only">メニュー</span>
-            <svg class="h-6 w-6" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
-              <path d="M4 7h16M4 12h16M4 17h16" />
-            </svg>
-        </button>
+<header
+  class="fixed top-0 z-[200] w-full border-b border-transparent bg-transparent pt-[env(safe-area-inset-top,0px)]"
+  data-header
+  data-home={isHome}
+  id="site-header"
+>
+  <Container class="flex h-14 items-center justify-between md:h-16">
+    <a
+      href="/"
+      class="shrink-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] focus-visible:ring-offset-4 focus-visible:ring-offset-[#0B0B0B]"
+    >
+      <span class="inline-flex px-0 py-0">
+        <img
+          src="/influ-logo.svg"
+          alt="株式会社INFLU"
+          width={75}
+          height={40}
+          class="h-6 w-auto translate-y-px transition-opacity duration-300 md:h-7"
+        >
+      </span>
+    </a>
 
-        <nav class="hidden items-center gap-4 font-bold tracking-normal lg:flex">
-          {navItems.map(({ active, serviceActive, ...item }) => {
-            if (item.href === routes.service) {
-              return (
-                <div class="relative">
-                  <a href={item.href} class={navItemClass(serviceActive)} aria-current={active ? "page" : undefined} aria-expanded="false" aria-controls="service-menu">
-                    {item.label}
-                  </a>
+    <button
+      type="button"
+      class="inline-flex h-11 w-11 cursor-pointer items-center justify-center rounded-md border border-white/30 bg-white/[0.08] text-white transition-colors duration-200 hover:border-white/45 hover:bg-white/[0.12] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E0C584] lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="メニューを開く"
+      data-menu-toggle
+    >
+      <span class="sr-only">メニュー</span>
+      <svg
+        class="h-6 w-6"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
 
-                  <div class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-4" data-service-menu hidden id="service-menu">
-                        <div class="overflow-hidden rounded-md border border-white/10 bg-[#0B0B0B]/75 bg-gradient-to-b from-white/[0.04] to-transparent p-2 shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md backdrop-saturate-125">
-                          <div>
-                            {serviceMenuItems.map((service) => {
-                              const serviceItemActive = isActive(service)
-                              return (
-                                <a href={service.href} target={
-                                    "external" in service ? "_blank" : undefined
-                                  } rel={
-                                    "external" in service
-                                      ? "noopener noreferrer"
-                                      : undefined
-                                  } class={`group block rounded-md px-4 py-3 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${
-                                    serviceItemActive
-                                      ? "bg-[#202020]"
-                                      : "hover:bg-[#1D1D1D]"
-                                  }`} aria-current={
-                                    serviceItemActive ? "page" : undefined
-                                  }>
-                                  <span class="flex items-center justify-between gap-4 text-[0.8125rem] font-medium leading-5 text-[#F5F1E8]">
-                                    <span>{service.label}</span>
-                                    {"external" in service && (
-                                      <span aria-hidden="true" class="text-sm text-[#B8B1A3]">
-                                        ↗
-                                      </span>
-                                    )}
-                                  </span>
-                                  <span class="mt-1 block text-xs font-normal leading-5 text-[#B8B1A3]">
-                                    {service.description}
-                                  </span>
-                                </a>
-                              )
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                </div>
-              )
-            }
-
-            return (
-              <a href={item.href} class={navItemClass(serviceActive)} aria-current={active ? "page" : undefined}>
+    <nav class="hidden items-center gap-4 font-bold tracking-normal lg:flex">
+      {navItems.map(({ active, serviceActive, ...item }) => {
+        if (item.href === routes.service) {
+          return (
+            <div class="relative">
+              <a
+                href={item.href}
+                class={navItemClass(serviceActive)}
+                aria-current={active ? "page" : undefined}
+                aria-expanded="false"
+                aria-controls="service-menu"
+              >
                 {item.label}
               </a>
-            )
-          })}
-        </nav>
-      </Container>
 
-      <div id="mobile-nav" class="max-h-[calc(100dvh-3.5rem-env(safe-area-inset-top,0px))] overflow-y-auto overscroll-contain border-t border-white/10 bg-[#0B0B0B]/80 backdrop-blur-md lg:hidden" data-mobile-menu hidden>
-            <nav class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 text-[15px] font-bold tracking-normal sm:px-6" data-mobile-links>
-              {navItems.map(({ active, serviceActive, ...item }) => {
-                return (
-                  <div  data-mobile-item>
-                    <a href={item.href} class={`block rounded-md px-3 py-2.5 transition-colors duration-200 ${
-                        serviceActive
+              <div
+                class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 pt-4"
+                data-service-menu
+                hidden
+                id="service-menu"
+              >
+                <div class="overflow-hidden rounded-md border border-white/10 bg-[#0B0B0B]/75 bg-gradient-to-b from-white/[0.04] to-transparent p-2 shadow-[0_8px_24px_rgba(0,0,0,0.18)] backdrop-blur-md backdrop-saturate-125">
+                  <div>
+                    {serviceMenuItems.map((service) => {
+                      const serviceItemActive = isActive(service)
+                      return (
+                        <a
+                          href={service.href}
+                          target={"external" in service ? "_blank" : undefined}
+                          rel={"external" in service ? "noopener noreferrer" : undefined}
+                          class={`group block rounded-md px-4 py-3 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${
+                            serviceItemActive ? "bg-[#202020]" : "hover:bg-[#1D1D1D]"
+                          }`}
+                          aria-current={serviceItemActive ? "page" : undefined}
+                        >
+                          <span class="flex items-center justify-between gap-4 text-[0.8125rem] font-medium leading-5 text-[#F5F1E8]">
+                            <span>{service.label}</span>
+                            {"external" in service && (
+                              <span aria-hidden="true" class="text-sm text-[#B8B1A3]">
+                                ↗
+                              </span>
+                            )}
+                          </span>
+                          <span class="mt-1 block text-xs font-normal leading-5 text-[#B8B1A3]">
+                            {service.description}
+                          </span>
+                        </a>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        }
+
+        return (
+          <a
+            href={item.href}
+            class={navItemClass(serviceActive)}
+            aria-current={active ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        )
+      })}
+    </nav>
+  </Container>
+
+  <div
+    id="mobile-nav"
+    class="max-h-[calc(100dvh-3.5rem-env(safe-area-inset-top,0px))] overflow-y-auto overscroll-contain border-t border-white/10 bg-[#0B0B0B]/80 backdrop-blur-md lg:hidden"
+    data-mobile-menu
+    hidden
+  >
+    <nav
+      class="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-3 text-[15px] font-bold tracking-normal sm:px-6"
+      data-mobile-links
+    >
+      {navItems.map(({ active, serviceActive, ...item }) => {
+        return (
+          <div data-mobile-item>
+            <a
+              href={item.href}
+              class={`block rounded-md px-3 py-2.5 transition-colors duration-200 ${
+                serviceActive
+                  ? "bg-white/[0.06] text-[#E0C584]"
+                  : "text-[#F5F1E8]/90 hover:bg-white/[0.06] hover:text-white"
+              }`}
+              aria-current={active ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+            {item.href === routes.service && (
+              <div class="mt-1 space-y-1 border-l border-white/10 pl-3">
+                {serviceMenuItems.map((service) => {
+                  const serviceItemActive = isActive(service)
+                  return (
+                    <a
+                      href={service.href}
+                      target={"external" in service ? "_blank" : undefined}
+                      rel={"external" in service ? "noopener noreferrer" : undefined}
+                      class={`flex items-center justify-between gap-4 rounded-md px-3 py-2 text-sm transition-colors duration-200 ${
+                        serviceItemActive
                           ? "bg-white/[0.06] text-[#E0C584]"
                           : "text-[#F5F1E8]/90 hover:bg-white/[0.06] hover:text-white"
-                      }`} aria-current={active ? "page" : undefined}>
-                      {item.label}
+                      }`}
+                      aria-current={serviceItemActive ? "page" : undefined}
+                    >
+                      <span>{service.label}</span>
+                      {"external" in service && (
+                        <span aria-hidden="true" class="text-[#ECECEC]">
+                          ↗
+                        </span>
+                      )}
                     </a>
-                    {item.href === routes.service && (
-                      <div class="mt-1 space-y-1 border-l border-white/10 pl-3">
-                        {serviceMenuItems.map((service) => {
-                          const serviceItemActive = isActive(service)
-                          return (
-                            <a href={service.href} target={
-                                "external" in service ? "_blank" : undefined
-                              } rel={
-                                "external" in service
-                                  ? "noopener noreferrer"
-                                  : undefined
-                              } class={`flex items-center justify-between gap-4 rounded-md px-3 py-2 text-sm transition-colors duration-200 ${
-                                serviceItemActive
-                                  ? "bg-white/[0.06] text-[#E0C584]"
-                                  : "text-[#F5F1E8]/90 hover:bg-white/[0.06] hover:text-white"
-                              }`} aria-current={
-                                serviceItemActive ? "page" : undefined
-                              }>
-                              <span>{service.label}</span>
-                              {"external" in service && (
-                                <span aria-hidden="true" class="text-[#ECECEC]">
-                                  ↗
-                                </span>
-                              )}
-                            </a>
-                          )
-                        })}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </nav>
+                  )
+                })}
+              </div>
+            )}
           </div>
-    </header>
+        )
+      })}
+    </nav>
+  </div>
+</header>
 <script>
-  import { animate, stagger, ease, reducedMotion } from "./motion";
-  const header = document.querySelector<HTMLElement>("#site-header")!;
-  const isHome = header.dataset.home === "true";
-  const toggle = header.querySelector<HTMLButtonElement>("[data-menu-toggle]")!;
-  const mobile = header.querySelector<HTMLElement>("[data-mobile-menu]")!;
-  const dropdown = header.querySelector<HTMLElement>("[data-service-menu]")!;
-  const serviceGroup = dropdown.parentElement!;
-  const serviceLink = serviceGroup.querySelector<HTMLAnchorElement>("a")!;
-  let menuOpen = false;
-  let servicesOpen = false;
-  let lastScroll = Math.max(0, window.scrollY);
-  let hidden = false;
-  function updateHeader() {
-    const position = Math.max(0, window.scrollY);
-    const focused = header.contains(document.activeElement);
-    let nextHidden = hidden;
-    if (position <= 80 || menuOpen || servicesOpen || focused) {
-      nextHidden = false;
-      lastScroll = position;
-    } else if (Math.abs(position - lastScroll) >= 8) {
-      nextHidden = position > lastScroll;
-      lastScroll = position;
-    }
-    if (nextHidden === hidden) return;
-    hidden = nextHidden;
-    animate(header, { y: hidden ? "-100%" : "0%" }, { duration: reducedMotion.matches ? 0 : 0.2, ease });
+import { animate, ease, reducedMotion, stagger } from "./motion"
+
+const header = document.querySelector<HTMLElement>("#site-header")!
+const isHome = header.dataset.home === "true"
+const toggle = header.querySelector<HTMLButtonElement>("[data-menu-toggle]")!
+const mobile = header.querySelector<HTMLElement>("[data-mobile-menu]")!
+const dropdown = header.querySelector<HTMLElement>("[data-service-menu]")!
+const serviceGroup = dropdown.parentElement!
+const serviceLink = serviceGroup.querySelector<HTMLAnchorElement>("a")!
+let menuOpen = false
+let servicesOpen = false
+let lastScroll = Math.max(0, window.scrollY)
+let hidden = false
+function updateHeader() {
+  const position = Math.max(0, window.scrollY)
+  const focused = header.contains(document.activeElement)
+  let nextHidden = hidden
+  if (position <= 80 || menuOpen || servicesOpen || focused) {
+    nextHidden = false
+    lastScroll = position
+  } else if (Math.abs(position - lastScroll) >= 8) {
+    nextHidden = position > lastScroll
+    lastScroll = position
   }
-  window.addEventListener("scroll", updateHeader, { passive: true });
-  header.addEventListener("focusin", updateHeader);
-  header.addEventListener("focusout", () => queueMicrotask(updateHeader));
-  updateHeader();
-  async function setMobile(open: boolean) {
-    if (menuOpen === open) return;
-    menuOpen = open;
-    updateHeader();
-    toggle.setAttribute("aria-expanded", String(open));
-    toggle.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
-    toggle.querySelector(".sr-only")!.textContent = open ? "閉じる" : "メニュー";
-    toggle.querySelector("path")!.setAttribute("d", open ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16");
-    mobile.inert = !open;
-    if (open) {
-      mobile.hidden = false;
-      animate(mobile, { opacity: [0, 1], y: [-12, 0] }, { duration: reducedMotion.matches ? 0 : 0.28, ease });
-      if (!reducedMotion.matches) animate(mobile.querySelectorAll("[data-mobile-item]"),
-        { opacity: [0, 1], x: [-14, 0] }, { delay: stagger(0.035, { startDelay: 0.08 }), duration: 0.3, ease });
-    } else {
-      await animate(mobile, { opacity: 0, y: -8 }, { duration: reducedMotion.matches ? 0 : 0.28, ease });
-      if (!menuOpen) mobile.hidden = true;
-    }
+  if (nextHidden === hidden) return
+  hidden = nextHidden
+  animate(
+    header,
+    { y: hidden ? "-100%" : "0%" },
+    { duration: reducedMotion.matches ? 0 : 0.2, ease },
+  )
+}
+window.addEventListener("scroll", updateHeader, { passive: true })
+header.addEventListener("focusin", updateHeader)
+header.addEventListener("focusout", () => queueMicrotask(updateHeader))
+updateHeader()
+async function setMobile(open: boolean) {
+  if (menuOpen === open) return
+  menuOpen = open
+  updateHeader()
+  toggle.setAttribute("aria-expanded", String(open))
+  toggle.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く")
+  toggle.querySelector(".sr-only")!.textContent = open ? "閉じる" : "メニュー"
+  toggle
+    .querySelector("path")!
+    .setAttribute("d", open ? "M6 6l12 12M18 6L6 18" : "M4 7h16M4 12h16M4 17h16")
+  mobile.inert = !open
+  if (open) {
+    mobile.hidden = false
+    animate(
+      mobile,
+      { opacity: [0, 1], y: [-12, 0] },
+      { duration: reducedMotion.matches ? 0 : 0.28, ease },
+    )
+    if (!reducedMotion.matches)
+      animate(
+        mobile.querySelectorAll("[data-mobile-item]"),
+        { opacity: [0, 1], x: [-14, 0] },
+        { delay: stagger(0.035, { startDelay: 0.08 }), duration: 0.3, ease },
+      )
+  } else {
+    await animate(
+      mobile,
+      { opacity: 0, y: -8 },
+      { duration: reducedMotion.matches ? 0 : 0.28, ease },
+    )
+    if (!menuOpen) mobile.hidden = true
   }
-  async function setServices(open: boolean) {
-    if (open === servicesOpen) return;
-    servicesOpen = open;
-    updateHeader();
-    serviceLink.setAttribute("aria-expanded", String(open));
-    dropdown.inert = !open;
-    if (open) {
-      dropdown.hidden = false;
-      animate(dropdown, { opacity: [0, 1], y: [-8, 0] }, { duration: reducedMotion.matches ? 0 : 0.18, ease });
-    } else {
-      await animate(dropdown, { opacity: 0, y: -6 }, { duration: reducedMotion.matches ? 0 : 0.18, ease });
-      if (!servicesOpen) dropdown.hidden = true;
-    }
+}
+async function setServices(open: boolean) {
+  if (open === servicesOpen) return
+  servicesOpen = open
+  updateHeader()
+  serviceLink.setAttribute("aria-expanded", String(open))
+  dropdown.inert = !open
+  if (open) {
+    dropdown.hidden = false
+    animate(
+      dropdown,
+      { opacity: [0, 1], y: [-8, 0] },
+      { duration: reducedMotion.matches ? 0 : 0.18, ease },
+    )
+  } else {
+    await animate(
+      dropdown,
+      { opacity: 0, y: -6 },
+      { duration: reducedMotion.matches ? 0 : 0.18, ease },
+    )
+    if (!servicesOpen) dropdown.hidden = true
   }
-  toggle.addEventListener("click", () => setMobile(!menuOpen));
-  serviceGroup.addEventListener("pointerenter", () => setServices(true));
-  serviceGroup.addEventListener("pointerleave", () => setServices(false));
-  serviceGroup.addEventListener("focusin", () => setServices(true));
-  serviceGroup.addEventListener("focusout", (event) => {
-    if (!serviceGroup.contains(event.relatedTarget as Node | null)) setServices(false);
-  });
-  header.addEventListener("keydown", (event) => {
-    if (event.key !== "Escape") return;
-    if (menuOpen) { toggle.focus(); setMobile(false); }
-    if (servicesOpen) { serviceLink.focus(); setServices(false); }
-  });
-  header.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => link.addEventListener("click", (event) => {
-    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    setMobile(false);
-    setServices(false);
+}
+toggle.addEventListener("click", () => setMobile(!menuOpen))
+serviceGroup.addEventListener("pointerenter", () => setServices(true))
+serviceGroup.addEventListener("pointerleave", () => setServices(false))
+serviceGroup.addEventListener("focusin", () => setServices(true))
+serviceGroup.addEventListener("focusout", (event) => {
+  if (!serviceGroup.contains(event.relatedTarget as Node | null)) setServices(false)
+})
+header.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return
+  if (menuOpen) {
+    toggle.focus()
+    setMobile(false)
+  }
+  if (servicesOpen) {
+    serviceLink.focus()
+    setServices(false)
+  }
+})
+header.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
+  link.addEventListener("click", (event) => {
+    if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    setMobile(false)
+    setServices(false)
     if (isHome && link.getAttribute("href") === "/") {
-      event.preventDefault();
-      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "instant" : "smooth" });
+      event.preventDefault()
+      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "instant" : "smooth" })
     }
-  }));
-  const desktop = matchMedia("(min-width: 1024px)");
-  desktop.addEventListener("change", () => { if (desktop.matches) setMobile(false); else setServices(false); });
+  })
+})
+const desktop = matchMedia("(min-width: 1024px)")
+desktop.addEventListener("change", () => {
+  if (desktop.matches) setMobile(false)
+  else setServices(false)
+})
 </script>

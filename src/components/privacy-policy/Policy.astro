@@ -1,5 +1,6 @@
 ---
-import Container from "@shared/Container.astro";
+import Container from "@shared/Container.astro"
+
 const sections = [
   {
     title: "1.個人情報の管理",
@@ -26,23 +27,19 @@ const sections = [
     body: "当社は、個人情報に関して適用される法令、規範を遵守するとともに、お客様の個人情報の保護をさらに徹底するため、上記各項における取組みを必要に応じて見直し改善します。",
   },
 ]
-
 ---
-<Container class="py-12 md:py-16">
-          <p class="max-w-4xl text-pretty text-base leading-8 text-muted md:text-lg">
-            株式会社INFLUは、インターネット等情報通信技術が急速に発展する中、氏名や会社・団体名、住所、メールアドレス等、個人を特定できる情報の保護に対する社会的な要請の高まりを受け、これらの適切な管理が当社にとって重要な責務であると認識し、以下の通り方針を定めています。
-          </p>
 
-          <div class="mt-10 space-y-8">
-            {sections.map((section) => (
-              <section
-                class="border-t border-line pt-8 first:border-t-0 first:pt-0"
-              >
-                <h2 class="text-lg font-semibold text-foreground md:text-xl">
-                  {section.title}
-                </h2>
-                <p class="mt-3 leading-8 text-muted">{section.body}</p>
-              </section>
-            ))}
-          </div>
-        </Container>
+<Container class="py-12 md:py-16">
+  <p class="max-w-4xl text-pretty text-base leading-8 text-muted md:text-lg">
+    株式会社INFLUは、インターネット等情報通信技術が急速に発展する中、氏名や会社・団体名、住所、メールアドレス等、個人を特定できる情報の保護に対する社会的な要請の高まりを受け、これらの適切な管理が当社にとって重要な責務であると認識し、以下の通り方針を定めています。
+  </p>
+
+  <div class="mt-10 space-y-8">
+    {sections.map((section) => (
+      <section class="border-t border-line pt-8 first:border-t-0 first:pt-0">
+        <h2 class="text-lg font-semibold text-foreground md:text-xl">{section.title}</h2>
+        <p class="mt-3 leading-8 text-muted">{section.body}</p>
+      </section>
+    ))}
+  </div>
+</Container>
